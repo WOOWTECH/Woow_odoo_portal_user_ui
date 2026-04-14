@@ -75,7 +75,7 @@ class TestNotificationActions(HttpCase):
             'id': 1,
             'params': params or {'tab': 'all', 'limit': 0},
         })
-        res = self.url_open('/my/notifications', data=payload, headers={
+        res = self.url_open('/my/notifications/data', data=payload, headers={
             'Content-Type': 'application/json',
         })
         return res.json()['result']
@@ -258,10 +258,28 @@ class TestNotificationActions(HttpCase):
             self.fail("Unauthenticated action should not succeed")
 
     # ------------------------------------------------------------------
-    # 10. Approve/Reject differentiation
+    # 10. Done action (swipe-to-dismiss)
     # ------------------------------------------------------------------
 
-    def test_11_approve_vs_reject_are_different(self):
+    def test_11_done_completes_activity(self):
+        """Done action should remove the activity via action_feedback."""
+        activity = self._create_activity(self.portal_user, 'Swipe Done')
+        activity_id = activity.id
+
+        self.authenticate('portal_action_test', 'portal_action_test')
+        result = self._make_action_request(activity_id, 'done')
+
+        self.assertTrue(result['success'])
+        self.assertFalse(
+            self.env['mail.activity'].sudo().browse(activity_id).exists(),
+            "Done activity should be removed"
+        )
+
+    # ------------------------------------------------------------------
+    # 11. Approve/Reject differentiation
+    # ------------------------------------------------------------------
+
+    def test_12_approve_vs_reject_are_different(self):
         """
         Approve uses action_feedback (marks done with message).
         Reject uses action_cancel (unlinks without feedback).

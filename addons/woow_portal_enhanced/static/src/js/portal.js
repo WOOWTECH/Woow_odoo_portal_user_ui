@@ -2,38 +2,17 @@
  * Woow Portal Enhanced — Frontend JS
  *
  * Handles:
- *  - Module search filter (client-side)
- *  - Notification drawer open/close
- *  - Notification tab switching
- *  - Notification actions (approve/reject via JSON-RPC)
- *  - Bell badge count
+ *  - Module search filter (client-side) on portal home
+ *  - Notification page: swipe-to-dismiss (mark as done)
  */
 
 (function () {
     "use strict";
 
-    // Wait for DOM ready
     document.addEventListener("DOMContentLoaded", function () {
-        initBellBadge();
         initSearchFilter();
-        initDrawer();
+        initNotificationPage();
     });
-
-    // ------------------------------------------------------------------
-    // Bell badge — fetch count on page load
-    // ------------------------------------------------------------------
-
-    function initBellBadge() {
-        var badge = document.getElementById("wpe_bell_badge");
-        if (!badge) return;
-
-        jsonRpc("/my/notifications", { tab: "all", limit: 0 }).then(function (data) {
-            if (data && data.total > 0) {
-                badge.textContent = data.total > 99 ? "99+" : data.total;
-                badge.classList.remove("d-none");
-            }
-        });
-    }
 
     // ------------------------------------------------------------------
     // ① Search filter — client-side module name filtering
@@ -57,212 +36,216 @@
                     card.classList.add("wpe-hidden");
                 }
             });
+
+            // Also hide/show empty categories
+            var categories = document.querySelectorAll(
+                "#wpe_module_grid .o_portal_category"
+            );
+            categories.forEach(function (cat) {
+                var visibleCards = cat.querySelectorAll(
+                    ".o_portal_index_card:not(.wpe-hidden)"
+                );
+                if (visibleCards.length === 0 && query) {
+                    cat.classList.add("wpe-hidden");
+                } else {
+                    cat.classList.remove("wpe-hidden");
+                }
+            });
         });
     }
 
     // ------------------------------------------------------------------
-    // ② Notification Drawer
+    // ② Notification Page — swipe to dismiss
     // ------------------------------------------------------------------
 
-    function initDrawer() {
-        var drawer = document.getElementById("wpe_drawer");
-        var backdrop = document.getElementById("wpe_drawer_backdrop");
-        if (!drawer || !backdrop) return;
+    var SWIPE_THRESHOLD = 100; // px to trigger action
+    var SWIPE_MAX = 200;       // max visual translation
 
-        var bellTrigger = document.getElementById("wpe_bell_trigger");
-        var viewAllLink = document.getElementById("wpe_open_drawer_link");
-        var closeBtn = document.getElementById("wpe_drawer_close");
-        var currentTab = "all";
+    function initNotificationPage() {
+        var list = document.getElementById("wpe_notif_list");
+        if (!list) return;
 
-        // Open triggers
-        if (bellTrigger) {
-            bellTrigger.addEventListener("click", function (e) {
-                e.preventDefault();
-                openDrawer();
-            });
-        }
-
-        if (viewAllLink) {
-            viewAllLink.addEventListener("click", function (e) {
-                e.preventDefault();
-                openDrawer();
-            });
-        }
-
-        // Close triggers
-        if (closeBtn) {
-            closeBtn.addEventListener("click", closeDrawer);
-        }
-        backdrop.addEventListener("click", closeDrawer);
-
-        // Tab buttons
-        var tabBtns = drawer.querySelectorAll(".wpe-tab-btn");
-        tabBtns.forEach(function (btn) {
-            btn.addEventListener("click", function () {
-                tabBtns.forEach(function (b) {
-                    b.classList.remove("active");
-                });
-                this.classList.add("active");
-                currentTab = this.getAttribute("data-tab");
-                loadNotifications(currentTab);
-            });
+        var wrappers = list.querySelectorAll(".wpe-notif-card-wrapper");
+        wrappers.forEach(function (wrapper) {
+            setupSwipe(wrapper);
         });
 
-        // Escape key
-        document.addEventListener("keydown", function (e) {
-            if (e.key === "Escape" && drawer.classList.contains("open")) {
-                closeDrawer();
+        // Hide hint after first swipe
+        var hintHidden = false;
+        list.addEventListener("touchstart", function () {
+            if (!hintHidden) {
+                var hint = document.getElementById("wpe_swipe_hint");
+                if (hint) {
+                    hint.style.transition = "opacity 0.3s";
+                    hint.style.opacity = "0";
+                    setTimeout(function () { hint.remove(); }, 300);
+                }
+                hintHidden = true;
+            }
+        }, { once: true });
+    }
+
+    function setupSwipe(wrapper) {
+        var card = wrapper.querySelector(".wpe-notif-card");
+        if (!card) return;
+
+        var startX = 0;
+        var startY = 0;
+        var currentX = 0;
+        var swiping = false;
+        var locked = false; // prevent vertical scroll conflict
+
+        card.addEventListener("touchstart", function (e) {
+            if (wrapper.classList.contains("wpe-removing")) return;
+            var touch = e.touches[0];
+            startX = touch.clientX;
+            startY = touch.clientY;
+            currentX = 0;
+            swiping = true;
+            locked = false;
+            card.style.transition = "none";
+        }, { passive: true });
+
+        card.addEventListener("touchmove", function (e) {
+            if (!swiping) return;
+            var touch = e.touches[0];
+            var diffX = touch.clientX - startX;
+            var diffY = touch.clientY - startY;
+
+            // Lock direction on first significant movement
+            if (!locked) {
+                if (Math.abs(diffX) > 10 || Math.abs(diffY) > 10) {
+                    if (Math.abs(diffY) > Math.abs(diffX)) {
+                        // Vertical scroll — abort swipe
+                        swiping = false;
+                        card.style.transform = "";
+                        return;
+                    }
+                    locked = true;
+                }
+            }
+
+            // Only allow right swipe
+            if (diffX < 0) diffX = 0;
+            currentX = Math.min(diffX, SWIPE_MAX);
+            card.style.transform = "translateX(" + currentX + "px)";
+
+            // Show/hide swipe bg intensity
+            var progress = Math.min(currentX / SWIPE_THRESHOLD, 1);
+            var bg = wrapper.querySelector(".wpe-notif-swipe-bg");
+            if (bg) {
+                bg.style.opacity = progress;
+            }
+
+            if (currentX > 10) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        card.addEventListener("touchend", function () {
+            if (!swiping) return;
+            swiping = false;
+
+            if (currentX >= SWIPE_THRESHOLD) {
+                // Trigger "done"
+                dismissCard(wrapper);
+            } else {
+                // Snap back
+                card.style.transition = "transform 0.2s ease";
+                card.style.transform = "translateX(0)";
+                var bg = wrapper.querySelector(".wpe-notif-swipe-bg");
+                if (bg) {
+                    bg.style.transition = "opacity 0.2s ease";
+                    bg.style.opacity = "0";
+                }
             }
         });
 
-        function openDrawer() {
-            drawer.classList.add("open");
-            backdrop.classList.add("open");
-            document.body.style.overflow = "hidden";
-            loadNotifications(currentTab);
-        }
+        // Also support mouse drag for desktop testing
+        card.addEventListener("mousedown", function (e) {
+            if (wrapper.classList.contains("wpe-removing")) return;
+            startX = e.clientX;
+            currentX = 0;
+            swiping = true;
+            card.style.transition = "none";
 
-        function closeDrawer() {
-            drawer.classList.remove("open");
-            backdrop.classList.remove("open");
-            document.body.style.overflow = "";
-        }
-    }
-
-    // ------------------------------------------------------------------
-    // Load notifications into drawer
-    // ------------------------------------------------------------------
-
-    function loadNotifications(tab) {
-        var body = document.getElementById("wpe_drawer_body");
-        if (!body) return;
-
-        body.innerHTML =
-            '<div class="text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>';
-
-        jsonRpc("/my/notifications", { tab: tab, limit: 50 }).then(function (data) {
-            if (!data || !data.activities || data.activities.length === 0) {
-                body.innerHTML =
-                    '<div class="wpe-drawer-empty">' +
-                    '<i class="fa fa-check-circle"></i>' +
-                    "<p>沒有通知</p></div>";
-                return;
+            function onMouseMove(ev) {
+                if (!swiping) return;
+                var diffX = Math.max(0, ev.clientX - startX);
+                currentX = Math.min(diffX, SWIPE_MAX);
+                card.style.transform = "translateX(" + currentX + "px)";
+                var progress = Math.min(currentX / SWIPE_THRESHOLD, 1);
+                var bg = wrapper.querySelector(".wpe-notif-swipe-bg");
+                if (bg) bg.style.opacity = progress;
             }
 
-            var html = "";
-            data.activities.forEach(function (act) {
-                html += buildNotificationCard(act);
-            });
-            body.innerHTML = html;
+            function onMouseUp() {
+                document.removeEventListener("mousemove", onMouseMove);
+                document.removeEventListener("mouseup", onMouseUp);
+                if (!swiping) return;
+                swiping = false;
+                if (currentX >= SWIPE_THRESHOLD) {
+                    dismissCard(wrapper);
+                } else {
+                    card.style.transition = "transform 0.2s ease";
+                    card.style.transform = "translateX(0)";
+                    var bg = wrapper.querySelector(".wpe-notif-swipe-bg");
+                    if (bg) {
+                        bg.style.transition = "opacity 0.2s ease";
+                        bg.style.opacity = "0";
+                    }
+                }
+            }
 
-            // Bind action buttons
-            body.querySelectorAll("[data-action]").forEach(function (btn) {
-                btn.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    var actId = this.getAttribute("data-activity-id");
-                    var action = this.getAttribute("data-action");
-                    handleNotificationAction(actId, action, this);
-                });
-            });
+            document.addEventListener("mousemove", onMouseMove);
+            document.addEventListener("mouseup", onMouseUp);
         });
     }
 
-    function buildNotificationCard(act) {
-        var icon = act.icon || "fa-clock-o";
-        var actionsHtml = "";
+    function dismissCard(wrapper) {
+        var activityId = wrapper.getAttribute("data-activity-id");
+        wrapper.classList.add("wpe-removing");
 
-        if (act.can_approve) {
-            actionsHtml =
-                '<div class="wpe-drawer-card-actions">' +
-                '<button class="btn btn-sm btn-wpe-approve" data-action="approve" data-activity-id="' +
-                act.id +
-                '"><i class="fa fa-check me-1"></i>核准</button>' +
-                '<button class="btn btn-sm btn-wpe-reject" data-action="reject" data-activity-id="' +
-                act.id +
-                '"><i class="fa fa-times me-1"></i>拒絕</button>' +
-                "</div>";
+        var card = wrapper.querySelector(".wpe-notif-card");
+        if (card) {
+            card.style.transition = "transform 0.3s ease";
+            card.style.transform = "translateX(110%)";
         }
 
-        return (
-            '<div class="wpe-drawer-card" data-card-id="' +
-            act.id +
-            '">' +
-            '<div class="wpe-drawer-card-header">' +
-            '<div class="wpe-drawer-card-icon"><i class="fa ' +
-            icon +
-            '"></i></div>' +
-            "<div>" +
-            '<div class="wpe-drawer-card-title">' +
-            escapeHtml(act.summary) +
-            "</div>" +
-            '<div class="wpe-drawer-card-meta">' +
-            escapeHtml(act.res_name) +
-            " &middot; " +
-            escapeHtml(act.time_ago) +
-            "</div>" +
-            "</div>" +
-            "</div>" +
-            actionsHtml +
-            "</div>"
-        );
-    }
-
-    // ------------------------------------------------------------------
-    // Notification action (approve / reject)
-    // ------------------------------------------------------------------
-
-    function handleNotificationAction(activityId, action, btnEl) {
-        var card = btnEl.closest(".wpe-drawer-card");
-        if (card) card.style.opacity = "0.5";
-
+        // Call API to mark as done
         jsonRpc("/my/notifications/action", {
             activity_id: activityId,
-            action: action,
+            action: "done",
         }).then(function (data) {
-            if (data && data.success) {
-                // Remove card with animation
-                if (card) {
-                    card.style.transition = "opacity 0.3s, max-height 0.3s";
-                    card.style.opacity = "0";
-                    card.style.maxHeight = "0";
-                    card.style.overflow = "hidden";
-                    card.style.marginBottom = "0";
-                    card.style.padding = "0";
-                    setTimeout(function () {
-                        card.remove();
-                        // Check if drawer is empty
-                        var remaining = document.querySelectorAll(".wpe-drawer-card");
-                        if (remaining.length === 0) {
-                            var body = document.getElementById("wpe_drawer_body");
-                            if (body) {
-                                body.innerHTML =
-                                    '<div class="wpe-drawer-empty">' +
-                                    '<i class="fa fa-check-circle"></i>' +
-                                    "<p>沒有通知</p></div>";
-                            }
-                        }
-                    }, 300);
-                }
+            // Animate collapse
+            wrapper.style.transition =
+                "max-height 0.3s ease, opacity 0.3s ease, margin 0.3s ease, padding 0.3s ease";
+            wrapper.style.maxHeight = "0";
+            wrapper.style.opacity = "0";
+            wrapper.style.marginBottom = "0";
+            wrapper.style.overflow = "hidden";
 
-                // Update badge
-                updateBadge(data.new_count);
-            } else {
-                if (card) card.style.opacity = "1";
-                alert(data && data.error ? data.error : "操作失敗");
+            setTimeout(function () {
+                wrapper.remove();
+                // Check empty state
+                var remaining = document.querySelectorAll(
+                    ".wpe-notif-card-wrapper"
+                );
+                if (remaining.length === 0) {
+                    var list = document.getElementById("wpe_notif_list");
+                    if (list) {
+                        list.innerHTML =
+                            '<div class="wpe-notif-empty text-center text-muted py-5">' +
+                            '<i class="fa fa-check-circle fa-3x mb-3 d-block" style="opacity: 0.3;"></i>' +
+                            '<p class="mb-0">所有通知已處理完畢</p></div>';
+                    }
+                }
+            }, 300);
+
+            if (!data || !data.success) {
+                console.error("Failed to mark activity as done:", data);
             }
         });
-    }
-
-    function updateBadge(count) {
-        var badge = document.getElementById("wpe_bell_badge");
-        if (!badge) return;
-
-        if (count > 0) {
-            badge.textContent = count > 99 ? "99+" : count;
-            badge.classList.remove("d-none");
-        } else {
-            badge.classList.add("d-none");
-        }
     }
 
     // ------------------------------------------------------------------
@@ -272,18 +255,14 @@
     function jsonRpc(url, params) {
         return fetch(url, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 jsonrpc: "2.0",
                 method: "call",
                 params: params || {},
             }),
         })
-            .then(function (response) {
-                return response.json();
-            })
+            .then(function (response) { return response.json(); })
             .then(function (data) {
                 if (data.error) {
                     console.error("JSON-RPC error:", data.error);
@@ -295,16 +274,5 @@
                 console.error("Fetch error:", err);
                 return null;
             });
-    }
-
-    // ------------------------------------------------------------------
-    // Utility
-    // ------------------------------------------------------------------
-
-    function escapeHtml(str) {
-        if (!str) return "";
-        var div = document.createElement("div");
-        div.appendChild(document.createTextNode(str));
-        return div.innerHTML;
     }
 })();

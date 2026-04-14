@@ -2,15 +2,20 @@
 <odoo>
 
     <!-- ============================================================ -->
-    <!-- Enhanced Portal Home — replaces the default /my/home content  -->
+    <!-- Inherit portal.portal_my_home to prepend search bar,         -->
+    <!-- notification preview, and admin banner.                      -->
+    <!-- The module card grid is rendered by Odoo core + other modules -->
+    <!-- (sale, purchase, account, project, etc.) via their own        -->
+    <!-- inherit_id="portal.portal_my_home" templates.                -->
     <!-- ============================================================ -->
-    <template id="portal_my_home_enhanced" name="Woow Enhanced Portal Home">
-        <t t-call="portal.frontend_layout">
-            <t t-set="is_portal" t-value="True"/>
+    <template id="portal_my_home_enhanced" name="Woow Enhanced Portal Home"
+              inherit_id="portal.portal_my_home" priority="10">
 
-            <!-- Admin Banner -->
+        <!-- Admin Banner — before everything -->
+        <xpath expr="//div[hasclass('o_portal_my_home')]" position="before">
             <t t-if="is_internal_user">
-                <div class="wpe-admin-banner alert alert-info d-flex align-items-center justify-content-between mb-0 rounded-0 d-print-none" role="alert">
+                <div class="wpe-admin-banner alert alert-info d-flex align-items-center justify-content-between mb-0 rounded-0 d-print-none"
+                     role="alert">
                     <span>
                         <i class="fa fa-info-circle me-1"/>
                         您正在以管理員身份瀏覽 Portal
@@ -20,135 +25,185 @@
                     </a>
                 </div>
             </t>
+        </xpath>
 
-            <div id="wrap" class="o_portal_wrap">
-                <div class="container pt-3 pb-5">
-                    <div class="o_portal_my_home">
+        <!-- Search bar + Notification preview — before the module grid -->
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
 
-                        <!-- ① Search Bar -->
-                        <div class="wpe-search-bar mb-3">
-                            <div class="input-group">
-                                <span class="input-group-text bg-white border-end-0">
-                                    <i class="fa fa-search text-muted"/>
+            <!-- ① Search Bar -->
+            <div class="wpe-search-bar mb-3">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0">
+                        <i class="fa fa-search text-muted"/>
+                    </span>
+                    <input type="text"
+                           id="wpe_module_search"
+                           class="form-control border-start-0"
+                           placeholder="搜尋模組..."/>
+                </div>
+            </div>
+
+            <!-- ② Notification Preview Card -->
+            <div class="wpe-notification-preview card mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0 fw-bold">
+                            近期通知
+                            <t t-if="activity_count">
+                                <span class="badge bg-danger ms-2"
+                                      style="font-size: 0.7rem; vertical-align: middle;">
+                                    <t t-esc="activity_count"/>
                                 </span>
-                                <input type="text"
-                                       id="wpe_module_search"
-                                       class="form-control border-start-0"
-                                       placeholder="搜尋模組..."/>
-                            </div>
-                        </div>
+                            </t>
+                        </h5>
+                        <a href="/my/notifications" class="wpe-view-all-link">
+                            查看全部 <i class="fa fa-angle-right ms-1"/>
+                        </a>
+                    </div>
 
-                        <!-- ② Notification Preview -->
-                        <div class="wpe-notification-preview card mb-4">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h5 class="mb-0 fw-bold">近期通知</h5>
-                                    <a href="#" class="wpe-view-all-link" id="wpe_open_drawer_link">
-                                        查看全部 <i class="fa fa-angle-right ms-1"/>
-                                    </a>
+                    <t t-if="activities">
+                        <t t-foreach="activities" t-as="act">
+                            <a t-attf-href="/my/notifications"
+                               class="wpe-notification-item d-flex align-items-start text-decoration-none">
+                                <div class="wpe-notification-icon me-3">
+                                    <i t-attf-class="fa #{act.activity_type_id.icon or 'fa-clock-o'} fa-lg"/>
                                 </div>
-
-                                <t t-if="activities">
-                                    <t t-foreach="activities" t-as="act">
-                                        <a href="#" class="wpe-notification-item d-flex align-items-start text-decoration-none"
-                                           t-att-data-res-model="act.res_model"
-                                           t-att-data-res-id="act.res_id">
-                                            <div class="wpe-notification-icon me-3">
-                                                <i t-attf-class="fa #{act.activity_type_id.icon or 'fa-clock-o'} fa-lg"/>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <div class="fw-semibold text-dark">
-                                                    <t t-esc="act.summary or act.activity_type_id.name or 'Activity'"/>
-                                                </div>
-                                                <small class="text-muted">
-                                                    <t t-esc="act.res_name or ''"/>
-                                                    <span class="ms-2">
-                                                        <t t-esc="act.date_deadline"/>
-                                                    </span>
-                                                </small>
-                                            </div>
-                                            <i class="fa fa-angle-right text-muted align-self-center"/>
-                                        </a>
-                                    </t>
-                                </t>
-                                <t t-else="">
-                                    <div class="text-center text-muted py-3">
-                                        <i class="fa fa-check-circle fa-2x mb-2 d-block"/>
-                                        沒有待處理的通知
+                                <div class="flex-grow-1">
+                                    <div class="fw-semibold text-dark">
+                                        <t t-esc="act.summary or act.activity_type_id.name or 'Activity'"/>
                                     </div>
-                                </t>
-                            </div>
-                        </div>
-
-                        <!-- ③ All Modules — card grid -->
-                        <h5 class="fw-bold mb-3">我的帳戶</h5>
-                        <div class="wpe-module-grid" id="wpe_module_grid">
-                            <!-- Dynamic portal entries injected by Odoo's _prepare_home_portal_values -->
-                            <div class="o_portal_docs row g-2">
-                                <div t-if="portal_alert_category_enable" class="o_portal_category row g-2 mt-3" id="portal_alert_category"/>
-                                <div t-if="portal_client_category_enable" class="o_portal_category row g-2 mt-3" id="portal_client_category"/>
-                                <div t-if="portal_service_category_enable" class="o_portal_category row g-2 mt-3" id="portal_service_category"/>
-                                <div t-if="portal_vendor_category_enable" class="o_portal_category row g-2 mt-3" id="portal_vendor_category"/>
-                                <div class="o_portal_category row g-2 mt-3" id="portal_common_category">
-                                    <t t-call="portal.portal_docs_entry">
-                                        <t t-set="icon" t-value="'/portal/static/src/img/portal-connection.svg'"/>
-                                        <t t-set="title">連線及保安</t>
-                                        <t t-set="text">設定連線參數</t>
-                                        <t t-set="url" t-value="'/my/security'"/>
-                                        <t t-set="config_card" t-value="True"/>
-                                    </t>
+                                    <small class="text-muted">
+                                        <t t-esc="act.res_name or ''"/>
+                                        <span class="ms-2">
+                                            <t t-esc="act.date_deadline"/>
+                                        </span>
+                                    </small>
                                 </div>
-                                <div class="o_portal_doc_spinner spinner-border text-o-color-2 align-self-center mt-5"/>
-                            </div>
+                                <i class="fa fa-angle-right text-muted align-self-center"/>
+                            </a>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <div class="text-center text-muted py-3">
+                            <i class="fa fa-check-circle fa-2x mb-2 d-block"/>
+                            沒有待處理的通知
                         </div>
-
-                    </div>
+                    </t>
                 </div>
             </div>
 
-            <!-- Notification Drawer (right-slide panel) -->
-            <div class="wpe-drawer-backdrop" id="wpe_drawer_backdrop"/>
-            <div class="wpe-drawer" id="wpe_drawer">
-                <div class="wpe-drawer-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0 fw-bold">通知中心</h5>
-                    <button type="button" class="btn-close" id="wpe_drawer_close" aria-label="Close"/>
-                </div>
+        </xpath>
 
-                <!-- Drawer Tabs -->
-                <div class="wpe-drawer-tabs">
-                    <button class="wpe-tab-btn active" data-tab="all">全部</button>
-                    <button class="wpe-tab-btn" data-tab="todo">待辦</button>
-                    <button class="wpe-tab-btn" data-tab="system">系統</button>
-                </div>
+        <!-- Wrap the module grid in our container for search filtering -->
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="attributes">
+            <attribute name="id">wpe_module_grid</attribute>
+        </xpath>
 
-                <!-- Drawer Content -->
-                <div class="wpe-drawer-body" id="wpe_drawer_body">
-                    <div class="wpe-drawer-loading text-center py-5">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </t>
     </template>
 
     <!-- ============================================================ -->
-    <!-- Bell icon in portal header (notification badge)              -->
+    <!-- Notification List Page — /my/notifications                   -->
+    <!-- Full page with swipe-to-dismiss for each notification        -->
     <!-- ============================================================ -->
-    <template id="portal_header_bell" name="Portal Header Bell Icon"
-              inherit_id="portal.frontend_layout" priority="20">
-        <xpath expr="//ul[@id='top_menu']" position="inside">
-            <li class="nav-item d-flex align-items-center" id="wpe_bell_container"
-                t-nocache="Activity count can change.">
-                <a href="#" class="nav-link position-relative wpe-bell-icon" id="wpe_bell_trigger"
-                   aria-label="Notifications">
-                    <i class="fa fa-bell-o fa-lg"/>
-                    <span class="wpe-badge d-none" id="wpe_bell_badge">0</span>
-                </a>
-            </li>
-        </xpath>
+    <template id="portal_notifications_page" name="Portal Notifications Page">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <div class="container py-3">
+
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="mb-0 fw-bold">通知中心</h4>
+                    <a href="/my/home" class="btn btn-sm btn-outline-secondary">
+                        <i class="fa fa-arrow-left me-1"/>返回
+                    </a>
+                </div>
+
+                <!-- Tabs -->
+                <div class="wpe-notif-tabs mb-3">
+                    <a t-attf-href="/my/notifications?tab=all"
+                       t-attf-class="wpe-notif-tab #{'active' if current_tab == 'all' else ''}">
+                        全部
+                        <t t-if="notification_total">
+                            <span class="badge bg-secondary ms-1">
+                                <t t-esc="notification_total"/>
+                            </span>
+                        </t>
+                    </a>
+                    <a t-attf-href="/my/notifications?tab=todo"
+                       t-attf-class="wpe-notif-tab #{'active' if current_tab == 'todo' else ''}">
+                        待辦
+                    </a>
+                    <a t-attf-href="/my/notifications?tab=system"
+                       t-attf-class="wpe-notif-tab #{'active' if current_tab == 'system' else ''}">
+                        系統
+                    </a>
+                </div>
+
+                <!-- Notification List -->
+                <div class="wpe-notif-list" id="wpe_notif_list">
+                    <t t-if="notification_activities">
+                        <t t-foreach="notification_activities" t-as="act">
+                            <div class="wpe-notif-card-wrapper"
+                                 t-att-data-activity-id="act.id">
+                                <!-- Swipe background (green done indicator) -->
+                                <div class="wpe-notif-swipe-bg">
+                                    <i class="fa fa-check"/>
+                                    <span>已完成</span>
+                                </div>
+                                <!-- Card content -->
+                                <div class="wpe-notif-card">
+                                    <div class="wpe-notif-card-icon">
+                                        <i t-attf-class="fa #{act.activity_type_id.icon or 'fa-clock-o'}"/>
+                                    </div>
+                                    <div class="wpe-notif-card-body">
+                                        <div class="wpe-notif-card-title">
+                                            <t t-esc="act.summary or act.activity_type_id.name or 'Activity'"/>
+                                        </div>
+                                        <div class="wpe-notif-card-meta">
+                                            <span class="wpe-notif-card-source">
+                                                <t t-esc="act.res_name or ''"/>
+                                            </span>
+                                            <t t-if="act.date_deadline">
+                                                <span class="wpe-notif-card-date">
+                                                    <i class="fa fa-calendar-o me-1"/>
+                                                    <t t-esc="act.date_deadline"/>
+                                                </span>
+                                            </t>
+                                        </div>
+                                        <div class="wpe-notif-card-type">
+                                            <span class="badge bg-light text-dark">
+                                                <i t-attf-class="fa #{act.activity_type_id.icon or 'fa-clock-o'} me-1"/>
+                                                <t t-esc="act.activity_type_id.name if act.activity_type_id else 'Activity'"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="wpe-notif-card-hint">
+                                        <i class="fa fa-long-arrow-right text-muted"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <div class="wpe-notif-empty text-center text-muted py-5">
+                            <i class="fa fa-check-circle fa-3x mb-3 d-block" style="opacity: 0.3;"/>
+                            <p class="mb-0">沒有通知</p>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- Swipe hint (shown once) -->
+                <t t-if="notification_activities">
+                    <div class="wpe-swipe-hint text-center text-muted mt-2 mb-4"
+                         id="wpe_swipe_hint">
+                        <i class="fa fa-long-arrow-right me-1"/>
+                        向右滑動可標記為已完成
+                    </div>
+                </t>
+
+            </div>
+        </t>
     </template>
 
     <!-- ============================================================ -->

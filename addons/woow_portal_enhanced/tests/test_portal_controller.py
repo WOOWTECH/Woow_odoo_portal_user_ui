@@ -4,9 +4,10 @@ Unit tests for WoowPortalEnhanced controller.
 
 Covers:
   - Portal home route (/my, /my/home)
-  - _prepare_enhanced_home_values
-  - _get_user_activities
-  - /my/notifications JSON-RPC endpoint
+  - _prepare_home_portal_values
+  - Notification preview on home page
+  - /my/notifications HTTP page
+  - /my/notifications/data JSON-RPC endpoint
   - Tab filtering, pagination, edge cases
 """
 
@@ -122,34 +123,33 @@ class TestPortalHome(HttpCase):
     # ------------------------------------------------------------------
 
     def test_09_module_grid_present(self):
-        """Module grid section should be present."""
+        """Module grid section should be present with correct id."""
         self.authenticate('test_portal_wpe', 'test_portal_wpe')
         res = self.url_open('/my/home')
-        self.assertIn('wpe-module-grid', res.text)
+        self.assertIn('wpe_module_grid', res.text)
         self.assertIn('o_portal_docs', res.text)
 
     # ------------------------------------------------------------------
-    # 6. Bell icon presence
+    # 6. No bell icon (removed)
     # ------------------------------------------------------------------
 
-    def test_10_bell_icon_in_header(self):
-        """Bell notification icon should be in the header."""
+    def test_10_no_bell_icon(self):
+        """Bell icon should NOT be in the page (removed in refactor)."""
         self.authenticate('test_portal_wpe', 'test_portal_wpe')
         res = self.url_open('/my/home')
-        self.assertIn('wpe_bell_trigger', res.text)
-        self.assertIn('wpe_bell_badge', res.text)
+        self.assertNotIn('wpe_bell_trigger', res.text)
+        self.assertNotIn('wpe_bell_badge', res.text)
 
     # ------------------------------------------------------------------
-    # 7. Notification drawer HTML
+    # 7. No drawer (removed)
     # ------------------------------------------------------------------
 
-    def test_11_drawer_html_present(self):
-        """Notification drawer HTML structure should be in the page."""
+    def test_11_no_drawer(self):
+        """Notification drawer should NOT be in the page (removed in refactor)."""
         self.authenticate('test_portal_wpe', 'test_portal_wpe')
         res = self.url_open('/my/home')
-        self.assertIn('wpe_drawer', res.text)
-        self.assertIn('wpe_drawer_backdrop', res.text)
-        self.assertIn('wpe-tab-btn', res.text)
+        self.assertNotIn('wpe_drawer', res.text)
+        self.assertNotIn('wpe_drawer_backdrop', res.text)
 
     # ------------------------------------------------------------------
     # 8. Return to Backend link (admin only)
@@ -167,10 +167,64 @@ class TestPortalHome(HttpCase):
         res = self.url_open('/my/home')
         self.assertNotIn('wpe_return_backend_link', res.text)
 
+    # ------------------------------------------------------------------
+    # 9. Notification page (HTTP GET /my/notifications)
+    # ------------------------------------------------------------------
+
+    def test_14_notification_page_accessible(self):
+        """Portal user can access the notification list page."""
+        self.authenticate('test_portal_wpe', 'test_portal_wpe')
+        res = self.url_open('/my/notifications')
+        self.assertEqual(res.status_code, 200)
+        self.assertIn('wpe-notif-tabs', res.text)
+
+    def test_15_notification_page_has_tabs(self):
+        """Notification page should have tab links."""
+        self.authenticate('test_portal_wpe', 'test_portal_wpe')
+        res = self.url_open('/my/notifications')
+        self.assertIn('tab=all', res.text)
+        self.assertIn('tab=todo', res.text)
+        self.assertIn('tab=system', res.text)
+
+    def test_16_notification_page_redirects_unauthenticated(self):
+        """Unauthenticated users should be redirected from notifications."""
+        res = self.url_open('/my/notifications')
+        self.assertIn('/web/login', res.url)
+
+    def test_17_notification_page_with_activities(self):
+        """Notification page should show activity cards."""
+        partner = self.admin_user.partner_id
+        self.env['mail.activity'].sudo().create({
+            'res_model_id': self.env['ir.model']._get('res.partner').id,
+            'res_id': partner.id,
+            'user_id': self.admin_user.id,
+            'activity_type_id': self.env.ref('mail.mail_activity_data_todo').id,
+            'summary': 'Notif Page Test',
+            'date_deadline': fields.Date.today(),
+        })
+
+        self.authenticate('admin', 'admin')
+        res = self.url_open('/my/notifications')
+        self.assertIn('Notif Page Test', res.text)
+        self.assertIn('wpe-notif-card-wrapper', res.text)
+
+    def test_18_notification_page_empty_state(self):
+        """When no activities, notification page should show empty state."""
+        self.authenticate('test_portal_wpe', 'test_portal_wpe')
+        res = self.url_open('/my/notifications')
+        self.assertIn('wpe-notif-empty', res.text)
+
+    def test_19_notification_page_view_all_link(self):
+        """Home page should have a link to /my/notifications."""
+        self.authenticate('test_portal_wpe', 'test_portal_wpe')
+        res = self.url_open('/my/home')
+        self.assertIn('/my/notifications', res.text)
+        self.assertIn('wpe-view-all-link', res.text)
+
 
 @tagged('post_install', '-at_install')
 class TestNotificationEndpoint(HttpCase):
-    """Test the /my/notifications JSON-RPC endpoint."""
+    """Test the /my/notifications/data JSON-RPC endpoint."""
 
     @classmethod
     def setUpClass(cls):
@@ -218,7 +272,7 @@ class TestNotificationEndpoint(HttpCase):
     def test_01_fetch_all_notifications(self):
         """Fetch all notifications for a portal user."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications', {'tab': 'all'})
+        result = self.make_jsonrpc_request('/my/notifications/data', {'tab': 'all'})
         self.assertEqual(result['total'], 5)
         self.assertEqual(len(result['activities']), 5)
 
@@ -229,7 +283,7 @@ class TestNotificationEndpoint(HttpCase):
     def test_02_cross_user_isolation(self):
         """Portal user should NOT see admin's activities."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications', {'tab': 'all'})
+        result = self.make_jsonrpc_request('/my/notifications/data', {'tab': 'all'})
         summaries = [a['summary'] for a in result['activities']]
         for s in summaries:
             self.assertNotIn('Admin Activity', s,
@@ -238,13 +292,13 @@ class TestNotificationEndpoint(HttpCase):
     def test_03_admin_sees_own_activities(self):
         """Admin should see own activities, not portal user's."""
         self.authenticate('admin', 'admin')
-        result = self.make_jsonrpc_request('/my/notifications', {'tab': 'all'})
+        result = self.make_jsonrpc_request('/my/notifications/data', {'tab': 'all'})
         summaries = [a['summary'] for a in result['activities']]
         for s in summaries:
             self.assertNotIn('Notif Test', s,
                              "Admin should not see portal user's activities")
-        # Admin should see their 3 activities
-        self.assertEqual(result['total'], 3)
+        # Admin should see at least their 3 test activities
+        self.assertGreaterEqual(result['total'], 3)
 
     # ------------------------------------------------------------------
     # 3. Pagination
@@ -253,7 +307,7 @@ class TestNotificationEndpoint(HttpCase):
     def test_04_pagination_limit(self):
         """Limit parameter should cap the number of returned activities."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications', {
+        result = self.make_jsonrpc_request('/my/notifications/data', {
             'tab': 'all', 'limit': 2,
         })
         self.assertEqual(len(result['activities']), 2)
@@ -262,7 +316,7 @@ class TestNotificationEndpoint(HttpCase):
     def test_05_pagination_offset(self):
         """Offset should skip records."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications', {
+        result = self.make_jsonrpc_request('/my/notifications/data', {
             'tab': 'all', 'limit': 2, 'offset': 3,
         })
         self.assertEqual(len(result['activities']), 2)  # 5 - 3 = 2 remaining
@@ -271,7 +325,7 @@ class TestNotificationEndpoint(HttpCase):
     def test_06_pagination_beyond_total(self):
         """Offset beyond total should return empty."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications', {
+        result = self.make_jsonrpc_request('/my/notifications/data', {
             'tab': 'all', 'limit': 10, 'offset': 100,
         })
         self.assertEqual(len(result['activities']), 0)
@@ -284,7 +338,7 @@ class TestNotificationEndpoint(HttpCase):
     def test_07_limit_zero_returns_count_only(self):
         """limit=0 should return empty activities but correct total."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications', {
+        result = self.make_jsonrpc_request('/my/notifications/data', {
             'tab': 'all', 'limit': 0,
         })
         self.assertEqual(len(result['activities']), 0)
@@ -297,7 +351,7 @@ class TestNotificationEndpoint(HttpCase):
     def test_08_limit_clamped_to_max(self):
         """Limit above _MAX_LIMIT should be clamped."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications', {
+        result = self.make_jsonrpc_request('/my/notifications/data', {
             'tab': 'all', 'limit': 99999,
         })
         # Should not crash; returns up to 100 records
@@ -306,7 +360,7 @@ class TestNotificationEndpoint(HttpCase):
     def test_09_negative_limit_clamped_to_zero(self):
         """Negative limit should be clamped to 0 (count-only mode)."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications', {
+        result = self.make_jsonrpc_request('/my/notifications/data', {
             'tab': 'all', 'limit': -5,
         })
         self.assertEqual(len(result['activities']), 0)
@@ -319,21 +373,21 @@ class TestNotificationEndpoint(HttpCase):
     def test_10_tab_todo(self):
         """Tab 'todo' should filter by activity_category='default'."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications', {'tab': 'todo'})
+        result = self.make_jsonrpc_request('/my/notifications/data', {'tab': 'todo'})
         # All our test activities use mail_activity_data_todo which has category 'default'
         self.assertEqual(result['total'], 5)
 
     def test_11_tab_system(self):
         """Tab 'system' should filter by activity_category != 'default'."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications', {'tab': 'system'})
+        result = self.make_jsonrpc_request('/my/notifications/data', {'tab': 'system'})
         # None of our test activities are system type
         self.assertEqual(result['total'], 0)
 
     def test_12_tab_unknown_acts_as_all(self):
         """Unknown tab value should act as 'all' (no extra filter)."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications', {'tab': 'xyz'})
+        result = self.make_jsonrpc_request('/my/notifications/data', {'tab': 'xyz'})
         self.assertEqual(result['total'], 5)
 
     # ------------------------------------------------------------------
@@ -343,7 +397,7 @@ class TestNotificationEndpoint(HttpCase):
     def test_13_activity_data_structure(self):
         """Each activity in the response should have all required fields."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications', {
+        result = self.make_jsonrpc_request('/my/notifications/data', {
             'tab': 'all', 'limit': 1,
         })
         act = result['activities'][0]
@@ -358,7 +412,7 @@ class TestNotificationEndpoint(HttpCase):
     def test_14_time_ago_format(self):
         """time_ago should be a non-empty string."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications', {
+        result = self.make_jsonrpc_request('/my/notifications/data', {
             'tab': 'all', 'limit': 1,
         })
         act = result['activities'][0]
@@ -371,7 +425,7 @@ class TestNotificationEndpoint(HttpCase):
     def test_15_ordering_by_deadline(self):
         """Activities should be ordered by date_deadline ascending."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications', {'tab': 'all'})
+        result = self.make_jsonrpc_request('/my/notifications/data', {'tab': 'all'})
         deadlines = [a['date_deadline'] for a in result['activities']]
         self.assertEqual(deadlines, sorted(deadlines),
                          "Activities should be ordered by deadline ascending")

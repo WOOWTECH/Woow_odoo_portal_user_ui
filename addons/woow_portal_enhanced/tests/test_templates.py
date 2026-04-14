@@ -5,13 +5,16 @@ Template rendering tests for woow_portal_enhanced.
 Covers:
   - Portal home template structure
   - Admin banner conditional rendering
-  - Bell icon in header
+  - No bell icon (removed)
+  - No drawer (removed)
   - User dropdown links (Return to Backend, My Account)
   - Module grid CSS classes
-  - Drawer structure
+  - Notification preview section
+  - Notification page structure
   - CSS and JS assets loaded
 """
 
+from odoo import fields
 from odoo.tests import HttpCase, tagged
 
 
@@ -55,7 +58,6 @@ class TestPortalTemplates(HttpCase):
         res = self._get_portal_home('tmpl_portal', 'tmpl_portal')
         # JS is bundled, so we check for DOM elements that JS targets
         self.assertIn('wpe_module_search', res.text)
-        self.assertIn('wpe_drawer', res.text)
 
     # ------------------------------------------------------------------
     # 3. Admin banner — conditional rendering
@@ -73,36 +75,41 @@ class TestPortalTemplates(HttpCase):
         self.assertNotIn('wpe-admin-banner', res.text)
 
     # ------------------------------------------------------------------
-    # 4. Bell icon in header
+    # 4. No bell icon (removed in refactor)
     # ------------------------------------------------------------------
 
-    def test_05_bell_icon_present(self):
-        """Bell icon should be in the navbar for all authenticated users."""
+    def test_05_no_bell_icon(self):
+        """Bell icon should NOT be in the page (removed)."""
         res = self._get_portal_home('tmpl_portal', 'tmpl_portal')
-        self.assertIn('wpe_bell_trigger', res.text)
-        self.assertIn('fa-bell-o', res.text)
-
-    def test_06_bell_badge_hidden_by_default(self):
-        """Badge should start with d-none class."""
-        res = self._get_portal_home('tmpl_portal', 'tmpl_portal')
-        # The badge span should have d-none
-        self.assertRegex(res.text, r'wpe-badge[^>]*d-none')
+        self.assertNotIn('wpe_bell_trigger', res.text)
+        self.assertNotIn('wpe-badge', res.text)
 
     # ------------------------------------------------------------------
-    # 5. User dropdown links
+    # 5. No drawer (removed in refactor)
+    # ------------------------------------------------------------------
+
+    def test_06_no_drawer(self):
+        """Notification drawer should NOT be in the page (removed)."""
+        res = self._get_portal_home('tmpl_portal', 'tmpl_portal')
+        self.assertNotIn('wpe_drawer', res.text)
+        self.assertNotIn('wpe_drawer_backdrop', res.text)
+        self.assertNotIn('wpe_drawer_close', res.text)
+        self.assertNotIn('wpe-drawer-tabs', res.text)
+        self.assertNotIn('wpe_drawer_body', res.text)
+
+    # ------------------------------------------------------------------
+    # 6. User dropdown links
     # ------------------------------------------------------------------
 
     def test_07_admin_dropdown_has_backend_and_portal_links(self):
-        """Admin dropdown should have Apps, Return to Backend, My Account, Logout."""
+        """Admin dropdown should have Apps, Return to Backend, Logout."""
         res = self._get_portal_home('admin', 'admin')
-        self.assertIn('o_backend_user_dropdown_link', res.text)   # Apps
-        self.assertIn('wpe_return_backend_link', res.text)         # Return to Backend
-        self.assertIn('o_logout', res.text)                        # Logout
+        self.assertIn('wpe_return_backend_link', res.text)
+        self.assertIn('o_logout', res.text)
 
     def test_08_portal_dropdown_has_no_backend_link(self):
         """Portal user dropdown should NOT have backend links."""
         res = self._get_portal_home('tmpl_portal', 'tmpl_portal')
-        self.assertNotIn('o_backend_user_dropdown_link', res.text)
         self.assertNotIn('wpe_return_backend_link', res.text)
 
     def test_09_portal_dropdown_has_logout(self):
@@ -111,15 +118,14 @@ class TestPortalTemplates(HttpCase):
         self.assertIn('o_logout', res.text)
 
     # ------------------------------------------------------------------
-    # 6. Module grid structure
+    # 7. Module grid structure
     # ------------------------------------------------------------------
 
     def test_10_module_grid_structure(self):
         """Module grid should have expected CSS structure."""
         res = self._get_portal_home('tmpl_portal', 'tmpl_portal')
-        self.assertIn('wpe-module-grid', res.text)
+        self.assertIn('wpe_module_grid', res.text)
         self.assertIn('o_portal_docs', res.text)
-        self.assertIn('o_portal_category', res.text)
 
     def test_11_connection_security_card(self):
         """Connection & Security card should always be present."""
@@ -127,37 +133,21 @@ class TestPortalTemplates(HttpCase):
         self.assertIn('/my/security', res.text)
 
     # ------------------------------------------------------------------
-    # 7. Notification drawer structure
+    # 8. Notification preview section
     # ------------------------------------------------------------------
 
-    def test_12_drawer_structure(self):
-        """Drawer should have header, tabs, body, and backdrop."""
+    def test_12_notification_preview_section(self):
+        """Notification preview section should exist with link to full page."""
         res = self._get_portal_home('tmpl_portal', 'tmpl_portal')
-        self.assertIn('wpe_drawer', res.text)
-        self.assertIn('wpe_drawer_backdrop', res.text)
-        self.assertIn('wpe_drawer_close', res.text)
-        self.assertIn('wpe-drawer-tabs', res.text)
-        self.assertIn('wpe_drawer_body', res.text)
-
-    def test_13_drawer_tabs(self):
-        """Drawer should have 3 tab buttons."""
-        res = self._get_portal_home('tmpl_portal', 'tmpl_portal')
-        # Count occurrences of wpe-tab-btn
-        count = res.text.count('wpe-tab-btn')
-        self.assertEqual(count, 3, "Should have exactly 3 tab buttons")
-
-    def test_14_drawer_tab_data_attributes(self):
-        """Tabs should have data-tab attributes for all/todo/system."""
-        res = self._get_portal_home('tmpl_portal', 'tmpl_portal')
-        self.assertIn('data-tab="all"', res.text)
-        self.assertIn('data-tab="todo"', res.text)
-        self.assertIn('data-tab="system"', res.text)
+        self.assertIn('wpe-notification-preview', res.text)
+        self.assertIn('wpe-view-all-link', res.text)
+        self.assertIn('/my/notifications', res.text)
 
     # ------------------------------------------------------------------
-    # 8. Search bar structure
+    # 9. Search bar structure
     # ------------------------------------------------------------------
 
-    def test_15_search_bar_structure(self):
+    def test_13_search_bar_structure(self):
         """Search bar should have input group with icon and input."""
         res = self._get_portal_home('tmpl_portal', 'tmpl_portal')
         self.assertIn('wpe-search-bar', res.text)
@@ -165,25 +155,48 @@ class TestPortalTemplates(HttpCase):
         self.assertIn('wpe_module_search', res.text)
 
     # ------------------------------------------------------------------
-    # 9. Notification preview section
+    # 10. Notification page structure
     # ------------------------------------------------------------------
 
-    def test_16_notification_preview_section(self):
-        """Notification preview section should exist."""
-        res = self._get_portal_home('tmpl_portal', 'tmpl_portal')
-        self.assertIn('wpe-notification-preview', res.text)
-        self.assertIn('wpe_open_drawer_link', res.text)
+    def test_14_notification_page_structure(self):
+        """Notification page should have tabs and swipe hint."""
+        self.authenticate('tmpl_portal', 'tmpl_portal')
+        res = self.url_open('/my/notifications')
+        self.assertEqual(res.status_code, 200)
+        self.assertIn('wpe-notif-tabs', res.text)
+        # Empty state (no activities for this user)
+        self.assertIn('wpe-notif-empty', res.text)
+
+    def test_15_notification_page_with_activities(self):
+        """Notification page should render swipeable card wrappers."""
+        partner = self.portal_user.partner_id
+        self.env['mail.activity'].sudo().create({
+            'res_model_id': self.env['ir.model']._get('res.partner').id,
+            'res_id': partner.id,
+            'user_id': self.portal_user.id,
+            'activity_type_id': self.env.ref('mail.mail_activity_data_todo').id,
+            'summary': 'Template Notif Test',
+            'date_deadline': fields.Date.today(),
+        })
+
+        self.authenticate('tmpl_portal', 'tmpl_portal')
+        res = self.url_open('/my/notifications')
+        self.assertIn('wpe-notif-card-wrapper', res.text)
+        self.assertIn('wpe-notif-swipe-bg', res.text)
+        self.assertIn('wpe-notif-card', res.text)
+        self.assertIn('Template Notif Test', res.text)
+        self.assertIn('wpe_swipe_hint', res.text)
 
     # ------------------------------------------------------------------
-    # 10. HTML structure integrity
+    # 11. HTML structure integrity
     # ------------------------------------------------------------------
 
-    def test_17_page_has_portal_wrap(self):
+    def test_16_page_has_portal_wrap(self):
         """Page should have o_portal class on wrapwrap."""
         res = self._get_portal_home('tmpl_portal', 'tmpl_portal')
         self.assertIn('o_portal', res.text)
 
-    def test_18_page_is_valid_html(self):
+    def test_17_page_is_valid_html(self):
         """Page should have basic HTML structure."""
         res = self._get_portal_home('tmpl_portal', 'tmpl_portal')
         self.assertIn('<!DOCTYPE html>', res.text)
