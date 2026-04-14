@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import json
-from datetime import datetime
-
 from odoo import _, http
+from odoo.fields import Datetime as FieldDatetime
 from odoo.http import request
 from odoo.addons.portal.controllers.portal import CustomerPortal
+
+# Hard cap for pagination to prevent abuse
+_MAX_LIMIT = 100
 
 
 class WoowPortalEnhanced(CustomerPortal):
@@ -13,7 +14,8 @@ class WoowPortalEnhanced(CustomerPortal):
     @http.route(['/my', '/my/home'], type='http', auth='user', website=True)
     def home(self, **kw):
         """Override portal home to inject enhanced data."""
-        values = self._prepare_home_portal_values(counters=None)
+        values = self._prepare_portal_layout_values()
+        values.update(self._prepare_home_portal_values([]))
         values.update(self._prepare_enhanced_home_values())
         return request.render('woow_portal_enhanced.portal_my_home_enhanced', values)
 
@@ -62,8 +64,17 @@ class WoowPortalEnhanced(CustomerPortal):
         elif tab == 'system':
             domain.append(('activity_category', '!=', 'default'))
 
+        # Clamp limit/offset to safe ranges
+        limit = max(0, min(int(limit), _MAX_LIMIT))
+        offset = max(0, int(offset))
+
         Activity = request.env['mail.activity'].sudo()
         total = Activity.search_count(domain)
+
+        # When limit=0 caller only needs the total count
+        if limit == 0:
+            return {'activities': [], 'total': total}
+
         activities = Activity.search(
             domain,
             order='date_deadline asc, id desc',
@@ -72,14 +83,14 @@ class WoowPortalEnhanced(CustomerPortal):
         )
 
         result = []
-        now = datetime.now()
+        now = FieldDatetime.now()
         for act in activities:
             # Determine if this activity has approve/reject actions
             can_approve = False
             if act.activity_type_id and act.activity_type_id.category == 'grant_approval':
                 can_approve = True
 
-            # Relative time
+            # Relative time (both now and create_date are naive UTC)
             delta = now - act.create_date
             if delta.days > 0:
                 time_ago = _('%d days ago') % delta.days
@@ -111,8 +122,14 @@ class WoowPortalEnhanced(CustomerPortal):
     @http.route('/my/notifications/action', type='json', auth='user', methods=['POST'])
     def notification_action(self, activity_id, action, **kw):
         """Execute approve/reject on a mail.activity."""
+        # Validate activity_id type
+        try:
+            activity_id = int(activity_id)
+        except (TypeError, ValueError):
+            return {'success': False, 'error': _('Invalid activity ID.')}
+
         Activity = request.env['mail.activity'].sudo()
-        activity = Activity.browse(int(activity_id))
+        activity = Activity.browse(activity_id)
 
         if not activity.exists() or activity.user_id.id != request.env.user.id:
             return {'success': False, 'error': _('Activity not found.')}
@@ -120,7 +137,7 @@ class WoowPortalEnhanced(CustomerPortal):
         if action == 'approve':
             activity.action_feedback(feedback=_('Approved via portal'))
         elif action == 'reject':
-            activity.action_feedback(feedback=_('Rejected via portal'))
+            activity.action_cancel()
         else:
             return {'success': False, 'error': _('Invalid action.')}
 
