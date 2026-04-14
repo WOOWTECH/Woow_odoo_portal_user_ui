@@ -230,14 +230,14 @@
     max-height: 200px; /* for collapse animation */
 }
 
-/* Swipe background — green "done" indicator */
+/* Swipe background — "mark read" / "done" indicator */
 .wpe-notif-swipe-bg {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: var(--wpe-green);
+    background: var(--wpe-blue);
     display: flex;
     align-items: center;
     padding-left: 1.5rem;
@@ -247,6 +247,11 @@
     font-size: 0.95rem;
     opacity: 0;
     border-radius: var(--wpe-radius-sm);
+}
+
+/* Activity items use green swipe bg */
+.wpe-notif-card-wrapper[data-item-type="activity"] .wpe-notif-swipe-bg {
+    background: var(--wpe-green);
 }
 
 .wpe-notif-swipe-bg i {
@@ -263,7 +268,7 @@
     background: var(--wpe-white);
     border: 1px solid #e9ecef;
     border-radius: var(--wpe-radius-sm);
-    cursor: grab;
+    cursor: pointer;
     user-select: none;
     -webkit-user-select: none;
     touch-action: pan-y;
@@ -331,6 +336,38 @@
     opacity: 0.4;
     flex-shrink: 0;
     align-self: center;
+    gap: 0.4rem;
+}
+
+/* Tracking / preview text in card */
+.wpe-notif-card-tracking,
+.wpe-notif-card-preview {
+    margin-top: 0.2rem;
+    font-size: 0.82rem;
+    color: var(--wpe-gray);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Unread indicator dot */
+.wpe-unread-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--wpe-coral);
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+/* Read notification — slightly dimmed */
+.wpe-notif-read .wpe-notif-card {
+    opacity: 0.65;
+    background: #fafafa;
+}
+
+.wpe-notif-read .wpe-notif-card:hover {
+    opacity: 1;
 }
 
 /* Empty state */
@@ -342,6 +379,99 @@
 .wpe-swipe-hint {
     font-size: 0.82rem;
     opacity: 0.6;
+}
+
+/* ============================================================
+   ⑥ Notification Detail Modal
+   ============================================================ */
+
+.wpe-notif-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.wpe-notif-modal {
+    background: var(--wpe-white);
+    border-radius: var(--wpe-radius);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 560px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.wpe-notif-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #e9ecef;
+    flex-shrink: 0;
+}
+
+.wpe-notif-modal-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    margin-right: 1rem;
+}
+
+.wpe-notif-modal-body {
+    padding: 1.25rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.wpe-notif-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0.75rem 1.25rem;
+    border-top: 1px solid #e9ecef;
+    flex-shrink: 0;
+}
+
+.wpe-modal-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 0.88rem;
+}
+
+.wpe-modal-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.wpe-modal-tracking table {
+    font-size: 0.85rem;
+}
+
+.wpe-modal-body-content {
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.wpe-modal-body-content img {
+    max-width: 100%;
+    height: auto;
 }
 
 /* ============================================================
@@ -366,5 +496,23 @@
 
     .wpe-notif-card-source {
         max-width: 150px;
+    }
+
+    /* Mobile modal — bottom sheet style */
+    .wpe-notif-modal-overlay {
+        align-items: flex-end;
+        padding: 0;
+    }
+
+    .wpe-notif-modal {
+        max-width: 100%;
+        max-height: 90vh;
+        border-radius: var(--wpe-radius) var(--wpe-radius) 0 0;
+    }
+
+    /* Tabs — smaller font on mobile */
+    .wpe-notif-tab {
+        font-size: 0.85rem;
+        padding: 0.6rem 0.5rem;
     }
 }

@@ -5,10 +5,10 @@ Unit tests for WoowPortalEnhanced controller.
 Covers:
   - Portal home route (/my, /my/home)
   - _prepare_home_portal_values
-  - Notification preview on home page
+  - Notification preview on home page (mail.notification)
   - /my/notifications HTTP page
   - /my/notifications/data JSON-RPC endpoint
-  - Tab filtering, pagination, edge cases
+  - Tab filtering (message/notification/activity), pagination, edge cases
 """
 
 from datetime import timedelta
@@ -33,6 +33,28 @@ class TestPortalHome(HttpCase):
             'email': 'portal_wpe@example.com',
             'groups_id': [(6, 0, [cls.env.ref('base.group_portal').id])],
         })
+
+    @classmethod
+    def _create_notification(cls, partner, subject='Test Notification',
+                             message_type='notification', is_read=False,
+                             body='', author=None):
+        """Helper to create a mail.message + mail.notification pair."""
+        msg = cls.env['mail.message'].sudo().create({
+            'model': 'res.partner',
+            'res_id': partner.id,
+            'subject': subject,
+            'body': body or '<p>%s</p>' % subject,
+            'message_type': message_type,
+            'subtype_id': cls.env.ref('mail.mt_comment').id,
+            'author_id': author.id if author else partner.id,
+        })
+        notif = cls.env['mail.notification'].sudo().create({
+            'mail_message_id': msg.id,
+            'res_partner_id': partner.id,
+            'notification_type': 'inbox',
+            'is_read': is_read,
+        })
+        return notif
 
     # ------------------------------------------------------------------
     # 1. Route accessibility
@@ -89,7 +111,7 @@ class TestPortalHome(HttpCase):
     # ------------------------------------------------------------------
 
     def test_07_notification_preview_empty_state(self):
-        """When no activities, empty state message should appear."""
+        """When no notifications, empty state message should appear."""
         self.authenticate('test_portal_wpe', 'test_portal_wpe')
         res = self.url_open('/my/home')
         # The Chinese empty state text
@@ -97,26 +119,31 @@ class TestPortalHome(HttpCase):
                       "Empty notification state should show check-circle icon")
 
     # ------------------------------------------------------------------
-    # 4. Notification preview with activities
+    # 4. Notification preview with mail.notification
     # ------------------------------------------------------------------
 
-    def test_08_notification_preview_with_activities(self):
-        """When activities exist, they should appear in the preview."""
-        # Create an activity for admin
-        partner = self.env.ref('base.partner_admin')
-        self.env['mail.activity'].sudo().create({
-            'res_model_id': self.env['ir.model']._get('res.partner').id,
-            'res_id': partner.id,
-            'user_id': self.admin_user.id,
-            'activity_type_id': self.env.ref('mail.mail_activity_data_todo').id,
-            'summary': 'Test WPE Activity',
-            'date_deadline': fields.Date.today(),
-        })
+    def test_08_notification_preview_with_notifications(self):
+        """When mail.notifications exist, they should appear in preview."""
+        partner = self.portal_user.partner_id
+        self._create_notification(
+            partner, subject='Test WPE Notification',
+            message_type='notification', is_read=False)
 
-        self.authenticate('admin', 'admin')
+        self.authenticate('test_portal_wpe', 'test_portal_wpe')
         res = self.url_open('/my/home')
-        self.assertIn('Test WPE Activity', res.text,
-                      "Activity summary should appear in the notification preview")
+        self.assertIn('Test WPE Notification', res.text,
+                      "Notification subject should appear in the preview")
+
+    def test_08b_notification_preview_shows_unread_badge(self):
+        """Unread badge should show on portal home when unread exist."""
+        partner = self.portal_user.partner_id
+        self._create_notification(
+            partner, subject='Badge Test', is_read=False)
+
+        self.authenticate('test_portal_wpe', 'test_portal_wpe')
+        res = self.url_open('/my/home')
+        self.assertIn('data-unread-badge', res.text,
+                      "Unread badge should be present when unread exist")
 
     # ------------------------------------------------------------------
     # 5. Module grid presence
@@ -145,7 +172,7 @@ class TestPortalHome(HttpCase):
     # ------------------------------------------------------------------
 
     def test_11_no_drawer(self):
-        """Notification drawer should NOT be in the page (removed in refactor)."""
+        """Notification drawer should NOT be in the page (removed)."""
         self.authenticate('test_portal_wpe', 'test_portal_wpe')
         res = self.url_open('/my/home')
         self.assertNotIn('wpe_drawer', res.text)
@@ -179,37 +206,66 @@ class TestPortalHome(HttpCase):
         self.assertIn('wpe-notif-tabs', res.text)
 
     def test_15_notification_page_has_tabs(self):
-        """Notification page should have tab links."""
+        """Notification page should have the correct tab links."""
         self.authenticate('test_portal_wpe', 'test_portal_wpe')
         res = self.url_open('/my/notifications')
         self.assertIn('tab=all', res.text)
-        self.assertIn('tab=todo', res.text)
-        self.assertIn('tab=system', res.text)
+        self.assertIn('tab=message', res.text)
+        self.assertIn('tab=notification', res.text)
+
+    def test_15b_notification_page_portal_no_activity_tab(self):
+        """Portal user should NOT see the activity tab."""
+        self.authenticate('test_portal_wpe', 'test_portal_wpe')
+        res = self.url_open('/my/notifications')
+        self.assertNotIn('tab=activity', res.text,
+                         "Portal user should not see the activity tab")
+
+    def test_15c_notification_page_admin_has_activity_tab(self):
+        """Admin (internal) user should see the activity tab."""
+        self.authenticate('admin', 'admin')
+        res = self.url_open('/my/notifications')
+        self.assertIn('tab=activity', res.text,
+                      "Internal user should see the activity tab")
 
     def test_16_notification_page_redirects_unauthenticated(self):
         """Unauthenticated users should be redirected from notifications."""
         res = self.url_open('/my/notifications')
         self.assertIn('/web/login', res.url)
 
-    def test_17_notification_page_with_activities(self):
-        """Notification page should show activity cards."""
+    def test_17_notification_page_with_notifications(self):
+        """Notification page should show notification cards."""
+        partner = self.portal_user.partner_id
+        self._create_notification(
+            partner, subject='Notif Page Test',
+            message_type='notification', is_read=False)
+
+        self.authenticate('test_portal_wpe', 'test_portal_wpe')
+        res = self.url_open('/my/notifications')
+        self.assertIn('Notif Page Test', res.text)
+        self.assertIn('wpe-notif-card-wrapper', res.text)
+        self.assertIn('data-notif-id', res.text,
+                      "Notification cards should have data-notif-id")
+
+    def test_17b_notification_page_with_activities_admin(self):
+        """Activity cards should show for admin users."""
         partner = self.admin_user.partner_id
         self.env['mail.activity'].sudo().create({
             'res_model_id': self.env['ir.model']._get('res.partner').id,
             'res_id': partner.id,
             'user_id': self.admin_user.id,
             'activity_type_id': self.env.ref('mail.mail_activity_data_todo').id,
-            'summary': 'Notif Page Test',
+            'summary': 'Admin Activity Test',
             'date_deadline': fields.Date.today(),
         })
 
         self.authenticate('admin', 'admin')
-        res = self.url_open('/my/notifications')
-        self.assertIn('Notif Page Test', res.text)
-        self.assertIn('wpe-notif-card-wrapper', res.text)
+        res = self.url_open('/my/notifications?tab=activity')
+        self.assertIn('Admin Activity Test', res.text)
+        self.assertIn('data-activity-id', res.text,
+                      "Activity cards should have data-activity-id")
 
     def test_18_notification_page_empty_state(self):
-        """When no activities, notification page should show empty state."""
+        """When no notifications, page should show empty state."""
         self.authenticate('test_portal_wpe', 'test_portal_wpe')
         res = self.url_open('/my/notifications')
         self.assertIn('wpe-notif-empty', res.text)
@@ -220,6 +276,17 @@ class TestPortalHome(HttpCase):
         res = self.url_open('/my/home')
         self.assertIn('/my/notifications', res.text)
         self.assertIn('wpe-view-all-link', res.text)
+
+    def test_20_notification_page_has_modal(self):
+        """Notification page should include the detail modal markup."""
+        self.authenticate('test_portal_wpe', 'test_portal_wpe')
+        res = self.url_open('/my/notifications')
+        self.assertIn('wpe_notif_modal_overlay', res.text,
+                      "Modal overlay should be present")
+        self.assertIn('wpe_notif_modal', res.text,
+                      "Modal container should be present")
+        self.assertIn('wpe_modal_close', res.text,
+                      "Modal close button should be present")
 
 
 @tagged('post_install', '-at_install')
@@ -237,33 +304,68 @@ class TestNotificationEndpoint(HttpCase):
             'email': 'portal_notif@example.com',
             'groups_id': [(6, 0, [cls.env.ref('base.group_portal').id])],
         })
+        cls.portal_partner = cls.portal_user.partner_id
+        cls.admin_partner = cls.admin_user.partner_id
 
-        # Create activities for the portal user
-        partner = cls.portal_user.partner_id
+        # Create 3 comment-type notifications for portal user
+        for i in range(3):
+            cls._create_notification(
+                cls.portal_partner,
+                subject='Comment %d' % (i + 1),
+                message_type='comment',
+                is_read=False,
+            )
+
+        # Create 2 system-type notifications for portal user
+        for i in range(2):
+            cls._create_notification(
+                cls.portal_partner,
+                subject='SysNotif %d' % (i + 1),
+                message_type='notification',
+                is_read=False,
+            )
+
+        # Create notifications for admin (should NOT be visible to portal)
+        for i in range(3):
+            cls._create_notification(
+                cls.admin_partner,
+                subject='Admin Notif %d' % (i + 1),
+                message_type='notification',
+                is_read=False,
+            )
+
+        # Create activities for admin (only visible in activity tab)
         model_id = cls.env['ir.model']._get('res.partner').id
         todo_type = cls.env.ref('mail.mail_activity_data_todo')
-
-        for i in range(5):
+        for i in range(2):
             cls.env['mail.activity'].sudo().create({
                 'res_model_id': model_id,
-                'res_id': partner.id,
-                'user_id': cls.portal_user.id,
-                'activity_type_id': todo_type.id,
-                'summary': 'Notif Test %d' % (i + 1),
-                'date_deadline': fields.Date.today() + timedelta(days=i),
-            })
-
-        # Create activities for admin (should NOT be visible to portal user)
-        admin_partner = cls.env.ref('base.partner_admin')
-        for i in range(3):
-            cls.env['mail.activity'].sudo().create({
-                'res_model_id': model_id,
-                'res_id': admin_partner.id,
+                'res_id': cls.admin_partner.id,
                 'user_id': cls.admin_user.id,
                 'activity_type_id': todo_type.id,
                 'summary': 'Admin Activity %d' % (i + 1),
-                'date_deadline': fields.Date.today(),
+                'date_deadline': fields.Date.today() + timedelta(days=i),
             })
+
+    @classmethod
+    def _create_notification(cls, partner, subject='Test Notification',
+                             message_type='notification', is_read=False):
+        """Helper to create a mail.message + mail.notification pair."""
+        msg = cls.env['mail.message'].sudo().create({
+            'model': 'res.partner',
+            'res_id': partner.id,
+            'subject': subject,
+            'body': '<p>%s body</p>' % subject,
+            'message_type': message_type,
+            'subtype_id': cls.env.ref('mail.mt_comment').id,
+            'author_id': partner.id,
+        })
+        return cls.env['mail.notification'].sudo().create({
+            'mail_message_id': msg.id,
+            'res_partner_id': partner.id,
+            'notification_type': 'inbox',
+            'is_read': is_read,
+        })
 
     # ------------------------------------------------------------------
     # 1. Basic fetch
@@ -272,46 +374,48 @@ class TestNotificationEndpoint(HttpCase):
     def test_01_fetch_all_notifications(self):
         """Fetch all notifications for a portal user."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications/data', {'tab': 'all'})
+        result = self.make_jsonrpc_request(
+            '/my/notifications/data', {'tab': 'all'})
+        # Portal user has 5 notifications (3 comment + 2 system), no activities
         self.assertEqual(result['total'], 5)
-        self.assertEqual(len(result['activities']), 5)
+        self.assertEqual(len(result['notifications']), 5)
 
     # ------------------------------------------------------------------
     # 2. Cross-user isolation
     # ------------------------------------------------------------------
 
     def test_02_cross_user_isolation(self):
-        """Portal user should NOT see admin's activities."""
+        """Portal user should NOT see admin's notifications."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications/data', {'tab': 'all'})
-        summaries = [a['summary'] for a in result['activities']]
-        for s in summaries:
-            self.assertNotIn('Admin Activity', s,
-                             "Portal user should not see admin activities")
+        result = self.make_jsonrpc_request(
+            '/my/notifications/data', {'tab': 'all'})
+        subjects = [n['subject'] for n in result['notifications']]
+        for s in subjects:
+            self.assertNotIn('Admin', s,
+                             "Portal user should not see admin notifications")
 
-    def test_03_admin_sees_own_activities(self):
-        """Admin should see own activities, not portal user's."""
+    def test_03_admin_sees_own_notifications(self):
+        """Admin should see own notifications, not portal user's."""
         self.authenticate('admin', 'admin')
-        result = self.make_jsonrpc_request('/my/notifications/data', {'tab': 'all'})
-        summaries = [a['summary'] for a in result['activities']]
-        for s in summaries:
-            self.assertNotIn('Notif Test', s,
-                             "Admin should not see portal user's activities")
-        # Admin should see at least their 3 test activities
-        self.assertGreaterEqual(result['total'], 3)
+        result = self.make_jsonrpc_request(
+            '/my/notifications/data', {'tab': 'all'})
+        subjects = [n.get('subject', '') for n in result['notifications']]
+        for s in subjects:
+            self.assertNotIn('Comment', s,
+                             "Admin should not see portal user's comments")
 
     # ------------------------------------------------------------------
     # 3. Pagination
     # ------------------------------------------------------------------
 
     def test_04_pagination_limit(self):
-        """Limit parameter should cap the number of returned activities."""
+        """Limit parameter should cap the number of returned items."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
         result = self.make_jsonrpc_request('/my/notifications/data', {
             'tab': 'all', 'limit': 2,
         })
-        self.assertEqual(len(result['activities']), 2)
-        self.assertEqual(result['total'], 5)  # total is still 5
+        self.assertEqual(len(result['notifications']), 2)
+        self.assertEqual(result['total'], 5)
 
     def test_05_pagination_offset(self):
         """Offset should skip records."""
@@ -319,7 +423,7 @@ class TestNotificationEndpoint(HttpCase):
         result = self.make_jsonrpc_request('/my/notifications/data', {
             'tab': 'all', 'limit': 2, 'offset': 3,
         })
-        self.assertEqual(len(result['activities']), 2)  # 5 - 3 = 2 remaining
+        self.assertEqual(len(result['notifications']), 2)  # 5 - 3 = 2
         self.assertEqual(result['total'], 5)
 
     def test_06_pagination_beyond_total(self):
@@ -328,20 +432,20 @@ class TestNotificationEndpoint(HttpCase):
         result = self.make_jsonrpc_request('/my/notifications/data', {
             'tab': 'all', 'limit': 10, 'offset': 100,
         })
-        self.assertEqual(len(result['activities']), 0)
+        self.assertEqual(len(result['notifications']), 0)
         self.assertEqual(result['total'], 5)
 
     # ------------------------------------------------------------------
-    # 4. limit=0 edge case (badge count only)
+    # 4. limit=0 edge case (count only)
     # ------------------------------------------------------------------
 
     def test_07_limit_zero_returns_count_only(self):
-        """limit=0 should return empty activities but correct total."""
+        """limit=0 should return empty list but correct total."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
         result = self.make_jsonrpc_request('/my/notifications/data', {
             'tab': 'all', 'limit': 0,
         })
-        self.assertEqual(len(result['activities']), 0)
+        self.assertEqual(len(result['notifications']), 0)
         self.assertEqual(result['total'], 5)
 
     # ------------------------------------------------------------------
@@ -354,8 +458,7 @@ class TestNotificationEndpoint(HttpCase):
         result = self.make_jsonrpc_request('/my/notifications/data', {
             'tab': 'all', 'limit': 99999,
         })
-        # Should not crash; returns up to 100 records
-        self.assertLessEqual(len(result['activities']), 100)
+        self.assertLessEqual(len(result['notifications']), 100)
 
     def test_09_negative_limit_clamped_to_zero(self):
         """Negative limit should be clamped to 0 (count-only mode)."""
@@ -363,72 +466,117 @@ class TestNotificationEndpoint(HttpCase):
         result = self.make_jsonrpc_request('/my/notifications/data', {
             'tab': 'all', 'limit': -5,
         })
-        self.assertEqual(len(result['activities']), 0)
+        self.assertEqual(len(result['notifications']), 0)
         self.assertEqual(result['total'], 5)
 
     # ------------------------------------------------------------------
     # 6. Tab filtering
     # ------------------------------------------------------------------
 
-    def test_10_tab_todo(self):
-        """Tab 'todo' should filter by activity_category='default'."""
+    def test_10_tab_message(self):
+        """Tab 'message' should return only comment/email type."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications/data', {'tab': 'todo'})
-        # All our test activities use mail_activity_data_todo which has category 'default'
-        self.assertEqual(result['total'], 5)
+        result = self.make_jsonrpc_request(
+            '/my/notifications/data', {'tab': 'message'})
+        self.assertEqual(result['total'], 3,
+                         "Should have 3 comment-type notifications")
+        for n in result['notifications']:
+            self.assertIn(n['message_type'], ('comment', 'email'))
 
-    def test_11_tab_system(self):
-        """Tab 'system' should filter by activity_category != 'default'."""
+    def test_11_tab_notification(self):
+        """Tab 'notification' should return system notification types."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications/data', {'tab': 'system'})
-        # None of our test activities are system type
-        self.assertEqual(result['total'], 0)
+        result = self.make_jsonrpc_request(
+            '/my/notifications/data', {'tab': 'notification'})
+        self.assertEqual(result['total'], 2,
+                         "Should have 2 system-type notifications")
+        for n in result['notifications']:
+            self.assertIn(n['message_type'],
+                          ('notification', 'auto_comment', 'user_notification'))
 
-    def test_12_tab_unknown_acts_as_all(self):
-        """Unknown tab value should act as 'all' (no extra filter)."""
+    def test_12_tab_activity_portal_user_gets_zero(self):
+        """Portal user requesting activity tab should get 0."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications/data', {'tab': 'xyz'})
+        result = self.make_jsonrpc_request(
+            '/my/notifications/data', {'tab': 'activity'})
+        self.assertEqual(result['total'], 0,
+                         "Portal user should have no activities")
+
+    def test_12b_tab_activity_admin_gets_activities(self):
+        """Admin requesting activity tab should get activity items."""
+        self.authenticate('admin', 'admin')
+        result = self.make_jsonrpc_request(
+            '/my/notifications/data', {'tab': 'activity'})
+        self.assertGreaterEqual(result['total'], 2)
+        # Activity items should have activity_id, not notif_id
+        for item in result['notifications']:
+            self.assertIn('activity_id', item)
+
+    def test_13_tab_unknown_acts_as_all(self):
+        """Unknown tab value should act as 'all'."""
+        self.authenticate('test_portal_notif', 'test_portal_notif')
+        result = self.make_jsonrpc_request(
+            '/my/notifications/data', {'tab': 'xyz'})
         self.assertEqual(result['total'], 5)
 
     # ------------------------------------------------------------------
-    # 7. Activity data fields
+    # 7. Notification data fields
     # ------------------------------------------------------------------
 
-    def test_13_activity_data_structure(self):
-        """Each activity in the response should have all required fields."""
+    def test_14_notification_data_structure(self):
+        """Each notification should have all required fields."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
         result = self.make_jsonrpc_request('/my/notifications/data', {
-            'tab': 'all', 'limit': 1,
+            'tab': 'message', 'limit': 1,
         })
-        act = result['activities'][0]
+        notif = result['notifications'][0]
         required_keys = [
-            'id', 'summary', 'res_name', 'res_model', 'res_id',
+            'notif_id', 'message_id', 'subject', 'body_preview',
+            'record_name', 'model', 'res_id', 'author_name',
+            'date', 'time_ago', 'is_read', 'icon', 'document_url',
+            'message_type',
+        ]
+        for key in required_keys:
+            self.assertIn(key, notif,
+                          "Notification should have key '%s'" % key)
+
+    def test_14b_activity_data_structure(self):
+        """Each activity should have all required fields."""
+        self.authenticate('admin', 'admin')
+        result = self.make_jsonrpc_request('/my/notifications/data', {
+            'tab': 'activity', 'limit': 1,
+        })
+        act = result['notifications'][0]
+        required_keys = [
+            'activity_id', 'summary', 'res_name', 'res_model', 'res_id',
             'activity_type', 'activity_category', 'date_deadline',
-            'time_ago', 'can_approve', 'icon',
+            'time_ago', 'can_approve', 'icon', 'document_url',
         ]
         for key in required_keys:
             self.assertIn(key, act, "Activity should have key '%s'" % key)
 
-    def test_14_time_ago_format(self):
+    def test_15_time_ago_format(self):
         """time_ago should be a non-empty string."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
         result = self.make_jsonrpc_request('/my/notifications/data', {
             'tab': 'all', 'limit': 1,
         })
-        act = result['activities'][0]
-        self.assertTrue(act['time_ago'], "time_ago should be a non-empty string")
+        notif = result['notifications'][0]
+        self.assertTrue(notif['time_ago'],
+                        "time_ago should be a non-empty string")
 
     # ------------------------------------------------------------------
-    # 8. Ordering
+    # 8. Unread count
     # ------------------------------------------------------------------
 
-    def test_15_ordering_by_deadline(self):
-        """Activities should be ordered by date_deadline ascending."""
+    def test_16_unread_count(self):
+        """Response should include unread_count."""
         self.authenticate('test_portal_notif', 'test_portal_notif')
-        result = self.make_jsonrpc_request('/my/notifications/data', {'tab': 'all'})
-        deadlines = [a['date_deadline'] for a in result['activities']]
-        self.assertEqual(deadlines, sorted(deadlines),
-                         "Activities should be ordered by deadline ascending")
+        result = self.make_jsonrpc_request(
+            '/my/notifications/data', {'tab': 'all'})
+        self.assertIn('unread_count', result)
+        self.assertGreaterEqual(result['unread_count'], 5,
+                                "Should have at least 5 unread notifications")
 
     # ------------------------------------------------------------------
     # Helper

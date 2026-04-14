@@ -4,9 +4,6 @@
     <!-- ============================================================ -->
     <!-- Inherit portal.portal_my_home to prepend search bar,         -->
     <!-- notification preview, and admin banner.                      -->
-    <!-- The module card grid is rendered by Odoo core + other modules -->
-    <!-- (sale, purchase, account, project, etc.) via their own        -->
-    <!-- inherit_id="portal.portal_my_home" templates.                -->
     <!-- ============================================================ -->
     <template id="portal_my_home_enhanced" name="Woow Enhanced Portal Home"
               inherit_id="portal.portal_my_home" priority="10">
@@ -49,10 +46,11 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="mb-0 fw-bold">
                             近期通知
-                            <t t-if="activity_count">
+                            <t t-if="unread_notif_count">
                                 <span class="badge bg-danger ms-2"
-                                      style="font-size: 0.7rem; vertical-align: middle;">
-                                    <t t-esc="activity_count"/>
+                                      style="font-size: 0.7rem; vertical-align: middle;"
+                                      data-unread-badge="1">
+                                    <t t-esc="unread_notif_count"/>
                                 </span>
                             </t>
                         </h5>
@@ -61,22 +59,25 @@
                         </a>
                     </div>
 
-                    <t t-if="activities">
-                        <t t-foreach="activities" t-as="act">
-                            <a t-attf-href="/my/notifications"
+                    <t t-if="notification_previews">
+                        <t t-foreach="notification_previews" t-as="notif">
+                            <a t-att-href="notif['document_url'] if notif['document_url'] != '#' else '/my/notifications'"
                                class="wpe-notification-item d-flex align-items-start text-decoration-none">
                                 <div class="wpe-notification-icon me-3">
-                                    <i t-attf-class="fa #{act.activity_type_id.icon or 'fa-clock-o'} fa-lg"/>
+                                    <i t-attf-class="fa #{notif['icon']} fa-lg"/>
                                 </div>
                                 <div class="flex-grow-1">
                                     <div class="fw-semibold text-dark">
-                                        <t t-esc="act.summary or act.activity_type_id.name or 'Activity'"/>
+                                        <t t-esc="notif['subject']"/>
                                     </div>
                                     <small class="text-muted">
-                                        <t t-esc="act.res_name or ''"/>
-                                        <span class="ms-2">
-                                            <t t-esc="act.date_deadline"/>
-                                        </span>
+                                        <t t-esc="notif['record_name']"/>
+                                        <t t-if="notif.get('author_name')">
+                                            <span class="ms-2">
+                                                <i class="fa fa-user-o me-1"/>
+                                                <t t-esc="notif['author_name']"/>
+                                            </span>
+                                        </t>
                                     </small>
                                 </div>
                                 <i class="fa fa-angle-right text-muted align-self-center"/>
@@ -86,7 +87,7 @@
                     <t t-else="">
                         <div class="text-center text-muted py-3">
                             <i class="fa fa-check-circle fa-2x mb-2 d-block"/>
-                            沒有待處理的通知
+                            沒有新的通知
                         </div>
                     </t>
                 </div>
@@ -103,7 +104,9 @@
 
     <!-- ============================================================ -->
     <!-- Notification List Page — /my/notifications                   -->
-    <!-- Full page with swipe-to-dismiss for each notification        -->
+    <!-- 3 tabs: Mail Message / Mail Notification / Mail Activity     -->
+    <!-- Portal users: Message + Notification only                    -->
+    <!-- Backend users: all 3 tabs                                    -->
     <!-- ============================================================ -->
     <template id="portal_notifications_page" name="Portal Notifications Page">
         <t t-call="portal.portal_layout">
@@ -130,59 +133,134 @@
                             </span>
                         </t>
                     </a>
-                    <a t-attf-href="/my/notifications?tab=todo"
-                       t-attf-class="wpe-notif-tab #{'active' if current_tab == 'todo' else ''}">
-                        待辦
+                    <a t-attf-href="/my/notifications?tab=message"
+                       t-attf-class="wpe-notif-tab #{'active' if current_tab == 'message' else ''}">
+                        留言
+                        <t t-if="message_count">
+                            <span class="badge bg-secondary ms-1">
+                                <t t-esc="message_count"/>
+                            </span>
+                        </t>
                     </a>
-                    <a t-attf-href="/my/notifications?tab=system"
-                       t-attf-class="wpe-notif-tab #{'active' if current_tab == 'system' else ''}">
-                        系統
+                    <a t-attf-href="/my/notifications?tab=notification"
+                       t-attf-class="wpe-notif-tab #{'active' if current_tab == 'notification' else ''}">
+                        通知
+                        <t t-if="sys_notif_count">
+                            <span class="badge bg-secondary ms-1">
+                                <t t-esc="sys_notif_count"/>
+                            </span>
+                        </t>
                     </a>
+                    <!-- Activity tab: internal users only -->
+                    <t t-if="is_internal_user">
+                        <a t-attf-href="/my/notifications?tab=activity"
+                           t-attf-class="wpe-notif-tab #{'active' if current_tab == 'activity' else ''}">
+                            待辦
+                            <t t-if="activity_count">
+                                <span class="badge bg-secondary ms-1">
+                                    <t t-esc="activity_count"/>
+                                </span>
+                            </t>
+                        </a>
+                    </t>
                 </div>
 
                 <!-- Notification List -->
                 <div class="wpe-notif-list" id="wpe_notif_list">
-                    <t t-if="notification_activities">
-                        <t t-foreach="notification_activities" t-as="act">
-                            <div class="wpe-notif-card-wrapper"
-                                 t-att-data-activity-id="act.id">
-                                <!-- Swipe background (green done indicator) -->
-                                <div class="wpe-notif-swipe-bg">
-                                    <i class="fa fa-check"/>
-                                    <span>已完成</span>
-                                </div>
-                                <!-- Card content -->
-                                <div class="wpe-notif-card">
-                                    <div class="wpe-notif-card-icon">
-                                        <i t-attf-class="fa #{act.activity_type_id.icon or 'fa-clock-o'}"/>
+                    <t t-if="notification_items">
+                        <t t-foreach="notification_items" t-as="item">
+                            <!-- Notification-type item (mail.notification) -->
+                            <t t-if="item.get('notif_id')">
+                                <div t-attf-class="wpe-notif-card-wrapper #{'wpe-notif-read' if item['is_read'] else 'wpe-notif-unread'}"
+                                     t-att-data-notif-id="item['notif_id']"
+                                     data-item-type="notification">
+                                    <div class="wpe-notif-swipe-bg">
+                                        <i class="fa fa-check"/>
+                                        <span>已讀</span>
                                     </div>
-                                    <div class="wpe-notif-card-body">
-                                        <div class="wpe-notif-card-title">
-                                            <t t-esc="act.summary or act.activity_type_id.name or 'Activity'"/>
+                                    <div class="wpe-notif-card" data-action="show-detail">
+                                        <div class="wpe-notif-card-icon">
+                                            <i t-attf-class="fa #{item['icon']}"/>
                                         </div>
-                                        <div class="wpe-notif-card-meta">
-                                            <span class="wpe-notif-card-source">
-                                                <t t-esc="act.res_name or ''"/>
-                                            </span>
-                                            <t t-if="act.date_deadline">
-                                                <span class="wpe-notif-card-date">
-                                                    <i class="fa fa-calendar-o me-1"/>
-                                                    <t t-esc="act.date_deadline"/>
+                                        <div class="wpe-notif-card-body">
+                                            <div class="wpe-notif-card-title">
+                                                <t t-esc="item['subject']"/>
+                                            </div>
+                                            <div class="wpe-notif-card-meta">
+                                                <span class="wpe-notif-card-source">
+                                                    <t t-esc="item['record_name']"/>
                                                 </span>
+                                                <span class="wpe-notif-card-date">
+                                                    <t t-esc="item['time_ago']"/>
+                                                </span>
+                                            </div>
+                                            <t t-if="item.get('tracking_summary')">
+                                                <div class="wpe-notif-card-tracking">
+                                                    <small class="text-muted">
+                                                        <i class="fa fa-exchange me-1"/>
+                                                        <t t-esc="item['tracking_summary']"/>
+                                                    </small>
+                                                </div>
+                                            </t>
+                                            <t t-if="item.get('body_preview') and not item.get('tracking_summary')">
+                                                <div class="wpe-notif-card-preview">
+                                                    <small class="text-muted">
+                                                        <t t-esc="item['body_preview']"/>
+                                                    </small>
+                                                </div>
                                             </t>
                                         </div>
-                                        <div class="wpe-notif-card-type">
-                                            <span class="badge bg-light text-dark">
-                                                <i t-attf-class="fa #{act.activity_type_id.icon or 'fa-clock-o'} me-1"/>
-                                                <t t-esc="act.activity_type_id.name if act.activity_type_id else 'Activity'"/>
-                                            </span>
+                                        <div class="wpe-notif-card-hint">
+                                            <t t-if="not item['is_read']">
+                                                <span class="wpe-unread-dot"/>
+                                            </t>
+                                            <i class="fa fa-angle-right text-muted"/>
                                         </div>
                                     </div>
-                                    <div class="wpe-notif-card-hint">
-                                        <i class="fa fa-long-arrow-right text-muted"/>
+                                </div>
+                            </t>
+                            <!-- Activity-type item (mail.activity) -->
+                            <t t-if="item.get('activity_id')">
+                                <div class="wpe-notif-card-wrapper wpe-notif-unread"
+                                     t-att-data-activity-id="item['activity_id']"
+                                     data-item-type="activity">
+                                    <div class="wpe-notif-swipe-bg">
+                                        <i class="fa fa-check"/>
+                                        <span>已完成</span>
+                                    </div>
+                                    <div class="wpe-notif-card" data-action="show-detail">
+                                        <div class="wpe-notif-card-icon">
+                                            <i t-attf-class="fa #{item['icon']}"/>
+                                        </div>
+                                        <div class="wpe-notif-card-body">
+                                            <div class="wpe-notif-card-title">
+                                                <t t-esc="item['summary']"/>
+                                            </div>
+                                            <div class="wpe-notif-card-meta">
+                                                <span class="wpe-notif-card-source">
+                                                    <t t-esc="item['res_name']"/>
+                                                </span>
+                                                <t t-if="item.get('date_deadline')">
+                                                    <span class="wpe-notif-card-date">
+                                                        <i class="fa fa-calendar-o me-1"/>
+                                                        <t t-esc="item['date_deadline']"/>
+                                                    </span>
+                                                </t>
+                                            </div>
+                                            <div class="wpe-notif-card-type">
+                                                <span class="badge bg-light text-dark">
+                                                    <i t-attf-class="fa #{item['icon']} me-1"/>
+                                                    <t t-esc="item.get('activity_type', 'Activity')"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="wpe-notif-card-hint">
+                                            <span class="wpe-unread-dot"/>
+                                            <i class="fa fa-angle-right text-muted"/>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </t>
                         </t>
                     </t>
                     <t t-else="">
@@ -193,16 +271,47 @@
                     </t>
                 </div>
 
-                <!-- Swipe hint (shown once) -->
-                <t t-if="notification_activities">
+                <!-- Swipe hint -->
+                <t t-if="notification_items">
                     <div class="wpe-swipe-hint text-center text-muted mt-2 mb-4"
                          id="wpe_swipe_hint">
                         <i class="fa fa-long-arrow-right me-1"/>
-                        向右滑動可標記為已完成
+                        向右滑動可標記為已讀 / 已完成
                     </div>
                 </t>
 
             </div>
+
+            <!-- ============================================================ -->
+            <!-- Detail Modal (hidden, populated by JS)                       -->
+            <!-- ============================================================ -->
+            <div class="wpe-notif-modal-overlay" id="wpe_notif_modal_overlay"
+                 style="display: none;">
+                <div class="wpe-notif-modal" id="wpe_notif_modal">
+                    <div class="wpe-notif-modal-header">
+                        <h5 class="wpe-notif-modal-title" id="wpe_modal_title"/>
+                        <button type="button" class="btn-close"
+                                id="wpe_modal_close"/>
+                    </div>
+                    <div class="wpe-notif-modal-body" id="wpe_modal_body">
+                        <!-- Populated dynamically by JS -->
+                    </div>
+                    <div class="wpe-notif-modal-footer" id="wpe_modal_footer">
+                        <a href="#" class="btn btn-sm btn-outline-primary me-2"
+                           id="wpe_modal_doc_link" target="_blank"
+                           style="display: none;">
+                            <i class="fa fa-external-link me-1"/>查看文件
+                        </a>
+                        <button type="button"
+                                class="btn btn-sm btn-primary"
+                                id="wpe_modal_action_btn"
+                                style="display: none;">
+                            <i class="fa fa-check me-1"/>標記已讀
+                        </button>
+                    </div>
+                </div>
+            </div>
+
         </t>
     </template>
 
