@@ -1,0 +1,47 @@
+version: '3.8'
+name: odoo-portalui
+
+services:
+  db:
+    image: postgres:16
+    container_name: odoo-portalui-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: odooportalui
+      POSTGRES_USER: odooportalui
+      POSTGRES_PASSWORD: odooportalui
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    networks:
+      - odoo-portalui-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odooportalui -d odooportalui"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  odoo:
+    image: odoo:18.0
+    container_name: odoo-portalui-web
+    restart: unless-stopped
+    ports:
+      - "9097:8069"
+    environment:
+      HOST: db
+      PORT: 5432
+      USER: odooportalui
+      PASSWORD: odooportalui
+    volumes:
+      - ./addons:/mnt/extra-addons
+      - ./config/odoo.conf:/etc/odoo/odoo.conf
+      - ./data/odoo:/var/lib/odoo
+    networks:
+      - odoo-portalui-net
+    depends_on:
+      db:
+        condition: service_healthy
+
+networks:
+  odoo-portalui-net:
+    name: odoo-portalui-network
+    driver: bridge

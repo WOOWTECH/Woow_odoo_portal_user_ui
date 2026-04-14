@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==================== Portal Home Cards ==================== -->
+
+    <!-- Add Equipment counter to portal home -->
+    <template id="portal_my_home_equipment" name="Portal My Home: Equipment" inherit_id="portal.portal_my_home" priority="40">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-set="portal_client_category_enable" t-value="True"/>
+        </xpath>
+        <div id="portal_client_category" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/maintenance_portal/static/src/img/equipment.svg?v=4'"/>
+                <t t-set="title">設備</t>
+                <t t-set="url" t-value="'/my/equipments'"/>
+                <t t-set="text">查看指派給您的設備</t>
+                <t t-set="placeholder_count" t-value="'equipment_count'"/>
+            </t>
+        </div>
+    </template>
+
+    <!-- Add Maintenance Request counter to portal home -->
+    <template id="portal_my_home_maintenance_request" name="Portal My Home: Maintenance Requests" inherit_id="portal.portal_my_home" priority="41">
+        <div id="portal_client_category" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/maintenance_portal/static/src/img/maintenance.svg?v=4'"/>
+                <t t-set="title">維修請求</t>
+                <t t-set="url" t-value="'/my/maintenance-requests'"/>
+                <t t-set="text">查看和更新維修請求</t>
+                <t t-set="placeholder_count" t-value="'maintenance_request_count'"/>
+            </t>
+        </div>
+    </template>
+
+    <!-- ==================== Equipment List Page ==================== -->
+
+    <template id="portal_my_equipments" name="My Equipment">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">設備</t>
+            </t>
+
+            <t t-if="equipments">
+                <div class="row mt-3">
+                    <t t-foreach="equipments" t-as="equipment">
+                        <div class="col-md-4 col-sm-6 mb-4">
+                            <a t-attf-href="/my/equipments/#{equipment.id}" class="text-decoration-none d-block h-100">
+                                <div class="card h-100 maintenance-equipment-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-2">
+                                            <t t-esc="equipment.name"/>
+                                        </h5>
+                                        <p class="card-text mb-2">
+                                            <t t-if="equipment.serial_no">
+                                                <small class="text-muted"><i class="mdi mdi-barcode me-1"></i><t t-esc="equipment.serial_no"/></small>
+                                            </t>
+                                        </p>
+                                        <p class="card-text mb-2">
+                                            <t t-if="equipment.category_id">
+                                                <span class="badge bg-secondary">
+                                                    <t t-esc="equipment.category_id.name"/>
+                                                </span>
+                                            </t>
+                                        </p>
+                                        <p class="card-text mb-0">
+                                            <t t-if="equipment.location">
+                                                <small class="text-muted">
+                                                    <i class="mdi mdi-map-marker me-1"></i>
+                                                    <t t-esc="equipment.location"/>
+                                                </small>
+                                            </t>
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </t>
+                </div>
+
+                <div class="d-flex justify-content-center mt-4">
+                    <t t-call="portal.pager"/>
+                </div>
+            </t>
+
+            <t t-else="">
+                <div class="maintenance-empty-state mt-4">
+                    <i class="mdi mdi-clipboard-text-outline"></i>
+                    <p>沒有指派給您的設備。</p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ==================== Equipment Detail Page ==================== -->
+
+    <template id="portal_equipment_detail" name="Equipment Detail">
+        <t t-call="portal.portal_layout">
+            <div class="row mt-3">
+                <div class="col-12">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center maintenance-page-header gap-2">
+                        <h3 class="mb-0">
+                            <i class="mdi mdi-desktop-classic me-2 d-none d-sm-inline" style="color: var(--wt-primary)"></i>
+                            <t t-esc="equipment.name"/>
+                        </h3>
+                        <a href="/my/equipments" class="btn btn-ghost btn-sm">
+                            <i class="mdi mdi-arrow-left me-1"></i>返回列表
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Equipment Info -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card maintenance-detail-card">
+                        <div class="card-body">
+                            <div class="maintenance-section-title">
+                                <span class="maintenance-section-dot dot-blue"></span>
+                                設備資訊
+                            </div>
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <tr t-if="equipment.serial_no">
+                                        <th class="text-muted maintenance-info-label">序號</th>
+                                        <td><t t-esc="equipment.serial_no"/></td>
+                                    </tr>
+                                    <tr t-if="equipment.category_id">
+                                        <th class="text-muted">類別</th>
+                                        <td><span class="badge bg-secondary"><t t-esc="equipment.category_id.name"/></span></td>
+                                    </tr>
+                                    <tr t-if="equipment.location">
+                                        <th class="text-muted">位置</th>
+                                        <td><t t-esc="equipment.location"/></td>
+                                    </tr>
+                                    <tr t-if="equipment.model">
+                                        <th class="text-muted">型號</th>
+                                        <td><t t-esc="equipment.model"/></td>
+                                    </tr>
+                                    <tr t-if="equipment.assign_date">
+                                        <th class="text-muted">指派日期</th>
+                                        <td><t t-esc="equipment.assign_date" t-options='{"widget": "date"}'/></td>
+                                    </tr>
+                                    <tr t-if="equipment.note">
+                                        <th class="text-muted">備註</th>
+                                        <td><t t-raw="equipment.note"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Maintenance Requests -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card maintenance-detail-card">
+                        <div class="card-body">
+                            <div class="maintenance-section-title">
+                                <span class="maintenance-section-dot dot-cyan"></span>
+                                相關維修請求
+                            </div>
+                            <t t-if="maintenance_requests">
+                                <div class="list-group list-group-flush">
+                                    <t t-foreach="maintenance_requests" t-as="req">
+                                        <a t-attf-href="/my/maintenance-requests/#{req.id}" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1"><t t-esc="req.name"/></h6>
+                                                <span t-attf-class="badge #{req.stage_id.done and 'bg-success' or 'bg-info'}">
+                                                    <t t-esc="req.stage_id.name"/>
+                                                </span>
+                                            </div>
+                                            <small class="text-muted">
+                                                <t t-esc="req.create_date" t-options='{"widget": "datetime", "format": "yyyy-MM-dd"}'/>
+                                            </small>
+                                        </a>
+                                    </t>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <p class="text-muted mb-0">此設備沒有維修請求。</p>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chatter / Message Thread -->
+            <div class="row">
+                <div class="col-12 maintenance-chatter-section">
+                    <div class="maintenance-section-title">
+                        <span class="maintenance-section-dot dot-lavender"></span>
+                        評論與討論
+                    </div>
+                    <t t-call="portal.message_thread">
+                        <t t-set="object" t-value="equipment"/>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ==================== Maintenance Request List Page ==================== -->
+
+    <template id="portal_my_maintenance_requests" name="My Maintenance Requests">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">維修請求</t>
+            </t>
+
+            <t t-if="requests">
+                <!-- Desktop/Tablet: Table view -->
+                <div class="table-responsive mt-3 d-none d-md-block">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>請求名稱</th>
+                                <th>設備</th>
+                                <th>階段</th>
+                                <th>日期</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="requests" t-as="req">
+                                <tr>
+                                    <td>
+                                        <a t-attf-href="/my/maintenance-requests/#{req.id}">
+                                            <t t-esc="req.name"/>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <t t-if="req.equipment_id">
+                                            <t t-esc="req.sudo().equipment_id.name"/>
+                                        </t>
+                                        <t t-else="">-</t>
+                                    </td>
+                                    <td>
+                                        <span t-attf-class="badge #{req.stage_id.done and 'bg-success' or 'bg-info'}">
+                                            <t t-esc="req.stage_id.name"/>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <t t-esc="req.create_date" t-options='{"widget": "datetime", "format": "yyyy-MM-dd"}'/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile: Card view -->
+                <div class="d-md-none mt-3">
+                    <t t-foreach="requests" t-as="req">
+                        <a t-attf-href="/my/maintenance-requests/#{req.id}" class="text-decoration-none">
+                            <div class="card mb-2 maintenance-request-card">
+                                <div class="card-body py-2 px-3">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="flex-grow-1" style="min-width: 0;">
+                                            <h6 class="mb-1 text-truncate" style="color: var(--wt-primary)"><t t-esc="req.name"/></h6>
+                                            <small class="text-muted d-flex flex-wrap gap-2">
+                                                <t t-if="req.equipment_id">
+                                                    <span><i class="mdi mdi-desktop-classic me-1"></i><t t-esc="req.sudo().equipment_id.name"/></span>
+                                                </t>
+                                                <span>
+                                                    <i class="mdi mdi-calendar me-1"></i><t t-esc="req.create_date" t-options='{"widget": "datetime", "format": "yyyy-MM-dd"}'/>
+                                                </span>
+                                            </small>
+                                        </div>
+                                        <span t-attf-class="badge ms-2 flex-shrink-0 #{req.stage_id.done and 'bg-success' or 'bg-info'}">
+                                            <t t-esc="req.stage_id.name"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </t>
+                </div>
+
+                <div class="d-flex justify-content-center mt-4">
+                    <t t-call="portal.pager"/>
+                </div>
+            </t>
+
+            <t t-else="">
+                <div class="maintenance-empty-state mt-4">
+                    <i class="mdi mdi-clipboard-text-outline"></i>
+                    <p>沒有指派給您的維修請求。</p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ==================== Maintenance Request Detail Page ==================== -->
+
+    <template id="portal_maintenance_request_detail" name="Maintenance Request Detail">
+        <t t-call="portal.portal_layout">
+            <div class="row mt-3">
+                <div class="col-12">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center maintenance-page-header gap-2">
+                        <h3 class="mb-0">
+                            <i class="mdi mdi-tools me-2 d-none d-sm-inline" style="color: var(--wt-primary)"></i>
+                            <t t-esc="mrequest.name"/>
+                        </h3>
+                        <a href="/my/maintenance-requests" class="btn btn-ghost btn-sm">
+                            <i class="mdi mdi-arrow-left me-1"></i>返回列表
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Progress Bar -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card maintenance-detail-card">
+                        <div class="card-body maintenance-progress-wrapper">
+                            <h6 class="card-title text-muted mb-3">狀態進度</h6>
+                            <div class="d-flex justify-content-between position-relative maintenance-progress">
+                                <t t-foreach="stages" t-as="stage">
+                                    <div class="text-center maintenance-stage">
+                                        <t t-set="is_active" t-value="stage.sequence &lt;= mrequest.stage_id.sequence"/>
+                                        <t t-set="is_done_stage" t-value="stage.done and is_active"/>
+                                        <div t-attf-class="maintenance-stage-circle rounded-circle d-inline-flex align-items-center justify-content-center #{is_done_stage and 'stage-done-active' or (is_active and 'bg-primary text-white' or 'bg-light text-muted')}">
+                                            <t t-if="is_done_stage">
+                                                <i class="mdi mdi-check"></i>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="stage_index + 1"/>
+                                            </t>
+                                        </div>
+                                        <div class="mt-1 mt-md-2">
+                                            <small t-attf-class="maintenance-stage-label #{stage.id == mrequest.stage_id.id and 'fw-bold' or 'text-muted'}" t-att-style="stage.id == mrequest.stage_id.id and 'color: var(--wt-primary)' or ''">
+                                                <t t-esc="stage.name"/>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Request Info -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card maintenance-detail-card">
+                        <div class="card-body">
+                            <div class="maintenance-section-title">
+                                <span class="maintenance-section-dot dot-blue"></span>
+                                請求資訊
+                            </div>
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <tr>
+                                        <th class="text-muted maintenance-info-label">請求名稱</th>
+                                        <td><t t-esc="mrequest.name"/></td>
+                                    </tr>
+                                    <tr t-if="mrequest.sudo().equipment_id">
+                                        <th class="text-muted">設備</th>
+                                        <td>
+                                            <a t-attf-href="/my/equipments/#{mrequest.sudo().equipment_id.id}">
+                                                <t t-esc="mrequest.sudo().equipment_id.name"/>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr t-if="mrequest.sudo().equipment_id.category_id">
+                                        <th class="text-muted">類別</th>
+                                        <td>
+                                            <span class="badge bg-secondary">
+                                                <t t-esc="mrequest.sudo().equipment_id.category_id.name"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-muted">維護類型</th>
+                                        <td>
+                                            <t t-if="mrequest.maintenance_type == 'corrective'">修復性維護</t>
+                                            <t t-else="">預防性維護</t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-muted">請求日期</th>
+                                        <td><t t-esc="mrequest.request_date" t-options='{"widget": "date"}'/></td>
+                                    </tr>
+                                    <tr t-if="mrequest.schedule_date">
+                                        <th class="text-muted">預定日期</th>
+                                        <td><t t-esc="mrequest.schedule_date" t-options='{"widget": "date"}'/></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-muted">目前階段</th>
+                                        <td>
+                                            <span t-attf-class="badge #{mrequest.stage_id.done and 'bg-success' or 'bg-info'}">
+                                                <t t-esc="mrequest.stage_id.name"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr t-if="mrequest.description">
+                                        <th class="text-muted">描述</th>
+                                        <td><t t-out="mrequest.description"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Update Status Form -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card maintenance-detail-card">
+                        <div class="card-body">
+                            <div class="maintenance-section-title">
+                                <span class="maintenance-section-dot dot-green"></span>
+                                更新狀態
+                            </div>
+                            <form t-attf-action="/my/maintenance-requests/#{mrequest.id}/update" method="post">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                                <!-- Status Update Buttons -->
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">更新階段</label>
+                                    <div class="d-grid gap-2">
+                                        <t t-if="not mrequest.stage_id.done">
+                                            <!-- Find if current stage is the first one -->
+                                            <t t-set="is_first_stage" t-value="mrequest.stage_id.sequence == min(stages.mapped('sequence'))"/>
+                                            <t t-if="is_first_stage">
+                                                <button type="submit" name="action" value="in_progress" class="btn btn-start-work">
+                                                    <i class="mdi mdi-play me-1"></i>開始工作（進行中）
+                                                </button>
+                                            </t>
+                                            <t t-else="">
+                                                <button type="submit" name="action" value="done" class="btn btn-mark-done">
+                                                    <i class="mdi mdi-check me-1"></i>標記為完成
+                                                </button>
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                            <div class="maintenance-alert alert-completed">
+                                                <i class="mdi mdi-check-circle me-2"></i>
+                                                此請求已完成。
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chatter / Message Thread -->
+            <div class="row">
+                <div class="col-12 maintenance-chatter-section">
+                    <div class="maintenance-section-title">
+                        <span class="maintenance-section-dot dot-lavender"></span>
+                        評論與討論
+                    </div>
+                    <t t-call="portal.message_thread">
+                        <t t-set="object" t-value="mrequest"/>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,568 @@
+/* ============================================================
+   Woowtech Smart Space Solution — Maintenance Portal Styles
+   Brand: Air · Mind · Community · Nourishment
+   ============================================================ */
+
+/* --- CSS Custom Properties (Brand Tokens) --- */
+:root {
+    --wt-primary: #714B67;
+    --wt-primary-hover: #5E3D56;
+    --wt-primary-light: rgba(113, 75, 103, 0.08);
+    --wt-white: #FFFFFF;
+    --wt-light-gray: #EFF1F5;
+    --wt-gray: #646262;
+    --wt-deep-gray: #212121;
+    --wt-border: #E0E3EA;
+    --wt-cyan: #7BDBE0;
+    --wt-yellow: #F8D158;
+    --wt-green: #8CD37F;
+    --wt-orange: #E66D3E;
+    --wt-coral: #F45D6D;
+    --wt-lavender: #C09FE0;
+    --wt-brown: #B17148;
+    --wt-sand: #F1C692;
+    --wt-sky-blue: #65C2E0;
+    --wt-royal-blue: #6791DE;
+    --wt-radius-card: 12px;
+    --wt-radius-btn: 8px;
+    --wt-radius-badge: 6px;
+    --wt-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    --wt-shadow-hover: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --wt-transition: 0.15s ease;
+}
+
+/* --- Typography (scoped to module elements) --- */
+.maintenance-page-header h3,
+.maintenance-section-title,
+.maintenance-detail-card h5,
+.maintenance-equipment-card .card-title {
+    font-family: 'Gira Sans', 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--wt-deep-gray);
+    font-weight: 600;
+}
+
+.maintenance-detail-card,
+.maintenance-equipment-card,
+.maintenance-request-card,
+.maintenance-chatter-section {
+    font-family: 'Outfit', 'UD Digi Kyokasho', 'Noto Sans TC', 'Microsoft JhengHei', -apple-system, sans-serif;
+}
+
+/* ============================================================
+   Equipment Cards (List Page)
+   ============================================================ */
+.maintenance-equipment-card {
+    border: 1px solid var(--wt-border);
+    border-left: 4px solid var(--wt-primary);
+    border-radius: var(--wt-radius-card);
+    box-shadow: var(--wt-shadow);
+    transition: background-color var(--wt-transition), box-shadow var(--wt-transition);
+    overflow: hidden;
+}
+
+.maintenance-equipment-card:hover {
+    background-color: var(--wt-light-gray);
+    box-shadow: var(--wt-shadow-hover);
+    transform: none;
+}
+
+.maintenance-equipment-card .card-title a {
+    color: var(--wt-deep-gray);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.maintenance-equipment-card .card-title a:hover {
+    color: var(--wt-primary);
+}
+
+.maintenance-equipment-card .card-footer {
+    background: transparent;
+    border-top: 1px solid var(--wt-border);
+}
+
+/* ============================================================
+   Request Cards (Mobile)
+   ============================================================ */
+.maintenance-request-card {
+    border: 1px solid var(--wt-border);
+    border-left: 4px solid var(--wt-primary);
+    border-radius: 10px;
+    box-shadow: var(--wt-shadow);
+    transition: background-color var(--wt-transition);
+}
+
+.maintenance-request-card:hover {
+    background-color: var(--wt-light-gray);
+}
+
+.maintenance-request-card .text-primary {
+    color: var(--wt-primary) !important;
+}
+
+/* ============================================================
+   Detail Page Cards (Info, Related, Status, Chatter)
+   ============================================================ */
+.maintenance-detail-card {
+    border: 1px solid var(--wt-border);
+    border-radius: var(--wt-radius-card);
+    box-shadow: var(--wt-shadow);
+    background: var(--wt-white);
+}
+
+.maintenance-detail-card .card-body {
+    padding: 1.25rem 1.5rem;
+}
+
+/* Section title with colored dot indicator */
+.maintenance-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--wt-deep-gray);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.maintenance-section-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.maintenance-section-dot.dot-blue { background-color: var(--wt-primary); }
+.maintenance-section-dot.dot-cyan { background-color: var(--wt-cyan); }
+.maintenance-section-dot.dot-green { background-color: var(--wt-green); }
+.maintenance-section-dot.dot-lavender { background-color: var(--wt-lavender); }
+
+/* ============================================================
+   Status Progress Bar
+   ============================================================ */
+.maintenance-progress-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.maintenance-progress {
+    padding: 0 2rem;
+}
+
+.maintenance-progress::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 15%;
+    right: 15%;
+    height: 2px;
+    background: var(--wt-border);
+    z-index: 0;
+}
+
+.maintenance-stage {
+    z-index: 1;
+    flex: 1;
+}
+
+.maintenance-stage-circle {
+    width: 40px;
+    height: 40px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 2px solid transparent;
+}
+
+/* Active stage (current and prior) */
+.maintenance-stage-circle.bg-primary {
+    background-color: var(--wt-primary) !important;
+    border-color: var(--wt-primary);
+}
+
+/* Done stage with green */
+.maintenance-stage-circle.stage-done-active {
+    background-color: var(--wt-green) !important;
+    border-color: var(--wt-green);
+    color: var(--wt-white);
+}
+
+/* Inactive stage */
+.maintenance-stage-circle.bg-light {
+    background-color: var(--wt-light-gray) !important;
+    border-color: var(--wt-border);
+    color: var(--wt-gray);
+}
+
+.maintenance-stage-label {
+    font-size: 0.75rem;
+}
+
+/* ============================================================
+   Badge System (scoped to module elements)
+   ============================================================ */
+.maintenance-detail-card .badge,
+.maintenance-equipment-card .badge,
+.maintenance-request-card .badge,
+.table-hover .badge,
+.list-group-item .badge {
+    border-radius: var(--wt-radius-badge) !important;
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+}
+
+/* Stage badges */
+.maintenance-detail-card .badge.bg-info,
+.maintenance-request-card .badge.bg-info,
+.table-hover .badge.bg-info,
+.list-group-item .badge.bg-info {
+    background-color: var(--wt-cyan) !important;
+    color: var(--wt-deep-gray) !important;
+}
+
+.maintenance-detail-card .badge.bg-success,
+.maintenance-request-card .badge.bg-success,
+.table-hover .badge.bg-success,
+.list-group-item .badge.bg-success {
+    background-color: var(--wt-green) !important;
+    color: var(--wt-white) !important;
+}
+
+.maintenance-detail-card .badge.bg-warning,
+.table-hover .badge.bg-warning {
+    background-color: var(--wt-yellow) !important;
+    color: var(--wt-deep-gray) !important;
+}
+
+/* Category badge */
+.maintenance-detail-card .badge.bg-secondary,
+.maintenance-equipment-card .badge.bg-secondary {
+    background-color: var(--wt-lavender) !important;
+    color: var(--wt-white) !important;
+}
+
+/* ============================================================
+   Buttons (scoped to module elements)
+   ============================================================ */
+.maintenance-detail-card .btn,
+.maintenance-page-header .btn,
+.maintenance-equipment-card .btn {
+    border-radius: var(--wt-radius-btn);
+    transition: all var(--wt-transition);
+}
+
+/* Ghost button (back to list) */
+.btn-ghost {
+    background: transparent;
+    color: var(--wt-gray);
+    border: 1px solid var(--wt-border);
+    border-radius: var(--wt-radius-btn);
+    font-weight: 500;
+    transition: all var(--wt-transition);
+}
+
+.btn-ghost:hover, .btn-ghost:focus {
+    background: var(--wt-light-gray);
+    color: var(--wt-deep-gray);
+    border-color: var(--wt-border);
+}
+
+/* CTA: Start Work */
+.btn-start-work {
+    background-color: var(--wt-orange);
+    border-color: var(--wt-orange);
+    color: var(--wt-white);
+    font-weight: 600;
+    border-radius: var(--wt-radius-btn);
+}
+
+.btn-start-work:hover, .btn-start-work:focus {
+    background-color: #D15E30;
+    border-color: #D15E30;
+    color: var(--wt-white);
+}
+
+/* CTA: Mark Complete */
+.btn-mark-done {
+    background-color: var(--wt-green);
+    border-color: var(--wt-green);
+    color: var(--wt-white);
+    font-weight: 600;
+    border-radius: var(--wt-radius-btn);
+}
+
+.btn-mark-done:hover, .btn-mark-done:focus {
+    background-color: #72B866;
+    border-color: #72B866;
+    color: var(--wt-white);
+}
+
+/* Secondary button removed — keep native Odoo styling */
+
+/* ============================================================
+   Links (scoped to module pages only)
+   ============================================================ */
+.maintenance-equipment-card a,
+.maintenance-detail-card a,
+.maintenance-request-card a,
+.maintenance-page-header a {
+    color: var(--wt-primary);
+    transition: color var(--wt-transition);
+}
+
+.maintenance-equipment-card a:hover,
+.maintenance-detail-card a:hover,
+.maintenance-request-card a:hover,
+.maintenance-page-header a:hover {
+    color: var(--wt-primary-hover);
+}
+
+/* ============================================================
+   Table Styles (scoped to module list/detail pages)
+   ============================================================ */
+.table-responsive .table thead {
+    background-color: var(--wt-light-gray);
+}
+
+.table-responsive .table thead th {
+    color: var(--wt-gray);
+    font-weight: 600;
+    border-bottom: none;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.table-responsive .table-hover tbody tr:hover {
+    background-color: var(--wt-primary-light);
+}
+
+.maintenance-detail-card .table-borderless th {
+    color: var(--wt-gray);
+    font-weight: 500;
+}
+
+.maintenance-detail-card .table-borderless td {
+    color: var(--wt-deep-gray);
+}
+
+/* Info table label column */
+.maintenance-info-label {
+    width: 40%;
+    white-space: nowrap;
+}
+
+/* ============================================================
+   Form Styles (scoped to module detail pages)
+   ============================================================ */
+.maintenance-detail-card .form-control:focus {
+    border-color: var(--wt-primary);
+    box-shadow: 0 0 0 0.2rem rgba(113, 75, 103, 0.2);
+}
+
+.maintenance-detail-card .form-label {
+    color: var(--wt-gray);
+    font-weight: 500;
+}
+
+/* ============================================================
+   Alerts (left-border style)
+   ============================================================ */
+.maintenance-alert {
+    background-color: var(--wt-light-gray);
+    border: none;
+    border-left: 4px solid var(--wt-green);
+    border-radius: var(--wt-radius-btn);
+    color: var(--wt-gray);
+    padding: 1rem 1.25rem;
+}
+
+.maintenance-alert.alert-completed {
+    border-left-color: var(--wt-green);
+}
+
+.maintenance-alert.alert-completed i {
+    color: var(--wt-green);
+}
+
+/* Legacy alert overrides removed — keep native styling */
+
+/* ============================================================
+   Empty States
+   ============================================================ */
+.maintenance-empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.maintenance-empty-state i {
+    font-size: 3rem;
+    color: var(--wt-border);
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.maintenance-empty-state p {
+    color: var(--wt-gray);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* ============================================================
+   List Group (Related Requests)
+   ============================================================ */
+.list-group-item {
+    border-color: var(--wt-light-gray);
+}
+
+.list-group-item-action:hover {
+    background-color: var(--wt-primary-light);
+}
+
+.list-group-item h6 {
+    color: var(--wt-deep-gray);
+}
+
+/* ============================================================
+   Chatter Section
+   ============================================================ */
+.maintenance-chatter-section {
+    border-top: 1px solid var(--wt-light-gray);
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+}
+
+/* ============================================================
+   Page Header (title + back button row)
+   ============================================================ */
+.maintenance-page-header {
+    border-bottom: 1px solid var(--wt-light-gray);
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.maintenance-page-header h3 {
+    font-weight: 600;
+    color: var(--wt-deep-gray);
+}
+
+/* Portal Home Cards: no override — keep native Odoo theme */
+
+/* ============================================================
+   Pre-formatted text
+   ============================================================ */
+pre {
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--wt-gray);
+    background-color: var(--wt-light-gray);
+    padding: 1rem;
+    border-radius: var(--wt-radius-btn);
+}
+
+/* ============================================================
+   Responsive: Tablet (<=768px)
+   ============================================================ */
+@media (max-width: 768px) {
+    .maintenance-progress {
+        padding: 0;
+        min-width: 400px;
+    }
+
+    .maintenance-progress::before {
+        left: 10%;
+        right: 10%;
+    }
+
+    .maintenance-stage-circle {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+
+    .maintenance-stage-label {
+        font-size: 0.7rem;
+    }
+
+    .maintenance-info-label {
+        width: auto;
+    }
+
+    .maintenance-equipment-card:hover {
+        transform: none;
+    }
+
+    .maintenance-detail-card .card-body {
+        padding: 1rem;
+    }
+}
+
+/* ============================================================
+   Responsive: Mobile (<=576px)
+   ============================================================ */
+@media (max-width: 576px) {
+    .maintenance-equipment-card .card-body {
+        padding: 0.75rem;
+    }
+
+    .maintenance-equipment-card .card-title {
+        font-size: 1rem;
+    }
+
+    .maintenance-equipment-card .card-footer {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .table-borderless th,
+    .table-borderless td {
+        padding: 0.4rem 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .maintenance-section-title {
+        font-size: 1rem;
+    }
+
+    .maintenance-progress {
+        min-width: 320px;
+        padding: 0;
+    }
+
+    .maintenance-stage-circle {
+        width: 28px;
+        height: 28px;
+        font-size: 0.75rem;
+    }
+
+    .maintenance-stage-label {
+        font-size: 0.6rem;
+    }
+
+    .maintenance-progress::before {
+        top: 14px;
+        left: 8%;
+        right: 8%;
+    }
+
+    .list-group-item h6 {
+        font-size: 0.85rem;
+        max-width: 55%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .maintenance-chatter-section h4,
+    .col-12 > h4 {
+        font-size: 1.1rem;
+    }
+
+    .maintenance-detail-card .card-body {
+        padding: 0.75rem;
+    }
+
+    .maintenance-page-header {
+        padding-bottom: 0.75rem;
+        margin-bottom: 1rem;
+    }
+}
