@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- Enhanced Portal Home — replaces the default /my/home content  -->
+    <!-- ============================================================ -->
+    <template id="portal_my_home_enhanced" name="Woow Enhanced Portal Home">
+        <t t-call="portal.frontend_layout">
+            <t t-set="is_portal" t-value="True"/>
+
+            <!-- Admin Banner -->
+            <t t-if="is_internal_user">
+                <div class="wpe-admin-banner alert alert-info d-flex align-items-center justify-content-between mb-0 rounded-0 d-print-none" role="alert">
+                    <span>
+                        <i class="fa fa-info-circle me-1"/>
+                        您正在以管理員身份瀏覽 Portal
+                    </span>
+                    <a href="/odoo" class="btn btn-sm btn-outline-primary">
+                        <i class="fa fa-arrow-left me-1"/>返回後台
+                    </a>
+                </div>
+            </t>
+
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container pt-3 pb-5">
+                    <div class="o_portal_my_home">
+
+                        <!-- ① Search Bar -->
+                        <div class="wpe-search-bar mb-3">
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0">
+                                    <i class="fa fa-search text-muted"/>
+                                </span>
+                                <input type="text"
+                                       id="wpe_module_search"
+                                       class="form-control border-start-0"
+                                       placeholder="搜尋模組..."/>
+                            </div>
+                        </div>
+
+                        <!-- ② Notification Preview -->
+                        <div class="wpe-notification-preview card mb-4">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="mb-0 fw-bold">近期通知</h5>
+                                    <a href="#" class="wpe-view-all-link" id="wpe_open_drawer_link">
+                                        查看全部 <i class="fa fa-angle-right ms-1"/>
+                                    </a>
+                                </div>
+
+                                <t t-if="activities">
+                                    <t t-foreach="activities" t-as="act">
+                                        <a href="#" class="wpe-notification-item d-flex align-items-start text-decoration-none"
+                                           t-att-data-res-model="act.res_model"
+                                           t-att-data-res-id="act.res_id">
+                                            <div class="wpe-notification-icon me-3">
+                                                <i t-attf-class="fa #{act.activity_type_id.icon or 'fa-clock-o'} fa-lg"/>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <div class="fw-semibold text-dark">
+                                                    <t t-esc="act.summary or act.activity_type_id.name or 'Activity'"/>
+                                                </div>
+                                                <small class="text-muted">
+                                                    <t t-esc="act.res_name or ''"/>
+                                                    <span class="ms-2">
+                                                        <t t-esc="act.date_deadline"/>
+                                                    </span>
+                                                </small>
+                                            </div>
+                                            <i class="fa fa-angle-right text-muted align-self-center"/>
+                                        </a>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <div class="text-center text-muted py-3">
+                                        <i class="fa fa-check-circle fa-2x mb-2 d-block"/>
+                                        沒有待處理的通知
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- ③ All Modules — card grid -->
+                        <h5 class="fw-bold mb-3">我的帳戶</h5>
+                        <div class="wpe-module-grid" id="wpe_module_grid">
+                            <!-- Dynamic portal entries injected by Odoo's _prepare_home_portal_values -->
+                            <div class="o_portal_docs row g-2">
+                                <div t-if="portal_alert_category_enable" class="o_portal_category row g-2 mt-3" id="portal_alert_category"/>
+                                <div t-if="portal_client_category_enable" class="o_portal_category row g-2 mt-3" id="portal_client_category"/>
+                                <div t-if="portal_service_category_enable" class="o_portal_category row g-2 mt-3" id="portal_service_category"/>
+                                <div t-if="portal_vendor_category_enable" class="o_portal_category row g-2 mt-3" id="portal_vendor_category"/>
+                                <div class="o_portal_category row g-2 mt-3" id="portal_common_category">
+                                    <t t-call="portal.portal_docs_entry">
+                                        <t t-set="icon" t-value="'/portal/static/src/img/portal-connection.svg'"/>
+                                        <t t-set="title">連線及保安</t>
+                                        <t t-set="text">設定連線參數</t>
+                                        <t t-set="url" t-value="'/my/security'"/>
+                                        <t t-set="config_card" t-value="True"/>
+                                    </t>
+                                </div>
+                                <div class="o_portal_doc_spinner spinner-border text-o-color-2 align-self-center mt-5"/>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification Drawer (right-slide panel) -->
+            <div class="wpe-drawer-backdrop" id="wpe_drawer_backdrop"/>
+            <div class="wpe-drawer" id="wpe_drawer">
+                <div class="wpe-drawer-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold">通知中心</h5>
+                    <button type="button" class="btn-close" id="wpe_drawer_close" aria-label="Close"/>
+                </div>
+
+                <!-- Drawer Tabs -->
+                <div class="wpe-drawer-tabs">
+                    <button class="wpe-tab-btn active" data-tab="all">全部</button>
+                    <button class="wpe-tab-btn" data-tab="todo">待辦</button>
+                    <button class="wpe-tab-btn" data-tab="system">系統</button>
+                </div>
+
+                <!-- Drawer Content -->
+                <div class="wpe-drawer-body" id="wpe_drawer_body">
+                    <div class="wpe-drawer-loading text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </t>
+    </template>
+
+    <!-- ============================================================ -->
+    <!-- Bell icon in portal header (notification badge)              -->
+    <!-- ============================================================ -->
+    <template id="portal_header_bell" name="Portal Header Bell Icon"
+              inherit_id="portal.frontend_layout" priority="20">
+        <xpath expr="//ul[@id='top_menu']" position="inside">
+            <li class="nav-item d-flex align-items-center" id="wpe_bell_container"
+                t-nocache="Activity count can change.">
+                <a href="#" class="nav-link position-relative wpe-bell-icon" id="wpe_bell_trigger"
+                   aria-label="Notifications">
+                    <i class="fa fa-bell-o fa-lg"/>
+                    <span class="wpe-badge d-none" id="wpe_bell_badge">0</span>
+                </a>
+            </li>
+        </xpath>
+    </template>
+
+    <!-- ============================================================ -->
+    <!-- Portal user dropdown: add "Return to Backend" for admins     -->
+    <!-- ============================================================ -->
+    <template id="portal_user_dropdown_backend_link" name="Portal Return to Backend"
+              inherit_id="portal.user_dropdown" priority="20">
+        <xpath expr="//*[@id='o_logout_divider']" position="before">
+            <a groups="base.group_user" href="/odoo" role="menuitem"
+               class="dropdown-item ps-3" id="wpe_return_backend_link">
+                <i class="fa fa-fw fa-exchange me-1 small text-primary text-primary-emphasis"/>
+                返回後台
+            </a>
+        </xpath>
+    </template>
+
+</odoo>

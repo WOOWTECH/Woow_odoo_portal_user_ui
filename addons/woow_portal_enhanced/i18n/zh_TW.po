@@ -1,0 +1,126 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * woow_portal_enhanced
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-14 00:00+0000\n"
+"PO-Revision-Date: 2026-04-14 00:00+0000\n"
+"Last-Translator: WoowTech\n"
+"Language-Team: Chinese (Traditional)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_my_home_enhanced
+msgid "Search modules..."
+msgstr "搜尋模組..."
+
+#. module: woow_portal_enhanced
+msgid "Notifications"
+msgstr "通知"
+
+#. module: woow_portal_enhanced
+msgid "Recent Notifications"
+msgstr "近期通知"
+
+#. module: woow_portal_enhanced
+msgid "View All"
+msgstr "查看全部"
+
+#. module: woow_portal_enhanced
+msgid "No pending notifications"
+msgstr "沒有待處理的通知"
+
+#. module: woow_portal_enhanced
+msgid "Notification Center"
+msgstr "通知中心"
+
+#. module: woow_portal_enhanced
+msgid "All"
+msgstr "全部"
+
+#. module: woow_portal_enhanced
+msgid "To-Do"
+msgstr "待辦"
+
+#. module: woow_portal_enhanced
+msgid "System"
+msgstr "系統"
+
+#. module: woow_portal_enhanced
+msgid "My Account"
+msgstr "我的帳戶"
+
+#. module: woow_portal_enhanced
+msgid "Connection &amp; Security"
+msgstr "連線及保安"
+
+#. module: woow_portal_enhanced
+msgid "Configure your connection parameters"
+msgstr "設定連線參數"
+
+#. module: woow_portal_enhanced
+msgid "You are viewing the portal as an administrator"
+msgstr "您正在以管理員身份瀏覽 Portal"
+
+#. module: woow_portal_enhanced
+msgid "Return to Backend"
+msgstr "返回後台"
+
+#. module: woow_portal_enhanced
+msgid "Switch to Portal"
+msgstr "切換至 Portal"
+
+#. module: woow_portal_enhanced
+msgid "Approve"
+msgstr "核准"
+
+#. module: woow_portal_enhanced
+msgid "Reject"
+msgstr "拒絕"
+
+#. module: woow_portal_enhanced
+msgid "Approved via portal"
+msgstr "透過 Portal 核准"
+
+#. module: woow_portal_enhanced
+msgid "Rejected via portal"
+msgstr "透過 Portal 拒絕"
+
+#. module: woow_portal_enhanced
+msgid "Activity not found."
+msgstr "找不到活動。"
+
+#. module: woow_portal_enhanced
+msgid "Invalid action."
+msgstr "無效的操作。"
+
+#. module: woow_portal_enhanced
+msgid "Activity"
+msgstr "活動"
+
+#. module: woow_portal_enhanced
+msgid "%d days ago"
+msgstr "%d 天前"
+
+#. module: woow_portal_enhanced
+msgid "%d hours ago"
+msgstr "%d 小時前"
+
+#. module: woow_portal_enhanced
+msgid "%d mins ago"
+msgstr "%d 分鐘前"
+
+#. module: woow_portal_enhanced
+msgid "No notifications"
+msgstr "沒有通知"
+
+#. module: woow_portal_enhanced
+msgid "Apps"
+msgstr "應用程式"

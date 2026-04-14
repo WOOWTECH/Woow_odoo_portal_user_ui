@@ -1,0 +1,430 @@
+/* ============================================================
+   Woow Portal Enhanced — CSS
+   Theme color: follows Odoo's --o-brand-primary / --o-color-2
+   Brand accents: Woowtech design system
+   RWD: 2-tier (< 768px single-col / >= 768px two-col)
+   ============================================================ */
+
+:root {
+    /* Woowtech brand tokens (for accent elements only) */
+    --wpe-blue: #6183FC;
+    --wpe-white: #FFFFFF;
+    --wpe-light-gray: #EFF1F5;
+    --wpe-gray: #646262;
+    --wpe-deep-gray: #212121;
+    --wpe-cyan: #7BDBE0;
+    --wpe-yellow: #F8D158;
+    --wpe-green: #8CD37F;
+    --wpe-orange: #E66D3E;
+    --wpe-coral: #F45D6D;
+    --wpe-lavender: #C09FE0;
+
+    /* Layout tokens */
+    --wpe-radius: 12px;
+    --wpe-radius-sm: 8px;
+    --wpe-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    --wpe-shadow-hover: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --wpe-transition: 0.2s ease;
+}
+
+/* ============================================================
+   ① Search Bar
+   ============================================================ */
+
+.wpe-search-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--wpe-white);
+    padding: 0.5rem 0;
+}
+
+.wpe-search-bar .input-group {
+    border-radius: var(--wpe-radius);
+    overflow: hidden;
+    box-shadow: var(--wpe-shadow);
+    border: 1px solid #dee2e6;
+}
+
+.wpe-search-bar .input-group-text {
+    border: none;
+    background: var(--wpe-white);
+}
+
+.wpe-search-bar .form-control {
+    border: none;
+    font-size: 0.95rem;
+    padding: 0.65rem 0.75rem;
+}
+
+.wpe-search-bar .form-control:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.wpe-search-bar .input-group:focus-within {
+    border-color: var(--o-brand-primary, #714B67);
+    box-shadow: 0 0 0 0.15rem rgba(var(--o-brand-primary-rgb, 113, 75, 103), 0.15);
+}
+
+/* ============================================================
+   ② Notification Preview
+   ============================================================ */
+
+.wpe-notification-preview {
+    border-radius: var(--wpe-radius);
+    border: 1px solid #e9ecef;
+    box-shadow: var(--wpe-shadow);
+}
+
+.wpe-notification-preview .card-body {
+    padding: 1.25rem;
+}
+
+.wpe-view-all-link {
+    color: var(--o-brand-primary, #714B67);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.wpe-view-all-link:hover {
+    text-decoration: underline;
+}
+
+.wpe-notification-item {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f1f3f5;
+    color: var(--wpe-deep-gray);
+    transition: background-color var(--wpe-transition);
+}
+
+.wpe-notification-item:last-child {
+    border-bottom: none;
+}
+
+.wpe-notification-item:hover {
+    background-color: var(--wpe-light-gray);
+    border-radius: var(--wpe-radius-sm);
+}
+
+.wpe-notification-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--wpe-light-gray);
+    border-radius: 50%;
+    flex-shrink: 0;
+    color: var(--o-brand-primary, #714B67);
+}
+
+/* ============================================================
+   ③ Module Card Grid
+   ============================================================ */
+
+.wpe-module-grid .o_portal_docs {
+    /* Override default row to use CSS grid for card layout */
+}
+
+.wpe-module-grid .o_portal_category {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.wpe-module-grid .o_portal_index_card {
+    /* Reset Bootstrap col classes for grid layout */
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+}
+
+.wpe-module-grid .o_portal_index_card > a {
+    border-radius: var(--wpe-radius);
+    border: 1px solid #e9ecef;
+    background: var(--wpe-white) !important;
+    box-shadow: var(--wpe-shadow);
+    transition: box-shadow var(--wpe-transition), border-color var(--wpe-transition);
+    padding: 1rem !important;
+}
+
+.wpe-module-grid .o_portal_index_card > a:hover {
+    box-shadow: var(--wpe-shadow-hover);
+    border-color: var(--o-brand-primary, #714B67);
+}
+
+.wpe-module-grid .o_portal_icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+.wpe-module-grid .o_portal_icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Hide spinner once loaded */
+.wpe-module-grid .o_portal_doc_spinner {
+    display: none;
+}
+
+/* ============================================================
+   ④ Admin Banner
+   ============================================================ */
+
+.wpe-admin-banner {
+    border: none;
+    font-size: 0.9rem;
+}
+
+.wpe-admin-banner .btn {
+    white-space: nowrap;
+}
+
+/* ============================================================
+   ⑤ Bell Icon (Header)
+   ============================================================ */
+
+.wpe-bell-icon {
+    cursor: pointer;
+    padding: 0.4rem 0.6rem !important;
+}
+
+.wpe-badge {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+    color: var(--wpe-white);
+    background-color: var(--wpe-coral);
+    border-radius: 10px;
+}
+
+/* ============================================================
+   ⑥ Notification Drawer
+   ============================================================ */
+
+.wpe-drawer-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 1040;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.wpe-drawer-backdrop.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.wpe-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 380px;
+    max-width: 100vw;
+    height: 100%;
+    background: var(--wpe-white);
+    z-index: 1050;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.wpe-drawer.open {
+    transform: translateX(0);
+}
+
+.wpe-drawer-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #e9ecef;
+    flex-shrink: 0;
+}
+
+.wpe-drawer-tabs {
+    display: flex;
+    border-bottom: 1px solid #e9ecef;
+    flex-shrink: 0;
+}
+
+.wpe-tab-btn {
+    flex: 1;
+    padding: 0.7rem;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--wpe-gray);
+    cursor: pointer;
+    transition: color var(--wpe-transition), border-color var(--wpe-transition);
+}
+
+.wpe-tab-btn.active {
+    color: var(--o-brand-primary, #714B67);
+    border-bottom-color: var(--o-brand-primary, #714B67);
+}
+
+.wpe-tab-btn:hover {
+    color: var(--wpe-deep-gray);
+}
+
+.wpe-drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem 1.25rem;
+}
+
+/* Drawer notification cards */
+.wpe-drawer-card {
+    padding: 0.85rem;
+    border: 1px solid #f1f3f5;
+    border-radius: var(--wpe-radius-sm);
+    margin-bottom: 0.75rem;
+    background: var(--wpe-white);
+    transition: background-color var(--wpe-transition);
+}
+
+.wpe-drawer-card:hover {
+    background-color: var(--wpe-light-gray);
+}
+
+.wpe-drawer-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.wpe-drawer-card-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--wpe-light-gray);
+    border-radius: 50%;
+    flex-shrink: 0;
+    color: var(--o-brand-primary, #714B67);
+    font-size: 0.9rem;
+}
+
+.wpe-drawer-card-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--wpe-deep-gray);
+}
+
+.wpe-drawer-card-meta {
+    font-size: 0.8rem;
+    color: var(--wpe-gray);
+}
+
+.wpe-drawer-card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.wpe-drawer-card-actions .btn {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--wpe-radius-sm);
+}
+
+.btn-wpe-approve {
+    background-color: var(--wpe-green);
+    border-color: var(--wpe-green);
+    color: var(--wpe-white);
+}
+
+.btn-wpe-approve:hover {
+    background-color: #6fb366;
+    border-color: #6fb366;
+    color: var(--wpe-white);
+}
+
+.btn-wpe-reject {
+    background-color: var(--wpe-coral);
+    border-color: var(--wpe-coral);
+    color: var(--wpe-white);
+}
+
+.btn-wpe-reject:hover {
+    background-color: #d64a5a;
+    border-color: #d64a5a;
+    color: var(--wpe-white);
+}
+
+.wpe-drawer-empty {
+    text-align: center;
+    color: var(--wpe-gray);
+    padding: 3rem 1rem;
+}
+
+.wpe-drawer-empty i {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    display: block;
+    opacity: 0.5;
+}
+
+/* ============================================================
+   Module card hidden state (search filter)
+   ============================================================ */
+
+.wpe-module-grid .o_portal_index_card.wpe-hidden {
+    display: none !important;
+}
+
+/* ============================================================
+   RWD — Mobile (< 768px)
+   ============================================================ */
+
+@media (max-width: 767.98px) {
+    .wpe-module-grid .o_portal_category {
+        grid-template-columns: 1fr;
+    }
+
+    .wpe-drawer {
+        width: 100vw;
+    }
+
+    .wpe-notification-preview .card-body {
+        padding: 1rem;
+    }
+
+    .wpe-admin-banner {
+        font-size: 0.82rem;
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+}
+
+/* ============================================================
+   RWD — Tablet+ (>= 768px)
+   ============================================================ */
+
+@media (min-width: 768px) {
+    .wpe-module-grid .o_portal_category {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- No XML template changes needed for backend user menu.
+         The "Switch to Portal" item is added via JS registry in
+         static/src/js/switch_portal.js -->
+</odoo>
