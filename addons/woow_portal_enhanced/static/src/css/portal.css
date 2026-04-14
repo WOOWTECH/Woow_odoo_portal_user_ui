@@ -28,6 +28,17 @@
 }
 
 /* ============================================================
+   ⓪ Portal layout fixes
+   ============================================================ */
+
+/* Constrain avatar in mobile offcanvas toggle */
+.o_portal_wrap .o_avatar {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+}
+
+/* ============================================================
    ① Search Bar
    ============================================================ */
 
@@ -124,21 +135,10 @@
    ③ Module Card Grid (portal home)
    ============================================================ */
 
-.o_portal_my_home .o_portal_category {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
-}
-
-.o_portal_my_home .o_portal_index_card {
-    width: 100%;
-    max-width: 100%;
-    padding: 0;
-}
-
+/* Card styling — add subtle border, shadow, rounded corners */
 .o_portal_my_home .o_portal_index_card > a {
-    border-radius: var(--wpe-radius);
-    border: 1px solid #e9ecef;
+    border-radius: var(--wpe-radius) !important;
+    border: 1px solid #e9ecef !important;
     background: var(--wpe-white) !important;
     box-shadow: var(--wpe-shadow);
     transition: box-shadow var(--wpe-transition), border-color var(--wpe-transition);
@@ -147,9 +147,10 @@
 
 .o_portal_my_home .o_portal_index_card > a:hover {
     box-shadow: var(--wpe-shadow-hover);
-    border-color: var(--o-brand-primary, #714B67);
+    border-color: var(--o-brand-primary, #714B67) !important;
 }
 
+/* Constrain module icons to fixed size */
 .o_portal_my_home .o_portal_icon {
     width: 40px;
     height: 40px;
@@ -348,10 +349,6 @@
    ============================================================ */
 
 @media (max-width: 767.98px) {
-    .o_portal_my_home .o_portal_category {
-        grid-template-columns: 1fr;
-    }
-
     .wpe-notification-preview .card-body {
         padding: 1rem;
     }
@@ -369,15 +366,5 @@
 
     .wpe-notif-card-source {
         max-width: 150px;
-    }
-}
-
-/* ============================================================
-   RWD — Tablet+ (>= 768px)
-   ============================================================ */
-
-@media (min-width: 768px) {
-    .o_portal_my_home .o_portal_category {
-        grid-template-columns: repeat(2, 1fr);
     }
 }
