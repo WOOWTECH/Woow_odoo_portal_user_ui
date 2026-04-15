@@ -95,7 +95,7 @@ class WoowPortalEnhanced(CustomerPortal):
             'notif_id': notif.id,
             'message_id': msg.id,
             'subject': msg.subject or msg.record_name or _('Notification'),
-            'body_preview': self._extract_text_preview(msg.body, 120),
+            'body_preview': self._extract_text_preview(msg.body, 200),
             'record_name': msg.record_name or '',
             'model': msg.model or '',
             'res_id': msg.res_id or 0,
@@ -286,18 +286,22 @@ class WoowPortalEnhanced(CustomerPortal):
                 for act in activities:
                     items.append(self._activity_to_dict(act, now))
 
-        # Counts for tab badges
-        total_notif = Notification.search_count(notif_base)
+        # Counts for tab badges — unread only so badges vanish at 0
         unread_notif = Notification.search_count(
             notif_base + [('is_read', '=', False)])
 
-        message_count = Notification.search_count(
-            notif_base + [('mail_message_id.message_type', 'in',
-                           ['comment', 'email'])])
-        sys_notif_count = Notification.search_count(
-            notif_base + [('mail_message_id.message_type', 'in',
-                           ['notification', 'auto_comment',
-                            'user_notification'])])
+        unread_message_count = Notification.search_count(
+            notif_base + [
+                ('is_read', '=', False),
+                ('mail_message_id.message_type', 'in',
+                 ['comment', 'email']),
+            ])
+        unread_sys_notif_count = Notification.search_count(
+            notif_base + [
+                ('is_read', '=', False),
+                ('mail_message_id.message_type', 'in',
+                 ['notification', 'auto_comment', 'user_notification']),
+            ])
 
         activity_count = 0
         if is_internal:
@@ -308,10 +312,10 @@ class WoowPortalEnhanced(CustomerPortal):
         values = self._prepare_portal_layout_values()
         values.update({
             'notification_items': items,
-            'notification_total': total_notif + activity_count,
             'unread_notif_count': unread_notif,
-            'message_count': message_count,
-            'sys_notif_count': sys_notif_count,
+            'unread_all_count': unread_notif + activity_count,
+            'unread_message_count': unread_message_count,
+            'unread_sys_notif_count': unread_sys_notif_count,
             'activity_count': activity_count,
             'current_tab': tab,
             'is_internal_user': is_internal,
@@ -499,6 +503,27 @@ class WoowPortalEnhanced(CustomerPortal):
             return {'success': True, 'new_count': new_count}
 
         return {'success': False, 'error': _('Missing ID parameter.')}
+
+    # ------------------------------------------------------------------
+    # JSON-RPC endpoint for mark-all-read
+    # ------------------------------------------------------------------
+
+    @http.route('/my/notifications/mark_all_read', type='json',
+                auth='user', methods=['POST'])
+    def mark_all_read(self, **kw):
+        """Mark all unread notifications as read for the current user."""
+        partner = request.env.user.partner_id
+        Notification = request.env['mail.notification'].sudo()
+        unread = Notification.search([
+            ('res_partner_id', '=', partner.id),
+            ('is_read', '=', False),
+        ])
+        if unread:
+            unread.write({
+                'is_read': True,
+                'read_date': FieldDatetime.now(),
+            })
+        return {'success': True, 'updated': len(unread), 'unread_count': 0}
 
     # ------------------------------------------------------------------
     # JSON-RPC endpoint for notification detail (modal)

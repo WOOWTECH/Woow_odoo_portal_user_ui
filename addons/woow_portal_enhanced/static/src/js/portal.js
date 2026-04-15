@@ -16,6 +16,8 @@ whenReady(() => {
     initSearchFilter();
     initNotificationPage();
     initNotificationModal();
+    initReadToggleButtons();
+    initMarkAllRead();
     replaceMdiIcons();
 });
 
@@ -332,6 +334,102 @@ function updateBadgeCounts(unreadCount) {
             b.style.display = "none";
         }
     });
+}
+
+// ------------------------------------------------------------------
+// ②-B Read toggle button (per notification)
+// ------------------------------------------------------------------
+
+function initReadToggleButtons() {
+    var btns = document.querySelectorAll(".wpe-read-toggle-btn");
+    btns.forEach(function (btn) {
+        btn.addEventListener("click", function (e) {
+            e.stopPropagation(); // Don't open the detail modal
+            var notifId = btn.getAttribute("data-notif-id");
+            if (!notifId) return;
+
+            var isRead = btn.classList.contains("wpe-is-read");
+            var action = isRead ? "mark_unread" : "mark_read";
+
+            btn.style.pointerEvents = "none";
+            btn.style.opacity = "0.5";
+
+            jsonRpc("/my/notifications/action", {
+                notification_id: notifId,
+                action: action,
+            }).then(function (data) {
+                btn.style.pointerEvents = "";
+                btn.style.opacity = "";
+                if (!data || !data.success) return;
+
+                var wrapper = btn.closest(".wpe-notif-card-wrapper");
+                if (action === "mark_read") {
+                    btn.classList.remove("wpe-is-unread");
+                    btn.classList.add("wpe-is-read");
+                    btn.title = "標記未讀";
+                    if (wrapper) {
+                        wrapper.classList.remove("wpe-notif-unread");
+                        wrapper.classList.add("wpe-notif-read");
+                    }
+                } else {
+                    btn.classList.remove("wpe-is-read");
+                    btn.classList.add("wpe-is-unread");
+                    btn.title = "標記已讀";
+                    if (wrapper) {
+                        wrapper.classList.remove("wpe-notif-read");
+                        wrapper.classList.add("wpe-notif-unread");
+                    }
+                }
+                updateBadgeCounts(data.unread_count);
+                updateMarkAllReadBtn(data.unread_count);
+            });
+        });
+    });
+}
+
+// ------------------------------------------------------------------
+// ②-C Mark all as read
+// ------------------------------------------------------------------
+
+function initMarkAllRead() {
+    var btn = document.getElementById("wpe_mark_all_read");
+    if (!btn) return;
+
+    btn.addEventListener("click", function () {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa fa-spinner fa-spin me-1"></i>處理中...';
+
+        jsonRpc("/my/notifications/mark_all_read", {}).then(function (data) {
+            if (data && data.success) {
+                // Update all cards to read state
+                var wrappers = document.querySelectorAll(".wpe-notif-card-wrapper.wpe-notif-unread");
+                wrappers.forEach(function (w) {
+                    w.classList.remove("wpe-notif-unread");
+                    w.classList.add("wpe-notif-read");
+                    var toggle = w.querySelector(".wpe-read-toggle-btn");
+                    if (toggle) {
+                        toggle.classList.remove("wpe-is-unread");
+                        toggle.classList.add("wpe-is-read");
+                        toggle.title = "標記未讀";
+                    }
+                });
+                updateBadgeCounts(0);
+                btn.innerHTML = '<i class="fa fa-check me-1"></i>已完成';
+                setTimeout(function () { btn.style.display = "none"; }, 1000);
+            } else {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa fa-check-double me-1"></i>全部已讀';
+            }
+        });
+    });
+}
+
+function updateMarkAllReadBtn(unreadCount) {
+    var btn = document.getElementById("wpe_mark_all_read");
+    if (!btn) return;
+    if (unreadCount <= 0) {
+        btn.style.display = "none";
+    }
 }
 
 // ------------------------------------------------------------------

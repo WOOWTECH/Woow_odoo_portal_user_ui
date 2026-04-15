@@ -125,37 +125,46 @@
                 <!-- Header -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="mb-0 fw-bold">通知中心</h4>
-                    <a href="/my/home" class="btn btn-sm btn-outline-secondary wpe-notif-return-btn">
-                        <i class="fa fa-arrow-left me-1"/>返回
-                    </a>
+                    <div class="d-flex gap-2 align-items-center">
+                        <t t-if="unread_notif_count">
+                            <button type="button"
+                                    class="btn btn-sm btn-outline-primary wpe-mark-all-read-btn"
+                                    id="wpe_mark_all_read">
+                                <i class="fa fa-check-double me-1"/>全部已讀
+                            </button>
+                        </t>
+                        <a href="/my/home" class="btn btn-sm btn-outline-secondary wpe-notif-return-btn">
+                            <i class="fa fa-arrow-left me-1"/>返回
+                        </a>
+                    </div>
                 </div>
 
-                <!-- Tabs -->
+                <!-- Tabs (badges = unread count only, hidden when 0) -->
                 <div class="wpe-notif-tabs mb-3">
                     <a t-attf-href="/my/notifications?tab=all"
                        t-attf-class="wpe-notif-tab #{'active' if current_tab == 'all' else ''}">
                         全部
-                        <t t-if="notification_total">
-                            <span class="badge bg-secondary ms-1">
-                                <t t-esc="notification_total"/>
+                        <t t-if="unread_all_count">
+                            <span class="badge bg-danger ms-1" data-unread-badge="all">
+                                <t t-esc="unread_all_count"/>
                             </span>
                         </t>
                     </a>
                     <a t-attf-href="/my/notifications?tab=message"
                        t-attf-class="wpe-notif-tab #{'active' if current_tab == 'message' else ''}">
                         留言
-                        <t t-if="message_count">
-                            <span class="badge bg-secondary ms-1">
-                                <t t-esc="message_count"/>
+                        <t t-if="unread_message_count">
+                            <span class="badge bg-danger ms-1" data-unread-badge="message">
+                                <t t-esc="unread_message_count"/>
                             </span>
                         </t>
                     </a>
                     <a t-attf-href="/my/notifications?tab=notification"
                        t-attf-class="wpe-notif-tab #{'active' if current_tab == 'notification' else ''}">
                         通知
-                        <t t-if="sys_notif_count">
-                            <span class="badge bg-secondary ms-1">
-                                <t t-esc="sys_notif_count"/>
+                        <t t-if="unread_sys_notif_count">
+                            <span class="badge bg-danger ms-1" data-unread-badge="notification">
+                                <t t-esc="unread_sys_notif_count"/>
                             </span>
                         </t>
                     </a>
@@ -165,7 +174,7 @@
                            t-attf-class="wpe-notif-tab #{'active' if current_tab == 'activity' else ''}">
                             待辦
                             <t t-if="activity_count">
-                                <span class="badge bg-secondary ms-1">
+                                <span class="badge bg-danger ms-1">
                                     <t t-esc="activity_count"/>
                                 </span>
                             </t>
@@ -219,9 +228,11 @@
                                             </t>
                                         </div>
                                         <div class="wpe-notif-card-hint">
-                                            <t t-if="not item['is_read']">
-                                                <span class="wpe-unread-dot"/>
-                                            </t>
+                                            <button t-attf-class="wpe-read-toggle-btn #{'wpe-is-read' if item['is_read'] else 'wpe-is-unread'}"
+                                                    t-att-data-notif-id="item['notif_id']"
+                                                    t-att-title="'標記未讀' if item['is_read'] else '標記已讀'">
+                                                <span class="wpe-read-toggle-dot"/>
+                                            </button>
                                             <i class="fa fa-angle-right text-muted"/>
                                         </div>
                                     </div>
