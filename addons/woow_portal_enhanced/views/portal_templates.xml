@@ -18,7 +18,14 @@
                         <t t-if="greeting" t-esc="greeting"/><t t-if="not greeting">Hello</t>,
                         <t t-esc="greeting_name or user_id.partner_id.name"/>
                     </h4>
-                    <p t-if="today_date" t-esc="today_date"/>
+                    <p t-if="today_date_line1" class="mb-0">
+                        <i class="fa fa-calendar-o me-1"/>
+                        <t t-esc="today_date_line1"/>
+                    </p>
+                    <p t-if="today_date_line2" class="mb-0 wpe-greeting-time">
+                        <i class="fa fa-clock-o me-1"/>
+                        <t t-esc="today_date_line2"/>
+                    </p>
                 </div>
             </div>
         </xpath>
@@ -84,7 +91,8 @@
                                 <a href="/my/notifications?tab=message"
                                    class="wpe-notification-item d-flex align-items-start text-decoration-none">
                                     <div class="wpe-notification-icon me-3">
-                                        <i t-attf-class="fa #{notif['icon']} fa-lg"/>
+                                        <img t-att-src="notif.get('icon_img', '/woow_portal_enhanced/static/src/img/mdi/bell-outline.svg')"
+                                             width="22" height="22" alt=""/>
                                     </div>
                                     <div class="flex-grow-1">
                                         <div class="fw-semibold text-dark wpe-preview-title">
@@ -129,7 +137,8 @@
                                 <a href="/my/notifications?tab=notification"
                                    class="wpe-notification-item d-flex align-items-start text-decoration-none">
                                     <div class="wpe-notification-icon me-3">
-                                        <i t-attf-class="fa #{notif['icon']} fa-lg"/>
+                                        <img t-att-src="notif.get('icon_img', '/woow_portal_enhanced/static/src/img/mdi/bell-outline.svg')"
+                                             width="22" height="22" alt=""/>
                                     </div>
                                     <div class="flex-grow-1">
                                         <div class="fw-semibold text-dark wpe-preview-title">
@@ -168,7 +177,8 @@
                                 <a href="/my/notifications?tab=activity"
                                    class="wpe-notification-item d-flex align-items-start text-decoration-none">
                                     <div class="wpe-notification-icon me-3">
-                                        <i t-attf-class="fa #{act['icon']} fa-lg"/>
+                                        <img t-att-src="act.get('icon_img', '/woow_portal_enhanced/static/src/img/mdi/bell-outline.svg')"
+                                             width="22" height="22" alt=""/>
                                     </div>
                                     <div class="flex-grow-1">
                                         <div class="fw-semibold text-dark wpe-preview-title">
@@ -505,6 +515,29 @@
               inherit_id="loyalty.loyalty_buttons" priority="50">
         <xpath expr="//div[hasclass('o_loyalty_container')]" position="replace">
             <div class="o_loyalty_container d-none"/>
+        </xpath>
+    </template>
+
+    <!-- ============================================================ -->
+    <!-- Task 5: Add back button before navbar-toggler in searchbar   -->
+    <!-- ============================================================ -->
+    <template id="portal_breadcrumb_back_btn" name="Breadcrumb Back Button"
+              inherit_id="portal.portal_searchbar" priority="50">
+        <xpath expr="//button[hasclass('navbar-toggler')]" position="before">
+            <a href="#" class="btn btn-sm btn-outline-secondary wpe-breadcrumb-back-btn"
+               onclick="event.preventDefault(); if (window.history.length > 1) { window.history.back(); } else { window.location.href='/my/home'; }">
+                <i class="fa fa-arrow-left me-1"/>返回
+            </a>
+        </xpath>
+    </template>
+
+    <!-- ============================================================ -->
+    <!-- Task 6: Logo link → /my/home instead of /                    -->
+    <!-- ============================================================ -->
+    <template id="portal_logo_link_home" name="Logo Link to Portal Home"
+              inherit_id="portal.frontend_layout" priority="50">
+        <xpath expr="//a[hasclass('navbar-brand')]" position="attributes">
+            <attribute name="href">/my/home</attribute>
         </xpath>
     </template>
 

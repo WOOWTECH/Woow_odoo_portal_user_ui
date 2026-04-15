@@ -19,6 +19,7 @@ whenReady(() => {
     initReadToggleButtons();
     initMarkAllRead();
     replaceMdiIcons();
+    hideEmptyModuleCards();
 });
 
 // ------------------------------------------------------------------
@@ -808,6 +809,66 @@ function replaceMdiIcons() {
 
         if (MDI_ICON_MAP.has(src)) {
             img.setAttribute("src", MDI_ICON_MAP.get(src));
+        }
+    });
+}
+
+// ------------------------------------------------------------------
+// ⑤ Hide module cards with 0 records (Task 7)
+// After Odoo's PortalHomeCounters finishes its /my/counters RPC,
+// cards with count=0 may still be visible due to session cache
+// (force_show). We observe the spinner removal as a signal that
+// counters have loaded, then hide any card showing "0".
+// ------------------------------------------------------------------
+
+function hideEmptyModuleCards() {
+    const grid = document.getElementById("wpe_module_grid");
+    if (!grid) return;
+
+    // The spinner is removed by Odoo JS after all counter RPCs complete.
+    const spinner = grid.querySelector(".o_portal_doc_spinner");
+    if (!spinner) {
+        // Spinner already gone — counters already loaded, run immediately
+        _doHideEmpty(grid);
+        return;
+    }
+
+    // Watch for spinner removal
+    var observer = new MutationObserver(function (mutations) {
+        for (var i = 0; i < mutations.length; i++) {
+            for (var j = 0; j < mutations[i].removedNodes.length; j++) {
+                if (mutations[i].removedNodes[j] === spinner ||
+                    (mutations[i].removedNodes[j].classList &&
+                     mutations[i].removedNodes[j].classList.contains("o_portal_doc_spinner"))) {
+                    observer.disconnect();
+                    _doHideEmpty(grid);
+                    return;
+                }
+            }
+        }
+    });
+    observer.observe(grid, { childList: true, subtree: true });
+}
+
+function _doHideEmpty(grid) {
+    var cards = grid.querySelectorAll(".o_portal_index_card");
+    cards.forEach(function (card) {
+        // Skip config cards (no counter, always visible)
+        var counterEl = card.querySelector("[data-placeholder_count]");
+        if (!counterEl) return;
+
+        var countText = (counterEl.textContent || "").trim();
+        if (countText === "0") {
+            card.classList.add("d-none");
+        }
+    });
+
+    // Also hide category headers if all their cards are hidden
+    var categories = grid.querySelectorAll(".o_portal_category");
+    categories.forEach(function (cat) {
+        var visibleCards = cat.querySelectorAll(".o_portal_index_card:not(.d-none)");
+        if (visibleCards.length === 0) {
+            cat.classList.add("d-none");
         }
     });
 }

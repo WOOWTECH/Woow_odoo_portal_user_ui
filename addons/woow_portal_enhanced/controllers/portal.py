@@ -2,11 +2,37 @@
 
 from datetime import datetime
 
+import pytz
+
 from odoo import _, http
 from odoo.fields import Datetime as FieldDatetime
 from odoo.http import request
 from odoo.tools import html2plaintext
 from odoo.addons.portal.controllers.portal import CustomerPortal
+
+# Map Odoo model names → MDI icon paths for notification previews
+MODEL_ICON_MAP = {
+    'sale.order': '/woow_portal_enhanced/static/src/img/mdi/cart-outline.svg',
+    'account.move': '/woow_portal_enhanced/static/src/img/mdi/receipt-text-outline.svg',
+    'project.project': '/woow_portal_enhanced/static/src/img/mdi/folder-open-outline.svg',
+    'project.task': '/woow_portal_enhanced/static/src/img/mdi/checkbox-marked-circle-outline.svg',
+    'purchase.order': '/woow_portal_enhanced/static/src/img/mdi/package-variant-closed.svg',
+    'helpdesk.ticket': '/woow_portal_enhanced/static/src/img/mdi/headset.svg',
+    'sign.request': '/woow_portal_enhanced/static/src/img/mdi/draw-pen.svg',
+    'documents.document': '/woow_portal_enhanced/static/src/img/mdi/file-multiple-outline.svg',
+    'sale.subscription': '/woow_portal_enhanced/static/src/img/mdi/autorenew.svg',
+    'appointment.booking': '/woow_portal_enhanced/static/src/img/mdi/calendar-check-outline.svg',
+    'fleet.vehicle': '/woow_portal_enhanced/static/src/img/mdi/car-outline.svg',
+    'maintenance.request': '/woow_portal_enhanced/static/src/img/mdi/wrench-outline.svg',
+    'event.event': '/woow_portal_enhanced/static/src/img/mdi/calendar-star.svg',
+    'slide.channel': '/woow_portal_enhanced/static/src/img/mdi/school-outline.svg',
+    'survey.survey': '/woow_portal_enhanced/static/src/img/mdi/clipboard-text-outline.svg',
+    'hr_timesheet.sheet': '/woow_portal_enhanced/static/src/img/mdi/clock-outline.svg',
+    'account.analytic.line': '/woow_portal_enhanced/static/src/img/mdi/clock-outline.svg',
+}
+_FALLBACK_ICON_IMG = '/woow_portal_enhanced/static/src/img/mdi/bell-outline.svg'
+
+_WEEKDAY_ZH = ['一', '二', '三', '四', '五', '六', '日']
 
 # Hard cap for pagination to prevent abuse
 _MAX_LIMIT = 100
@@ -104,6 +130,7 @@ class WoowPortalEnhanced(CustomerPortal):
             'time_ago': self._relative_time(msg.date, now),
             'is_read': notif.is_read,
             'icon': icon,
+            'icon_img': MODEL_ICON_MAP.get(msg.model, _FALLBACK_ICON_IMG),
             'document_url': self._get_document_portal_url(msg.model, msg.res_id),
             'subtype_name': msg.subtype_id.name if msg.subtype_id else '',
             'tracking_summary': tracking_summary,
@@ -139,6 +166,7 @@ class WoowPortalEnhanced(CustomerPortal):
                 and act.activity_type_id.category == 'grant_approval'),
             'icon': (act.activity_type_id.icon
                      if act.activity_type_id else 'fa-clock-o'),
+            'icon_img': MODEL_ICON_MAP.get(act.res_model, _FALLBACK_ICON_IMG),
             'document_url': self._get_document_portal_url(
                 act.res_model, act.res_id),
         }
@@ -153,15 +181,33 @@ class WoowPortalEnhanced(CustomerPortal):
     # — keys without a matching DOM element cause a TypeError.
 
     @staticmethod
-    def _get_greeting():
-        """Return a time-based greeting string."""
-        hour = datetime.now().hour
+    def _get_greeting_data():
+        """Return greeting string and timezone-aware date/time info."""
+        user_tz_name = request.env.user.tz or 'UTC'
+        try:
+            user_tz = pytz.timezone(user_tz_name)
+        except pytz.UnknownTimeZoneError:
+            user_tz = pytz.UTC
+        now_utc = datetime.now(pytz.UTC)
+        now_local = now_utc.astimezone(user_tz)
+        hour = now_local.hour
+
         if 6 <= hour < 12:
-            return _('Good Morning')
+            greeting = _('Good Morning')
         elif 12 <= hour < 18:
-            return _('Good Afternoon')
+            greeting = _('Good Afternoon')
         else:
-            return _('Good Evening')
+            greeting = _('Good Evening')
+
+        weekday_zh = _WEEKDAY_ZH[now_local.weekday()]
+        utc_offset = now_local.strftime('%z')  # e.g. '+0800'
+        offset_formatted = 'UTC%s%s' % (utc_offset[:3], '' if utc_offset[3:] == '00' else ':' + utc_offset[3:])
+
+        return {
+            'greeting': greeting,
+            'today_date_line1': '%s (%s)' % (now_local.strftime('%Y-%m-%d'), weekday_zh),
+            'today_date_line2': '%s %s' % (now_local.strftime('%H:%M'), offset_formatted),
+        }
 
     def _prepare_notification_values(self):
         """Build notification preview data for the portal home page.
@@ -218,6 +264,8 @@ class WoowPortalEnhanced(CustomerPortal):
         total_unread = (unread_message_count + unread_sys_notif_count
                         + activity_count)
 
+        greeting_data = self._get_greeting_data()
+
         return {
             'message_previews': message_previews,
             'unread_message_count': unread_message_count,
@@ -227,9 +275,10 @@ class WoowPortalEnhanced(CustomerPortal):
             'activity_count': activity_count,
             'total_unread_count': total_unread,
             'is_internal_user': is_internal,
-            'greeting': self._get_greeting(),
+            'greeting': greeting_data['greeting'],
             'greeting_name': partner.name or user.name or '',
-            'today_date': datetime.now().strftime('%Y-%m-%d'),
+            'today_date_line1': greeting_data['today_date_line1'],
+            'today_date_line2': greeting_data['today_date_line2'],
         }
 
     @http.route(['/my', '/my/home'], type='http', auth='user', website=True)

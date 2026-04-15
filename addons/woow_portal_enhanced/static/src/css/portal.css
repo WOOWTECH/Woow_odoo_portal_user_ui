@@ -145,6 +145,9 @@
     flex-shrink: 0;
     color: var(--o-brand-primary, #714B67);
 }
+.wpe-notification-icon img {
+    filter: invert(31%) sepia(15%) saturate(1200%) hue-rotate(280deg) brightness(90%) contrast(90%);
+}
 
 /* ============================================================
    ③ Module Card Grid (portal home)
@@ -187,6 +190,8 @@
     width: 24px;
     height: 24px;
     object-fit: contain;
+    /* Tint SVG icons with portal theme color (--o-brand-primary #714B67) */
+    filter: invert(31%) sepia(15%) saturate(1200%) hue-rotate(280deg) brightness(90%) contrast(90%);
 }
 
 /* Module title: bold, dark, matching notification card title */
@@ -664,7 +669,30 @@
 .o_portal_my_home .o_portal_icon.wpe-mdi-icon img {
     width: 28px;
     height: 28px;
-    filter: brightness(0) saturate(100%) invert(13%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(95%) contrast(90%);
+    /* Theme color filter (same as .o_portal_icon img) */
+    filter: invert(31%) sepia(15%) saturate(1200%) hue-rotate(280deg) brightness(90%) contrast(90%);
+}
+
+/* ============================================================
+   ⑩ Breadcrumb — enlarge 20% + back button
+   ============================================================ */
+
+.o_portal .o_portal_navbar {
+    font-size: 1.2rem;
+}
+.o_portal .o_portal_navbar .breadcrumb {
+    font-size: 1.2rem;
+}
+.o_portal .o_portal_navbar .breadcrumb .fa-home {
+    font-size: 1.35rem;
+}
+.o_portal .o_portal_navbar .navbar-toggler .fa-bars {
+    font-size: 1.3rem;
+}
+.wpe-breadcrumb-back-btn {
+    font-size: 0.85rem;
+    margin-right: 0.5rem;
+    white-space: nowrap;
 }
 
 /* ============================================================
