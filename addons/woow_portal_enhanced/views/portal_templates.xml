@@ -208,6 +208,39 @@
                 </div>
             </div>
 
+            <!-- ③ Loyalty / eWallet Cards — exact copy of sidebar cards, 2-col grid -->
+            <t t-if="cards_per_programs">
+                <div class="o_loyalty_container row g-2 mb-4">
+                    <t t-foreach="cards_per_programs" t-as="program">
+                        <div class="portal-loyalty-buttons cursor-pointer col-6"
+                             t-foreach="cards_per_programs[program]"
+                             t-as="card">
+                            <div class="o_loyalty_card d-flex"
+                                 t-att-data-card_id="card.id">
+                                <span class="o_notification_bar rounded-start"
+                                      style="width: 0.5rem; background-color: var(--cyan)"/>
+                                <div class="w-100 py-3 ps-3 pe-5 border border-start-0 rounded-end d-flex flex-row gap-3">
+                                    <img class="img-fluid"
+                                         t-attf-src="/loyalty/static/src/img/{{ program.program_type }}.svg"
+                                         width="40"/>
+                                    <div class="d-flex flex-column gap-1">
+                                        <div>
+                                            <strong t-out="program.display_name"/>
+                                        </div>
+                                        <p id="card_points" class="m-0 text-600">
+                                            <t t-out="card.points_display"/>
+                                        </p>
+                                        <t t-if="program.program_type == 'loyalty' and any(reward.required_points &lt;= card.points for reward in program.reward_ids)">
+                                            <p class="m-0 text-info">A reward is waiting for you</p>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </t>
+
         </xpath>
 
         <!-- Wrap the module grid in our container for search filtering -->
