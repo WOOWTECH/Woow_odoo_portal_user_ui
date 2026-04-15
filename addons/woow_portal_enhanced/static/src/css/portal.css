@@ -120,6 +120,19 @@
     border-radius: var(--wpe-radius-sm);
 }
 
+/* Preview group header (留言 / 通知 / 待辦 sections) */
+.wpe-preview-group-header {
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+/* Preview title — single-line truncation */
+.wpe-preview-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .wpe-notification-icon {
     width: 40px;
     height: 40px;
@@ -205,7 +218,9 @@
 
 /* Search filter hidden state */
 .o_portal_my_home .o_portal_index_card.wpe-hidden,
-.o_portal_my_home .o_portal_category.wpe-hidden {
+.o_portal_my_home .o_portal_category.wpe-hidden,
+.wpe-notification-preview .wpe-notification-item.wpe-hidden,
+.wpe-notification-preview .wpe-preview-group-header.wpe-hidden {
     display: none !important;
 }
 

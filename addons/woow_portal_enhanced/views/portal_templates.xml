@@ -44,21 +44,20 @@
                     <input type="text"
                            id="wpe_module_search"
                            class="form-control border-start-0"
-                           placeholder="搜尋模組..."/>
+                           placeholder="搜尋模組或通知..."/>
                 </div>
             </div>
 
-            <!-- ② Notification Preview Card -->
+            <!-- ② Notification Preview Card — grouped by type -->
             <div class="wpe-notification-preview card mb-4">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="mb-0 fw-bold">
                             近期通知
-                            <t t-if="unread_notif_count">
+                            <t t-if="total_unread_count">
                                 <span class="badge bg-danger ms-2"
-                                      style="font-size: 0.7rem; vertical-align: middle;"
-                                      data-unread-badge="1">
-                                    <t t-esc="unread_notif_count"/>
+                                      style="font-size: 0.7rem; vertical-align: middle;">
+                                    <t t-esc="total_unread_count"/>
                                 </span>
                             </t>
                         </h5>
@@ -67,30 +66,138 @@
                         </a>
                     </div>
 
-                    <t t-if="notification_previews">
-                        <t t-foreach="notification_previews" t-as="notif">
-                            <a t-att-href="notif['document_url'] if notif['document_url'] != '#' else '/my/notifications'"
-                               class="wpe-notification-item d-flex align-items-start text-decoration-none">
-                                <div class="wpe-notification-icon me-3">
-                                    <i t-attf-class="fa #{notif['icon']} fa-lg"/>
-                                </div>
-                                <div class="flex-grow-1">
-                                    <div class="fw-semibold text-dark">
-                                        <t t-esc="notif['subject']"/>
+                    <t t-set="has_any" t-value="message_previews or sys_notif_previews or activity_previews"/>
+                    <t t-if="has_any">
+
+                        <!-- 留言 (Messages) -->
+                        <t t-if="unread_message_count or message_previews">
+                            <div class="wpe-preview-group-header d-flex align-items-center mb-2 mt-1">
+                                <i class="fa fa-comment text-muted me-2"/>
+                                <span class="fw-semibold small">留言</span>
+                                <t t-if="unread_message_count">
+                                    <span class="badge bg-danger ms-2" style="font-size: 0.65rem;">
+                                        <t t-esc="unread_message_count"/>
+                                    </span>
+                                </t>
+                            </div>
+                            <t t-foreach="message_previews" t-as="notif">
+                                <a href="/my/notifications?tab=message"
+                                   class="wpe-notification-item d-flex align-items-start text-decoration-none">
+                                    <div class="wpe-notification-icon me-3">
+                                        <i t-attf-class="fa #{notif['icon']} fa-lg"/>
                                     </div>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-semibold text-dark wpe-preview-title">
+                                            <t t-esc="notif['subject']"/>
+                                        </div>
+                                        <small class="text-muted">
+                                            <t t-esc="notif['record_name']"/>
+                                            <t t-if="notif.get('author_name')">
+                                                <span class="ms-2">
+                                                    <i class="fa fa-user-o me-1"/>
+                                                    <t t-esc="notif['author_name']"/>
+                                                </span>
+                                            </t>
+                                        </small>
+                                    </div>
+                                    <i class="fa fa-angle-right text-muted align-self-center"/>
+                                </a>
+                            </t>
+                            <t t-if="not message_previews and unread_message_count">
+                                <a href="/my/notifications?tab=message"
+                                   class="wpe-notification-item d-flex align-items-center text-decoration-none">
                                     <small class="text-muted">
-                                        <t t-esc="notif['record_name']"/>
-                                        <t t-if="notif.get('author_name')">
-                                            <span class="ms-2">
-                                                <i class="fa fa-user-o me-1"/>
-                                                <t t-esc="notif['author_name']"/>
-                                            </span>
-                                        </t>
+                                        <t t-esc="unread_message_count"/> 則未讀留言
                                     </small>
-                                </div>
-                                <i class="fa fa-angle-right text-muted align-self-center"/>
-                            </a>
+                                    <i class="fa fa-angle-right text-muted ms-auto"/>
+                                </a>
+                            </t>
                         </t>
+
+                        <!-- 通知 (System Notifications) -->
+                        <t t-if="unread_sys_notif_count or sys_notif_previews">
+                            <div class="wpe-preview-group-header d-flex align-items-center mb-2 mt-3">
+                                <i class="fa fa-bell text-muted me-2"/>
+                                <span class="fw-semibold small">通知</span>
+                                <t t-if="unread_sys_notif_count">
+                                    <span class="badge bg-danger ms-2" style="font-size: 0.65rem;">
+                                        <t t-esc="unread_sys_notif_count"/>
+                                    </span>
+                                </t>
+                            </div>
+                            <t t-foreach="sys_notif_previews" t-as="notif">
+                                <a href="/my/notifications?tab=notification"
+                                   class="wpe-notification-item d-flex align-items-start text-decoration-none">
+                                    <div class="wpe-notification-icon me-3">
+                                        <i t-attf-class="fa #{notif['icon']} fa-lg"/>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-semibold text-dark wpe-preview-title">
+                                            <t t-esc="notif['subject']"/>
+                                        </div>
+                                        <small class="text-muted">
+                                            <t t-esc="notif['record_name']"/>
+                                        </small>
+                                    </div>
+                                    <i class="fa fa-angle-right text-muted align-self-center"/>
+                                </a>
+                            </t>
+                            <t t-if="not sys_notif_previews and unread_sys_notif_count">
+                                <a href="/my/notifications?tab=notification"
+                                   class="wpe-notification-item d-flex align-items-center text-decoration-none">
+                                    <small class="text-muted">
+                                        <t t-esc="unread_sys_notif_count"/> 則未讀通知
+                                    </small>
+                                    <i class="fa fa-angle-right text-muted ms-auto"/>
+                                </a>
+                            </t>
+                        </t>
+
+                        <!-- 待辦 (Activities) — internal users only -->
+                        <t t-if="is_internal_user and (activity_count or activity_previews)">
+                            <div class="wpe-preview-group-header d-flex align-items-center mb-2 mt-3">
+                                <i class="fa fa-clock-o text-muted me-2"/>
+                                <span class="fw-semibold small">待辦</span>
+                                <t t-if="activity_count">
+                                    <span class="badge bg-danger ms-2" style="font-size: 0.65rem;">
+                                        <t t-esc="activity_count"/>
+                                    </span>
+                                </t>
+                            </div>
+                            <t t-foreach="activity_previews" t-as="act">
+                                <a href="/my/notifications?tab=activity"
+                                   class="wpe-notification-item d-flex align-items-start text-decoration-none">
+                                    <div class="wpe-notification-icon me-3">
+                                        <i t-attf-class="fa #{act['icon']} fa-lg"/>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-semibold text-dark wpe-preview-title">
+                                            <t t-esc="act['summary']"/>
+                                        </div>
+                                        <small class="text-muted">
+                                            <t t-esc="act['res_name']"/>
+                                            <t t-if="act.get('date_deadline')">
+                                                <span class="ms-2">
+                                                    <i class="fa fa-calendar-o me-1"/>
+                                                    <t t-esc="act['date_deadline']"/>
+                                                </span>
+                                            </t>
+                                        </small>
+                                    </div>
+                                    <i class="fa fa-angle-right text-muted align-self-center"/>
+                                </a>
+                            </t>
+                            <t t-if="not activity_previews and activity_count">
+                                <a href="/my/notifications?tab=activity"
+                                   class="wpe-notification-item d-flex align-items-center text-decoration-none">
+                                    <small class="text-muted">
+                                        <t t-esc="activity_count"/> 個待辦事項
+                                    </small>
+                                    <i class="fa fa-angle-right text-muted ms-auto"/>
+                                </a>
+                            </t>
+                        </t>
+
                     </t>
                     <t t-else="">
                         <div class="text-center text-muted py-3">

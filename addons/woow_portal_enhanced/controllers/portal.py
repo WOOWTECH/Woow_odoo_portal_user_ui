@@ -164,38 +164,68 @@ class WoowPortalEnhanced(CustomerPortal):
             return _('Good Evening')
 
     def _prepare_notification_values(self):
-        """Build notification preview data for the portal home page."""
+        """Build notification preview data for the portal home page.
+
+        Returns preview items grouped by type (messages, system
+        notifications, activities) with per-type unread counts.
+        """
         user = request.env.user
         partner = user.partner_id
         is_internal = user._is_internal()
         now = FieldDatetime.now()
 
-        # --- Mail Notification (unread) for preview ---
         Notification = request.env['mail.notification'].sudo()
-        notif_domain = [
-            ('res_partner_id', '=', partner.id),
+        notif_base = [('res_partner_id', '=', partner.id)]
+
+        # --- 留言 (messages): comment / email ---
+        msg_domain = notif_base + [
             ('is_read', '=', False),
+            ('mail_message_id.message_type', 'in', ['comment', 'email']),
         ]
-        notif_records = Notification.search(
-            notif_domain, order='mail_message_id desc', limit=3)
-        unread_notif_count = Notification.search_count(notif_domain)
+        unread_message_count = Notification.search_count(msg_domain)
+        message_previews = [
+            self._notif_to_dict(n, now)
+            for n in Notification.search(
+                msg_domain, order='mail_message_id desc', limit=2)
+        ]
 
-        preview_items = []
-        for notif in notif_records:
-            preview_items.append(self._notif_to_dict(notif, now))
+        # --- 通知 (system notifications): notification / auto_comment / user_notification ---
+        sys_domain = notif_base + [
+            ('is_read', '=', False),
+            ('mail_message_id.message_type', 'in',
+             ['notification', 'auto_comment', 'user_notification']),
+        ]
+        unread_sys_notif_count = Notification.search_count(sys_domain)
+        sys_notif_previews = [
+            self._notif_to_dict(n, now)
+            for n in Notification.search(
+                sys_domain, order='mail_message_id desc', limit=2)
+        ]
 
-        # --- Mail Activity count (internal users only) ---
+        # --- 待辦 (activities): internal users only ---
         activity_count = 0
+        activity_previews = []
         if is_internal:
             Activity = request.env['mail.activity'].sudo()
-            activity_count = Activity.search_count([
-                ('user_id', '=', user.id),
-            ])
+            act_domain = [('user_id', '=', user.id)]
+            activity_count = Activity.search_count(act_domain)
+            activity_previews = [
+                self._activity_to_dict(act, now)
+                for act in Activity.search(
+                    act_domain, order='date_deadline asc, id desc', limit=2)
+            ]
+
+        total_unread = (unread_message_count + unread_sys_notif_count
+                        + activity_count)
 
         return {
-            'notification_previews': preview_items,
-            'unread_notif_count': unread_notif_count,
+            'message_previews': message_previews,
+            'unread_message_count': unread_message_count,
+            'sys_notif_previews': sys_notif_previews,
+            'unread_sys_notif_count': unread_sys_notif_count,
+            'activity_previews': activity_previews,
             'activity_count': activity_count,
+            'total_unread_count': total_unread,
             'is_internal_user': is_internal,
             'greeting': self._get_greeting(),
             'greeting_name': partner.name or user.name or '',

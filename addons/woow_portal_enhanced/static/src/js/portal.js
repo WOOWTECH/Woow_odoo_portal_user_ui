@@ -31,10 +31,11 @@ function initSearchFilter() {
 
     input.addEventListener("keyup", function () {
         const query = this.value.trim().toLowerCase();
+
+        // --- Filter module cards ---
         const cards = document.querySelectorAll(
             "#wpe_module_grid .o_portal_index_card"
         );
-
         cards.forEach(function (card) {
             const text = card.textContent.toLowerCase();
             if (!query || text.indexOf(query) !== -1) {
@@ -44,7 +45,7 @@ function initSearchFilter() {
             }
         });
 
-        // Also hide/show empty categories
+        // Hide/show empty categories
         const categories = document.querySelectorAll(
             "#wpe_module_grid .o_portal_category"
         );
@@ -56,6 +57,43 @@ function initSearchFilter() {
                 cat.classList.add("wpe-hidden");
             } else {
                 cat.classList.remove("wpe-hidden");
+            }
+        });
+
+        // --- Filter notification preview items ---
+        var notifItems = document.querySelectorAll(
+            ".wpe-notification-preview .wpe-notification-item"
+        );
+        notifItems.forEach(function (item) {
+            var text = item.textContent.toLowerCase();
+            if (!query || text.indexOf(query) !== -1) {
+                item.classList.remove("wpe-hidden");
+            } else {
+                item.classList.add("wpe-hidden");
+            }
+        });
+
+        // Hide group headers if all items in that group are hidden
+        var groupHeaders = document.querySelectorAll(
+            ".wpe-notification-preview .wpe-preview-group-header"
+        );
+        groupHeaders.forEach(function (header) {
+            // Collect sibling notification items until next group header
+            var items = [];
+            var sibling = header.nextElementSibling;
+            while (sibling && !sibling.classList.contains("wpe-preview-group-header")) {
+                if (sibling.classList.contains("wpe-notification-item")) {
+                    items.push(sibling);
+                }
+                sibling = sibling.nextElementSibling;
+            }
+            var visibleItems = items.filter(function (it) {
+                return !it.classList.contains("wpe-hidden");
+            });
+            if (visibleItems.length === 0 && query) {
+                header.classList.add("wpe-hidden");
+            } else {
+                header.classList.remove("wpe-hidden");
             }
         });
     });
