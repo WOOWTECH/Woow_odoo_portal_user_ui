@@ -8,22 +8,6 @@
     <template id="portal_my_home_enhanced" name="Woow Enhanced Portal Home"
               inherit_id="portal.portal_my_home" priority="10">
 
-        <!-- Admin Banner — before everything -->
-        <xpath expr="//div[hasclass('o_portal_my_home')]" position="before">
-            <t t-if="is_internal_user">
-                <div class="wpe-admin-banner alert alert-info d-flex align-items-center justify-content-between mb-0 rounded-0 d-print-none"
-                     role="alert">
-                    <span>
-                        <i class="fa fa-info-circle me-1"/>
-                        您正在以管理員身份瀏覽 Portal
-                    </span>
-                    <a href="/odoo" class="btn btn-sm btn-outline-primary">
-                        <i class="fa fa-arrow-left me-1"/>返回後台
-                    </a>
-                </div>
-            </t>
-        </xpath>
-
         <!-- Search bar + Notification preview — before the module grid -->
         <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
 
@@ -117,7 +101,7 @@
                 <!-- Header -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="mb-0 fw-bold">通知中心</h4>
-                    <a href="/my/home" class="btn btn-sm btn-outline-secondary">
+                    <a href="/my/home" class="btn btn-sm btn-outline-secondary wpe-notif-return-btn">
                         <i class="fa fa-arrow-left me-1"/>返回
                     </a>
                 </div>
@@ -316,16 +300,12 @@
     </template>
 
     <!-- ============================================================ -->
-    <!-- Portal user dropdown: add "Return to Backend" for admins     -->
+    <!-- Hide portal footer (Copyright / Powered by Odoo)            -->
     <!-- ============================================================ -->
-    <template id="portal_user_dropdown_backend_link" name="Portal Return to Backend"
-              inherit_id="portal.user_dropdown" priority="20">
-        <xpath expr="//*[@id='o_logout_divider']" position="before">
-            <a groups="base.group_user" href="/odoo" role="menuitem"
-               class="dropdown-item ps-3" id="wpe_return_backend_link">
-                <i class="fa fa-fw fa-exchange me-1 small text-primary text-primary-emphasis"/>
-                返回後台
-            </a>
+    <template id="portal_hide_footer" name="Hide Portal Footer"
+              inherit_id="web.frontend_layout" priority="20">
+        <xpath expr="//footer[@id='bottom']" position="replace">
+            <footer id="bottom" class="d-none"/>
         </xpath>
     </template>
 

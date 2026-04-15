@@ -133,16 +133,22 @@
 
 /* ============================================================
    ③ Module Card Grid (portal home)
+   Unified with notification card style (circular icon + title
+   + description + arrow)
    ============================================================ */
 
-/* Card styling — add subtle border, shadow, rounded corners */
+/* Card styling — match notification card layout */
 .o_portal_my_home .o_portal_index_card > a {
     border-radius: var(--wpe-radius) !important;
     border: 1px solid #e9ecef !important;
     background: var(--wpe-white) !important;
     box-shadow: var(--wpe-shadow);
     transition: box-shadow var(--wpe-transition), border-color var(--wpe-transition);
-    padding: 1rem !important;
+    padding: 0.85rem 1rem !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.85rem !important;
+    text-decoration: none !important;
 }
 
 .o_portal_my_home .o_portal_index_card > a:hover {
@@ -150,17 +156,45 @@
     border-color: var(--o-brand-primary, #714B67) !important;
 }
 
-/* Constrain module icons to fixed size */
+/* Module icon: circular background, matches notification icon */
 .o_portal_my_home .o_portal_icon {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--wpe-light-gray);
+    border-radius: 50%;
 }
 
 .o_portal_my_home .o_portal_icon img {
-    width: 100%;
-    height: 100%;
+    width: 24px;
+    height: 24px;
     object-fit: contain;
+}
+
+/* Module title: bold, dark, matching notification card title */
+.o_portal_my_home .o_portal_index_card .card-title,
+.o_portal_my_home .o_portal_index_card h5 {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--wpe-deep-gray);
+    margin-bottom: 0.15rem;
+}
+
+/* Module description text: gray, small */
+.o_portal_my_home .o_portal_index_card .text-muted,
+.o_portal_my_home .o_portal_index_card p {
+    font-size: 0.82rem;
+    color: var(--wpe-gray) !important;
+    margin-bottom: 0;
+}
+
+/* Count badge: unified style */
+.o_portal_my_home .o_portal_index_card .badge {
+    font-size: 0.82rem;
+    font-weight: 600;
 }
 
 /* Hide spinner once loaded */
@@ -175,20 +209,7 @@
 }
 
 /* ============================================================
-   ④ Admin Banner
-   ============================================================ */
-
-.wpe-admin-banner {
-    border: none;
-    font-size: 0.9rem;
-}
-
-.wpe-admin-banner .btn {
-    white-space: nowrap;
-}
-
-/* ============================================================
-   ⑤ Notification List Page (/my/notifications)
+   ④ Notification List Page (/my/notifications)
    ============================================================ */
 
 /* Tab navigation */
@@ -475,19 +496,40 @@
 }
 
 /* ============================================================
+   ⑥ Return button — enlarged 120%
+   ============================================================ */
+
+.wpe-notif-return-btn {
+    font-size: 1.08rem;
+    padding: 0.48rem 0.96rem;
+    transform: scale(1.2);
+    transform-origin: right center;
+}
+
+/* ============================================================
+   ⑦ Top navbar — white background
+   ============================================================ */
+
+.o_portal_wrap .o_navbar,
+.o_portal_wrap nav.navbar {
+    background-color: var(--wpe-white) !important;
+    border-bottom: 1px solid #e9ecef;
+    box-shadow: var(--wpe-shadow);
+}
+
+.o_portal_wrap .o_navbar .navbar-brand,
+.o_portal_wrap .o_navbar .nav-link,
+.o_portal_wrap .o_navbar .dropdown-toggle {
+    color: var(--wpe-deep-gray) !important;
+}
+
+/* ============================================================
    RWD — Mobile (< 768px)
    ============================================================ */
 
 @media (max-width: 767.98px) {
     .wpe-notification-preview .card-body {
         padding: 1rem;
-    }
-
-    .wpe-admin-banner {
-        font-size: 0.82rem;
-        flex-direction: column;
-        gap: 0.5rem;
-        text-align: center;
     }
 
     .wpe-notif-card-title {

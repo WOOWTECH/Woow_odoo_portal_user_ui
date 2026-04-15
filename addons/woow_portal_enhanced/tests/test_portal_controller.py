@@ -75,12 +75,12 @@ class TestPortalHome(HttpCase):
                       "Enhanced portal home should contain the search bar")
 
     def test_03_portal_home_accessible_for_admin(self):
-        """Admin users can access the enhanced home page."""
+        """Admin users can access the enhanced home page (no admin banner)."""
         self.authenticate('admin', 'admin')
         res = self.url_open('/my/home')
         self.assertEqual(res.status_code, 200)
-        self.assertIn('wpe-admin-banner', res.text,
-                      "Admin should see the admin banner on portal home")
+        self.assertNotIn('wpe-admin-banner', res.text,
+                         "Admin banner should be removed")
 
     def test_04_portal_home_no_admin_banner_for_portal_user(self):
         """Portal users should NOT see the admin banner."""
@@ -182,11 +182,11 @@ class TestPortalHome(HttpCase):
     # 8. Return to Backend link (admin only)
     # ------------------------------------------------------------------
 
-    def test_12_return_backend_link_for_admin(self):
-        """Admin should see 'Return to Backend' in dropdown."""
+    def test_12_no_return_backend_link_for_admin(self):
+        """Admin should NOT see 'Return to Backend' (removed)."""
         self.authenticate('admin', 'admin')
         res = self.url_open('/my/home')
-        self.assertIn('wpe_return_backend_link', res.text)
+        self.assertNotIn('wpe_return_backend_link', res.text)
 
     def test_13_no_return_backend_link_for_portal(self):
         """Portal user should NOT see 'Return to Backend'."""

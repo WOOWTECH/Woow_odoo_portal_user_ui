@@ -81,17 +81,16 @@ class TestPortalTemplates(HttpCase):
         self.assertIn('wpe_module_search', res.text)
 
     # ------------------------------------------------------------------
-    # 3. Admin banner — conditional rendering
+    # 3. Admin banner removed (no longer shown for any user)
     # ------------------------------------------------------------------
 
-    def test_03_admin_banner_visible_for_internal(self):
-        """Internal user should see admin banner."""
+    def test_03_no_admin_banner_for_internal(self):
+        """Internal user should NOT see admin banner (removed)."""
         res = self._get_portal_home('admin', 'admin')
-        self.assertIn('wpe-admin-banner', res.text)
-        self.assertIn('/odoo', res.text)  # Return to backend link
+        self.assertNotIn('wpe-admin-banner', res.text)
 
-    def test_04_admin_banner_hidden_for_portal(self):
-        """Portal user should NOT see admin banner."""
+    def test_04_no_admin_banner_for_portal(self):
+        """Portal user should NOT see admin banner (removed)."""
         res = self._get_portal_home('tmpl_portal', 'tmpl_portal')
         self.assertNotIn('wpe-admin-banner', res.text)
 
@@ -119,13 +118,13 @@ class TestPortalTemplates(HttpCase):
         self.assertNotIn('wpe_drawer_body', res.text)
 
     # ------------------------------------------------------------------
-    # 6. User dropdown links
+    # 6. User dropdown links (Return to Backend removed)
     # ------------------------------------------------------------------
 
-    def test_07_admin_dropdown_has_backend_and_portal_links(self):
-        """Admin dropdown should have Apps, Return to Backend, Logout."""
+    def test_07_admin_dropdown_no_return_backend(self):
+        """Admin dropdown should NOT have Return to Backend (removed)."""
         res = self._get_portal_home('admin', 'admin')
-        self.assertIn('wpe_return_backend_link', res.text)
+        self.assertNotIn('wpe_return_backend_link', res.text)
         self.assertIn('o_logout', res.text)
 
     def test_08_portal_dropdown_has_no_backend_link(self):
@@ -275,3 +274,29 @@ class TestPortalTemplates(HttpCase):
         self.assertIn('</html>', res.text)
         self.assertIn('<head>', res.text)
         self.assertIn('<body>', res.text)
+
+    # ------------------------------------------------------------------
+    # 13. Footer hidden (Copyright / Powered by Odoo removed)
+    # ------------------------------------------------------------------
+
+    def test_19_footer_hidden(self):
+        """Footer with Copyright / Powered by should be hidden."""
+        res = self._get_portal_home('tmpl_portal', 'tmpl_portal')
+        self.assertNotIn('Powered by', res.text,
+                         "Footer 'Powered by' should be hidden")
+
+    def test_19b_footer_hidden_for_admin(self):
+        """Footer should also be hidden for admin users."""
+        res = self._get_portal_home('admin', 'admin')
+        self.assertNotIn('Powered by', res.text)
+
+    # ------------------------------------------------------------------
+    # 14. Return button enlarged on notification page
+    # ------------------------------------------------------------------
+
+    def test_20_return_button_has_enlarge_class(self):
+        """Return button on notification page should have wpe-notif-return-btn class."""
+        self.authenticate('tmpl_portal', 'tmpl_portal')
+        res = self.url_open('/my/notifications')
+        self.assertIn('wpe-notif-return-btn', res.text,
+                       "Return button should have the enlargement CSS class")
