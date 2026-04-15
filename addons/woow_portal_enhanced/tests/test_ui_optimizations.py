@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Dedicated tests for the 5 UI optimization features.
+Dedicated tests for UI optimization features.
 
 Covers:
   1. Admin banner removal — completeness across user types and pages
@@ -9,7 +9,9 @@ Covers:
   4. Module card ↔ notification card style unification — CSS classes
   5. Footer removal — hidden across portal home, notification page
   6. Navbar white background — CSS asset coverage
-  7. Edge cases: second portal user, multi-page consistency,
+  7. Greeting card (replaces "My account" header)
+  8. MDI icon replacement (transparent background)
+  9. Edge cases: second portal user, multi-page consistency,
      no regressions on existing features
 """
 
@@ -756,3 +758,213 @@ class TestUIOptimizationNoRegression(HttpCase):
         self.assertIn('<!DOCTYPE html>', res.text)
         self.assertIn('</html>', res.text)
         self.assertIn('o_portal', res.text)
+
+
+@tagged('post_install', '-at_install')
+class TestGreetingCard(HttpCase):
+    """Verify the greeting card replaces 'My account' header."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.portal_user = cls.env['res.users'].create({
+            'name': 'Greeting Test Portal',
+            'login': 'greeting_portal',
+            'password': 'greeting_portal',
+            'email': 'greeting@example.com',
+            'groups_id': [(6, 0, [cls.env.ref('base.group_portal').id])],
+        })
+
+    # ------------------------------------------------------------------
+    # 1. Greeting card present
+    # ------------------------------------------------------------------
+
+    def test_01_greeting_card_present_portal(self):
+        """Portal: /my/home should have greeting card."""
+        self.authenticate('greeting_portal', 'greeting_portal')
+        res = self.url_open('/my/home')
+        self.assertIn('wpe-greeting-card', res.text,
+                      "Greeting card should be present on portal home")
+
+    def test_02_greeting_card_present_admin(self):
+        """Admin: /my/home should have greeting card."""
+        self.authenticate('admin', 'admin')
+        res = self.url_open('/my/home')
+        self.assertIn('wpe-greeting-card', res.text,
+                      "Greeting card should be present for admin too")
+
+    # ------------------------------------------------------------------
+    # 2. Greeting card shows user name
+    # ------------------------------------------------------------------
+
+    def test_03_greeting_card_shows_user_name(self):
+        """Greeting card should display the user's name."""
+        self.authenticate('greeting_portal', 'greeting_portal')
+        res = self.url_open('/my/home')
+        self.assertIn('Greeting Test Portal', res.text,
+                      "Greeting card should show user name")
+
+    # ------------------------------------------------------------------
+    # 3. Greeting card has avatar
+    # ------------------------------------------------------------------
+
+    def test_04_greeting_card_has_avatar(self):
+        """Greeting card should have avatar image."""
+        self.authenticate('greeting_portal', 'greeting_portal')
+        res = self.url_open('/my/home')
+        self.assertIn('wpe-greeting-avatar', res.text,
+                      "Greeting card should have avatar element")
+
+    # ------------------------------------------------------------------
+    # 4. "My account" h3 removed
+    # ------------------------------------------------------------------
+
+    def test_05_my_account_header_replaced(self):
+        """The old 'My account' h3 heading should be replaced."""
+        self.authenticate('greeting_portal', 'greeting_portal')
+        res = self.url_open('/my/home')
+        # The original "My account" h3 should be gone
+        my_account_pattern = re.search(
+            r'<h3[^>]*>\s*My account\s*</h3>', res.text)
+        self.assertIsNone(my_account_pattern,
+                          "'My account' h3 should be replaced by greeting card")
+
+    # ------------------------------------------------------------------
+    # 5. Greeting card has today's date
+    # ------------------------------------------------------------------
+
+    def test_06_greeting_card_has_date(self):
+        """Greeting card should display today's date."""
+        self.authenticate('greeting_portal', 'greeting_portal')
+        res = self.url_open('/my/home')
+        today = fields.Date.context_today(self.env['res.users'])
+        self.assertIn(str(today), res.text,
+                      "Greeting card should show today's date")
+
+    # ------------------------------------------------------------------
+    # 6. Greeting text present
+    # ------------------------------------------------------------------
+
+    def test_07_greeting_text_present(self):
+        """Greeting card should have greeting-text element."""
+        self.authenticate('greeting_portal', 'greeting_portal')
+        res = self.url_open('/my/home')
+        self.assertIn('wpe-greeting-text', res.text)
+
+    # ------------------------------------------------------------------
+    # 7. /my route also shows greeting card
+    # ------------------------------------------------------------------
+
+    def test_08_greeting_card_on_my_route(self):
+        """The /my route should also have the greeting card."""
+        self.authenticate('greeting_portal', 'greeting_portal')
+        res = self.url_open('/my')
+        self.assertIn('wpe-greeting-card', res.text)
+
+    # ------------------------------------------------------------------
+    # 8. Greeting template exists in registry
+    # ------------------------------------------------------------------
+
+    def test_09_greeting_template_exists(self):
+        """portal_greeting_card template should exist."""
+        view = self.env['ir.ui.view'].sudo().search([
+            ('key', '=', 'woow_portal_enhanced.portal_greeting_card'),
+        ])
+        self.assertTrue(view.exists(),
+                        "Greeting card template should exist")
+        self.assertEqual(view.inherit_id.key, 'portal.portal_layout',
+                         "Should inherit from portal.portal_layout")
+
+
+@tagged('post_install', '-at_install')
+class TestMdiIcons(HttpCase):
+    """Verify MDI icon integration and transparent backgrounds."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.portal_user = cls.env['res.users'].create({
+            'name': 'MDI Icon Test Portal',
+            'login': 'mdi_portal',
+            'password': 'mdi_portal',
+            'email': 'mdi@example.com',
+            'groups_id': [(6, 0, [cls.env.ref('base.group_portal').id])],
+        })
+
+    # ------------------------------------------------------------------
+    # 1. wpe-mdi-icon class applied to portal icons
+    # ------------------------------------------------------------------
+
+    def test_01_mdi_icon_class_applied(self):
+        """Portal cards should have wpe-mdi-icon class for transparent bg."""
+        self.authenticate('mdi_portal', 'mdi_portal')
+        res = self.url_open('/my/home')
+        self.assertIn('wpe-mdi-icon', res.text,
+                      "Portal icon divs should have wpe-mdi-icon class")
+
+    # ------------------------------------------------------------------
+    # 2. Connection & Security uses MDI icon path
+    # ------------------------------------------------------------------
+
+    def test_02_security_card_uses_mdi_icon(self):
+        """Connection & Security card should use shield-lock-outline SVG."""
+        self.authenticate('mdi_portal', 'mdi_portal')
+        res = self.url_open('/my/home')
+        self.assertIn('shield-lock-outline.svg', res.text,
+                      "Security card should use MDI shield-lock icon")
+
+    # ------------------------------------------------------------------
+    # 3. MDI icon SVG files exist
+    # ------------------------------------------------------------------
+
+    def test_03_mdi_icon_files_accessible(self):
+        """MDI icon SVG files should be accessible via static URL."""
+        self.authenticate('mdi_portal', 'mdi_portal')
+        icons = [
+            'cart-outline', 'receipt-text-outline', 'folder-open-outline',
+            'checkbox-marked-circle-outline', 'clock-outline',
+            'file-search-outline', 'package-variant-closed',
+            'shield-lock-outline', 'credit-card-outline',
+        ]
+        for icon in icons:
+            url = '/woow_portal_enhanced/static/src/img/mdi/%s.svg' % icon
+            res = self.url_open(url)
+            self.assertEqual(
+                res.status_code, 200,
+                "MDI icon %s should be accessible" % icon)
+
+    # ------------------------------------------------------------------
+    # 4. JS portal.js still loads (contains replaceMdiIcons)
+    # ------------------------------------------------------------------
+
+    def test_04_portal_js_loaded(self):
+        """portal.js should be bundled into assets_frontend."""
+        self.authenticate('mdi_portal', 'mdi_portal')
+        res = self.url_open('/my/home')
+        # Verify JS is loaded via the search input it creates interactivity for
+        self.assertIn('wpe_module_search', res.text,
+                      "portal.js should be loaded (search bar interactive)")
+
+    # ------------------------------------------------------------------
+    # 5. Icon transparency template exists
+    # ------------------------------------------------------------------
+
+    def test_05_icon_transparent_template_exists(self):
+        """portal_icon_transparent template should exist."""
+        view = self.env['ir.ui.view'].sudo().search([
+            ('key', '=', 'woow_portal_enhanced.portal_icon_transparent'),
+        ])
+        self.assertTrue(view.exists(),
+                        "MDI icon transparent template should exist")
+
+    # ------------------------------------------------------------------
+    # 6. Security icon template exists
+    # ------------------------------------------------------------------
+
+    def test_06_security_icon_template_exists(self):
+        """portal_icon_security template should exist."""
+        view = self.env['ir.ui.view'].sudo().search([
+            ('key', '=', 'woow_portal_enhanced.portal_icon_security'),
+        ])
+        self.assertTrue(view.exists(),
+                        "Security icon override template should exist")

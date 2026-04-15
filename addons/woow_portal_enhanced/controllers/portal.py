@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
+
 from odoo import _, http
 from odoo.fields import Datetime as FieldDatetime
 from odoo.http import request
@@ -150,6 +152,17 @@ class WoowPortalEnhanced(CustomerPortal):
     # returned key and calls querySelector('[data-placeholder_count=…]')
     # — keys without a matching DOM element cause a TypeError.
 
+    @staticmethod
+    def _get_greeting():
+        """Return a time-based greeting string."""
+        hour = datetime.now().hour
+        if 6 <= hour < 12:
+            return _('Good Morning')
+        elif 12 <= hour < 18:
+            return _('Good Afternoon')
+        else:
+            return _('Good Evening')
+
     def _prepare_notification_values(self):
         """Build notification preview data for the portal home page."""
         user = request.env.user
@@ -184,6 +197,9 @@ class WoowPortalEnhanced(CustomerPortal):
             'unread_notif_count': unread_notif_count,
             'activity_count': activity_count,
             'is_internal_user': is_internal,
+            'greeting': self._get_greeting(),
+            'greeting_name': partner.name or user.name or '',
+            'today_date': datetime.now().strftime('%Y-%m-%d'),
         }
 
     @http.route(['/my', '/my/home'], type='http', auth='user', website=True)

@@ -511,8 +511,12 @@
    ============================================================ */
 
 .o_portal_wrap .o_navbar,
-.o_portal_wrap nav.navbar {
+.o_portal_wrap nav.navbar,
+.o_portal nav.navbar,
+.o_portal nav.navbar.bg-light,
+#wrapwrap.o_portal header nav.navbar {
     background-color: var(--wpe-white) !important;
+    background: var(--wpe-white) !important;
     border-bottom: 1px solid #e9ecef;
     box-shadow: var(--wpe-shadow);
 }
@@ -521,6 +525,58 @@
 .o_portal_wrap .o_navbar .nav-link,
 .o_portal_wrap .o_navbar .dropdown-toggle {
     color: var(--wpe-deep-gray) !important;
+}
+
+/* ============================================================
+   ⑧ Greeting Card (replaces "My account" header)
+   ============================================================ */
+
+.wpe-greeting-card {
+    border-radius: var(--wpe-radius);
+    border: 1px solid #e9ecef;
+    box-shadow: var(--wpe-shadow);
+    background: var(--wpe-white);
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.wpe-greeting-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid var(--wpe-light-gray);
+}
+
+.wpe-greeting-text h4 {
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--wpe-deep-gray);
+    margin-bottom: 0.15rem;
+}
+
+.wpe-greeting-text p {
+    font-size: 0.88rem;
+    color: var(--wpe-gray);
+    margin-bottom: 0;
+}
+
+/* ============================================================
+   ⑨ Module icon — transparent background for MDI SVGs
+   ============================================================ */
+
+.o_portal_my_home .o_portal_icon.wpe-mdi-icon {
+    background: transparent;
+}
+
+.o_portal_my_home .o_portal_icon.wpe-mdi-icon img {
+    width: 28px;
+    height: 28px;
+    filter: brightness(0) saturate(100%) invert(13%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(95%) contrast(90%);
 }
 
 /* ============================================================

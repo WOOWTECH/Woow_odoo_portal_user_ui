@@ -2,6 +2,30 @@
 <odoo>
 
     <!-- ============================================================ -->
+    <!-- Replace "My account" header with greeting card               -->
+    <!-- ============================================================ -->
+    <template id="portal_greeting_card" name="Woow Portal Greeting Card"
+              inherit_id="portal.portal_layout" priority="10">
+
+        <!-- Replace "My account" h3 + avatar button wrapper with greeting card -->
+        <xpath expr="//div[hasclass('wrapper')][.//h3[contains(text(),'My account')]]" position="replace">
+            <div class="wpe-greeting-card" t-if="my_details">
+                <img class="wpe-greeting-avatar"
+                     t-att-src="image_data_uri(user_id.partner_id.avatar_1024)"
+                     t-att-alt="user_id.partner_id.name"/>
+                <div class="wpe-greeting-text">
+                    <h4>
+                        <t t-if="greeting" t-esc="greeting"/><t t-if="not greeting">Hello</t>,
+                        <t t-esc="greeting_name or user_id.partner_id.name"/>
+                    </h4>
+                    <p t-if="today_date" t-esc="today_date"/>
+                </div>
+            </div>
+        </xpath>
+
+    </template>
+
+    <!-- ============================================================ -->
     <!-- Inherit portal.portal_my_home to prepend search bar,         -->
     <!-- notification preview, and admin banner.                      -->
     <!-- ============================================================ -->
@@ -306,6 +330,22 @@
               inherit_id="web.frontend_layout" priority="20">
         <xpath expr="//footer[@id='bottom']" position="replace">
             <footer id="bottom" class="d-none"/>
+        </xpath>
+    </template>
+
+    <!-- Add wpe-mdi-icon class to all portal icons for transparent background -->
+    <template id="portal_icon_transparent" name="MDI Icon: Transparent Background"
+              inherit_id="portal.portal_docs_entry" priority="50">
+        <xpath expr="//div[hasclass('o_portal_icon')]" position="attributes">
+            <attribute name="class" add="wpe-mdi-icon" separator=" "/>
+        </xpath>
+    </template>
+
+    <!-- Portal: Connection & Security — shield-lock-outline -->
+    <template id="portal_icon_security" name="MDI Icon: Connection"
+              inherit_id="portal.portal_my_home" priority="50">
+        <xpath expr="//div[@id='portal_common_category']//t[@t-set='icon']" position="attributes">
+            <attribute name="t-value">'/woow_portal_enhanced/static/src/img/mdi/shield-lock-outline.svg'</attribute>
         </xpath>
     </template>
 
