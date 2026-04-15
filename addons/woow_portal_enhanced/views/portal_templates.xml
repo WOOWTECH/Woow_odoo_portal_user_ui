@@ -215,7 +215,7 @@
                         <div class="portal-loyalty-buttons cursor-pointer col-6"
                              t-foreach="cards_per_programs[program]"
                              t-as="card">
-                            <div class="o_loyalty_card d-flex"
+                            <div class="o_loyalty_card d-flex h-100"
                                  t-att-data-card_id="card.id">
                                 <span class="o_notification_bar rounded-start"
                                       style="width: 0.5rem; background-color: var(--cyan)"/>
@@ -497,6 +497,14 @@
               inherit_id="portal.portal_my_home" priority="50">
         <xpath expr="//div[@id='portal_common_category']//t[@t-set='icon']" position="attributes">
             <attribute name="t-value">'/woow_portal_enhanced/static/src/img/mdi/shield-lock-outline.svg'</attribute>
+        </xpath>
+    </template>
+
+    <!-- Hide sidebar loyalty cards (we show them in center instead) -->
+    <template id="portal_hide_sidebar_loyalty" name="Hide Sidebar Loyalty Cards"
+              inherit_id="loyalty.loyalty_buttons" priority="50">
+        <xpath expr="//div[hasclass('o_loyalty_container')]" position="replace">
+            <div class="o_loyalty_container d-none"/>
         </xpath>
     </template>
 
