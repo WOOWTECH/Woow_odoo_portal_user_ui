@@ -8950,6 +8950,14 @@ try{await this.orm.write(model,[record.id],{code:inputEl.value});await handleChe
 window.location=window.location;},cancel:()=>{},});},});publicWidget.registry.DisableTOTPButton=publicWidget.Widget.extend({selector:'#auth_totp_portal_disable',events:{click:'_onClick'},init(){this._super(...arguments);this.orm=this.bindService("orm");this.dialog=this.bindService("dialog");},async _onClick(e){e.preventDefault();await handleCheckIdentity(this.orm.call("res.users","action_totp_disable",[user.userId]),this.orm,this.dialog)
 window.location=window.location;}});publicWidget.registry.RevokeTrustedDeviceButton=publicWidget.Widget.extend({selector:'#totp_wizard_view + * .fa.fa-trash.text-danger',events:{click:'_onClick'},init(){this._super(...arguments);this.orm=this.bindService("orm");this.dialog=this.bindService("dialog");},async _onClick(e){e.preventDefault();await handleCheckIdentity(this.orm.call("auth_totp.device","remove",[parseInt(this.el.id)]),this.orm,this.dialog);window.location=window.location;}});publicWidget.registry.RevokeAllTrustedDevicesButton=publicWidget.Widget.extend({selector:'#auth_totp_portal_revoke_all_devices',events:{click:'_onClick'},init(){this._super(...arguments);this.orm=this.bindService("orm");this.dialog=this.bindService("dialog");},async _onClick(e){e.preventDefault();await handleCheckIdentity(this.orm.call("res.users","revoke_all_devices",[user.userId]),this.orm,this.dialog);window.location=window.location;}});return __exports;});;
 
+/* /loyalty/static/src/js/portal/loyalty_card.js */
+odoo.define('@loyalty/js/portal/loyalty_card',['@web/legacy/js/public/public_widget','@web/core/network/rpc','@loyalty/js/portal/loyalty_card_dialog/loyalty_card_dialog'],function(require){'use strict';let __exports={};const publicWidget=require('@web/legacy/js/public/public_widget')[Symbol.for("default")];const{rpc}=require('@web/core/network/rpc');const{PortalLoyaltyCardDialog}=require("@loyalty/js/portal/loyalty_card_dialog/loyalty_card_dialog")
+publicWidget.registry.PortalLoyaltyWidget=publicWidget.Widget.extend({selector:'.o_loyalty_container',events:{'click .o_loyalty_card':'_onClickLoyaltyCard',},async _onClickLoyaltyCard(ev){const card_id=ev.currentTarget.dataset.card_id;let data=await rpc(`/my/loyalty_card/${card_id}/values`);this.call("dialog","add",PortalLoyaltyCardDialog,data);},});return __exports;});;
+
+/* /loyalty/static/src/js/portal/loyalty_card_dialog/loyalty_card_dialog.js */
+odoo.define('@loyalty/js/portal/loyalty_card_dialog/loyalty_card_dialog',['@odoo/owl','@web/core/dialog/dialog'],function(require){'use strict';let __exports={};const{Component}=require('@odoo/owl');const{Dialog}=require('@web/core/dialog/dialog');const PortalLoyaltyCardDialog=__exports.PortalLoyaltyCardDialog=class PortalLoyaltyCardDialog extends Component{static components={Dialog};static template='loyalty.portal_loyalty_card_dialog';static props=['*'];setup(){this.csrf_token=odoo.csrf_token;}}
+return __exports;});;
+
 /* /portal_rating/static/src/js/portal_composer.js */
 odoo.define('@portal_rating/js/portal_composer',['@web/core/l10n/translation','@portal/js/portal_composer'],function(require){'use strict';let __exports={};const{_t}=require("@web/core/l10n/translation");const portalComposer=require("@portal/js/portal_composer")[Symbol.for("default")];var PortalComposer=portalComposer.PortalComposer;PortalComposer.include({events:Object.assign({},PortalComposer.prototype.events,{'click .o-mail-Composer-stars i':'_onClickStar','mousemove .o-mail-Composer-stars i':'_onMoveStar','mouseleave .o-mail-Composer-stars i':'_onMoveLeaveStar',}),init:function(parent,options){this._super.apply(this,arguments);if(options.default_rating_value){options.default_rating_value=parseFloat(options.default_rating_value);}
 this.options=Object.assign({'rate_with_void_content':false,'default_message':false,'default_message_id':false,'default_rating_value':4.0,'force_submit_url':false,},this.options);this.user_click=false;this._starValue=this.options.default_rating_value;},start:function(){var self=this;return this._super.apply(this,arguments).then(function(){self.$input=self.$('input[name="rating_value"]');self.$star_list=self.$('.o-mail-Composer-stars').find('i');if(!self.options.default_message_id){self.$star_list.removeClass('text-black-25');}
@@ -11741,6 +11749,57 @@ registerTemplate("payment.deleteTokenDialog", `/payment/static/src/xml/payment_f
         </div>
     </t>
 
+`);
+registerTemplate("loyalty.portal_loyalty_card_dialog", `/loyalty/static/src/js/portal/loyalty_card_dialog/loyalty_card_dialog.xml`, `<t t-name="loyalty.portal_loyalty_card_dialog" xml:space="preserve">
+        <Dialog size="'md'" header="false" footer="false" t-on-click="props.close">
+            <div class="d-flex align-items-center" t-on-click.stop="">
+                <div class="d-flex justify-content-between w-100 align-items-center">
+                    <div class="d-flex align-items-center gap-2">
+                        <img class="img-fluid" t-att-src="props.img_path" width="40"/>
+                        <div class="fs-5"><t t-out="props.program.program_name"/></div>
+                    </div>
+                    <div class="d-flex flex-column align-items-end">
+                        <span class="fs-5" t-out="props.card.points_display"/>
+                        <i class="text-secondary fs-6" t-if="props.card.expiration_date">
+                            Valid until <t t-out="props.card.expiration_date"/>
+                        </i>
+                    </div>
+                </div>
+                <div type="button" class="d-sm-block btn-close p-0 p-md-2" t-on-click="props.close"/>
+            </div>
+            <hr/>
+            <div class="mt-0 pt-0" t-on-click.stop="">
+                <div name="history_lines">
+                    <t t-if="props.history_lines.length">
+                        <strong>Last Transactions</strong>
+                        <div t-foreach="props.history_lines" t-as="line" t-key="line_index" class="row px-2">
+                            <div class="col-7">
+                                <t t-if="line.order_id and line.order_portal_url">
+                                    <a t-att-href="line.order_portal_url">
+                                        <t t-out="line.description"/>
+                                    </a>
+                                </t>
+                                <t t-else="">
+                                    <t t-out="line.description"/>
+                                </t>
+                            </div>
+                            <div t-out="line.points" class="text-end col-5"/>
+                        </div>
+                        <div class="mt-1 mb-1">
+                            <a t-attf-href="/my/loyalty_card/{{props.card.id}}/history/">
+                                -&gt; View History
+                            </a>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <p class="alert alert-warning">
+                            There are currently no transaction lines for this card.
+                        </p>
+                    </t>
+                </div>
+            </div>
+        </Dialog>
+    </t>
 `);
 registerTemplateExtension("portal.Composer", `/portal_rating/static/src/xml/portal_chatter.xml`, `<t t-inherit="portal.Composer" t-inherit-mode="extension" xml:space="preserve">
         <xpath expr="//textarea" position="inside"><t t-esc="widget.options['default_message'] ? widget.options['default_message'].trim() : ''"/></xpath>
