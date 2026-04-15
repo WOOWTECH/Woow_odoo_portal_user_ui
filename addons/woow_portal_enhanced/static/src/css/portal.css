@@ -496,13 +496,13 @@
 }
 
 /* ============================================================
-   ⑥ Return button — enlarged 120%
+   ⑥ Return button — 70% of enlarged size
    ============================================================ */
 
 .wpe-notif-return-btn {
     font-size: 1.08rem;
     padding: 0.48rem 0.96rem;
-    transform: scale(1.2);
+    transform: scale(0.84);
     transform-origin: right center;
 }
 
@@ -541,6 +541,13 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+}
+
+/* On tablet/desktop (≥992px), constrain greeting card to match content column width */
+@media (min-width: 992px) {
+    .wpe-greeting-card {
+        max-width: calc(66.666667% - 0.75rem);
+    }
 }
 
 .wpe-greeting-avatar {
