@@ -144,10 +144,14 @@ class WoowPortalEnhanced(CustomerPortal):
     # ------------------------------------------------------------------
     # Inject notification data into portal home
     # ------------------------------------------------------------------
+    # NOTE: notification data is injected via home() override, NOT via
+    # _prepare_home_portal_values().  The latter is also called by the
+    # /my/counters JSON-RPC route whose JS client iterates over every
+    # returned key and calls querySelector('[data-placeholder_count=…]')
+    # — keys without a matching DOM element cause a TypeError.
 
-    def _prepare_home_portal_values(self, counters):
-        """Extend portal home values with notification preview data."""
-        values = super()._prepare_home_portal_values(counters)
+    def _prepare_notification_values(self):
+        """Build notification preview data for the portal home page."""
         user = request.env.user
         partner = user.partner_id
         is_internal = user._is_internal()
@@ -175,13 +179,19 @@ class WoowPortalEnhanced(CustomerPortal):
                 ('user_id', '=', user.id),
             ])
 
-        values.update({
+        return {
             'notification_previews': preview_items,
             'unread_notif_count': unread_notif_count,
             'activity_count': activity_count,
             'is_internal_user': is_internal,
-        })
-        return values
+        }
+
+    @http.route(['/my', '/my/home'], type='http', auth='user', website=True)
+    def home(self, **kw):
+        values = self._prepare_portal_layout_values()
+        values.update(self._prepare_home_portal_values([]))
+        values.update(self._prepare_notification_values())
+        return request.render("portal.portal_my_home", values)
 
     # ------------------------------------------------------------------
     # Notification list page (full page, HTTP GET)
