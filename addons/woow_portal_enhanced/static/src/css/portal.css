@@ -594,6 +594,33 @@
     color: var(--wpe-deep-gray) !important;
 }
 
+/* ⑦-B Breadcrumb navbar — white background (override color_customizer) */
+.o_portal .o_portal_navbar,
+.o_portal nav.o_portal_navbar,
+.o_portal nav.navbar.o_portal_navbar,
+.o_portal_wrap .o_portal_navbar,
+#wrapwrap .o_portal_navbar {
+    background-color: var(--wpe-white) !important;
+    background: var(--wpe-white) !important;
+}
+.o_portal .o_portal_navbar .breadcrumb-item,
+.o_portal .o_portal_navbar .breadcrumb-item a,
+.o_portal .o_portal_navbar .navbar-toggler {
+    color: var(--wpe-deep-gray, #212121) !important;
+}
+.o_portal .o_portal_navbar .navbar-toggler .fa-bars {
+    color: var(--wpe-deep-gray, #212121) !important;
+}
+
+/* ⑦-C Hide footer (Copyright / Powered by odoo) on portal pages */
+.o_portal footer,
+.o_portal_wrap footer,
+.o_portal .o_footer,
+.o_portal_wrap .o_footer,
+#wrapwrap.o_portal footer {
+    display: none !important;
+}
+
 /* ============================================================
    ⑧ Greeting Card (replaces "My account" header)
    ============================================================ */
