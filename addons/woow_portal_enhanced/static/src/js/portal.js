@@ -8,6 +8,7 @@
  *  - Notification page: swipe to mark-as-read / done
  *  - Notification detail modal (click card → fetch detail → show modal)
  *  - MDI icon replacement on portal home module cards
+ *  - Logo link rewrite → /my/home on portal pages
  */
 
 import { whenReady } from "@odoo/owl";
@@ -21,6 +22,7 @@ whenReady(() => {
     replaceMdiIcons();
     hideEmptyModuleCards();
     initNotifSearchbar();
+    rewriteLogoLink();
 });
 
 // ------------------------------------------------------------------
@@ -1051,4 +1053,19 @@ function jsonRpc(url, params) {
             console.error("Fetch error:", err);
             return null;
         });
+}
+
+// ------------------------------------------------------------------
+// ⑩ Logo link rewrite — on portal pages, logo clicks go to /my/home
+//    Works with both base portal and website module navbar structures.
+// ------------------------------------------------------------------
+
+function rewriteLogoLink() {
+    // Only apply on portal pages (path starts with /my)
+    if (!window.location.pathname.startsWith('/my')) return;
+
+    var logos = document.querySelectorAll('a.navbar-brand');
+    logos.forEach(function (el) {
+        el.setAttribute('href', '/my/home');
+    });
 }

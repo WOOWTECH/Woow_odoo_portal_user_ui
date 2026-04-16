@@ -574,12 +574,6 @@
         </xpath>
     </template>
 
-    <!-- Logo link: click goes to portal home /my/home -->
-    <template id="portal_logo_link_home" name="Logo Link to Portal Home"
-              inherit_id="portal.frontend_layout" priority="50">
-        <xpath expr="//a[hasclass('navbar-brand')]" position="attributes">
-            <attribute name="href">/my/home</attribute>
-        </xpath>
-    </template>
+    <!-- Logo link: handled by JS in portal.js — rewriteLogoLink() -->
 
 </odoo>
