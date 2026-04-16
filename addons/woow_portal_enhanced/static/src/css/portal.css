@@ -28,6 +28,12 @@
     --wpe-transition: 0.2s ease;
 }
 
+/* Masked icon span — replaces <img> SVGs for precise theme color tinting */
+.wpe-masked-icon {
+    display: inline-block;
+    background-color: var(--custom-primary, var(--o-brand-primary, #714B67));
+}
+
 /* ============================================================
    ⓪ Portal layout fixes
    ============================================================ */
@@ -151,7 +157,7 @@
     color: var(--custom-primary, var(--o-brand-primary, #714B67));
 }
 .wpe-notification-icon img {
-    filter: var(--wpe-icon-filter, none);
+    /* SVG imgs are replaced by JS with .wpe-masked-icon spans */
 }
 
 /* ============================================================
@@ -195,8 +201,7 @@
     width: 24px;
     height: 24px;
     object-fit: contain;
-    /* Tint SVG icons with portal theme color (dynamic via JS) */
-    filter: var(--wpe-icon-filter, none);
+    /* SVG imgs are replaced by JS with .wpe-masked-icon spans */
 }
 
 /* Module title: bold, dark, matching notification card title */
@@ -346,7 +351,7 @@
 .wpe-notif-card-icon img {
     width: 22px;
     height: 22px;
-    filter: var(--wpe-icon-filter, none);
+    /* SVG imgs are replaced by JS with .wpe-masked-icon spans */
 }
 
 .wpe-notif-card-body {
@@ -645,8 +650,7 @@
 .o_portal_my_home .o_portal_icon.wpe-mdi-icon img {
     width: 28px;
     height: 28px;
-    /* Theme color filter (dynamic via JS) */
-    filter: var(--wpe-icon-filter, none);
+    /* SVG imgs are replaced by JS with .wpe-masked-icon spans */
 }
 
 /* ============================================================
