@@ -598,6 +598,15 @@
     color: var(--wpe-deep-gray) !important;
 }
 
+/* ⑦-A2 Dropdown menu icons — follow color_customizer theme color */
+.o_portal_wrap .dropdown-menu .dropdown-item .text-primary,
+.o_portal_wrap .dropdown-menu .dropdown-item .text-primary-emphasis,
+.o_portal_wrap .dropdown-menu .dropdown-item i.fa.text-primary,
+#wrapwrap.o_portal .dropdown-menu .text-primary,
+#wrapwrap.o_portal .dropdown-menu .text-primary-emphasis {
+    color: var(--custom-primary, var(--o-brand-primary, #714B67)) !important;
+}
+
 /* ⑦-B Breadcrumb navbar — white background (override color_customizer) */
 .o_portal .o_portal_navbar,
 .o_portal nav.o_portal_navbar,
