@@ -562,15 +562,17 @@
     </template>
 
     <!-- ============================================================ -->
-    <!-- Task 5: Add back button before navbar-toggler in searchbar   -->
+    <!-- Task 5: Add back button next to home icon in breadcrumb      -->
     <!-- ============================================================ -->
     <template id="portal_breadcrumb_back_btn" name="Breadcrumb Back Button"
-              inherit_id="portal.portal_searchbar" priority="50">
-        <xpath expr="//button[hasclass('navbar-toggler')]" position="before">
-            <a href="#" class="btn btn-sm btn-outline-secondary wpe-breadcrumb-back-btn"
-               onclick="event.preventDefault(); if (window.history.length > 1) { window.history.back(); } else { window.location.href='/my/home'; }">
-                <i class="fa fa-arrow-left me-1"/>返回
-            </a>
+              inherit_id="portal.portal_breadcrumbs" priority="50">
+        <xpath expr="//li[hasclass('breadcrumb-item')][1]" position="before">
+            <li class="breadcrumb-item wpe-back-btn-item">
+                <a href="#" class="wpe-breadcrumb-back-btn"
+                   onclick="event.preventDefault(); if (window.history.length > 1) { window.history.back(); } else { window.location.href='/my/home'; }">
+                    <i class="fa fa-arrow-left me-1"/>返回
+                </a>
+            </li>
         </xpath>
     </template>
 

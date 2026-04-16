@@ -145,7 +145,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--wpe-light-gray);
+    background: transparent;
     border-radius: 50%;
     flex-shrink: 0;
     color: var(--o-brand-primary, #714B67);
@@ -187,7 +187,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--wpe-light-gray);
+    background: transparent;
     border-radius: 50%;
 }
 
@@ -334,7 +334,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--wpe-light-gray);
+    background: transparent;
     border-radius: 50%;
     flex-shrink: 0;
     color: #714B67;
@@ -665,10 +665,24 @@
 .o_portal .o_portal_navbar .navbar-toggler .fa-bars {
     font-size: 1.1rem;
 }
+.wpe-back-btn-item {
+    display: flex;
+    align-items: center;
+}
 .wpe-breadcrumb-back-btn {
-    font-size: 0.85rem;
-    margin-right: 0.5rem;
+    font-size: 0.8rem;
     white-space: nowrap;
+    color: var(--wpe-deep-gray, #333);
+    text-decoration: none;
+    padding: 0.15rem 0.45rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: var(--wpe-white, #fff);
+}
+.wpe-breadcrumb-back-btn:hover {
+    background: #f0f0f0;
+    color: var(--wpe-deep-gray, #333);
+    text-decoration: none;
 }
 
 /* ============================================================
