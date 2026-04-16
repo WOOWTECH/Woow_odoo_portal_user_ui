@@ -572,7 +572,22 @@
    ⑥ Notification header layout
    ============================================================ */
 
-/* ⑦ Top navbar — controlled by website module settings (removed override) */
+/* ⑦ Top navbar — white background to match content area */
+.o_portal_wrap .o_navbar,
+.o_portal_wrap nav.navbar,
+.o_portal nav.navbar,
+.o_portal nav.navbar.bg-light,
+#wrapwrap.o_portal header nav.navbar {
+    background-color: var(--wpe-white) !important;
+    background: var(--wpe-white) !important;
+    border-bottom: 1px solid #e9ecef;
+    box-shadow: var(--wpe-shadow);
+}
+.o_portal_wrap .o_navbar .navbar-brand,
+.o_portal_wrap .o_navbar .nav-link,
+.o_portal_wrap .o_navbar .dropdown-toggle {
+    color: var(--wpe-deep-gray) !important;
+}
 
 /* ============================================================
    ⑧ Greeting Card (replaces "My account" header)
