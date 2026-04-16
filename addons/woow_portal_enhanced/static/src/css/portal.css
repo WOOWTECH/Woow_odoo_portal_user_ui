@@ -201,8 +201,9 @@
 
 /* Module title: bold, dark, matching notification card title */
 .o_portal_my_home .o_portal_index_card .card-title,
-.o_portal_my_home .o_portal_index_card h5 {
-    font-weight: 600;
+.o_portal_my_home .o_portal_index_card h5,
+.o_portal_my_home .o_portal_index_card .fs-5 {
+    font-weight: 600 !important;
     font-size: 0.95rem;
     color: var(--wpe-deep-gray);
     margin-bottom: 0.15rem;
