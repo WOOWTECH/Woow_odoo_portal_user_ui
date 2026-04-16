@@ -18,7 +18,7 @@
     --wpe-orange: #E66D3E;
     --wpe-coral: #F45D6D;
     --wpe-lavender: #C09FE0;
-    --wpe-unread-bg: #EBF0FF;
+    --wpe-unread-bg: rgba(113, 75, 103, 0.08);
 
     /* Layout tokens */
     --wpe-radius: 12px;
@@ -124,6 +124,11 @@
 .wpe-preview-group-header {
     padding-bottom: 0.25rem;
     border-bottom: 1px solid #f1f3f5;
+}
+
+/* Preview text container — must constrain width for text-overflow in flex */
+.wpe-notification-item .flex-grow-1 {
+    min-width: 0;
 }
 
 /* Preview title — single-line truncation */
@@ -331,8 +336,16 @@
     background: var(--wpe-light-gray);
     border-radius: 50%;
     flex-shrink: 0;
-    color: var(--o-brand-primary, #714B67);
+    color: #714B67;
     font-size: 1rem;
+}
+.wpe-notif-card-icon i.fa {
+    color: #714B67 !important;
+}
+.wpe-notif-card-icon img {
+    width: 22px;
+    height: 22px;
+    filter: invert(31%) sepia(15%) saturate(1200%) hue-rotate(280deg) brightness(90%) contrast(90%);
 }
 
 .wpe-notif-card-body {
@@ -457,10 +470,10 @@
     white-space: nowrap;
 }
 
-/* Unread notification — highlighted */
+/* Unread notification — highlighted with theme color */
 .wpe-notif-unread .wpe-notif-card {
     background: var(--wpe-unread-bg);
-    border-color: #c8d4f8;
+    border-color: rgba(113, 75, 103, 0.2);
 }
 
 .wpe-notif-unread .wpe-notif-card-title {
@@ -586,10 +599,8 @@
    ============================================================ */
 
 .wpe-notif-return-btn {
-    font-size: 1.08rem;
-    padding: 0.48rem 0.96rem;
-    transform: scale(0.84);
-    transform-origin: right center;
+    font-size: 0.85rem;
+    white-space: nowrap;
 }
 
 /* ============================================================
@@ -678,16 +689,16 @@
    ============================================================ */
 
 .o_portal .o_portal_navbar {
-    font-size: 1.2rem;
+    font-size: 1.02rem;
 }
 .o_portal .o_portal_navbar .breadcrumb {
-    font-size: 1.2rem;
+    font-size: 1.02rem;
 }
 .o_portal .o_portal_navbar .breadcrumb .fa-home {
-    font-size: 1.35rem;
+    font-size: 1.15rem;
 }
 .o_portal .o_portal_navbar .navbar-toggler .fa-bars {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
 }
 .wpe-breadcrumb-back-btn {
     font-size: 0.85rem;

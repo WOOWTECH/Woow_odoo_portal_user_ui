@@ -822,32 +822,22 @@ function replaceMdiIcons() {
 // ------------------------------------------------------------------
 
 function hideEmptyModuleCards() {
-    const grid = document.getElementById("wpe_module_grid");
+    var grid = document.getElementById("wpe_module_grid");
     if (!grid) return;
 
-    // The spinner is removed by Odoo JS after all counter RPCs complete.
-    const spinner = grid.querySelector(".o_portal_doc_spinner");
-    if (!spinner) {
-        // Spinner already gone — counters already loaded, run immediately
-        _doHideEmpty(grid);
-        return;
-    }
-
-    // Watch for spinner removal
-    var observer = new MutationObserver(function (mutations) {
-        for (var i = 0; i < mutations.length; i++) {
-            for (var j = 0; j < mutations[i].removedNodes.length; j++) {
-                if (mutations[i].removedNodes[j] === spinner ||
-                    (mutations[i].removedNodes[j].classList &&
-                     mutations[i].removedNodes[j].classList.contains("o_portal_doc_spinner"))) {
-                    observer.disconnect();
-                    _doHideEmpty(grid);
-                    return;
-                }
-            }
+    // Poll until the spinner is gone (Odoo's OWL PortalHomeCounters removes
+    // it after all /my/counters RPCs finish). Then hide cards with count 0.
+    var attempts = 0;
+    var maxAttempts = 50; // 50 × 200ms = 10s max wait
+    var timer = setInterval(function () {
+        attempts++;
+        var spinner = grid.querySelector(".o_portal_doc_spinner");
+        if (!spinner || attempts >= maxAttempts) {
+            clearInterval(timer);
+            // Small delay to ensure Odoo JS has finished updating DOM
+            setTimeout(function () { _doHideEmpty(grid); }, 100);
         }
-    });
-    observer.observe(grid, { childList: true, subtree: true });
+    }, 200);
 }
 
 function _doHideEmpty(grid) {
@@ -858,12 +848,13 @@ function _doHideEmpty(grid) {
         if (!counterEl) return;
 
         var countText = (counterEl.textContent || "").trim();
-        if (countText === "0") {
+        // Hide cards with count "0" or still empty (never got a count)
+        if (countText === "0" || countText === "") {
             card.classList.add("d-none");
         }
     });
 
-    // Also hide category headers if all their cards are hidden
+    // Also hide category headers if all their child cards are hidden
     var categories = grid.querySelectorAll(".o_portal_category");
     categories.forEach(function (cat) {
         var visibleCards = cat.querySelectorAll(".o_portal_index_card:not(.d-none)");

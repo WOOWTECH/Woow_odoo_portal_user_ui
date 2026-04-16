@@ -347,7 +347,8 @@
                                     </div>
                                     <div class="wpe-notif-card" data-action="show-detail">
                                         <div class="wpe-notif-card-icon">
-                                            <i t-attf-class="fa #{item['icon']}"/>
+                                            <img t-att-src="item.get('icon_img', '/woow_portal_enhanced/static/src/img/mdi/bell-outline.svg')"
+                                                 width="22" height="22" alt=""/>
                                         </div>
                                         <div class="wpe-notif-card-body">
                                             <div class="wpe-notif-card-title">
@@ -399,7 +400,8 @@
                                     </div>
                                     <div class="wpe-notif-card" data-action="show-detail">
                                         <div class="wpe-notif-card-icon">
-                                            <i t-attf-class="fa #{item['icon']}"/>
+                                            <img t-att-src="item.get('icon_img', '/woow_portal_enhanced/static/src/img/mdi/bell-outline.svg')"
+                                                 width="22" height="22" alt=""/>
                                         </div>
                                         <div class="wpe-notif-card-body">
                                             <div class="wpe-notif-card-title">
@@ -418,7 +420,6 @@
                                             </div>
                                             <div class="wpe-notif-card-type">
                                                 <span class="badge bg-light text-dark">
-                                                    <i t-attf-class="fa #{item['icon']} me-1"/>
                                                     <t t-esc="item.get('activity_type', 'Activity')"/>
                                                 </span>
                                             </div>
