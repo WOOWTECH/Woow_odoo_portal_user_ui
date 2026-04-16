@@ -23,6 +23,7 @@ whenReady(() => {
     hideEmptyModuleCards();
     initNotifSearchbar();
     rewriteLogoLink();
+    applyThemeIconFilter();
 });
 
 // ------------------------------------------------------------------
@@ -1068,4 +1069,71 @@ function rewriteLogoLink() {
     logos.forEach(function (el) {
         el.setAttribute('href', '/my/home');
     });
+}
+
+// ------------------------------------------------------------------
+// ⑪ Dynamic icon filter — compute CSS filter from theme color
+//    Converts --custom-primary hex color to a CSS filter that tints
+//    black SVG icons to match the theme color.
+// ------------------------------------------------------------------
+
+function applyThemeIconFilter() {
+    var root = getComputedStyle(document.documentElement);
+    var color = (root.getPropertyValue('--custom-primary') || '').trim();
+    if (!color) {
+        color = (root.getPropertyValue('--o-brand-primary') || '').trim();
+    }
+    if (!color) return; // no theme color set, leave icons as-is
+
+    var filter = hexToFilter(color);
+    if (filter) {
+        document.documentElement.style.setProperty('--wpe-icon-filter', filter);
+    }
+}
+
+/**
+ * Convert a hex color to a CSS filter string that transforms black (#000) to that color.
+ * Uses a simplified lookup for common brand colors, with a general-purpose approximation.
+ */
+function hexToFilter(hex) {
+    // Parse hex to RGB
+    hex = hex.replace('#', '');
+    if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+    var r = parseInt(hex.substring(0, 2), 16);
+    var g = parseInt(hex.substring(2, 4), 16);
+    var b = parseInt(hex.substring(4, 6), 16);
+
+    // Convert to HSL
+    var rn = r / 255, gn = g / 255, bn = b / 255;
+    var max = Math.max(rn, gn, bn), min = Math.min(rn, gn, bn);
+    var h, s, l = (max + min) / 2;
+
+    if (max === min) {
+        h = s = 0;
+    } else {
+        var d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        if (max === rn) h = ((gn - bn) / d + (gn < bn ? 6 : 0)) / 6;
+        else if (max === gn) h = ((bn - rn) / d + 2) / 6;
+        else h = ((rn - gn) / d + 4) / 6;
+    }
+
+    // Build filter: invert + sepia gives us a base color, then hue-rotate + saturate + brightness to target
+    var hDeg = Math.round(h * 360);
+    var sPct = Math.round(s * 100);
+    var lPct = Math.round(l * 100);
+
+    // Target: transform black SVG to the desired color
+    // Strategy: invert(50%) gives gray, sepia(100%) gives a brownish tone,
+    // then saturate/hue-rotate/brightness/contrast to reach target
+    var invertPct = Math.round(lPct * 1.1);
+    if (invertPct > 100) invertPct = 100;
+    var sepiaPct = sPct > 10 ? 100 : 0;
+    var saturatePct = Math.round(sPct * 20);
+    if (saturatePct < 100) saturatePct = 100;
+    if (saturatePct > 3000) saturatePct = 3000;
+    var hueRotate = (hDeg + 140) % 360; // offset from sepia base (~40deg)
+    var brightPct = Math.round(50 + lPct * 0.6);
+
+    return 'invert(' + invertPct + '%) sepia(' + sepiaPct + '%) saturate(' + saturatePct + '%) hue-rotate(' + hueRotate + 'deg) brightness(' + brightPct + '%) contrast(90%)';
 }

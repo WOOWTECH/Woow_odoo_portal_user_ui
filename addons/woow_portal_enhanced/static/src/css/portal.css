@@ -18,7 +18,7 @@
     --wpe-orange: #E66D3E;
     --wpe-coral: #F45D6D;
     --wpe-lavender: #C09FE0;
-    --wpe-unread-bg: rgba(113, 75, 103, 0.08);
+    --wpe-unread-bg: color-mix(in srgb, var(--custom-primary, var(--o-brand-primary, #714B67)) 8%, transparent);
 
     /* Layout tokens */
     --wpe-radius: 12px;
@@ -75,8 +75,8 @@
 }
 
 .wpe-search-bar .input-group:focus-within {
-    border-color: var(--o-brand-primary, #714B67);
-    box-shadow: 0 0 0 0.15rem rgba(var(--o-brand-primary-rgb, 113, 75, 103), 0.15);
+    border-color: var(--custom-primary, var(--o-brand-primary, #714B67));
+    box-shadow: 0 0 0 0.15rem color-mix(in srgb, var(--custom-primary, var(--o-brand-primary, #714B67)) 15%, transparent);
 }
 
 /* ============================================================
@@ -94,7 +94,7 @@
 }
 
 .wpe-view-all-link {
-    color: var(--o-brand-primary, #714B67);
+    color: var(--custom-primary, var(--o-brand-primary, #714B67));
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 500;
@@ -148,10 +148,10 @@
     background: transparent;
     border-radius: 50%;
     flex-shrink: 0;
-    color: var(--o-brand-primary, #714B67);
+    color: var(--custom-primary, var(--o-brand-primary, #714B67));
 }
 .wpe-notification-icon img {
-    filter: invert(31%) sepia(15%) saturate(1200%) hue-rotate(280deg) brightness(90%) contrast(90%);
+    filter: var(--wpe-icon-filter, none);
 }
 
 /* ============================================================
@@ -176,7 +176,7 @@
 
 .o_portal_my_home .o_portal_index_card > a:hover {
     box-shadow: var(--wpe-shadow-hover);
-    border-color: var(--o-brand-primary, #714B67) !important;
+    border-color: var(--custom-primary, var(--o-brand-primary, #714B67)) !important;
 }
 
 /* Module icon: circular background, matches notification icon */
@@ -195,8 +195,8 @@
     width: 24px;
     height: 24px;
     object-fit: contain;
-    /* Tint SVG icons with portal theme color (--o-brand-primary #714B67) */
-    filter: invert(31%) sepia(15%) saturate(1200%) hue-rotate(280deg) brightness(90%) contrast(90%);
+    /* Tint SVG icons with portal theme color (dynamic via JS) */
+    filter: var(--wpe-icon-filter, none);
 }
 
 /* Module title: bold, dark, matching notification card title */
@@ -266,8 +266,8 @@
 }
 
 .wpe-notif-tab.active {
-    color: var(--o-brand-primary, #714B67);
-    border-bottom-color: var(--o-brand-primary, #714B67);
+    color: var(--custom-primary, var(--o-brand-primary, #714B67));
+    border-bottom-color: var(--custom-primary, var(--o-brand-primary, #714B67));
 }
 
 /* Card wrapper (contains swipe bg + card) */
@@ -337,16 +337,16 @@
     background: transparent;
     border-radius: 50%;
     flex-shrink: 0;
-    color: #714B67;
+    color: var(--custom-primary, var(--o-brand-primary, #714B67));
     font-size: 1rem;
 }
 .wpe-notif-card-icon i.fa {
-    color: #714B67 !important;
+    color: var(--custom-primary, var(--o-brand-primary, #714B67)) !important;
 }
 .wpe-notif-card-icon img {
     width: 22px;
     height: 22px;
-    filter: invert(31%) sepia(15%) saturate(1200%) hue-rotate(280deg) brightness(90%) contrast(90%);
+    filter: var(--wpe-icon-filter, none);
 }
 
 .wpe-notif-card-body {
@@ -418,15 +418,15 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #714B67;
+    background: var(--custom-primary, var(--o-brand-primary, #714B67));
     display: inline-block;
     flex-shrink: 0;
 }
 
 /* Notification searchbar panel */
 .wpe-notif-searchbar .btn.active {
-    background-color: #714B67;
-    border-color: #714B67;
+    background-color: var(--custom-primary, var(--o-brand-primary, #714B67));
+    border-color: var(--custom-primary, var(--o-brand-primary, #714B67));
     color: #fff;
 }
 
@@ -437,7 +437,7 @@
 
 /* Notification group headers */
 .wpe-notif-group-header {
-    color: #714B67;
+    color: var(--custom-primary, var(--o-brand-primary, #714B67));
     font-size: 0.85rem;
     padding: 0.5rem 0.25rem;
     border-bottom: 1px solid #e9ecef;
@@ -447,7 +447,7 @@
 /* Unread notification — highlighted with theme color */
 .wpe-notif-unread .wpe-notif-card {
     background: var(--wpe-unread-bg);
-    border-color: rgba(113, 75, 103, 0.2);
+    border-color: color-mix(in srgb, var(--custom-primary, var(--o-brand-primary, #714B67)) 20%, transparent);
 }
 
 .wpe-notif-unread .wpe-notif-card-title {
@@ -645,8 +645,8 @@
 .o_portal_my_home .o_portal_icon.wpe-mdi-icon img {
     width: 28px;
     height: 28px;
-    /* Theme color filter (same as .o_portal_icon img) */
-    filter: invert(31%) sepia(15%) saturate(1200%) hue-rotate(280deg) brightness(90%) contrast(90%);
+    /* Theme color filter (dynamic via JS) */
+    filter: var(--wpe-icon-filter, none);
 }
 
 /* ============================================================
