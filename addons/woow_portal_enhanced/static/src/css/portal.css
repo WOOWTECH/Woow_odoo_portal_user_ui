@@ -590,7 +590,11 @@
 }
 .o_portal_wrap .o_navbar .navbar-brand,
 .o_portal_wrap .o_navbar .nav-link,
-.o_portal_wrap .o_navbar .dropdown-toggle {
+.o_portal_wrap .o_navbar .dropdown-toggle,
+#wrapwrap.o_portal header .navbar .nav-link,
+#wrapwrap.o_portal header .navbar .dropdown-toggle,
+#wrapwrap.o_portal header .navbar .navbar-brand,
+#wrapwrap header#top .navbar .nav-link.dropdown-toggle {
     color: var(--wpe-deep-gray) !important;
 }
 
