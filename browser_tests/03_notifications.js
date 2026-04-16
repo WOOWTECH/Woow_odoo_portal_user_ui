@@ -184,7 +184,7 @@ const C = require('./config');
             return title ? title.textContent.trim() : null;
         });
         C.assert(
-            modalTitle && modalTitle.length > 0 && modalTitle !== '載入中...',
+            modalTitle && modalTitle.length > 0 && modalTitle !== '載入中...' && modalTitle !== 'Loading...',
             `D3: Modal title loaded (${modalTitle?.substring(0, 40)})`
         );
 

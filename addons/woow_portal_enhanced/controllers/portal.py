@@ -3,6 +3,7 @@
 from datetime import datetime
 
 import pytz
+from babel.dates import format_date as babel_format_date
 
 from odoo import _, http
 from odoo.fields import Datetime as FieldDatetime
@@ -31,8 +32,6 @@ MODEL_ICON_MAP = {
     'account.analytic.line': '/woow_portal_enhanced/static/src/img/mdi/clock-outline.svg',
 }
 _FALLBACK_ICON_IMG = '/woow_portal_enhanced/static/src/img/mdi/bell-outline.svg'
-
-_WEEKDAY_ZH = ['一', '二', '三', '四', '五', '六', '日']
 
 # Hard cap for pagination to prevent abuse
 _MAX_LIMIT = 100
@@ -199,13 +198,15 @@ class WoowPortalEnhanced(CustomerPortal):
         else:
             greeting = _('Good Evening')
 
-        weekday_zh = _WEEKDAY_ZH[now_local.weekday()]
+        lang_code = request.env.user.lang or 'en_US'
+        weekday_str = babel_format_date(now_local, format='EEE', locale=lang_code)
+
         utc_offset = now_local.strftime('%z')  # e.g. '+0800'
         offset_formatted = 'UTC%s%s' % (utc_offset[:3], '' if utc_offset[3:] == '00' else ':' + utc_offset[3:])
 
         return {
             'greeting': greeting,
-            'today_date_line1': '%s (%s)' % (now_local.strftime('%Y-%m-%d'), weekday_zh),
+            'today_date_line1': '%s (%s)' % (now_local.strftime('%Y-%m-%d'), weekday_str),
             'today_date_line2': '%s %s' % (now_local.strftime('%H:%M'), offset_formatted),
         }
 
@@ -223,7 +224,7 @@ class WoowPortalEnhanced(CustomerPortal):
         Notification = request.env['mail.notification'].sudo()
         notif_base = [('res_partner_id', '=', partner.id)]
 
-        # --- 留言 (messages): comment / email ---
+        # --- Messages: comment / email ---
         msg_domain = notif_base + [
             ('is_read', '=', False),
             ('mail_message_id.message_type', 'in', ['comment', 'email']),
@@ -235,7 +236,7 @@ class WoowPortalEnhanced(CustomerPortal):
                 msg_domain, order='mail_message_id desc', limit=2)
         ]
 
-        # --- 通知 (system notifications): notification / auto_comment / user_notification ---
+        # --- System notifications: notification / auto_comment / user_notification ---
         sys_domain = notif_base + [
             ('is_read', '=', False),
             ('mail_message_id.message_type', 'in',
@@ -248,7 +249,7 @@ class WoowPortalEnhanced(CustomerPortal):
                 sys_domain, order='mail_message_id desc', limit=2)
         ]
 
-        # --- 待辦 (activities): internal users only ---
+        # --- Activities (to-do): internal users only ---
         activity_count = 0
         activity_previews = []
         if is_internal:

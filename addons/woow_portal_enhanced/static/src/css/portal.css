@@ -126,7 +126,7 @@
     border-radius: var(--wpe-radius-sm);
 }
 
-/* Preview group header (留言 / 通知 / 待辦 sections) */
+/* Preview group header (Messages / Notifications / To-Do sections) */
 .wpe-preview-group-header {
     padding-bottom: 0.25rem;
     border-bottom: 1px solid #f1f3f5;

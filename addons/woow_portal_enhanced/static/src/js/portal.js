@@ -12,6 +12,7 @@
  */
 
 import { whenReady } from "@odoo/owl";
+import { _t } from "@web/core/l10n/translation";
 
 whenReady(() => {
     initSearchFilter();
@@ -352,7 +353,7 @@ function checkEmptyState() {
             list.innerHTML =
                 '<div class="wpe-notif-empty text-center text-muted py-5">' +
                 '<i class="fa fa-check-circle fa-3x mb-3 d-block" style="opacity: 0.3;"></i>' +
-                '<p class="mb-0">沒有通知</p></div>';
+                '<p class="mb-0">' + _t("No notifications") + '</p></div>';
         }
     }
 }
@@ -439,7 +440,7 @@ function initMarkAllRead() {
 
     btn.addEventListener("click", function () {
         btn.disabled = true;
-        btn.innerHTML = '<i class="fa fa-spinner fa-spin me-1"></i>處理中...';
+        btn.innerHTML = '<i class="fa fa-spinner fa-spin me-1"></i>' + _t("Processing...");
 
         jsonRpc("/my/notifications/mark_all_read", {}).then(function (data) {
             if (data && data.success) {
@@ -454,11 +455,11 @@ function initMarkAllRead() {
                     }
                 });
                 updateBadgeCounts(0);
-                btn.innerHTML = '<i class="fa fa-check me-1"></i>已完成';
+                btn.innerHTML = '<i class="fa fa-check me-1"></i>' + _t("Completed");
                 setTimeout(function () { btn.style.display = "none"; }, 1000);
             } else {
                 btn.disabled = false;
-                btn.innerHTML = '<i class="fa fa-check-double me-1"></i>全部已讀';
+                btn.innerHTML = '<i class="fa fa-check-double me-1"></i>' + _t("Mark all read");
             }
         });
     });
@@ -512,7 +513,7 @@ function openDetailModal(params, wrapper) {
         '<i class="fa fa-spinner fa-spin fa-2x"></i></div>';
 
     const title = document.getElementById("wpe_modal_title");
-    title.textContent = "載入中...";
+    title.textContent = _t("Loading...");
 
     // Hide buttons initially
     const docLink = document.getElementById("wpe_modal_doc_link");
@@ -524,8 +525,8 @@ function openDetailModal(params, wrapper) {
 
     jsonRpc("/my/notifications/detail", params).then(function (data) {
         if (!data || !data.success) {
-            body.innerHTML = '<p class="text-danger">載入失敗</p>';
-            title.textContent = "錯誤";
+            body.innerHTML = '<p class="text-danger">' + _t("Failed to load") + '</p>';
+            title.textContent = _t("Error");
             return;
         }
         renderModalContent(data);
@@ -581,10 +582,10 @@ function renderNotificationDetail(detail, title, body, docLink, actionBtn, overl
     if (detail.tracking_details && detail.tracking_details.length > 0) {
         html += '<div class="wpe-modal-tracking mb-3">';
         html += '<h6 class="fw-semibold mb-2">' +
-            '<i class="fa fa-exchange me-1"></i>變更記錄</h6>';
+            '<i class="fa fa-exchange me-1"></i>' + _t("Change History") + '</h6>';
         html += '<table class="table table-sm table-bordered">';
-        html += '<thead><tr><th>欄位</th><th>原值</th>' +
-            '<th>新值</th></tr></thead><tbody>';
+        html += '<thead><tr><th>' + _t("Field") + '</th><th>' + _t("Old Value") + '</th>' +
+            '<th>' + _t("New Value") + '</th></tr></thead><tbody>';
         detail.tracking_details.forEach(function (td) {
             html += '<tr><td>' + escapeHtml(td.field_name) +
                 '</td><td>' + escapeHtml(td.old_value) +
@@ -614,10 +615,10 @@ function renderNotificationDetail(detail, title, body, docLink, actionBtn, overl
     actionBtn.style.display = '';
     if (detail.is_read) {
         actionBtn.disabled = true;
-        actionBtn.innerHTML = '<i class="fa fa-check me-1"></i>已讀';
+        actionBtn.innerHTML = '<i class="fa fa-check me-1"></i>' + _t("Read");
     } else {
         actionBtn.disabled = false;
-        actionBtn.innerHTML = '<i class="fa fa-check me-1"></i>標記已讀';
+        actionBtn.innerHTML = '<i class="fa fa-check me-1"></i>' + _t("Mark as read");
     }
 
     // Wire up action button
@@ -626,7 +627,7 @@ function renderNotificationDetail(detail, title, body, docLink, actionBtn, overl
         if (!notifId) return;
         actionBtn.disabled = true;
         actionBtn.innerHTML =
-            '<i class="fa fa-spinner fa-spin me-1"></i>處理中...';
+            '<i class="fa fa-spinner fa-spin me-1"></i>' + _t("Processing...");
 
         jsonRpc("/my/notifications/action", {
             notification_id: notifId,
@@ -634,7 +635,7 @@ function renderNotificationDetail(detail, title, body, docLink, actionBtn, overl
         }).then(function (result) {
             if (result && result.success) {
                 actionBtn.innerHTML =
-                    '<i class="fa fa-check me-1"></i>已讀';
+                    '<i class="fa fa-check me-1"></i>' + _t("Read");
 
                 // Update the card in the list
                 const wrapper = overlay._currentWrapper;
@@ -648,7 +649,7 @@ function renderNotificationDetail(detail, title, body, docLink, actionBtn, overl
             } else {
                 actionBtn.disabled = false;
                 actionBtn.innerHTML =
-                    '<i class="fa fa-check me-1"></i>標記已讀';
+                    '<i class="fa fa-check me-1"></i>' + _t("Mark as read");
             }
         });
     };
@@ -689,7 +690,7 @@ function renderActivityDetail(detail, title, body, docLink, actionBtn, overlay) 
         html += '<div class="wpe-modal-body-content">' +
             detail.note + '</div>';
     } else {
-        html += '<div class="text-muted small">沒有詳細說明</div>';
+        html += '<div class="text-muted small">' + _t("No description") + '</div>';
     }
 
     body.innerHTML = html;
@@ -705,9 +706,9 @@ function renderActivityDetail(detail, title, body, docLink, actionBtn, overlay) 
     // Done / Approve button for activity
     actionBtn.style.display = '';
     if (detail.can_approve) {
-        actionBtn.innerHTML = '<i class="fa fa-check me-1"></i>核准';
+        actionBtn.innerHTML = '<i class="fa fa-check me-1"></i>' + _t("Approve");
     } else {
-        actionBtn.innerHTML = '<i class="fa fa-check me-1"></i>完成';
+        actionBtn.innerHTML = '<i class="fa fa-check me-1"></i>' + _t("Done");
     }
     actionBtn.disabled = false;
 
@@ -716,7 +717,7 @@ function renderActivityDetail(detail, title, body, docLink, actionBtn, overlay) 
         if (!activityId) return;
         actionBtn.disabled = true;
         actionBtn.innerHTML =
-            '<i class="fa fa-spinner fa-spin me-1"></i>處理中...';
+            '<i class="fa fa-spinner fa-spin me-1"></i>' + _t("Processing...");
 
         const action = detail.can_approve ? "approve" : "done";
         jsonRpc("/my/notifications/action", {
@@ -725,7 +726,7 @@ function renderActivityDetail(detail, title, body, docLink, actionBtn, overlay) 
         }).then(function (result) {
             if (result && result.success) {
                 actionBtn.innerHTML =
-                    '<i class="fa fa-check me-1"></i>已完成';
+                    '<i class="fa fa-check me-1"></i>' + _t("Completed");
 
                 // Remove the card from the list
                 const wrapper = overlay._currentWrapper;
@@ -739,7 +740,7 @@ function renderActivityDetail(detail, title, body, docLink, actionBtn, overlay) 
                 actionBtn.disabled = false;
                 actionBtn.innerHTML =
                     '<i class="fa fa-check me-1"></i>' +
-                    (detail.can_approve ? '核准' : '完成');
+                    (detail.can_approve ? _t("Approve") : _t("Done"));
             }
         });
     };
@@ -954,12 +955,12 @@ function _applyNotifFilters(list, panel) {
         visibleCards.forEach(function (card) {
             var groupKey;
             if (groupVal === "type") {
-                groupKey = card.dataset.itemType === "activity" ? "待辦" : "通知";
+                groupKey = card.dataset.itemType === "activity" ? _t("To-Do") : _t("Notifications");
             } else if (groupVal === "source") {
                 var sourceEl = card.querySelector(".wpe-notif-card-source");
-                groupKey = sourceEl ? sourceEl.textContent.trim() : "其他";
+                groupKey = sourceEl ? sourceEl.textContent.trim() : _t("Other");
             } else {
-                groupKey = "全部";
+                groupKey = _t("All");
             }
             if (!groups[groupKey]) groups[groupKey] = [];
             groups[groupKey].push(card);

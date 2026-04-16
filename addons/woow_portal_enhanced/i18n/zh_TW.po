@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-14 00:00+0000\n"
-"PO-Revision-Date: 2026-04-14 00:00+0000\n"
+"POT-Creation-Date: 2026-04-16 00:00+0000\n"
+"PO-Revision-Date: 2026-04-16 00:00+0000\n"
 "Last-Translator: WoowTech\n"
 "Language-Team: Chinese (Traditional)\n"
 "MIME-Version: 1.0\n"
@@ -18,42 +18,317 @@ msgstr ""
 
 #. module: woow_portal_enhanced
 #: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_my_home_enhanced
-msgid "Search modules..."
-msgstr "搜尋模組..."
+msgid "Search modules or notifications..."
+msgstr "搜尋模組或通知..."
 
 #. module: woow_portal_enhanced
-msgid "Notifications"
-msgstr "通知"
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_notifications_page
+msgid "Search and filter"
+msgstr "搜尋篩選"
 
 #. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_my_home_enhanced
 msgid "Recent Notifications"
 msgstr "近期通知"
 
 #. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_my_home_enhanced
 msgid "View All"
 msgstr "查看全部"
 
 #. module: woow_portal_enhanced
-msgid "No pending notifications"
-msgstr "沒有待處理的通知"
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_my_home_enhanced
+msgid "Messages"
+msgstr "留言"
 
 #. module: woow_portal_enhanced
-msgid "Notification Center"
-msgstr "通知中心"
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_my_home_enhanced
+msgid "unread messages"
+msgstr "則未讀留言"
 
 #. module: woow_portal_enhanced
-msgid "All"
-msgstr "全部"
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_my_home_enhanced
+msgid "Notifications"
+msgstr "通知"
 
 #. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_my_home_enhanced
+msgid "unread notifications"
+msgstr "則未讀通知"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_my_home_enhanced
 msgid "To-Do"
 msgstr "待辦"
 
 #. module: woow_portal_enhanced
-msgid "System"
-msgstr "系統"
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_my_home_enhanced
+msgid "pending items"
+msgstr "個待辦事項"
 
 #. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_my_home_enhanced
+msgid "No new notifications"
+msgstr "沒有新的通知"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_notifications_page
+msgid "Back"
+msgstr "返回"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_notifications_page
+msgid "Notification Center"
+msgstr "通知中心"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_notifications_page
+msgid "All"
+msgstr "全部"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_notifications_page
+msgid "Read"
+msgstr "已讀"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_notifications_page
+msgid "Done"
+msgstr "已完成"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_notifications_page
+msgid "No notifications"
+msgstr "沒有通知"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_notifications_page
+msgid "Swipe right to mark as read / done"
+msgstr "向右滑動可標記為已讀 / 已完成"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_notifications_page
+msgid "View Document"
+msgstr "查看文件"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_notifications_page
+msgid "Mark as read"
+msgstr "標記已讀"
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — empty state
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "No notifications"
+msgstr "沒有通知"
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — mark all read button processing
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "Processing..."
+msgstr "處理中..."
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — mark all read success
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "Completed"
+msgstr "已完成"
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — mark all read default label
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "Mark all read"
+msgstr "全部已讀"
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — modal loading state
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "Loading..."
+msgstr "載入中..."
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — modal error body
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "Failed to load"
+msgstr "載入失敗"
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — modal error title
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "Error"
+msgstr "錯誤"
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — tracking changes header
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "Change History"
+msgstr "變更記錄"
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — tracking table header
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "Field"
+msgstr "欄位"
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — tracking table header
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "Old Value"
+msgstr "原值"
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — tracking table header
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "New Value"
+msgstr "新值"
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — notification read status
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "Read"
+msgstr "已讀"
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — mark as read button
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "Mark as read"
+msgstr "標記已讀"
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — activity empty note
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "No description"
+msgstr "沒有詳細說明"
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — approve button
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "Approve"
+msgstr "核准"
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — done button
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "Done"
+msgstr "完成"
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — group header to-do
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "To-Do"
+msgstr "待辦"
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — group header notifications
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "Notifications"
+msgstr "通知"
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — group default other
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "Other"
+msgstr "其他"
+
+#. module: woow_portal_enhanced
+#. JS: portal.js — group default all
+#: code:addons/woow_portal_enhanced/static/src/js/portal.js:0
+#, javascript-format
+msgid "All"
+msgstr "全部"
+
+#. module: woow_portal_enhanced
+#: code:addons/woow_portal_enhanced/controllers/portal.py:0
+#, python-format
+msgid "Good Morning"
+msgstr "早安"
+
+#. module: woow_portal_enhanced
+#: code:addons/woow_portal_enhanced/controllers/portal.py:0
+#, python-format
+msgid "Good Afternoon"
+msgstr "午安"
+
+#. module: woow_portal_enhanced
+#: code:addons/woow_portal_enhanced/controllers/portal.py:0
+#, python-format
+msgid "Good Evening"
+msgstr "晚安"
+
+#. module: woow_portal_enhanced
+#: code:addons/woow_portal_enhanced/controllers/portal.py:0
+#, python-format
+msgid "Approved via portal"
+msgstr "透過 Portal 核准"
+
+#. module: woow_portal_enhanced
+#: code:addons/woow_portal_enhanced/controllers/portal.py:0
+#, python-format
+msgid "Rejected via portal"
+msgstr "透過 Portal 拒絕"
+
+#. module: woow_portal_enhanced
+#: code:addons/woow_portal_enhanced/controllers/portal.py:0
+#, python-format
+msgid "Activity not found."
+msgstr "找不到活動。"
+
+#. module: woow_portal_enhanced
+#: code:addons/woow_portal_enhanced/controllers/portal.py:0
+#, python-format
+msgid "Invalid action."
+msgstr "無效的操作。"
+
+#. module: woow_portal_enhanced
+#: code:addons/woow_portal_enhanced/controllers/portal.py:0
+#, python-format
+msgid "%d days ago"
+msgstr "%d 天前"
+
+#. module: woow_portal_enhanced
+#: code:addons/woow_portal_enhanced/controllers/portal.py:0
+#, python-format
+msgid "%d hours ago"
+msgstr "%d 小時前"
+
+#. module: woow_portal_enhanced
+#: code:addons/woow_portal_enhanced/controllers/portal.py:0
+#, python-format
+msgid "%d mins ago"
+msgstr "%d 分鐘前"
+
+#. module: woow_portal_enhanced
+#: code:addons/woow_portal_enhanced/controllers/portal.py:0
+#, python-format
+msgid "No notifications"
+msgstr "沒有通知"
+
+#. module: woow_portal_enhanced
+#: model:ir.model,name:woow_portal_enhanced.model_res_users
+msgid "Users"
+msgstr "使用者"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_my_home_enhanced
 msgid "My Account"
 msgstr "我的帳戶"
 
@@ -74,53 +349,23 @@ msgid "Return to Backend"
 msgstr "返回後台"
 
 #. module: woow_portal_enhanced
+#: code:addons/woow_portal_enhanced/static/src/js/switch_portal.js:0
+#, javascript-format
 msgid "Switch to Portal"
 msgstr "切換至 Portal"
-
-#. module: woow_portal_enhanced
-msgid "Approve"
-msgstr "核准"
 
 #. module: woow_portal_enhanced
 msgid "Reject"
 msgstr "拒絕"
 
 #. module: woow_portal_enhanced
-msgid "Approved via portal"
-msgstr "透過 Portal 核准"
-
-#. module: woow_portal_enhanced
-msgid "Rejected via portal"
-msgstr "透過 Portal 拒絕"
-
-#. module: woow_portal_enhanced
-msgid "Activity not found."
-msgstr "找不到活動。"
-
-#. module: woow_portal_enhanced
-msgid "Invalid action."
-msgstr "無效的操作。"
-
-#. module: woow_portal_enhanced
 msgid "Activity"
 msgstr "活動"
 
 #. module: woow_portal_enhanced
-msgid "%d days ago"
-msgstr "%d 天前"
-
-#. module: woow_portal_enhanced
-msgid "%d hours ago"
-msgstr "%d 小時前"
-
-#. module: woow_portal_enhanced
-msgid "%d mins ago"
-msgstr "%d 分鐘前"
-
-#. module: woow_portal_enhanced
-msgid "No notifications"
-msgstr "沒有通知"
-
-#. module: woow_portal_enhanced
 msgid "Apps"
 msgstr "應用程式"
+
+#. module: woow_portal_enhanced
+msgid "System"
+msgstr "系統"
