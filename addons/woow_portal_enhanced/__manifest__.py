@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Woow Portal Enhanced',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.1.0',
     'category': 'Website/Portal',
     'summary': 'Enhanced portal experience with app-like UI for portal and backend users',
     'description': """
