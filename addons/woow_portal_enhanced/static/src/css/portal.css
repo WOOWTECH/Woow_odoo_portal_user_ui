@@ -412,62 +412,35 @@
     line-height: 1.4;
 }
 
-/* Unread indicator dot (legacy, kept for compatibility) */
+/* Unread indicator dot — unified for all notification types */
 .wpe-unread-dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: var(--wpe-coral);
+    background: #714B67;
     display: inline-block;
     flex-shrink: 0;
 }
 
-/* Read/Unread toggle button */
-.wpe-read-toggle-btn {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    border: 2px solid var(--wpe-blue);
-    background: transparent;
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: background 0.2s, border-color 0.2s;
+/* Notification searchbar panel */
+.wpe-notif-searchbar .btn.active {
+    background-color: #714B67;
+    border-color: #714B67;
+    color: #fff;
 }
 
-.wpe-read-toggle-btn:hover {
-    transform: scale(1.15);
+/* Filter-hidden cards */
+.wpe-notif-card-wrapper.wpe-filter-hidden {
+    display: none !important;
 }
 
-.wpe-read-toggle-btn.wpe-is-unread {
-    background: var(--wpe-blue);
-    border-color: var(--wpe-blue);
-}
-
-.wpe-read-toggle-btn.wpe-is-unread .wpe-read-toggle-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--wpe-white);
-    display: block;
-}
-
-.wpe-read-toggle-btn.wpe-is-read {
-    background: transparent;
-    border-color: #adb5bd;
-}
-
-.wpe-read-toggle-btn.wpe-is-read .wpe-read-toggle-dot {
-    display: none;
-}
-
-/* Mark all read button */
-.wpe-mark-all-read-btn {
-    font-size: 0.82rem;
-    white-space: nowrap;
+/* Notification group headers */
+.wpe-notif-group-header {
+    color: #714B67;
+    font-size: 0.85rem;
+    padding: 0.5rem 0.25rem;
+    border-bottom: 1px solid #e9ecef;
+    margin-top: 0.5rem;
 }
 
 /* Unread notification — highlighted with theme color */
@@ -595,13 +568,8 @@
 }
 
 /* ============================================================
-   ⑥ Return button — 70% of enlarged size
+   ⑥ Notification header layout
    ============================================================ */
-
-.wpe-notif-return-btn {
-    font-size: 0.85rem;
-    white-space: nowrap;
-}
 
 /* ============================================================
    ⑦ Top navbar — white background

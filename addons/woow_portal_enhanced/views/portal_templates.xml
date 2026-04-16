@@ -274,18 +274,71 @@
 
                 <!-- Header -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="mb-0 fw-bold">通知中心</h4>
-                    <div class="d-flex gap-2 align-items-center">
-                        <t t-if="unread_notif_count">
-                            <button type="button"
-                                    class="btn btn-sm btn-outline-primary wpe-mark-all-read-btn"
-                                    id="wpe_mark_all_read">
-                                <i class="fa fa-check-double me-1"/>全部已讀
-                            </button>
-                        </t>
-                        <a href="/my/home" class="btn btn-sm btn-outline-secondary wpe-notif-return-btn">
-                            <i class="fa fa-arrow-left me-1"/>返回
-                        </a>
+                    <a href="/my/home" class="btn btn-sm btn-outline-secondary wpe-breadcrumb-back-btn">
+                        <i class="fa fa-arrow-left me-1"/>返回
+                    </a>
+                    <h4 class="mb-0 fw-bold flex-grow-1 text-center">通知中心</h4>
+                    <button type="button"
+                            class="navbar-toggler border-0 p-1"
+                            id="wpe_notif_searchbar_toggle"
+                            aria-label="搜尋篩選">
+                        <span class="fa fa-fw fa-bars"/>
+                    </button>
+                </div>
+
+                <!-- Search / Filter / Sort / Group panel (hidden by default) -->
+                <div class="wpe-notif-searchbar d-none mb-3" id="wpe_notif_searchbar">
+                    <div class="bg-light border rounded p-3">
+
+                        <!-- Sort By -->
+                        <div class="mb-2">
+                            <label class="form-label fw-semibold small mb-1">Sort By:</label>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-secondary wpe-notif-sort-btn active"
+                                        data-sort="newest">Newest</button>
+                                <button class="btn btn-sm btn-outline-secondary wpe-notif-sort-btn"
+                                        data-sort="oldest">Oldest</button>
+                            </div>
+                        </div>
+
+                        <!-- Filter By -->
+                        <div class="mb-2">
+                            <label class="form-label fw-semibold small mb-1">Filter By:</label>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <button class="btn btn-sm btn-outline-secondary wpe-notif-filter-btn active"
+                                        data-filter="all">All</button>
+                                <button class="btn btn-sm btn-outline-secondary wpe-notif-filter-btn"
+                                        data-filter="unread">Unread</button>
+                                <button class="btn btn-sm btn-outline-secondary wpe-notif-filter-btn"
+                                        data-filter="read">Read</button>
+                            </div>
+                        </div>
+
+                        <!-- Group By -->
+                        <div class="mb-2">
+                            <label class="form-label fw-semibold small mb-1">Group By:</label>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <button class="btn btn-sm btn-outline-secondary wpe-notif-group-btn active"
+                                        data-group="none">None</button>
+                                <button class="btn btn-sm btn-outline-secondary wpe-notif-group-btn"
+                                        data-group="type">Type</button>
+                                <button class="btn btn-sm btn-outline-secondary wpe-notif-group-btn"
+                                        data-group="source">Source</button>
+                            </div>
+                        </div>
+
+                        <!-- Search -->
+                        <div class="mb-0">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text bg-white"><i class="fa fa-search text-muted"/></span>
+                                <input type="text" class="form-control" id="wpe_notif_search_input"
+                                       placeholder="Search"/>
+                                <button class="btn btn-outline-secondary" type="button" id="wpe_notif_search_btn">
+                                    <i class="fa fa-search"/>
+                                </button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -379,11 +432,8 @@
                                             </t>
                                         </div>
                                         <div class="wpe-notif-card-hint">
-                                            <button t-attf-class="wpe-read-toggle-btn #{'wpe-is-read' if item['is_read'] else 'wpe-is-unread'}"
-                                                    t-att-data-notif-id="item['notif_id']"
-                                                    t-att-title="'標記未讀' if item['is_read'] else '標記已讀'">
-                                                <span class="wpe-read-toggle-dot"/>
-                                            </button>
+                                            <span t-attf-class="wpe-unread-dot #{'d-none' if item['is_read'] else ''}"
+                                                  t-att-data-notif-id="item['notif_id']"/>
                                             <i class="fa fa-angle-right text-muted"/>
                                         </div>
                                     </div>

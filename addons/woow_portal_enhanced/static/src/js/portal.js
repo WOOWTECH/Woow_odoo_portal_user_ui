@@ -20,6 +20,7 @@ whenReady(() => {
     initMarkAllRead();
     replaceMdiIcons();
     hideEmptyModuleCards();
+    initNotifSearchbar();
 });
 
 // ------------------------------------------------------------------
@@ -380,40 +381,39 @@ function updateBadgeCounts(unreadCount) {
 // ------------------------------------------------------------------
 
 function initReadToggleButtons() {
-    var btns = document.querySelectorAll(".wpe-read-toggle-btn");
-    btns.forEach(function (btn) {
-        btn.addEventListener("click", function (e) {
-            e.stopPropagation(); // Don't open the detail modal
-            var notifId = btn.getAttribute("data-notif-id");
+    // Read toggle now happens via the unread-dot indicator.
+    // Clicking the dot toggles read/unread state.
+    var dots = document.querySelectorAll(".wpe-unread-dot[data-notif-id]");
+    dots.forEach(function (dot) {
+        dot.style.cursor = "pointer";
+        dot.addEventListener("click", function (e) {
+            e.stopPropagation();
+            var notifId = dot.getAttribute("data-notif-id");
             if (!notifId) return;
 
-            var isRead = btn.classList.contains("wpe-is-read");
+            var wrapper = dot.closest(".wpe-notif-card-wrapper");
+            var isRead = wrapper && wrapper.classList.contains("wpe-notif-read");
             var action = isRead ? "mark_unread" : "mark_read";
 
-            btn.style.pointerEvents = "none";
-            btn.style.opacity = "0.5";
+            dot.style.pointerEvents = "none";
+            dot.style.opacity = "0.5";
 
             jsonRpc("/my/notifications/action", {
                 notification_id: notifId,
                 action: action,
             }).then(function (data) {
-                btn.style.pointerEvents = "";
-                btn.style.opacity = "";
+                dot.style.pointerEvents = "";
+                dot.style.opacity = "";
                 if (!data || !data.success) return;
 
-                var wrapper = btn.closest(".wpe-notif-card-wrapper");
                 if (action === "mark_read") {
-                    btn.classList.remove("wpe-is-unread");
-                    btn.classList.add("wpe-is-read");
-                    btn.title = "標記未讀";
+                    dot.classList.add("d-none");
                     if (wrapper) {
                         wrapper.classList.remove("wpe-notif-unread");
                         wrapper.classList.add("wpe-notif-read");
                     }
                 } else {
-                    btn.classList.remove("wpe-is-read");
-                    btn.classList.add("wpe-is-unread");
-                    btn.title = "標記已讀";
+                    dot.classList.remove("d-none");
                     if (wrapper) {
                         wrapper.classList.remove("wpe-notif-read");
                         wrapper.classList.add("wpe-notif-unread");
@@ -445,11 +445,9 @@ function initMarkAllRead() {
                 wrappers.forEach(function (w) {
                     w.classList.remove("wpe-notif-unread");
                     w.classList.add("wpe-notif-read");
-                    var toggle = w.querySelector(".wpe-read-toggle-btn");
-                    if (toggle) {
-                        toggle.classList.remove("wpe-is-unread");
-                        toggle.classList.add("wpe-is-read");
-                        toggle.title = "標記未讀";
+                    var dot = w.querySelector(".wpe-unread-dot");
+                    if (dot) {
+                        dot.classList.add("d-none");
                     }
                 });
                 updateBadgeCounts(0);
@@ -814,7 +812,170 @@ function replaceMdiIcons() {
 }
 
 // ------------------------------------------------------------------
-// ⑤ Hide module cards with 0 records (Task 7)
+// ⑤ Notification Searchbar — toggle, sort, filter, group, search
+// ------------------------------------------------------------------
+
+function initNotifSearchbar() {
+    var toggle = document.getElementById("wpe_notif_searchbar_toggle");
+    var panel = document.getElementById("wpe_notif_searchbar");
+    if (!toggle || !panel) return;
+
+    // Toggle panel visibility
+    toggle.addEventListener("click", function () {
+        panel.classList.toggle("d-none");
+    });
+
+    var list = document.getElementById("wpe_notif_list");
+    if (!list) return;
+
+    // --- Sort By ---
+    var sortBtns = panel.querySelectorAll(".wpe-notif-sort-btn");
+    sortBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            sortBtns.forEach(function (b) { b.classList.remove("active"); });
+            btn.classList.add("active");
+            _applyNotifFilters(list, panel);
+        });
+    });
+
+    // --- Filter By ---
+    var filterBtns = panel.querySelectorAll(".wpe-notif-filter-btn");
+    filterBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            filterBtns.forEach(function (b) { b.classList.remove("active"); });
+            btn.classList.add("active");
+            _applyNotifFilters(list, panel);
+        });
+    });
+
+    // --- Group By ---
+    var groupBtns = panel.querySelectorAll(".wpe-notif-group-btn");
+    groupBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            groupBtns.forEach(function (b) { b.classList.remove("active"); });
+            btn.classList.add("active");
+            _applyNotifFilters(list, panel);
+        });
+    });
+
+    // --- Search ---
+    var searchInput = document.getElementById("wpe_notif_search_input");
+    var searchBtn = document.getElementById("wpe_notif_search_btn");
+    if (searchInput) {
+        searchInput.addEventListener("keyup", function (e) {
+            if (e.key === "Enter") _applyNotifFilters(list, panel);
+            // Debounced auto-search
+            clearTimeout(searchInput._debounce);
+            searchInput._debounce = setTimeout(function () {
+                _applyNotifFilters(list, panel);
+            }, 300);
+        });
+    }
+    if (searchBtn) {
+        searchBtn.addEventListener("click", function () {
+            _applyNotifFilters(list, panel);
+        });
+    }
+}
+
+function _applyNotifFilters(list, panel) {
+    var cards = list.querySelectorAll(".wpe-notif-card-wrapper");
+    if (!cards.length) return;
+
+    // Get active filter values
+    var sortBtn = panel.querySelector(".wpe-notif-sort-btn.active");
+    var sortVal = sortBtn ? sortBtn.dataset.sort : "newest";
+
+    var filterBtn = panel.querySelector(".wpe-notif-filter-btn.active");
+    var filterVal = filterBtn ? filterBtn.dataset.filter : "all";
+
+    var groupBtn = panel.querySelector(".wpe-notif-group-btn.active");
+    var groupVal = groupBtn ? groupBtn.dataset.group : "none";
+
+    var searchInput = document.getElementById("wpe_notif_search_input");
+    var query = searchInput ? searchInput.value.trim().toLowerCase() : "";
+
+    // Remove existing group headers
+    var existingHeaders = list.querySelectorAll(".wpe-notif-group-header");
+    existingHeaders.forEach(function (h) { h.remove(); });
+
+    // Filter cards
+    var visibleCards = [];
+    cards.forEach(function (card) {
+        var show = true;
+
+        // Filter by read state
+        if (filterVal === "unread" && card.classList.contains("wpe-notif-read")) show = false;
+        if (filterVal === "read" && card.classList.contains("wpe-notif-unread")) show = false;
+
+        // Filter by search query
+        if (show && query) {
+            var text = card.textContent.toLowerCase();
+            if (text.indexOf(query) === -1) show = false;
+        }
+
+        if (show) {
+            card.classList.remove("wpe-filter-hidden");
+            visibleCards.push(card);
+        } else {
+            card.classList.add("wpe-filter-hidden");
+        }
+    });
+
+    // Sort
+    if (sortVal === "oldest") {
+        // Reverse DOM order
+        var parent = cards[0].parentNode;
+        visibleCards.reverse();
+        visibleCards.forEach(function (card) {
+            parent.appendChild(card);
+        });
+        // Also re-append hidden cards
+        cards.forEach(function (card) {
+            if (card.classList.contains("wpe-filter-hidden")) {
+                parent.appendChild(card);
+            }
+        });
+    } else if (sortVal === "newest") {
+        // Default DOM order — just reinsert in original order
+        var parent = cards[0].parentNode;
+        var allCards = Array.from(cards);
+        allCards.forEach(function (card) {
+            parent.appendChild(card);
+        });
+    }
+
+    // Group
+    if (groupVal !== "none" && visibleCards.length > 0) {
+        var groups = {};
+        visibleCards.forEach(function (card) {
+            var groupKey;
+            if (groupVal === "type") {
+                groupKey = card.dataset.itemType === "activity" ? "待辦" : "通知";
+            } else if (groupVal === "source") {
+                var sourceEl = card.querySelector(".wpe-notif-card-source");
+                groupKey = sourceEl ? sourceEl.textContent.trim() : "其他";
+            } else {
+                groupKey = "全部";
+            }
+            if (!groups[groupKey]) groups[groupKey] = [];
+            groups[groupKey].push(card);
+        });
+
+        // Insert group headers
+        var parent = visibleCards[0].parentNode;
+        Object.keys(groups).forEach(function (key) {
+            var header = document.createElement("div");
+            header.className = "wpe-notif-group-header fw-bold small text-muted py-2 px-1 border-bottom";
+            header.textContent = key;
+            // Insert header before first card in group
+            parent.insertBefore(header, groups[key][0]);
+        });
+    }
+}
+
+// ------------------------------------------------------------------
+// ⑥ Hide module cards with 0 records (Task 7)
 // After Odoo's PortalHomeCounters finishes its /my/counters RPC,
 // cards with count=0 may still be visible due to session cache
 // (force_show). We observe the spinner removal as a signal that
