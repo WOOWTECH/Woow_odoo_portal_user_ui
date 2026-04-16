@@ -12,9 +12,10 @@
  */
 
 import { whenReady } from "@odoo/owl";
-import { _t } from "@web/core/l10n/translation";
+import { _t, translationIsReady } from "@web/core/l10n/translation";
 
-whenReady(() => {
+whenReady(async () => {
+    await translationIsReady;
     initSearchFilter();
     initNotificationPage();
     initNotificationModal();
@@ -34,6 +35,10 @@ whenReady(() => {
 function initSearchFilter() {
     const input = document.getElementById("wpe_module_search");
     if (!input) return;
+
+    // Set translated placeholder via _t() (t-att-placeholder in QWeb
+    // is not auto-extracted by Odoo's translation framework)
+    input.placeholder = _t("Search modules or notifications...");
 
     input.addEventListener("keyup", function () {
         const query = this.value.trim().toLowerCase();

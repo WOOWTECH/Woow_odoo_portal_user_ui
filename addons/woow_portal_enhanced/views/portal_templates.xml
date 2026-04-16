@@ -7,8 +7,10 @@
     <template id="portal_greeting_card" name="Woow Portal Greeting Card"
               inherit_id="portal.portal_layout" priority="10">
 
-        <!-- Replace "My account" h3 + avatar button wrapper with greeting card -->
-        <xpath expr="//div[hasclass('wrapper')][.//h3[contains(text(),'My account')]]" position="replace">
+        <!-- Replace the "My account" h3 + avatar button wrapper with greeting card.
+             Target by structure (wrapper div containing an h3.my-3) rather than
+             text content so the xpath works regardless of active language. -->
+        <xpath expr="//div[hasclass('wrapper')][.//h3[hasclass('my-3')]]" position="replace">
             <div class="wpe-greeting-card" t-if="my_details">
                 <img class="wpe-greeting-avatar"
                      t-att-src="image_data_uri(user_id.partner_id.avatar_1024)"
@@ -51,7 +53,7 @@
                     <input type="text"
                            id="wpe_module_search"
                            class="form-control border-start-0"
-                           t-att-placeholder="'Search modules or notifications...'"/>
+                           placeholder="Search modules or notifications..."/>
                 </div>
             </div>
 
@@ -69,7 +71,7 @@
                             </t>
                         </h5>
                         <a href="/my/notifications" class="wpe-view-all-link">
-                            View All <i class="fa fa-angle-right ms-1"/>
+                            <span>View All</span> <i class="fa fa-angle-right ms-1"/>
                         </a>
                     </div>
 
@@ -212,7 +214,7 @@
                     <t t-else="">
                         <div class="text-center text-muted py-3">
                             <i class="fa fa-check-circle fa-2x mb-2 d-block"/>
-                            No new notifications
+                            <span>No new notifications</span>
                         </div>
                     </t>
                 </div>
@@ -275,7 +277,7 @@
                 <!-- Header -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <a href="/my/home" class="btn btn-sm btn-outline-secondary wpe-breadcrumb-back-btn">
-                        <i class="fa fa-arrow-left me-1"/>Back
+                        <i class="fa fa-arrow-left me-1"/><span>Back</span>
                     </a>
                     <h4 class="mb-0 fw-bold flex-grow-1 text-center">Notification Center</h4>
                     <button type="button"
@@ -496,7 +498,7 @@
                     <div class="wpe-swipe-hint text-center text-muted mt-2 mb-4"
                          id="wpe_swipe_hint">
                         <i class="fa fa-long-arrow-right me-1"/>
-                        Swipe right to mark as read / done
+                        <span>Swipe right to mark as read / done</span>
                     </div>
                 </t>
 
@@ -520,13 +522,13 @@
                         <a href="#" class="btn btn-sm btn-outline-primary me-2"
                            id="wpe_modal_doc_link" target="_blank"
                            style="display: none;">
-                            <i class="fa fa-external-link me-1"/>View Document
+                            <i class="fa fa-external-link me-1"/><span>View Document</span>
                         </a>
                         <button type="button"
                                 class="btn btn-sm btn-primary"
                                 id="wpe_modal_action_btn"
                                 style="display: none;">
-                            <i class="fa fa-check me-1"/>Mark as read
+                            <i class="fa fa-check me-1"/><span>Mark as read</span>
                         </button>
                     </div>
                 </div>
@@ -570,7 +572,7 @@
             <li class="breadcrumb-item wpe-back-btn-item">
                 <a href="#" class="wpe-breadcrumb-back-btn"
                    onclick="event.preventDefault(); if (window.history.length > 1) { window.history.back(); } else { window.location.href='/my/home'; }">
-                    <i class="fa fa-arrow-left me-1"/>Back
+                    <i class="fa fa-arrow-left me-1"/><span>Back</span>
                 </a>
             </li>
         </xpath>

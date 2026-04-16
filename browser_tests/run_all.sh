@@ -21,6 +21,7 @@ SUITES=(
     "04_search_filter.js"
     "05_mobile_responsive.js"
     "06_edge_cases.js"
+    "07_i18n.js"
 )
 
 TOTAL_PASS=0

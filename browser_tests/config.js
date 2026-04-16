@@ -5,6 +5,7 @@
 
 const BASE_URL = process.env.ODOO_URL || 'http://localhost:9097';
 const PORTAL_USER = { login: 'portal', password: 'portal' };
+const PORTAL_USER_ZHTW = { login: 'portal_zhtw', password: 'portal_zhtw' };
 const ADMIN_USER  = { login: 'admin',  password: 'admin'  };
 
 // Mobile viewport (iPhone 14-class)
@@ -76,8 +77,20 @@ function resetCounters() {
 
 /**
  * Login to Odoo portal and navigate to a target page.
+ *
+ * A ``frontend_lang=en_US`` cookie is pre-set before the login page
+ * loads.  This prevents Odoo's http_routing ``_match()`` from
+ * redirecting non-default-language users to ``/<lang>/...`` URLs
+ * (which are unroutable without the ``website`` module).
  */
 async function loginAndNavigate(page, user, targetPath, extraWait) {
+    const url = new URL(BASE_URL);
+    await page.context().addCookies([{
+        name: 'frontend_lang',
+        value: 'en_US',
+        domain: url.hostname,
+        path: '/',
+    }]);
     await page.goto(`${BASE_URL}/web/login`, { waitUntil: 'load' });
     await page.waitForTimeout(WAIT.SHORT);
     await page.fill('input[name="login"]', user.login);
@@ -113,7 +126,7 @@ function colorsMatch(a, b, tolerance) {
 }
 
 module.exports = {
-    BASE_URL, PORTAL_USER, ADMIN_USER,
+    BASE_URL, PORTAL_USER, PORTAL_USER_ZHTW, ADMIN_USER,
     MOBILE_VP, DESKTOP_VP, WAIT,
     THEME_BLUE, DEEP_GRAY, WHITE,
     assert, skip, printSummary, resetCounters,
