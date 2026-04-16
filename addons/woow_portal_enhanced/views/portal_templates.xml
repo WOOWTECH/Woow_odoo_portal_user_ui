@@ -535,15 +535,7 @@
         </t>
     </template>
 
-    <!-- ============================================================ -->
-    <!-- Hide portal footer (Copyright / Powered by Odoo)            -->
-    <!-- ============================================================ -->
-    <template id="portal_hide_footer" name="Hide Portal Footer"
-              inherit_id="web.frontend_layout" priority="20">
-        <xpath expr="//footer[@id='bottom']" position="replace">
-            <footer id="bottom" class="d-none"/>
-        </xpath>
-    </template>
+    <!-- Footer: controlled by website module settings (removed override) -->
 
     <!-- Add wpe-mdi-icon class to all portal icons for transparent background -->
     <template id="portal_icon_transparent" name="MDI Icon: Transparent Background"
@@ -582,14 +574,6 @@
         </xpath>
     </template>
 
-    <!-- ============================================================ -->
-    <!-- Task 6: Logo link → /my/home instead of /                    -->
-    <!-- ============================================================ -->
-    <template id="portal_logo_link_home" name="Logo Link to Portal Home"
-              inherit_id="portal.frontend_layout" priority="50">
-        <xpath expr="//a[hasclass('navbar-brand')]" position="attributes">
-            <attribute name="href">/my/home</attribute>
-        </xpath>
-    </template>
+    <!-- Logo link: controlled by website module settings (removed override) -->
 
 </odoo>
