@@ -1,0 +1,877 @@
+/**
+ * Color Customizer - CSS Variable Overrides
+ *
+ * This file overrides Odoo's default purple with custom colors
+ * set via CSS custom properties. The properties are loaded from the
+ * /color_customizer/theme.css endpoint.
+ */
+
+:root {
+  // Fallback values - Odoo 18 Community defaults (from $o-community-color: #71639e)
+  --custom-primary: var(--o-brand-odoo, #71639e);
+  --custom-primary-hover: #66598f;    // 10% darker
+  --custom-primary-active: #5b4f80;   // 20% darker
+  --custom-primary-light: #eeedf2;    // 85% lighter
+  --custom-primary-text: #ffffff;
+}
+
+// =============================================================================
+// Navbar
+// =============================================================================
+.o_main_navbar {
+  // Override Odoo's NavBar CSS variables (no !important for CSS vars)
+  --NavBar-entry-backgroundColor: var(--custom-primary);
+  --NavBar-entry-backgroundColor--hover: var(--custom-primary-hover);
+  --NavBar-entry-backgroundColor--focus: var(--custom-primary-hover);
+  --NavBar-entry-backgroundColor--active: var(--custom-primary-active);
+
+  background-color: var(--custom-primary) !important;
+  border-bottom-color: var(--custom-primary) !important;  // B2: Navbar border
+
+  // Bug Fix #1: Navbar menu items background
+  .o_menu_sections .o_nav_entry {
+    background: var(--custom-primary) !important;
+
+    &:hover, &:focus {
+      background: var(--custom-primary-hover) !important;
+    }
+
+    &.active, &[aria-expanded="true"] {
+      background: var(--custom-primary-active) !important;
+    }
+  }
+
+  // B1: Dropdown toggle buttons in menu sections (CRITICAL)
+  // Use 'background' shorthand to override Odoo's 'background: var(--NavBar-entry-backgroundColor, #71639e)'
+  .o_menu_sections .o-dropdown.dropdown-toggle,
+  .o_menu_sections > .o-dropdown > .dropdown-toggle,
+  .o_menu_sections button.dropdown-toggle,
+  .o_menu_sections .o-dropdown.dropdown-toggle.dropdown,
+  .o_menu_sections .dropdown-toggle {
+    background: var(--custom-primary) !important;
+
+    &:hover, &:focus {
+      background: var(--custom-primary-hover) !important;
+    }
+
+    &.show, &[aria-expanded="true"] {
+      background: var(--custom-primary-active) !important;
+    }
+  }
+
+  // B1b: Apps menu dropdown toggle (hamburger menu and app switcher)
+  .o_navbar_apps_menu .o-dropdown.dropdown-toggle,
+  .o_navbar_apps_menu .dropdown-toggle {
+    background: var(--custom-primary) !important;
+
+    &:hover, &:focus {
+      background: var(--custom-primary-hover) !important;
+    }
+
+    &.show, &[aria-expanded="true"] {
+      background: var(--custom-primary-active) !important;
+    }
+  }
+}
+
+// =============================================================================
+// Navbar Dropdown Toggles (ROOT LEVEL - higher specificity)
+// =============================================================================
+// These rules are at root level to ensure proper SCSS compilation
+
+.o_main_navbar .o_menu_sections .dropdown-toggle,
+.o_main_navbar .o_menu_sections .o-dropdown.dropdown-toggle,
+.o_main_navbar .o_menu_sections button.dropdown-toggle,
+.o_main_navbar .o_navbar_apps_menu .dropdown-toggle {
+  background: var(--custom-primary) !important;
+}
+
+.o_main_navbar .o_menu_sections .dropdown-toggle:hover,
+.o_main_navbar .o_menu_sections .dropdown-toggle:focus,
+.o_main_navbar .o_navbar_apps_menu .dropdown-toggle:hover,
+.o_main_navbar .o_navbar_apps_menu .dropdown-toggle:focus {
+  background: var(--custom-primary-hover) !important;
+}
+
+.o_main_navbar .o_menu_sections .dropdown-toggle.show,
+.o_main_navbar .o_menu_sections .dropdown-toggle[aria-expanded="true"],
+.o_main_navbar .o_navbar_apps_menu .dropdown-toggle.show,
+.o_main_navbar .o_navbar_apps_menu .dropdown-toggle[aria-expanded="true"] {
+  background: var(--custom-primary-active) !important;
+}
+
+// =============================================================================
+// Buttons
+// =============================================================================
+
+// Primary buttons
+.btn-primary {
+  background-color: var(--custom-primary) !important;
+  border-color: var(--custom-primary) !important;
+  color: var(--custom-primary-text) !important;
+
+  &:hover,
+  &:focus {
+    background-color: var(--custom-primary-hover) !important;
+    border-color: var(--custom-primary-hover) !important;
+  }
+
+  &:active,
+  &.active {
+    background-color: var(--custom-primary-active) !important;
+    border-color: var(--custom-primary-active) !important;
+  }
+
+  &:disabled,
+  &.disabled {
+    background-color: var(--custom-primary) !important;
+    border-color: var(--custom-primary) !important;
+    opacity: 0.65;
+  }
+}
+
+// Outline primary buttons
+.btn-outline-primary {
+  color: var(--custom-primary) !important;
+  border-color: var(--custom-primary) !important;
+
+  &:hover,
+  &:focus {
+    background-color: var(--custom-primary) !important;
+    color: var(--custom-primary-text) !important;
+  }
+}
+
+// Link buttons
+.btn-link {
+  color: var(--custom-primary) !important;
+
+  &:hover {
+    color: var(--custom-primary-hover) !important;
+  }
+}
+
+// =============================================================================
+// Links (Bug Fix 19: Add !important to override Odoo's base CSS)
+// =============================================================================
+a:not(.btn):not(.nav-link):not(.dropdown-item) {
+  color: var(--custom-primary) !important;
+
+  &:hover {
+    color: var(--custom-primary-hover) !important;
+  }
+}
+
+// =============================================================================
+// BUG FIX 28+32+33: Combo product links in quotation order lines (FORM VIEW CONTEXT)
+// Links inside form view embedded lists (one2many fields) need form view context
+// Previous fixes failed because they targeted standalone list views, not embedded lists
+// BUG FIX 33: Must explicitly target .o_form_uri class which Odoo uses for form links
+// Odoo core has: .o_form_view .o_form_uri { color: rgb(102, 89, 143) } - purple!
+// =============================================================================
+
+// CRITICAL: Override .o_form_uri which is the class on combo product links
+.o_form_view .o_form_uri,
+.o_form_view .o_form_uri:visited,
+.o_form_view .o_form_uri > span,
+.o_form_view .o_form_uri > span:first-child,
+.o_form_view .o_form_uri > span:first-child:visited {
+  color: var(--custom-primary) !important;
+}
+
+.o_form_view .o_form_uri:hover,
+.o_form_view .o_form_uri:focus,
+.o_form_view .o_form_uri.focus,
+.o_form_view .o_form_uri > span:first-child:hover,
+.o_form_view .o_form_uri > span:first-child:focus {
+  color: var(--custom-primary-hover) !important;
+}
+
+// Form view context - embedded one2many list links (CRITICAL for combo products)
+.o_form_view .o_field_one2many a,
+.o_form_view .o_field_one2many a:visited,
+.o_form_view .o_field_widget a,
+.o_form_view .o_field_widget a:visited,
+.o_form_view .o_list_renderer a,
+.o_form_view .o_list_renderer a:visited,
+.o_form_view .o_data_row a,
+.o_form_view .o_data_row a:visited,
+.o_form_view .o_data_cell a,
+.o_form_view .o_data_cell a:visited,
+.o_form_view .o_list_table a,
+.o_form_view .o_list_table a:visited {
+  color: var(--custom-primary) !important;
+}
+
+// Form view context - hover states
+.o_form_view .o_field_one2many a:hover,
+.o_form_view .o_field_widget a:hover,
+.o_form_view .o_list_renderer a:hover,
+.o_form_view .o_data_row a:hover,
+.o_form_view .o_data_cell a:hover,
+.o_form_view .o_list_table a:hover,
+.o_form_view .o_field_one2many a:visited:hover,
+.o_form_view .o_field_widget a:visited:hover,
+.o_form_view .o_list_renderer a:visited:hover,
+.o_form_view .o_data_row a:visited:hover,
+.o_form_view .o_data_cell a:visited:hover,
+.o_form_view .o_list_table a:visited:hover {
+  color: var(--custom-primary-hover) !important;
+}
+
+// Standalone list view context (for regular list views outside forms)
+.o_list_renderer .o_data_row a,
+.o_list_renderer .o_data_row a:visited,
+.o_list_view .o_data_row a,
+.o_list_view .o_data_row a:visited,
+.o_data_row a,
+.o_data_row a:visited,
+.o_data_cell a,
+.o_data_cell a:visited,
+.o_list_table a,
+.o_list_table a:visited {
+  color: var(--custom-primary) !important;
+}
+
+// Standalone list view context - hover states
+.o_list_renderer .o_data_row a:hover,
+.o_list_view .o_data_row a:hover,
+.o_data_row a:hover,
+.o_data_cell a:hover,
+.o_list_table a:hover,
+.o_list_renderer .o_data_row a:visited:hover,
+.o_list_view .o_data_row a:visited:hover,
+.o_data_row a:visited:hover,
+.o_data_cell a:visited:hover,
+.o_list_table a:visited:hover {
+  color: var(--custom-primary-hover) !important;
+}
+
+// =============================================================================
+// Form Elements
+// =============================================================================
+
+// Focus states
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--custom-primary) !important;
+  box-shadow: none !important;
+}
+
+// Checkboxes and radios
+.form-check-input:checked {
+  background-color: var(--custom-primary) !important;
+  border-color: var(--custom-primary) !important;
+}
+
+.form-check-input:focus {
+  border-color: var(--custom-primary) !important;
+  box-shadow: none !important;
+}
+
+// =============================================================================
+// Selection & Highlights
+// =============================================================================
+
+// List view selection
+.o_list_view .o_data_row.o_selected_row {
+  background-color: var(--custom-primary-light) !important;
+}
+
+.o_list_view .o_data_row:hover {
+  background-color: var(--custom-primary-light) !important;
+}
+
+// =============================================================================
+// BUG FIX 22: Required field border in selected rows (quotation line items)
+// When adding a new line, the product field shows purple border instead of custom color
+// =============================================================================
+.o_data_row.o_selected_row > .o_data_cell.o_required_modifier:not(.o_readonly_modifier) {
+  border-bottom-color: var(--custom-primary) !important;
+}
+
+// Ensure all selected row borders use custom primary
+.o_data_row.o_selected_row > .o_data_cell {
+  --o-input-border-color: var(--custom-primary);
+}
+
+// =============================================================================
+// Kanban
+// =============================================================================
+.o_kanban_record {
+  &:hover {
+    border-left-color: var(--custom-primary) !important;
+  }
+}
+
+.o_kanban_group_header {
+  .o_column_title {
+    color: var(--custom-primary);
+  }
+}
+
+// =============================================================================
+// Progress Bars
+// =============================================================================
+.progress-bar {
+  background-color: var(--custom-primary) !important;
+}
+
+// =============================================================================
+// Badges
+// =============================================================================
+.badge.bg-primary,
+.badge-primary {
+  background-color: var(--custom-primary) !important;
+}
+
+// =============================================================================
+// BUG FIX 27: Variant price extra badges (e.g., +$111.00)
+// These use .badge.rounded-pill.border - Odoo adds box-shadow/outline causing DOUBLE BORDER
+// =============================================================================
+.badge.rounded-pill.border,
+.badge.border {
+  border-color: var(--custom-primary) !important;
+  box-shadow: none !important;           // Remove shadow causing double border
+  outline: none !important;              // Remove outline
+  outline-color: transparent !important; // Explicit clear
+}
+
+// Badge inside variant pills - override Odoo's website_sale/product_configurator.scss
+.o_variant_pills_input_value .badge,
+.radio_input_value .badge,
+label .badge.rounded-pill.border {
+  border-color: var(--custom-primary) !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+// =============================================================================
+// Calendar
+// =============================================================================
+.fc-event,
+.fc-event-dot {
+  background-color: var(--custom-primary) !important;
+  border-color: var(--custom-primary) !important;
+}
+
+// =============================================================================
+// Dropdowns
+// =============================================================================
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: var(--custom-primary) !important;
+}
+
+// =============================================================================
+// Pagination
+// =============================================================================
+.page-item.active .page-link {
+  background-color: var(--custom-primary) !important;
+  border-color: var(--custom-primary) !important;
+}
+
+.page-link {
+  color: var(--custom-primary);
+
+  &:hover {
+    color: var(--custom-primary-hover);
+  }
+}
+
+// =============================================================================
+// Tabs & Pills
+// =============================================================================
+// NOTE: Removed .nav-tabs .nav-link.active border override
+// Original Odoo has gray borders, not primary color
+
+.nav-pills .nav-link.active {
+  background-color: var(--custom-primary) !important;
+}
+
+// =============================================================================
+// Text Utilities
+// =============================================================================
+.text-primary {
+  color: var(--custom-primary) !important;
+}
+
+.bg-primary {
+  background-color: var(--custom-primary) !important;
+}
+
+// =============================================================================
+// Odoo Specific Components
+// =============================================================================
+
+// Status bar
+.o_statusbar_status {
+  // BUG FIX 29: Override CSS variables that SCSS uses for borders
+  --o-statusbar-border: var(--custom-primary);
+  --o-statusbar-border-active: var(--custom-primary);
+
+  button.btn-primary {
+    background-color: var(--custom-primary) !important;
+    border-color: var(--custom-primary) !important;
+  }
+
+  .o_arrow_button.btn-primary.disabled {
+    background-color: var(--custom-primary) !important;
+    border-color: var(--custom-primary) !important;
+  }
+
+  // BUG FIX 29: Target ::before pseudo-element that creates the ACTUAL border
+  .o_arrow_button::before {
+    border-color: var(--custom-primary) !important;
+  }
+
+  .o_arrow_button_current::before {
+    border-color: var(--custom-primary) !important;
+    background-color: var(--custom-primary-light) !important;
+  }
+
+  // BUG FIX 21 & 26 & 29 (Enhanced): Current status button border (e.g., "Quotation")
+  // Keep direct selectors as fallback
+  .o_arrow_button_current,
+  button.o_arrow_button_current,
+  .btn.o_arrow_button_current {
+    border-color: var(--custom-primary) !important;
+  }
+
+  // All arrow buttons hover/focus
+  .o_arrow_button:hover,
+  .o_arrow_button:focus,
+  button.o_arrow_button:hover,
+  button.o_arrow_button:focus {
+    border-color: var(--custom-primary) !important;
+  }
+
+  // All buttons in status bar with o_arrow_button class
+  button[class*="o_arrow_button"] {
+    &.o_arrow_button_current {
+      border-color: var(--custom-primary) !important;
+    }
+  }
+}
+
+// Search view facets
+.o_searchview_facet {
+  background-color: var(--custom-primary-light) !important;
+  border-color: var(--custom-primary) !important;
+
+  .o_facet_value {
+    color: var(--custom-primary) !important;
+  }
+}
+
+// Chatter
+.o_ChatterTopbar {
+  border-bottom-color: var(--custom-primary) !important;
+}
+
+// =============================================================================
+// Settings Sidebar (Bug Fix #2)
+// =============================================================================
+.o_base_settings_view .settings_tab {
+  // Selected tab left border and background
+  .selected {
+    background-color: var(--custom-primary-light) !important;
+    box-shadow: inset 3px 0 0 var(--custom-primary) !important;
+  }
+
+  // Tab icon color when selected
+  .tab.selected .icon,
+  .tab.selected .oi,
+  .tab.selected .fa {
+    color: var(--custom-primary) !important;
+  }
+}
+
+// =============================================================================
+// Pending Invitations Border (Bug Fix #3)
+// =============================================================================
+.o_base_settings_view .o_settings_container {
+  .o_setting_box {
+    border-color: var(--custom-primary-light) !important;
+  }
+}
+
+// Pending invitations badges border
+.badge.rounded-pill.text-primary {
+  border-color: var(--custom-primary) !important;
+}
+
+// =============================================================================
+// BUG FIX 18: Removed overly broad tag color rules
+// The previous rules incorrectly assumed:
+// 1. o_tag_color_0 is the primary/purple color (it's actually neutral gray)
+// 2. ALL .o_tag_badge_text should use primary color (too broad)
+// These rules were causing tax badges and other neutral tags to show primary color
+// =============================================================================
+
+// =============================================================================
+// Enterprise Badge (Bug Fix #4)
+// =============================================================================
+// Only target EXPLICIT Enterprise/Odoo badges - NOT all badges
+.o_enterprise_label .badge,
+.o_enterprise_label,
+.badge.text-bg-odoo,
+.badge.bg-odoo,
+.badge.text-bg-primary.o_enterprise_label,
+span.badge.text-bg-primary.o_enterprise_label,
+span.badge.o_enterprise_label {
+  background-color: var(--custom-primary) !important;
+  color: var(--custom-primary-text) !important;
+}
+// NOTE: Removed overly broad "span.badge:not(.bg-*)" selector that was
+// incorrectly changing non-primary badges (like green "Pending" badges)
+
+// =============================================================================
+// App Menu Icons (Bug Fix #5)
+// =============================================================================
+// App icons in command palette / app switcher / dropdown
+.o_command_palette .o_app_icon,
+.o_app_menu_sidebar .o_app_icon,
+.o_burger_menu .o_app_icon,
+.o_navbar_apps_menu .o_app_icon,
+.o_home_menu .o_app_icon,
+.dropdown-menu .o_app .o_app_icon {
+  --oi-color: var(--custom-primary) !important;
+  color: var(--custom-primary) !important;
+}
+
+// UI App icons
+.o_ui_app_icon {
+  --oi-color: var(--custom-primary) !important;
+}
+
+// App icon loading spinner
+.o_navbar_apps_menu .fa-circle-o-notch,
+.o_home_menu .fa-circle-o-notch {
+  color: var(--custom-primary) !important;
+}
+
+// =============================================================================
+// Form Notebook Tabs (Bug Fix #7 & #8)
+// =============================================================================
+// NOTE: Removed .o_notebook CSS variable override
+// Original Odoo has gray tab borders, not primary color
+
+// Bug Fix #7: Active tab text should be BLACK (not themed) - HIGH SPECIFICITY
+// NOTE: Removed border-top-color override - Original Odoo has gray borders
+.o_form_view .o_notebook .nav-tabs .nav-item .nav-link.active,
+.o_notebook .nav-tabs .nav-item .nav-link.active,
+.o_notebook > .nav-tabs > .nav-item > .nav-link.active,
+.o_notebook .nav-link.active {
+  color: #000000 !important;
+}
+
+// Bug Fix #8: Inactive tab text should use custom primary - HIGH SPECIFICITY
+.o_form_view .o_notebook .nav-tabs .nav-item .nav-link:not(.active),
+.o_notebook .nav-tabs .nav-item .nav-link:not(.active),
+.o_notebook > .nav-tabs > .nav-item > .nav-link:not(.active),
+.o_notebook .nav-link:not(.active) {
+  color: var(--custom-primary) !important;
+
+  &:hover {
+    color: var(--custom-primary-hover) !important;
+  }
+}
+
+// NOTE: Removed vertical notebook border override - keep original gray borders
+
+// =============================================================================
+// Radio Buttons (additional form elements)
+// =============================================================================
+.form-check-input[type="radio"]:checked {
+  border-color: var(--custom-primary) !important;
+  background-color: var(--custom-primary) !important;
+}
+
+// Switch/toggle buttons
+.form-switch .form-check-input:checked {
+  background-color: var(--custom-primary) !important;
+  border-color: var(--custom-primary) !important;
+}
+
+// =============================================================================
+// Smart Buttons (Bug Fix #6 - Form view stat buttons)
+// =============================================================================
+// Note: Odoo 18 uses .o-form-buttonbox (hyphen) not .oe_button_box (underscore)
+.oe_stat_button {
+  --o-stat-button-color: var(--custom-primary) !important;
+
+  &:hover {
+    border-color: var(--custom-primary) !important;
+  }
+
+  // Button icons - use !important to override Odoo defaults
+  .o_button_icon {
+    color: var(--custom-primary) !important;
+  }
+
+  .o_stat_info .o_stat_value {
+    color: var(--custom-primary) !important;
+  }
+}
+
+// High specificity selectors for stat button icons
+.o-form-buttonbox .oe_stat_button .o_button_icon,
+.o_form_view .oe_stat_button .o_button_icon,
+.oe_stat_button .o_button_icon.fa,
+.oe_stat_button i.o_button_icon,
+.oe_stat_button i.fa.o_button_icon {
+  color: var(--custom-primary) !important;
+}
+
+// Stat values with high specificity
+.o-form-buttonbox .oe_stat_button .o_stat_info .o_stat_value,
+.o_form_view .oe_stat_button .o_stat_info .o_stat_value,
+.oe_stat_button .o_stat_info .o_stat_value {
+  color: var(--custom-primary) !important;
+}
+
+// =============================================================================
+// Loading Indicator
+// =============================================================================
+.o_loading_indicator {
+  background-color: var(--custom-primary) !important;
+}
+
+// =============================================================================
+// NEW BUG FIXES (2026-01-08)
+// =============================================================================
+
+// B3 & B4: Search Input and Dropdown Toggler
+// NOTE: Only apply primary color on FOCUS, not default state
+// Default state should keep gray border to match Original Odoo
+.o_searchview.form-control:focus,
+.o_searchview.form-control:focus-within,
+.o_searchview:focus,
+.o_searchview:focus-within,
+div.o_searchview:focus,
+div.o_searchview:focus-within {
+  border-color: var(--custom-primary) !important;
+  // NOTE: Removed box-shadow - Original Odoo doesn't have one on search focus
+}
+
+// Dropdown toggler only on focus
+.o_searchview_dropdown_toggler:focus,
+.o_searchview_dropdown_toggler:hover {
+  border-color: var(--custom-primary) !important;
+}
+
+// B5: Secondary Buttons (Switch View, FA icons in toolbars)
+// NOTE: Only style BORDER color, not TEXT color - text should stay dark gray
+.btn.btn-secondary.o_switch_view,
+.btn.btn-secondary.fa,
+.o_cp_switch_buttons .btn.btn-secondary,
+button.btn.btn-secondary.o_switch_view,
+button.btn.btn-secondary.fa {
+  border-color: var(--custom-primary) !important;
+
+  &:hover, &:focus {
+    border-color: var(--custom-primary-hover) !important;
+  }
+
+  &.active {
+    border-color: var(--custom-primary) !important;
+    // NOTE: Removed "color: var(--custom-primary)" - text should stay dark gray
+  }
+}
+
+// B5b: CRITICAL - Override any cached rules that set color on active view switches
+// This rule counters the cached ".o_control_panel .o_cp_switch_buttons .btn.active" rule
+.o_control_panel .o_cp_switch_buttons .btn.active,
+.o_control_panel .o_cp_switch_buttons .btn.btn-secondary.active,
+.o_cp_switch_buttons .btn.active {
+  color: #343a40 !important;  // Force dark gray text, same as Bootstrap's default
+}
+
+// B6: Smart Button Stat Values (Higher Specificity)
+// Some stat buttons have span.o_stat_info instead of div
+span.o_stat_info .o_stat_value,
+.oe_stat_button span.o_stat_info .o_stat_value,
+.o-form-buttonbox .oe_stat_button span.o_stat_value,
+.oe_stat_button .o_stat_value,
+span.o_stat_value {
+  color: var(--custom-primary) !important;
+}
+
+// B7: All Input Focus States
+input:focus,
+textarea:focus,
+select:focus,
+.o_input:focus,
+input.o_input:focus,
+textarea.o_input:focus {
+  border-color: var(--custom-primary) !important;
+  outline-color: var(--custom-primary) !important;
+}
+
+// =============================================================================
+// BUG FIX 19: Combo Product Card Selection Border
+// When selecting a combo product option, the card border should use custom color
+// =============================================================================
+.product-card.selected {
+  border-color: var(--custom-primary) !important;
+}
+
+// =============================================================================
+// BUG FIX 23: Combo Product Card Hover Border
+// When hovering over combo product cards, border should use custom color
+// =============================================================================
+.product-card:hover {
+  border-color: var(--custom-primary) !important;
+}
+
+// =============================================================================
+// BUG FIX 20: Product Configurator Color Picker and Pill Active States
+// Radio buttons and color pickers in variant/configurator dialogs
+// =============================================================================
+.o_sale_product_configurator_ptav_color.active {
+  border-color: var(--custom-primary) !important;
+}
+
+// Pill-style radio buttons in configurator
+.o_sale_product_configurator_ptav_pills.active label {
+  background-color: var(--custom-primary) !important;
+  border-color: var(--custom-primary) !important;
+  color: var(--custom-primary-text) !important;
+}
+
+// =============================================================================
+// BUG FIX 30: Discuss Sidebar Active/Hover States
+// Mail module uses hardcoded $o-action color for active/hover backgrounds
+// =============================================================================
+
+// Override CSS variables for Discuss sidebar
+.o-mail-DiscussSidebar {
+  --mail-DiscussSidebar-itemActiveBgColor: var(--custom-primary-light);
+  --mail-DiscussSidebar-itemActiveOutlineColor: var(--custom-primary);
+}
+
+// Active sidebar item (Inbox, Starred, History, Channels, DMs)
+.o-mail-DiscussSidebar-item.o-active,
+.o-mail-DiscussSidebarChannel.o-active {
+  background-color: var(--custom-primary-light) !important;
+  outline-color: var(--custom-primary) !important;
+}
+
+// Hover state for sidebar items
+.o-mail-DiscussSidebar-item:hover,
+.o-mail-DiscussSidebarChannel:hover {
+  background-color: var(--custom-primary-light) !important;
+  outline-color: var(--custom-primary) !important;
+}
+
+// Quick search button active state
+.o-mail-DiscussSidebarCategories-quickSearchBtn.o-active {
+  background-color: var(--custom-primary) !important;
+  color: var(--custom-primary-text) !important;
+}
+
+// Quick search input focus
+.o-mail-DiscussSidebarQuickSearchInput.o-active {
+  outline-color: var(--custom-primary) !important;
+}
+
+// Category headers with icons
+.o-mail-DiscussSidebarCategory-toggler:hover {
+  color: var(--custom-primary) !important;
+}
+
+// =============================================================================
+// BUG FIX 34: Frontend Editor Launcher (Triangle + Apps Button)
+// The triangle and square launcher on website frontend uses $o-enterprise-color
+// Source: website/static/src/scss/website.ui.scss lines 14-57
+// =============================================================================
+.o_frontend_to_backend_nav {
+  // Override the triangle (::before pseudo-element)
+  &::before {
+    border-top-color: var(--custom-primary) !important;
+    border-left-color: var(--custom-primary) !important;
+  }
+
+  // Override the apps button background (the square with 9-dot icon)
+  .o_frontend_to_backend_apps_btn {
+    background-color: var(--custom-primary) !important;
+
+    &:hover {
+      background-color: var(--custom-primary-hover) !important;
+    }
+  }
+}
+
+// =============================================================================
+// BUG FIX 43: Mobile Sidebar "所有應用程式" Button
+// The .o_sidebar_topbar contains "所有應用程式" button with cyan background
+// Both icon (oi-apps) and text (span.px-2) must be WHITE for contrast
+// =============================================================================
+
+// The "所有應用程式" button in mobile sidebar header
+.o_sidebar_topbar a.btn.btn-primary,
+.o_sidebar_topbar .btn-primary,
+.o_sidebar_topbar a.btn-primary {
+  background-color: var(--custom-primary) !important;
+  border-color: var(--custom-primary) !important;
+  color: #ffffff !important;
+}
+
+// Ensure the icon inside the button is white
+.o_sidebar_topbar a.btn.btn-primary .oi,
+.o_sidebar_topbar a.btn.btn-primary .oi-apps,
+.o_sidebar_topbar a.btn.btn-primary i,
+.o_sidebar_topbar .btn-primary .oi,
+.o_sidebar_topbar .btn-primary .oi-apps,
+.o_sidebar_topbar .btn-primary i {
+  color: #ffffff !important;
+}
+
+// Ensure the text inside the button is white - 所有應用程式
+.o_sidebar_topbar a.btn.btn-primary span,
+.o_sidebar_topbar a.btn.btn-primary span.px-2,
+.o_sidebar_topbar .btn-primary span {
+  color: #ffffff !important;
+}
+
+// =============================================================================
+// BUG FIX 44: Mobile Hamburger Icon (三條線) in Backend Navbar
+// The .o_menu_toggle contains fa-bars icon - must be WHITE on cyan navbar
+// Currently showing as cyan (same as background) - invisible!
+// =============================================================================
+
+// Mobile menu toggle hamburger icon
+.o_menu_toggle,
+.o_menu_toggle i,
+.o_menu_toggle .fa,
+.o_menu_toggle .fa-bars,
+a.o_menu_toggle,
+a.o_menu_toggle i,
+a.o_menu_toggle .fa-bars {
+  color: #ffffff !important;
+}
+
+// The ::before pseudo-element for FontAwesome icons
+.o_menu_toggle .fa::before,
+.o_menu_toggle .fa-bars::before,
+a.o_menu_toggle .fa::before,
+a.o_menu_toggle .fa-bars::before {
+  color: #ffffff !important;
+}
+
+// Also ensure mobile navbar has proper colors
+.o_main_navbar .o_menu_toggle,
+.o_main_navbar .o_menu_toggle i,
+.o_main_navbar .o_menu_toggle .fa-bars,
+.o_main_navbar a.o_menu_toggle,
+.o_main_navbar a.o_menu_toggle i {
+  color: #ffffff !important;
+}
+
+// =============================================================================
+// NOTE: Navbar text colors are intentionally NOT overridden here.
+// Odoo's default navbar styling handles text contrast automatically.
+// We only override the BACKGROUND colors, not text colors.
+// Black text should remain black - only purple elements are changed.
+// =============================================================================

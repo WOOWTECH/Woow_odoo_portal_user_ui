@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend General Settings to add Color Customization section -->
+    <record id="res_config_settings_view_form_color" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.color.customizer</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='general_settings']" position="inside">
+                <block title="Color Customization" name="color_customization">
+                    <setting string="Primary Color"
+                             help="Customize the primary brand color used throughout the Odoo interface. Changes apply immediately.">
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label for="primary_color" class="col-lg-3 o_light_label"/>
+                                <field name="primary_color" widget="color" class="col-lg-3"/>
+                            </div>
+                            <div class="row mt8">
+                                <div class="col-lg-3"/>
+                                <div class="col-lg-6">
+                                    <span class="text-muted">Current value: </span>
+                                    <field name="primary_color" readonly="1" class="d-inline fw-bold"/>
+                                </div>
+                            </div>
+                            <div class="row mt16">
+                                <div class="col-lg-3"/>
+                                <div class="col-lg-6">
+                                    <button name="action_reset_primary_color"
+                                            type="object"
+                                            string="Reset to Default"
+                                            class="btn-secondary"
+                                            icon="fa-undo"
+                                            confirm="Reset primary color to Odoo default (#71639e)?"/>
+                                </div>
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

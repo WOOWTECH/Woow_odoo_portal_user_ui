@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ========================================================= -->
+    <!-- Portal Breadcrumbs : Discussions                          -->
+    <!-- ========================================================= -->
+    <template id="portal_breadcrumbs_discussions"
+              inherit_id="portal.portal_breadcrumbs"
+              name="Portal Breadcrumbs : Discussions"
+              priority="20">
+
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+
+            <li t-if="page_name == 'discussions'"
+                class="breadcrumb-item active">
+                討論區
+            </li>
+
+            <li t-if="page_name == 'discussion_channel'"
+                class="breadcrumb-item">
+                <a t-attf-href="/my/discussions?{{ keep_query() }}">
+                    討論區
+                </a>
+            </li>
+
+            <li t-if="page_name == 'discussion_channel'"
+                class="breadcrumb-item active">
+                <t t-out="channel.name"/>
+            </li>
+
+        </xpath>
+    </template>
+
+    <!-- ========================================================= -->
+    <!-- Portal Home Card : Discussions                             -->
+    <!-- ========================================================= -->
+    <template id="portal_home_discussions_card"
+              inherit_id="portal.portal_my_home"
+              customize_show="True"
+              name="Portal Home : Discussions"
+              priority="40">
+
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-set="portal_client_category_enable" t-value="True"/>
+        </xpath>
+
+        <div id="portal_client_category" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon"
+                   t-value="'/cs_portal_discuss/static/description/images/discuss.svg'"/>
+                <t t-set="title">討論區</t>
+                <t t-set="url" t-value="'/my/discussions'"/>
+                <t t-set="text">
+                    聊天、協作並查看共享的討論
+                </t>
+                <t t-set="placeholder_count"
+                   t-value="'portal_discussion_count'"/>
+                <t t-set="config_card" t-value="True"/>
+            </t>
+        </div>
+
+    </template>
+
+    <!-- ========================================================= -->
+    <!-- Portal Discussions List                                   -->
+    <!-- ========================================================= -->
+    <template id="portal_discuss_channels"
+              name="My Discussions">
+
+        <t t-call="portal.portal_layout">
+
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">您的討論</t>
+            </t>
+
+            <div t-if="not channels"
+                 class="alert alert-warning"
+                 role="alert">
+                目前沒有可用的討論頻道。
+            </div>
+
+            <t t-if="channels" t-call="portal.portal_table">
+
+                <t t-if="pager" t-call="portal.pager"/>
+
+                <thead>
+                    <tr class="active">
+                        <th>
+                            <span class="d-none d-md-inline">頻道</span>
+                            <span class="d-block d-md-none">名稱</span>
+                        </th>
+                        <th>類型</th>
+                        <th class="text-end">成員</th>
+                    </tr>
+                </thead>
+
+                <t t-foreach="channels" t-as="channel">
+                    <tr>
+                        <td>
+                            <a t-att-href="'/discuss/channel/%s?discussions=1' % channel.id">
+                                <t t-out="channel.name"/>
+                            </a>
+                        </td>
+                        <td>
+                            <t t-out="channel.channel_type"/>
+                        </td>
+                        <td class="text-end">
+                            <t t-out="channel.member_count"/>
+                        </td>
+                    </tr>
+                </t>
+
+            </t>
+
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,30 @@
+/**
+ * Color Customizer - Frontend Minimal Overrides
+ *
+ * This file ONLY contains the editor launcher fix (BUG FIX 34).
+ * Other frontend elements remain unchanged.
+ *
+ * The CSS variables are injected via QWeb template from the server.
+ */
+
+// =============================================================================
+// BUG FIX 34: Frontend Editor Launcher (Triangle + Apps Button)
+// The triangle and square launcher on website frontend uses $o-enterprise-color
+// Source: website/static/src/scss/website.ui.scss lines 14-57
+// =============================================================================
+.o_frontend_to_backend_nav {
+  // Override the triangle (::before pseudo-element)
+  &::before {
+    border-top-color: var(--custom-primary, #71639e) !important;
+    border-left-color: var(--custom-primary, #71639e) !important;
+  }
+
+  // Override the apps button background (the square with 9-dot icon)
+  .o_frontend_to_backend_apps_btn {
+    background-color: var(--custom-primary, #71639e) !important;
+
+    &:hover {
+      background-color: var(--custom-primary-hover, #66598f) !important;
+    }
+  }
+}

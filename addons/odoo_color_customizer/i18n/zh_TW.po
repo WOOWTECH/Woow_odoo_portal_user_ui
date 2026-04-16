@@ -1,0 +1,55 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * odoo_color_customizer
+#
+# Translators:
+# WOOWTECH <info@woowtech.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-01 00:00+0000\n"
+"PO-Revision-Date: 2025-01-01 00:00+0000\n"
+"Last-Translator: WOOWTECH <info@woowtech.com>\n"
+"Language-Team: Chinese (Traditional) <>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: odoo_color_customizer
+#: model:ir.model.fields,field_description:odoo_color_customizer.field_res_config_settings__primary_color
+msgid "Primary Color"
+msgstr "主題色"
+
+#. module: odoo_color_customizer
+#: model:ir.model.fields,help:odoo_color_customizer.field_res_config_settings__primary_color
+msgid "Choose a custom primary color for the Odoo interface. This color will replace the default Odoo purple across the entire UI."
+msgstr "選擇自訂的主題色。此顏色將取代整個 Odoo 介面預設的紫色。"
+
+#. module: odoo_color_customizer
+#: model_terms:ir.ui.view,arch_db:odoo_color_customizer.res_config_settings_view_form_color
+msgid "Color Customization"
+msgstr "色彩自訂"
+
+#. module: odoo_color_customizer
+#: model_terms:ir.ui.view,arch_db:odoo_color_customizer.res_config_settings_view_form_color
+msgid "Customize the primary brand color used throughout the Odoo interface. Changes apply immediately."
+msgstr "自訂整個 Odoo 介面使用的品牌主題色。變更會立即套用。"
+
+#. module: odoo_color_customizer
+#: model_terms:ir.ui.view,arch_db:odoo_color_customizer.res_config_settings_view_form_color
+msgid "Reset to Default"
+msgstr "重設為預設值"
+
+#. module: odoo_color_customizer
+#: model_terms:ir.ui.view,arch_db:odoo_color_customizer.res_config_settings_view_form_color
+msgid "Reset primary color to Odoo default (#71639e)?"
+msgstr "要將主題色重設為 Odoo 預設值 (#71639e) 嗎？"
+
+#. module: odoo_color_customizer
+#: model_terms:ir.ui.view,arch_db:odoo_color_customizer.res_config_settings_view_form_color
+msgid "Current value: "
+msgstr "目前設定值："

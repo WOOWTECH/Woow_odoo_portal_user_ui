@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="cs_portal_discuss.ChannelMemberList" t-inherit="discuss.ChannelMemberList" t-inherit-mode="extension">
+        <xpath expr="//button[1]" position="attributes">
+            <attribute name="t-if">user.isInternalUser</attribute>
+        </xpath>
+    </t>
+    
+</templates>

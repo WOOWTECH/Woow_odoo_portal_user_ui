@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Color Customizer Frontend CSS Injection
+
+        繼承 web.frontend_layout（不需要 website 模組）
+        對所有用戶（內部、Portal、Public）注入自定義主題色
+        統一品牌色彩體驗
+
+        Cache busting: 在 URL 中包含顏色值，確保顏色變更後瀏覽器重新載入 CSS
+    -->
+    <template id="color_customizer_frontend_css"
+              name="Color Customizer Frontend CSS"
+              inherit_id="web.frontend_layout" priority="100">
+        <xpath expr="//head" position="inside">
+            <!-- 對所有用戶注入自定義 CSS，統一品牌色彩 -->
+            <t t-set="primary_color" t-value="request.env['ir.config_parameter'].sudo().get_param('odoo_color_customizer.primary_color', '#71639e')"/>
+            <!-- PWA theme-color for mobile browsers -->
+            <meta name="theme-color" t-att-content="primary_color or '#71639e'"/>
+            <!-- Load frontend CSS -->
+            <link rel="stylesheet" type="text/css"
+                  t-attf-href="/color_customizer/frontend.css?v={{ primary_color[1:] if primary_color else '71639e' }}"/>
+        </xpath>
+    </template>
+</odoo>
