@@ -5,7 +5,10 @@ from datetime import datetime
 import pytz
 from babel.dates import format_date as babel_format_date
 
+from markupsafe import Markup
+
 from odoo import _, http
+from odoo.exceptions import AccessError, MissingError
 from odoo.fields import Datetime as FieldDatetime
 from odoo.http import request
 from odoo.tools import html2plaintext
@@ -718,3 +721,50 @@ class WoowPortalEnhanced(CustomerPortal):
             }
 
         return {'success': False, 'error': _('Missing ID parameter.')}
+
+    # ------------------------------------------------------------------
+    # Task creation form (portal)
+    # ------------------------------------------------------------------
+
+    @http.route('/my/projects/<int:project_id>/create_task', type='http',
+                auth='user', website=True, methods=['GET', 'POST'])
+    def portal_create_task(self, project_id, **kw):
+        """GET: render task creation form. POST: create task and redirect."""
+        try:
+            project_sudo = self._document_check_access(
+                'project.project', project_id)
+        except (AccessError, MissingError):
+            return request.redirect('/my')
+
+        if request.httprequest.method == 'POST':
+            task_name = kw.get('task_name', '').strip()
+            if not task_name:
+                return request.redirect(
+                    '/my/projects/%d/create_task' % project_id)
+
+            tag_ids = request.httprequest.form.getlist('tag_ids')
+            tag_ids = [int(t) for t in tag_ids if t.isdigit()]
+
+            description = kw.get('task_description', '').strip()
+            vals = {
+                'name': task_name,
+                'project_id': project_sudo.id,
+            }
+            if tag_ids:
+                vals['tag_ids'] = [(6, 0, tag_ids)]
+            if description:
+                vals['description'] = Markup('<p>%s</p>') % description
+
+            request.env['project.task'].sudo().create(vals)
+            return request.redirect('/my/projects/%d' % project_id)
+
+        # GET: render the form
+        available_tags = request.env['project.tags'].sudo().search([])
+        values = self._prepare_portal_layout_values()
+        values.update({
+            'project': project_sudo,
+            'available_tags': available_tags,
+            'page_name': 'create_task',
+        })
+        return request.render(
+            'woow_portal_enhanced.portal_create_task_form', values)

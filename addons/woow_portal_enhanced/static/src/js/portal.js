@@ -26,6 +26,8 @@ whenReady(async () => {
     initNotifSearchbar();
     rewriteLogoLink();
     applyThemeIconFilter();
+    initTaskAddButton();
+    hideTimeSpentColumn();
 });
 
 // ------------------------------------------------------------------
@@ -980,6 +982,64 @@ function _applyNotifFilters(list, panel) {
             // Insert header before first card in group
             parent.insertBefore(header, groups[key][0]);
         });
+    }
+}
+
+// ------------------------------------------------------------------
+// ⑤-B Hide "Time Spent" column in task list tables
+// ------------------------------------------------------------------
+
+function hideTimeSpentColumn() {
+    // Find all task list tables on the page
+    var tables = document.querySelectorAll("table.table");
+    tables.forEach(function (table) {
+        var ths = table.querySelectorAll("thead th");
+        var colIndex = -1;
+        for (var i = 0; i < ths.length; i++) {
+            var text = ths[i].textContent.trim();
+            // Match English "Time Spent" or Chinese "已花費時間"
+            if (text === "Time Spent" || text === "已花費時間") {
+                colIndex = i;
+                ths[i].style.display = "none";
+                break;
+            }
+        }
+        if (colIndex === -1) return;
+
+        // Hide the corresponding data cells in each row
+        var rows = table.querySelectorAll("tbody tr");
+        rows.forEach(function (row) {
+            var cells = row.querySelectorAll("td");
+            if (cells[colIndex]) {
+                cells[colIndex].style.display = "none";
+            }
+        });
+    });
+}
+
+// ------------------------------------------------------------------
+// ⑤-C Task "新增" button — move into searchbar nav, LEFT of title
+// ------------------------------------------------------------------
+
+function initTaskAddButton() {
+    var btn = document.getElementById("wpe_task_add_btn");
+    if (!btn) return;
+
+    // The portal_searchbar renders a <nav> with a <span class="navbar-brand">
+    // containing the title "Tasks". We move the button BEFORE that span
+    // so it appears to the LEFT of the title.
+    var nav = btn.nextElementSibling;
+    // Walk forward to find the <nav> (portal_searchbar renders immediately after)
+    while (nav && nav.tagName !== "NAV") {
+        nav = nav.nextElementSibling;
+    }
+    if (!nav) return;
+
+    var brand = nav.querySelector(".navbar-brand");
+    if (brand) {
+        // Insert button before the brand span, inside the nav
+        brand.parentNode.insertBefore(btn, brand);
+        btn.classList.add("me-2");
     }
 }
 

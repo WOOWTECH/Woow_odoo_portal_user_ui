@@ -17,7 +17,7 @@ Enhances the Odoo 18 Portal with an app-like user experience:
     """,
     'author': 'WoowTech',
     'website': 'https://www.woowtech.com',
-    'depends': ['portal', 'mail'],
+    'depends': ['portal', 'mail', 'project', 'hr_timesheet'],
     'data': [
         'security/ir.model.access.csv',
         'views/portal_templates.xml',

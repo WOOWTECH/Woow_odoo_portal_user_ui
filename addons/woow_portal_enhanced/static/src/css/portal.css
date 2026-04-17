@@ -730,6 +730,80 @@
 }
 
 /* ============================================================
+   ⑫ Task List — Add button + Tag badges
+   ============================================================ */
+
+/* "新增" button — sits inside the searchbar <nav> via JS repositioning */
+.wpe-task-add-btn {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.9rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+/* Tag badges in task list */
+.wpe-tag-badge {
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 0.2rem 0.55rem;
+    margin-right: 0.25rem;
+    margin-bottom: 0.15rem;
+    display: inline-block;
+}
+
+/* Odoo tag color fallbacks (may not be in frontend bundle) */
+.o_tag_color_0  { background-color: #F0F0F0; color: #474747; }
+.o_tag_color_1  { background-color: #F4CCCC; color: #7C2828; }
+.o_tag_color_2  { background-color: #FCE5CD; color: #7C4B1E; }
+.o_tag_color_3  { background-color: #FFF2CC; color: #7C6A1E; }
+.o_tag_color_4  { background-color: #D9EAD3; color: #2E5E1E; }
+.o_tag_color_5  { background-color: #D0E0E3; color: #1E4E5E; }
+.o_tag_color_6  { background-color: #CFE2F3; color: #1E3E7C; }
+.o_tag_color_7  { background-color: #D9D2E9; color: #3E2E7C; }
+.o_tag_color_8  { background-color: #EAD1DC; color: #7C2E5E; }
+.o_tag_color_9  { background-color: #E6B8AF; color: #7C2828; }
+.o_tag_color_10 { background-color: #B6D7A8; color: #1E5E1E; }
+.o_tag_color_11 { background-color: #A4C2F4; color: #1E3E7C; }
+
+/* ============================================================
+   ⑬ Task Creation Form
+   ============================================================ */
+
+.wpe-create-task-form {
+    border-radius: var(--wpe-radius);
+    border: 1px solid #e9ecef;
+    box-shadow: var(--wpe-shadow);
+}
+
+.wpe-create-task-form .card-title {
+    color: var(--wpe-deep-gray);
+}
+
+/* Clickable tag checkboxes in creation form */
+.wpe-tag-checkbox {
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: opacity var(--wpe-transition), box-shadow var(--wpe-transition);
+    padding: 0.3rem 0.65rem;
+    font-size: 0.82rem;
+    opacity: 0.55;
+    border: 2px solid transparent;
+}
+
+.wpe-tag-checkbox:hover {
+    opacity: 0.8;
+}
+
+/* Checked state — full opacity + ring */
+.wpe-tag-checkbox:has(input:checked) {
+    opacity: 1;
+    border-color: var(--custom-primary, var(--o-brand-primary, #714B67));
+    box-shadow: 0 0 0 1px var(--custom-primary, var(--o-brand-primary, #714B67));
+}
+
+/* ============================================================
    RWD — Mobile (< 768px)
    ============================================================ */
 

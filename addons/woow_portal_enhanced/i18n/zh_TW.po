@@ -514,3 +514,53 @@ msgstr "連線及保安"
 #. module: woow_portal_enhanced
 msgid "Configure your connection parameters"
 msgstr "設定連線參數"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_task_list_header
+msgid "新增"
+msgstr "新增"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_tasks_add_tags
+msgid "Tags"
+msgstr "標籤"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_create_task_form
+msgid "新增任務"
+msgstr "新增任務"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_create_task_form
+msgid "任務名稱"
+msgstr "任務名稱"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_create_task_form
+msgid "說明"
+msgstr "說明"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_create_task_form
+msgid "標籤"
+msgstr "標籤"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_create_task_form
+msgid "建立"
+msgstr "建立"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_create_task_form
+msgid "取消"
+msgstr "取消"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_create_task_form
+msgid "請輸入任務名稱"
+msgstr "請輸入任務名稱"
+
+#. module: woow_portal_enhanced
+#: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_create_task_form
+msgid "請輸入任務說明（選填）"
+msgstr "請輸入任務說明（選填）"
