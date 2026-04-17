@@ -589,17 +589,18 @@
             <a t-attf-href="/my/projects/#{project.id}/create_task"
                class="btn btn-primary wpe-task-add-btn"
                id="wpe_task_add_btn">
-                新增
+                Add
             </a>
         </xpath>
     </template>
 
     <!-- ============================================================ -->
-    <!-- Task list: Hide "Time Spent" column — handled by CSS         -->
-    <!-- The hr_timesheet module adds th/td after the Milestones col. -->
-    <!-- We use CSS :has() + nth-child to hide the Time Spent column  -->
-    <!-- without fragile xpath targeting of merged template elements.  -->
-    <!-- See portal.css .wpe-hide-timespent rules.                    -->
+    <!-- Task list: Hide unwanted columns — handled by JS             -->
+    <!-- hideUnwantedTaskColumns() in portal.js hides:                -->
+    <!--   - Time Spent (added by hr_timesheet module)                -->
+    <!--   - Milestone                                                -->
+    <!--   - State widget (status circle)                             -->
+    <!-- Target layout: Name | Assignees | Tags | Stage               -->
     <!-- ============================================================ -->
 
     <!-- ============================================================ -->

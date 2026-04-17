@@ -27,7 +27,7 @@ whenReady(async () => {
     rewriteLogoLink();
     applyThemeIconFilter();
     initTaskAddButton();
-    hideTimeSpentColumn();
+    hideUnwantedTaskColumns();
 });
 
 // ------------------------------------------------------------------
@@ -986,33 +986,94 @@ function _applyNotifFilters(list, panel) {
 }
 
 // ------------------------------------------------------------------
-// ⑤-B Hide "Time Spent" column in task list tables
+// ⑤-B Hide unwanted columns in task list tables
+//     Target layout: Name | Assignees | Tags | Stage
+//     Hide: Time Spent, Milestone, State (status circle)
 // ------------------------------------------------------------------
 
-function hideTimeSpentColumn() {
-    // Find all task list tables on the page
+function hideUnwantedTaskColumns() {
     var tables = document.querySelectorAll("table.table");
     tables.forEach(function (table) {
+        // Strategy: build a mapping of "visual column index" that accounts
+        // for colspan in the header, then find which visual columns to hide.
         var ths = table.querySelectorAll("thead th");
-        var colIndex = -1;
+        if (ths.length === 0) return;
+
+        // Build header map: th index → visual column start index
+        // A th with colspan=2 occupies two visual columns.
+        var thToVisual = []; // thToVisual[thIdx] = first visual col
+        var visualToTh = []; // visualToTh[visualCol] = thIdx
+        var visualCol = 0;
         for (var i = 0; i < ths.length; i++) {
-            var text = ths[i].textContent.trim();
-            // Match English "Time Spent" or Chinese "已花費時間"
-            if (text === "Time Spent" || text === "已花費時間") {
-                colIndex = i;
-                ths[i].style.display = "none";
-                break;
+            thToVisual.push(visualCol);
+            var span = parseInt(ths[i].getAttribute("colspan")) || 1;
+            for (var s = 0; s < span; s++) {
+                visualToTh.push(i);
+                visualCol++;
             }
         }
-        if (colIndex === -1) return;
+        var totalVisualCols = visualCol;
 
-        // Hide the corresponding data cells in each row
+        // Identify th indices to hide by header text
+        var hideThText = [
+            "Time Spent", "已花費時間",   // hr_timesheet
+            "Milestone", "里程碑"          // base project
+        ];
+        var hideThIndices = [];
+        for (var k = 0; k < ths.length; k++) {
+            var text = ths[k].textContent.trim();
+            if (hideThText.indexOf(text) !== -1) {
+                hideThIndices.push(k);
+            }
+        }
+
+        // Map th indices to visual column ranges to hide
+        var hideVisualCols = [];
+        hideThIndices.forEach(function (thIdx) {
+            var startVis = thToVisual[thIdx];
+            var span = parseInt(ths[thIdx].getAttribute("colspan")) || 1;
+            for (var c = startVis; c < startVis + span; c++) {
+                hideVisualCols.push(c);
+            }
+        });
+
+        // Also find the state-widget column by scanning td content.
+        // The state widget td contains .o_status or .fa-check-circle etc.
+        var firstDataRow = table.querySelector("tbody tr:not(.table-light)");
+        if (firstDataRow) {
+            var tds = firstDataRow.querySelectorAll("td");
+            for (var j = 0; j < tds.length; j++) {
+                if (tds[j].querySelector(".o_status, .fa-check-circle, .fa-times-circle, .fa-hourglass-o")) {
+                    if (hideVisualCols.indexOf(j) === -1) {
+                        hideVisualCols.push(j);
+                    }
+                }
+            }
+        }
+
+        if (hideVisualCols.length === 0) return;
+
+        // Hide the corresponding th elements
+        // (a visual col maps back to a th via visualToTh)
+        var hiddenThSet = {};
+        hideVisualCols.forEach(function (vc) {
+            var thIdx = visualToTh[vc];
+            if (thIdx !== undefined && !hiddenThSet[thIdx]) {
+                hiddenThSet[thIdx] = true;
+                ths[thIdx].style.display = "none";
+            }
+        });
+
+        // Hide td cells in all body rows.
+        // td elements map 1:1 to visual columns (no colspan in body).
         var rows = table.querySelectorAll("tbody tr");
         rows.forEach(function (row) {
+            // Group header rows use th with colspan — skip those
             var cells = row.querySelectorAll("td");
-            if (cells[colIndex]) {
-                cells[colIndex].style.display = "none";
-            }
+            if (cells.length === 0) return; // group header row
+            hideVisualCols.forEach(function (vc) {
+                if (cells[vc]) cells[vc].style.display = "none";
+            });
         });
     });
 }

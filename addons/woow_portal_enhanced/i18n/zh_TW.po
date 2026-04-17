@@ -517,7 +517,7 @@ msgstr "設定連線參數"
 
 #. module: woow_portal_enhanced
 #: model_terms:ir.ui.view,arch_db:woow_portal_enhanced.portal_task_list_header
-msgid "新增"
+msgid "Add"
 msgstr "新增"
 
 #. module: woow_portal_enhanced

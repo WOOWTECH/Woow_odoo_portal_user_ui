@@ -22,6 +22,7 @@ SUITES=(
     "05_mobile_responsive.js"
     "06_edge_cases.js"
     "07_i18n.js"
+    "08_task_list.js"
 )
 
 TOTAL_PASS=0
