@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- Replace "My account" header with greeting card               -->
+    <!-- ============================================================ -->
+    <template id="portal_greeting_card" name="Woow Portal Greeting Card"
+              inherit_id="portal.portal_layout" priority="10">
+        <xpath expr="//div[hasclass('wrapper')][.//h3[hasclass('my-3')]]" position="replace">
+            <div class="wpu-greeting-card" t-if="my_details">
+                <img class="wpu-greeting-avatar"
+                     t-att-src="image_data_uri(user_id.partner_id.avatar_1024)"
+                     t-att-alt="user_id.partner_id.name"/>
+                <div class="wpu-greeting-text">
+                    <h4>
+                        <t t-if="greeting" t-esc="greeting"/><t t-if="not greeting">Hello</t>,
+                        <t t-esc="greeting_name or user_id.partner_id.name"/>
+                    </h4>
+                    <p t-if="today_date_line1" class="mb-0">
+                        <i class="fa fa-calendar-o me-1"/>
+                        <t t-esc="today_date_line1"/>
+                    </p>
+                    <p t-if="today_date_line2" class="mb-0 wpu-greeting-time">
+                        <i class="fa fa-clock-o me-1"/>
+                        <t t-esc="today_date_line2"/>
+                    </p>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- ============================================================ -->
+    <!-- Portal home: search bar + notification preview               -->
+    <!-- ============================================================ -->
+    <template id="portal_my_home_enhanced" name="Woow Enhanced Portal Home"
+              inherit_id="portal.portal_my_home" priority="10">
+
+        <!-- Search bar + Notification preview — before the module grid -->
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+
+            <!-- Search Bar -->
+            <div class="wpu-search-bar mb-3">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0">
+                        <i class="fa fa-search text-muted"/>
+                    </span>
+                    <input type="text"
+                           id="wpu_module_search"
+                           class="form-control border-start-0"
+                           placeholder="Search modules or notifications..."/>
+                </div>
+            </div>
+
+            <!-- Notification Preview Card -->
+            <div class="wpu-notification-preview card mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0 fw-bold">
+                            Recent Notifications
+                            <t t-if="total_unread_count">
+                                <span class="badge bg-danger ms-2"
+                                      style="font-size: 0.7rem; vertical-align: middle;">
+                                    <t t-esc="total_unread_count"/>
+                                </span>
+                            </t>
+                        </h5>
+                        <a href="/my/notifications" class="wpu-view-all-link">
+                            <span>View All</span> <i class="fa fa-angle-right ms-1"/>
+                        </a>
+                    </div>
+
+                    <t t-set="has_any" t-value="message_previews or sys_notif_previews or activity_previews"/>
+                    <t t-if="has_any">
+
+                        <!-- Messages -->
+                        <t t-if="unread_message_count or message_previews">
+                            <div class="wpu-preview-group-header d-flex align-items-center mb-2 mt-1">
+                                <i class="fa fa-comment text-muted me-2"/>
+                                <span class="fw-semibold small">Messages</span>
+                                <t t-if="unread_message_count">
+                                    <span class="badge bg-danger ms-2" style="font-size: 0.65rem;">
+                                        <t t-esc="unread_message_count"/>
+                                    </span>
+                                </t>
+                            </div>
+                            <t t-foreach="message_previews" t-as="notif">
+                                <a href="/my/notifications?tab=message"
+                                   class="wpu-notification-item d-flex align-items-start text-decoration-none">
+                                    <div class="wpu-notification-icon me-3">
+                                        <i class="fa fa-comment"/>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-semibold text-dark wpu-preview-title">
+                                            <t t-esc="notif['subject']"/>
+                                        </div>
+                                        <small class="text-muted">
+                                            <t t-esc="notif['record_name']"/>
+                                            <t t-if="notif.get('author_name')">
+                                                <span class="ms-2">
+                                                    <i class="fa fa-user-o me-1"/>
+                                                    <t t-esc="notif['author_name']"/>
+                                                </span>
+                                            </t>
+                                        </small>
+                                    </div>
+                                    <i class="fa fa-angle-right text-muted align-self-center"/>
+                                </a>
+                            </t>
+                            <t t-if="not message_previews and unread_message_count">
+                                <a href="/my/notifications?tab=message"
+                                   class="wpu-notification-item d-flex align-items-center text-decoration-none">
+                                    <small class="text-muted">
+                                        <t t-esc="unread_message_count"/> unread messages
+                                    </small>
+                                    <i class="fa fa-angle-right text-muted ms-auto"/>
+                                </a>
+                            </t>
+                        </t>
+
+                        <!-- System Notifications -->
+                        <t t-if="unread_sys_notif_count or sys_notif_previews">
+                            <div class="wpu-preview-group-header d-flex align-items-center mb-2 mt-3">
+                                <i class="fa fa-bell text-muted me-2"/>
+                                <span class="fw-semibold small">Notifications</span>
+                                <t t-if="unread_sys_notif_count">
+                                    <span class="badge bg-danger ms-2" style="font-size: 0.65rem;">
+                                        <t t-esc="unread_sys_notif_count"/>
+                                    </span>
+                                </t>
+                            </div>
+                            <t t-foreach="sys_notif_previews" t-as="notif">
+                                <a href="/my/notifications?tab=notification"
+                                   class="wpu-notification-item d-flex align-items-start text-decoration-none">
+                                    <div class="wpu-notification-icon me-3">
+                                        <i class="fa fa-bell"/>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-semibold text-dark wpu-preview-title">
+                                            <t t-esc="notif['subject']"/>
+                                        </div>
+                                        <small class="text-muted">
+                                            <t t-esc="notif['record_name']"/>
+                                        </small>
+                                    </div>
+                                    <i class="fa fa-angle-right text-muted align-self-center"/>
+                                </a>
+                            </t>
+                            <t t-if="not sys_notif_previews and unread_sys_notif_count">
+                                <a href="/my/notifications?tab=notification"
+                                   class="wpu-notification-item d-flex align-items-center text-decoration-none">
+                                    <small class="text-muted">
+                                        <t t-esc="unread_sys_notif_count"/> unread notifications
+                                    </small>
+                                    <i class="fa fa-angle-right text-muted ms-auto"/>
+                                </a>
+                            </t>
+                        </t>
+
+                        <!-- Activities (To-Do) — internal users only -->
+                        <t t-if="is_internal_user and (activity_count or activity_previews)">
+                            <div class="wpu-preview-group-header d-flex align-items-center mb-2 mt-3">
+                                <i class="fa fa-clock-o text-muted me-2"/>
+                                <span class="fw-semibold small">To-Do</span>
+                                <t t-if="activity_count">
+                                    <span class="badge bg-danger ms-2" style="font-size: 0.65rem;">
+                                        <t t-esc="activity_count"/>
+                                    </span>
+                                </t>
+                            </div>
+                            <t t-foreach="activity_previews" t-as="act">
+                                <a href="/my/notifications?tab=activity"
+                                   class="wpu-notification-item d-flex align-items-start text-decoration-none">
+                                    <div class="wpu-notification-icon me-3">
+                                        <i class="fa fa-clock-o"/>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-semibold text-dark wpu-preview-title">
+                                            <t t-esc="act['summary']"/>
+                                        </div>
+                                        <small class="text-muted">
+                                            <t t-esc="act['res_name']"/>
+                                            <t t-if="act.get('date_deadline')">
+                                                <span class="ms-2">
+                                                    <i class="fa fa-calendar-o me-1"/>
+                                                    <t t-esc="act['date_deadline']"/>
+                                                </span>
+                                            </t>
+                                        </small>
+                                    </div>
+                                    <i class="fa fa-angle-right text-muted align-self-center"/>
+                                </a>
+                            </t>
+                            <t t-if="not activity_previews and activity_count">
+                                <a href="/my/notifications?tab=activity"
+                                   class="wpu-notification-item d-flex align-items-center text-decoration-none">
+                                    <small class="text-muted">
+                                        <t t-esc="activity_count"/> pending items
+                                    </small>
+                                    <i class="fa fa-angle-right text-muted ms-auto"/>
+                                </a>
+                            </t>
+                        </t>
+
+                    </t>
+                    <t t-else="">
+                        <div class="text-center text-muted py-3">
+                            <i class="fa fa-check-circle fa-2x mb-2 d-block"/>
+                            <span>No new notifications</span>
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+        </xpath>
+
+        <!-- Wrap the module grid for search filtering -->
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="attributes">
+            <attribute name="id">wpu_module_grid</attribute>
+        </xpath>
+
+    </template>
+
+    <!-- ============================================================ -->
+    <!-- Notification List Page — /my/notifications                   -->
+    <!-- ============================================================ -->
+    <template id="portal_notifications_page" name="Portal Notifications Page">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <div class="container py-3">
+
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <a href="/my/home" class="btn btn-sm btn-outline-secondary">
+                        <i class="fa fa-arrow-left me-1"/><span>Back</span>
+                    </a>
+                    <h4 class="mb-0 fw-bold flex-grow-1 text-center">Notification Center</h4>
+                    <button type="button"
+                            class="navbar-toggler border-0 p-1"
+                            id="wpu_notif_searchbar_toggle"
+                            t-att-aria-label="'Search and filter'">
+                        <span class="fa fa-fw fa-bars"/>
+                    </button>
+                </div>
+
+                <!-- Search / Filter / Sort / Group panel -->
+                <div class="wpu-notif-searchbar d-none mb-3" id="wpu_notif_searchbar">
+                    <div class="bg-light border rounded p-3">
+
+                        <!-- Sort By -->
+                        <div class="mb-2">
+                            <label class="form-label fw-semibold small mb-1">Sort By:</label>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-secondary wpu-notif-sort-btn active"
+                                        data-sort="newest">Newest</button>
+                                <button class="btn btn-sm btn-outline-secondary wpu-notif-sort-btn"
+                                        data-sort="oldest">Oldest</button>
+                            </div>
+                        </div>
+
+                        <!-- Filter By -->
+                        <div class="mb-2">
+                            <label class="form-label fw-semibold small mb-1">Filter By:</label>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <button class="btn btn-sm btn-outline-secondary wpu-notif-filter-btn active"
+                                        data-filter="all">All</button>
+                                <button class="btn btn-sm btn-outline-secondary wpu-notif-filter-btn"
+                                        data-filter="unread">Unread</button>
+                                <button class="btn btn-sm btn-outline-secondary wpu-notif-filter-btn"
+                                        data-filter="read">Read</button>
+                            </div>
+                        </div>
+
+                        <!-- Group By -->
+                        <div class="mb-2">
+                            <label class="form-label fw-semibold small mb-1">Group By:</label>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <button class="btn btn-sm btn-outline-secondary wpu-notif-group-btn active"
+                                        data-group="none">None</button>
+                                <button class="btn btn-sm btn-outline-secondary wpu-notif-group-btn"
+                                        data-group="type">Type</button>
+                                <button class="btn btn-sm btn-outline-secondary wpu-notif-group-btn"
+                                        data-group="source">Source</button>
+                            </div>
+                        </div>
+
+                        <!-- Search -->
+                        <div class="mb-0">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text bg-white"><i class="fa fa-search text-muted"/></span>
+                                <input type="text" class="form-control" id="wpu_notif_search_input"
+                                       placeholder="Search"/>
+                                <button class="btn btn-outline-secondary" type="button" id="wpu_notif_search_btn">
+                                    <i class="fa fa-search"/>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="wpu-notif-tabs mb-3">
+                    <a t-attf-href="/my/notifications?tab=all"
+                       t-attf-class="wpu-notif-tab #{'active' if current_tab == 'all' else ''}">
+                        All
+                        <t t-if="unread_all_count">
+                            <span class="badge bg-danger ms-1" data-unread-badge="all">
+                                <t t-esc="unread_all_count"/>
+                            </span>
+                        </t>
+                    </a>
+                    <a t-attf-href="/my/notifications?tab=message"
+                       t-attf-class="wpu-notif-tab #{'active' if current_tab == 'message' else ''}">
+                        Messages
+                        <t t-if="unread_message_count">
+                            <span class="badge bg-danger ms-1" data-unread-badge="message">
+                                <t t-esc="unread_message_count"/>
+                            </span>
+                        </t>
+                    </a>
+                    <a t-attf-href="/my/notifications?tab=notification"
+                       t-attf-class="wpu-notif-tab #{'active' if current_tab == 'notification' else ''}">
+                        Notifications
+                        <t t-if="unread_sys_notif_count">
+                            <span class="badge bg-danger ms-1" data-unread-badge="notification">
+                                <t t-esc="unread_sys_notif_count"/>
+                            </span>
+                        </t>
+                    </a>
+                    <t t-if="is_internal_user">
+                        <a t-attf-href="/my/notifications?tab=activity"
+                           t-attf-class="wpu-notif-tab #{'active' if current_tab == 'activity' else ''}">
+                            To-Do
+                            <t t-if="activity_count">
+                                <span class="badge bg-danger ms-1"
+                                      data-activity-badge="activity">
+                                    <t t-esc="activity_count"/>
+                                </span>
+                            </t>
+                        </a>
+                    </t>
+                </div>
+
+                <!-- Mark All Read button -->
+                <t t-if="unread_notif_count">
+                    <div class="text-end mb-2">
+                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                                id="wpu_mark_all_read">
+                            <i class="fa fa-check-double me-1"/>Mark all read
+                        </button>
+                    </div>
+                </t>
+
+                <!-- Notification List -->
+                <div class="wpu-notif-list" id="wpu_notif_list">
+                    <t t-if="notification_items">
+                        <t t-foreach="notification_items" t-as="item">
+                            <!-- Notification-type item -->
+                            <t t-if="item.get('notif_id')">
+                                <div t-attf-class="wpu-notif-card-wrapper #{'wpu-notif-read' if item['is_read'] else 'wpu-notif-unread'}"
+                                     t-att-data-notif-id="item['notif_id']"
+                                     data-item-type="notification">
+                                    <div class="wpu-notif-swipe-bg">
+                                        <i class="fa fa-check"/>
+                                        <span>Read</span>
+                                    </div>
+                                    <div class="wpu-notif-card" data-action="show-detail">
+                                        <div class="wpu-notif-card-icon">
+                                            <i t-attf-class="fa #{item.get('icon', 'fa-bell')}"/>
+                                        </div>
+                                        <div class="wpu-notif-card-body">
+                                            <div class="wpu-notif-card-title">
+                                                <t t-esc="item['subject']"/>
+                                            </div>
+                                            <div class="wpu-notif-card-meta">
+                                                <span class="wpu-notif-card-source">
+                                                    <t t-esc="item['record_name']"/>
+                                                </span>
+                                                <span class="wpu-notif-card-date">
+                                                    <t t-esc="item['time_ago']"/>
+                                                </span>
+                                            </div>
+                                            <t t-if="item.get('tracking_summary')">
+                                                <div class="wpu-notif-card-tracking">
+                                                    <small class="text-muted">
+                                                        <i class="fa fa-exchange me-1"/>
+                                                        <t t-esc="item['tracking_summary']"/>
+                                                    </small>
+                                                </div>
+                                            </t>
+                                            <t t-if="item.get('body_preview') and not item.get('tracking_summary')">
+                                                <div class="wpu-notif-card-preview">
+                                                    <small class="text-muted">
+                                                        <t t-esc="item['body_preview']"/>
+                                                    </small>
+                                                </div>
+                                            </t>
+                                        </div>
+                                        <div class="wpu-notif-card-hint">
+                                            <span t-attf-class="wpu-unread-dot #{'d-none' if item['is_read'] else ''}"
+                                                  t-att-data-notif-id="item['notif_id']"/>
+                                            <i class="fa fa-angle-right text-muted"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                            <!-- Activity-type item -->
+                            <t t-if="item.get('activity_id')">
+                                <div class="wpu-notif-card-wrapper wpu-activity-pending"
+                                     t-att-data-activity-id="item['activity_id']"
+                                     data-item-type="activity">
+                                    <div class="wpu-notif-swipe-bg">
+                                        <i class="fa fa-check"/>
+                                        <span>Done</span>
+                                    </div>
+                                    <div class="wpu-notif-card" data-action="show-detail">
+                                        <div class="wpu-notif-card-icon">
+                                            <i t-attf-class="fa #{item.get('icon', 'fa-clock-o')}"/>
+                                        </div>
+                                        <div class="wpu-notif-card-body">
+                                            <div class="wpu-notif-card-title">
+                                                <t t-esc="item['summary']"/>
+                                            </div>
+                                            <div class="wpu-notif-card-meta">
+                                                <span class="wpu-notif-card-source">
+                                                    <t t-esc="item['res_name']"/>
+                                                </span>
+                                                <t t-if="item.get('date_deadline')">
+                                                    <span class="wpu-notif-card-date">
+                                                        <i class="fa fa-calendar-o me-1"/>
+                                                        <t t-esc="item['date_deadline']"/>
+                                                    </span>
+                                                </t>
+                                            </div>
+                                            <div class="wpu-notif-card-type">
+                                                <span class="badge bg-light text-dark">
+                                                    <t t-esc="item.get('activity_type', 'Activity')"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="wpu-notif-card-hint">
+                                            <span class="wpu-activity-dot"
+                                                  t-att-data-activity-id="item['activity_id']"/>
+                                            <i class="fa fa-angle-right text-muted"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <div class="wpu-notif-empty text-center text-muted py-5">
+                            <i class="fa fa-check-circle fa-3x mb-3 d-block" style="opacity: 0.3;"/>
+                            <p class="mb-0">No notifications</p>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- Swipe hint -->
+                <t t-if="notification_items">
+                    <div class="wpu-swipe-hint text-center text-muted mt-2 mb-4"
+                         id="wpu_swipe_hint">
+                        <i class="fa fa-long-arrow-right me-1"/>
+                        <span>Swipe right to mark as read / done</span>
+                    </div>
+                </t>
+
+            </div>
+
+            <!-- Detail Modal -->
+            <div class="wpu-notif-modal-overlay" id="wpu_notif_modal_overlay"
+                 style="display: none;">
+                <div class="wpu-notif-modal" id="wpu_notif_modal">
+                    <div class="wpu-notif-modal-header">
+                        <h5 class="wpu-notif-modal-title" id="wpu_modal_title"/>
+                        <button type="button" class="btn-close"
+                                id="wpu_modal_close"/>
+                    </div>
+                    <div class="wpu-notif-modal-body" id="wpu_modal_body"/>
+                    <div class="wpu-notif-modal-footer" id="wpu_modal_footer">
+                        <a href="#" class="btn btn-sm btn-outline-primary me-2"
+                           id="wpu_modal_doc_link" target="_blank"
+                           style="display: none;">
+                            <i class="fa fa-external-link me-1"/><span>View Document</span>
+                        </a>
+                        <button type="button"
+                                class="btn btn-sm btn-primary"
+                                id="wpu_modal_action_btn"
+                                style="display: none;">
+                            <i class="fa fa-check me-1"/><span>Mark as read</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </t>
+    </template>
+
+    <!-- ============================================================ -->
+    <!-- Breadcrumb — back button at leftmost position                -->
+    <!-- ============================================================ -->
+    <template id="portal_breadcrumb_back_btn" name="Breadcrumb Back Button"
+              inherit_id="portal.portal_breadcrumbs" priority="50">
+        <xpath expr="//li[hasclass('breadcrumb-item')][1]" position="before">
+            <li class="breadcrumb-item wpu-back-btn-item">
+                <a href="#" class="wpu-breadcrumb-back-btn btn btn-sm btn-outline-secondary"
+                   onclick="event.preventDefault(); if (window.history.length > 1) { window.history.back(); } else { window.location.href='/my/home'; }">
+                    <i class="fa fa-arrow-left me-1"/><span>Back</span>
+                </a>
+            </li>
+        </xpath>
+    </template>
+
+</odoo>

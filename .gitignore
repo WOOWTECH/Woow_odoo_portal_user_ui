@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+
+# Playwright CLI
+.playwright-cli/
+
+# Development files
+*.log
+.env
+.env.*
+
+# Vibe / Task tracking
+.vibe-images/
+task_plan.md
+findings.md
+progress.md
+
+# Docker
+data/
+config/
+scripts/
+docker-compose.yml
+
+# Browser tests (development)
+browser_tests/
+
+# Addons directory (module is at root)
+addons/
