@@ -554,8 +554,8 @@
 }
 
 .wpu-greeting-card-link:hover .wpu-greeting-card {
-    border-color: var(--wpu-primary, #6183fc);
-    box-shadow: 0 2px 12px rgba(97, 131, 252, 0.15);
+    border-color: var(--custom-primary, var(--o-brand-primary, #714B67));
+    box-shadow: 0 2px 12px rgba(113, 75, 103, 0.15);
 }
 
 .wpu-greeting-edit-icon {
@@ -566,7 +566,7 @@
 }
 
 .wpu-greeting-card-link:hover .wpu-greeting-edit-icon {
-    color: var(--wpu-primary, #6183fc);
+    color: var(--custom-primary, var(--o-brand-primary, #714B67));
 }
 
 .wpu-greeting-avatar {
