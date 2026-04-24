@@ -7,25 +7,28 @@
     <template id="portal_greeting_card" name="Woow Portal Greeting Card"
               inherit_id="portal.portal_layout" priority="10">
         <xpath expr="//div[hasclass('wrapper')][.//h3[hasclass('my-3')]]" position="replace">
-            <div class="wpu-greeting-card" t-if="my_details">
-                <img class="wpu-greeting-avatar"
-                     t-att-src="image_data_uri(user_id.partner_id.avatar_1024)"
-                     t-att-alt="user_id.partner_id.name"/>
-                <div class="wpu-greeting-text">
-                    <h4>
-                        <t t-if="greeting" t-esc="greeting"/><t t-if="not greeting">Hello</t>,
-                        <t t-esc="greeting_name or user_id.partner_id.name"/>
-                    </h4>
-                    <p t-if="today_date_line1" class="mb-0">
-                        <i class="fa fa-calendar-o me-1"/>
-                        <t t-esc="today_date_line1"/>
-                    </p>
-                    <p t-if="today_date_line2" class="mb-0 wpu-greeting-time">
-                        <i class="fa fa-clock-o me-1"/>
-                        <t t-esc="today_date_line2"/>
-                    </p>
+            <a href="/my/account" class="wpu-greeting-card-link text-decoration-none" t-if="my_details">
+                <div class="wpu-greeting-card">
+                    <img class="wpu-greeting-avatar"
+                         t-att-src="image_data_uri(user_id.partner_id.avatar_1024)"
+                         t-att-alt="user_id.partner_id.name"/>
+                    <div class="wpu-greeting-text">
+                        <h4>
+                            <t t-if="greeting" t-esc="greeting"/><t t-if="not greeting">Hello</t>,
+                            <t t-esc="greeting_name or user_id.partner_id.name"/>
+                        </h4>
+                        <p t-if="today_date_line1" class="mb-0">
+                            <i class="fa fa-calendar-o me-1"/>
+                            <t t-esc="today_date_line1"/>
+                        </p>
+                        <p t-if="today_date_line2" class="mb-0 wpu-greeting-time">
+                            <i class="fa fa-clock-o me-1"/>
+                            <t t-esc="today_date_line2"/>
+                        </p>
+                    </div>
+                    <i class="fa fa-pencil wpu-greeting-edit-icon"/>
                 </div>
-            </div>
+            </a>
         </xpath>
     </template>
 
