@@ -501,6 +501,18 @@
     </template>
 
     <!-- ============================================================ -->
+    <!-- Sidebar — reset blue elements to Odoo native colors          -->
+    <!-- Priority 200 ensures this loads AFTER color_customizer (100) -->
+    <!-- ============================================================ -->
+    <template id="portal_sidebar_native_css" name="Portal Sidebar Native Colors"
+              inherit_id="web.frontend_layout" priority="200">
+        <xpath expr="//head" position="inside">
+            <link rel="stylesheet" type="text/css"
+                  href="/woow_portal_ui/static/src/css/sidebar_native.css"/>
+        </xpath>
+    </template>
+
+    <!-- ============================================================ -->
     <!-- Breadcrumb — back button at leftmost position                -->
     <!-- ============================================================ -->
     <template id="portal_breadcrumb_back_btn" name="Breadcrumb Back Button"
