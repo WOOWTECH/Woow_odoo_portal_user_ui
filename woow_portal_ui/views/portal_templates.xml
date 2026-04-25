@@ -508,7 +508,7 @@
               inherit_id="web.frontend_layout" priority="200">
         <xpath expr="//head" position="inside">
             <link rel="stylesheet" type="text/css"
-                  href="/woow_portal_ui/static/src/css/sidebar_native.css"/>
+                  href="/woow_portal_ui/static/src/css/sidebar_native.css?v=20260425b"/>
         </xpath>
     </template>
 
