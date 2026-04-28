@@ -10,6 +10,7 @@ from odoo.fields import Datetime as FieldDatetime
 from odoo.http import request
 from odoo.tools import html2plaintext
 from odoo.addons.portal.controllers.portal import CustomerPortal
+from odoo.addons.web.controllers.home import Home
 
 # Hard cap for pagination to prevent abuse
 _MAX_LIMIT = 100
@@ -698,3 +699,15 @@ class WoowPortalUI(CustomerPortal):
             }
 
         return {'success': False, 'error': _('Missing ID parameter.')}
+
+
+class WoowHome(Home):
+    """Redirect internal users to portal home after login."""
+
+    def _login_redirect(self, uid, redirect=None):
+        if redirect:
+            return redirect
+        user = request.env['res.users'].sudo().browse(uid)
+        if user.exists() and user._is_internal():
+            return '/my/home'
+        return super()._login_redirect(uid, redirect)
