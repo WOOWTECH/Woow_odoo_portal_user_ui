@@ -515,13 +515,10 @@
         </xpath>
     </template>
 
-    <!-- ============================================================ -->
-    <!-- Login page — remove "Powered by Odoo" link                 -->
-    <!-- ============================================================ -->
-    <template id="login_hide_powered_by" name="Hide Powered by Odoo"
-              inherit_id="web.login_layout" priority="99">
-        <xpath expr="//div[hasclass('text-center','small','border-top')]//a[contains(@href,'odoo.com')]"
-               position="replace"/>
-    </template>
+    <!-- NOTE: login_hide_powered_by removed — website module replaces
+         web.login_layout entirely (website.login_layout, priority 20),
+         so the xpath target no longer exists and causes a 500 error.
+         The "Powered by Odoo" link is already absent from the website
+         login page. -->
 
 </odoo>
