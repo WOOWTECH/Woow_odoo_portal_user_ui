@@ -410,7 +410,7 @@
                             </t>
                             <!-- Activity-type item -->
                             <t t-if="item.get('activity_id')">
-                                <div class="wpu-notif-card-wrapper wpu-activity-pending"
+                                <div t-attf-class="wpu-notif-card-wrapper wpu-activity-#{item.get('state', 'planned')}"
                                      t-att-data-activity-id="item['activity_id']"
                                      data-item-type="activity">
                                     <div class="wpu-notif-swipe-bg">
