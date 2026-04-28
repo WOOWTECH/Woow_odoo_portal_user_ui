@@ -44,7 +44,7 @@
             <!-- Search Bar -->
             <div class="wpu-search-bar mb-3">
                 <div class="input-group">
-                    <span class="input-group-text bg-white border-end-0">
+                    <span class="input-group-text border-end-0">
                         <i class="fa fa-search text-muted"/>
                     </span>
                     <input type="text"
@@ -290,7 +290,7 @@
                         <!-- Search -->
                         <div class="mb-0">
                             <div class="input-group input-group-sm">
-                                <span class="input-group-text bg-white"><i class="fa fa-search text-muted"/></span>
+                                <span class="input-group-text"><i class="fa fa-search text-muted"/></span>
                                 <input type="text" class="form-control" id="wpu_notif_search_input"
                                        placeholder="Search"/>
                                 <button class="btn btn-outline-secondary" type="button" id="wpu_notif_search_btn">
