@@ -255,6 +255,10 @@
     background: var(--bs-success);
 }
 
+.wpu-activity-overdue .wpu-notif-swipe-bg {
+    background: #dc3545;
+}
+
 .wpu-notif-swipe-bg i {
     font-size: 1.3rem;
 }
@@ -413,13 +417,33 @@
     opacity: 1;
 }
 
-/* Activity (pending) — distinct from unread notifications */
-.wpu-activity-pending .wpu-notif-card {
-    background: color-mix(in srgb, var(--bs-warning) 8%, transparent);
-    border-left: 3px solid var(--bs-warning);
+/* Activity states — visual distinction by deadline
+   EXCEPTION: Hardcoded colors because Odoo 18 does not expose
+   --bs-danger/warning/success at :root level */
+.wpu-activity-overdue .wpu-notif-card,
+.wpu-activity-today .wpu-notif-card,
+.wpu-activity-planned .wpu-notif-card {
+    background: transparent;
 }
 
-.wpu-activity-pending .wpu-notif-card-title {
+.wpu-activity-overdue .wpu-notif-card {
+    border-left: 3px solid #dc3545 !important;
+    background: color-mix(in srgb, #dc3545 6%, transparent);
+}
+
+.wpu-activity-today .wpu-notif-card {
+    border-left: 3px solid #ffc107 !important;
+    background: color-mix(in srgb, #ffc107 8%, transparent);
+}
+
+.wpu-activity-planned .wpu-notif-card {
+    border-left: 3px solid #28a745 !important;
+    background: color-mix(in srgb, #28a745 6%, transparent);
+}
+
+.wpu-activity-overdue .wpu-notif-card-title,
+.wpu-activity-today .wpu-notif-card-title,
+.wpu-activity-planned .wpu-notif-card-title {
     font-weight: 600;
 }
 

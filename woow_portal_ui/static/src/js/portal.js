@@ -294,7 +294,7 @@ function handleSwipeAction(wrapper) {
             collapseAndRemove(wrapper);
             if (data && data.success) {
                 updateActivityBadge(data.activity_count);
-                updateBadgeCounts(data.unread_count, data.activity_count);
+                updateBadgeCounts(data.unread_message_count, data.unread_notification_count, data.activity_count);
             } else {
                 console.error("Failed to mark activity as done:", data);
             }
@@ -326,8 +326,8 @@ function handleSwipeAction(wrapper) {
                 collapseAndRemove(wrapper);
             }
 
-            updateBadgeCounts(data.unread_count);
-            updateMarkAllReadBtn(data.unread_count);
+            updateBadgeCounts(data.unread_message_count, data.unread_notification_count);
+            updateMarkAllReadBtn(data.unread_message_count + data.unread_notification_count);
         });
     }
 }
@@ -369,21 +369,30 @@ function getCurrentTab() {
     return "all";
 }
 
-function updateBadgeCounts(unreadCount, activityCount) {
-    // Update message / notification tab badges
-    var notifBadges = document.querySelectorAll(
-        '[data-unread-badge="message"], [data-unread-badge="notification"]'
-    );
-    notifBadges.forEach(function (b) {
-        if (unreadCount > 0) {
-            b.textContent = unreadCount;
+function updateBadgeCounts(msgCount, notifCount, activityCount) {
+    // Update Messages tab badge
+    var msgBadges = document.querySelectorAll('[data-unread-badge="message"]');
+    msgBadges.forEach(function (b) {
+        if (msgCount > 0) {
+            b.textContent = msgCount;
             b.style.display = "";
         } else {
             b.style.display = "none";
         }
     });
 
-    // Update "All" tab badge = unread notifications + pending activities
+    // Update Notifications tab badge
+    var notifBadges = document.querySelectorAll('[data-unread-badge="notification"]');
+    notifBadges.forEach(function (b) {
+        if (notifCount > 0) {
+            b.textContent = notifCount;
+            b.style.display = "";
+        } else {
+            b.style.display = "none";
+        }
+    });
+
+    // Update "All" tab badge = unread messages + unread notifications + pending activities
     var allBadge = document.querySelector('[data-unread-badge="all"]');
     if (allBadge) {
         var actCount = activityCount;
@@ -391,7 +400,7 @@ function updateBadgeCounts(unreadCount, activityCount) {
             var actBadge = document.querySelector("[data-activity-badge]");
             actCount = actBadge ? (parseInt(actBadge.textContent, 10) || 0) : 0;
         }
-        var total = (unreadCount || 0) + actCount;
+        var total = (msgCount || 0) + (notifCount || 0) + actCount;
         if (total > 0) {
             allBadge.textContent = total;
             allBadge.style.display = "";
@@ -454,8 +463,8 @@ function initReadToggleButtons() {
                         wrapper.classList.add("wpu-notif-unread");
                     }
                 }
-                updateBadgeCounts(data.unread_count);
-                updateMarkAllReadBtn(data.unread_count);
+                updateBadgeCounts(data.unread_message_count, data.unread_notification_count);
+                updateMarkAllReadBtn(data.unread_message_count + data.unread_notification_count);
             });
         });
     });
@@ -473,7 +482,8 @@ function initMarkAllRead() {
         btn.disabled = true;
         btn.innerHTML = '<i class="fa fa-spinner fa-spin me-1"></i>' + _t("Processing...");
 
-        jsonRpc("/my/notifications/mark_all_read", {}).then(function (data) {
+        var currentTab = getCurrentTab();
+        jsonRpc("/my/notifications/mark_all_read", { tab: currentTab }).then(function (data) {
             if (data && data.success) {
                 // Only affect notification cards, not activity cards
                 var wrappers = document.querySelectorAll(
@@ -487,7 +497,7 @@ function initMarkAllRead() {
                         dot.classList.add("d-none");
                     }
                 });
-                updateBadgeCounts(0, data.activity_count);
+                updateBadgeCounts(data.unread_message_count, data.unread_notification_count, data.activity_count);
                 btn.innerHTML = '<i class="fa fa-check me-1"></i>' + _t("Completed");
                 setTimeout(function () { btn.style.display = "none"; }, 1000);
             } else {
@@ -664,7 +674,7 @@ function renderNotificationDetail(detail, title, body, docLink, actionBtn, overl
                     const dot = wrapper.querySelector(".wpu-unread-dot");
                     if (dot) dot.remove();
                 }
-                updateBadgeCounts(result.unread_count);
+                updateBadgeCounts(result.unread_message_count, result.unread_notification_count);
             } else {
                 actionBtn.disabled = false;
                 actionBtn.innerHTML =
@@ -748,7 +758,7 @@ function renderActivityDetail(detail, title, body, docLink, actionBtn, overlay) 
                 }
 
                 updateActivityBadge(result.activity_count);
-                updateBadgeCounts(result.unread_count, result.activity_count);
+                updateBadgeCounts(result.unread_message_count, result.unread_notification_count, result.activity_count);
 
                 setTimeout(closeDetailModal, 500);
             } else {
@@ -871,7 +881,7 @@ function _applyNotifFilters(list, panel) {
     var visibleCards = [];
     cards.forEach(function (card) {
         var show = true;
-        var isActivity = card.classList.contains("wpu-activity-pending");
+        var isActivity = card.dataset.itemType === "activity";
 
         if (filterVal === "unread") {
             // Show unread notifications + all pending activities

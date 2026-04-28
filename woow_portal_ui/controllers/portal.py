@@ -6,7 +6,7 @@ import pytz
 from babel.dates import format_date as babel_format_date
 
 from odoo import _, http
-from odoo.fields import Datetime as FieldDatetime
+from odoo.fields import Date as FieldDate, Datetime as FieldDatetime
 from odoo.http import request
 from odoo.tools import html2plaintext
 from odoo.addons.portal.controllers.portal import CustomerPortal
@@ -56,12 +56,18 @@ class WoowPortalUI(CustomerPortal):
         if not dt_from or not dt_to:
             return ''
         delta = dt_to - dt_from
-        if delta.days > 0:
+        if delta.days == 1:
+            return _('1 day ago')
+        elif delta.days > 1:
             return _('%d days ago') % delta.days
-        elif delta.seconds >= 3600:
+        elif delta.seconds >= 7200:
             return _('%d hours ago') % (delta.seconds // 3600)
+        elif delta.seconds >= 3600:
+            return _('1 hour ago')
         else:
             mins = max(delta.seconds // 60, 1)
+            if mins == 1:
+                return _('1 min ago')
             return _('%d mins ago') % mins
 
     def _build_tracking_summary(self, tracking_values):
@@ -103,7 +109,7 @@ class WoowPortalUI(CustomerPortal):
             'model': msg.model or '',
             'res_id': msg.res_id or 0,
             'author_name': msg.author_id.name if msg.author_id else _('System'),
-            'date': str(msg.date) if msg.date else '',
+            'date': msg.date.strftime('%Y-%m-%d %H:%M') if msg.date else '',
             'time_ago': self._relative_time(msg.date, now),
             'is_read': notif.is_read,
             'icon': icon,
@@ -115,14 +121,16 @@ class WoowPortalUI(CustomerPortal):
 
     def _activity_to_dict(self, act, now):
         """Convert a mail.activity record to unified display dict."""
-        delta = now - act.create_date
-        if delta.days > 0:
-            time_ago = _('%d days ago') % delta.days
-        elif delta.seconds >= 3600:
-            time_ago = _('%d hours ago') % (delta.seconds // 3600)
+        time_ago = self._relative_time(act.create_date, now)
+
+        # Activity state based on deadline
+        today = FieldDate.context_today(request.env.user)
+        if act.date_deadline and act.date_deadline < today:
+            state = 'overdue'
+        elif act.date_deadline and act.date_deadline == today:
+            state = 'today'
         else:
-            mins = max(delta.seconds // 60, 1)
-            time_ago = _('%d mins ago') % mins
+            state = 'planned'
 
         return {
             'activity_id': act.id,
@@ -136,6 +144,7 @@ class WoowPortalUI(CustomerPortal):
             'activity_category': act.activity_category or 'default',
             'date_deadline': (str(act.date_deadline)
                               if act.date_deadline else ''),
+            'state': state,
             'time_ago': time_ago,
             'can_approve': bool(
                 act.activity_type_id
@@ -289,6 +298,7 @@ class WoowPortalUI(CustomerPortal):
 
         if tab == 'message':
             domain = notif_base + [
+                ('is_read', '=', False),
                 ('mail_message_id.message_type', 'in',
                  ['comment', 'email']),
             ]
@@ -299,6 +309,7 @@ class WoowPortalUI(CustomerPortal):
 
         elif tab == 'notification':
             domain = notif_base + [
+                ('is_read', '=', False),
                 ('mail_message_id.message_type', 'in',
                  ['notification', 'auto_comment', 'user_notification']),
             ]
@@ -396,6 +407,7 @@ class WoowPortalUI(CustomerPortal):
 
         if tab == 'message':
             domain = notif_base + [
+                ('is_read', '=', False),
                 ('mail_message_id.message_type', 'in',
                  ['comment', 'email']),
             ]
@@ -409,6 +421,7 @@ class WoowPortalUI(CustomerPortal):
 
         elif tab == 'notification':
             domain = notif_base + [
+                ('is_read', '=', False),
                 ('mail_message_id.message_type', 'in',
                  ['notification', 'auto_comment', 'user_notification']),
             ]
@@ -462,13 +475,25 @@ class WoowPortalUI(CustomerPortal):
                     for act in activities:
                         items.append(self._activity_to_dict(act, now))
 
-        unread_count = Notification.search_count(
-            notif_base + [('is_read', '=', False)])
+        unread_msg_count = Notification.search_count(
+            notif_base + [
+                ('is_read', '=', False),
+                ('mail_message_id.message_type', 'in',
+                 ['comment', 'email']),
+            ])
+        unread_notif_count = Notification.search_count(
+            notif_base + [
+                ('is_read', '=', False),
+                ('mail_message_id.message_type', 'in',
+                 ['notification', 'auto_comment', 'user_notification']),
+            ])
 
         return {
             'notifications': items,
             'total': total,
-            'unread_count': unread_count,
+            'unread_count': unread_msg_count + unread_notif_count,
+            'unread_message_count': unread_msg_count,
+            'unread_notification_count': unread_notif_count,
         }
 
     # ------------------------------------------------------------------
@@ -509,11 +534,24 @@ class WoowPortalUI(CustomerPortal):
             else:
                 return {'success': False, 'error': _('Invalid action.')}
 
-            new_unread = Notification.search_count([
+            new_msg_unread = Notification.search_count([
                 ('res_partner_id', '=', partner.id),
                 ('is_read', '=', False),
+                ('mail_message_id.message_type', 'in',
+                 ['comment', 'email']),
             ])
-            return {'success': True, 'unread_count': new_unread}
+            new_notif_unread = Notification.search_count([
+                ('res_partner_id', '=', partner.id),
+                ('is_read', '=', False),
+                ('mail_message_id.message_type', 'in',
+                 ['notification', 'auto_comment', 'user_notification']),
+            ])
+            return {
+                'success': True,
+                'unread_count': new_msg_unread + new_notif_unread,
+                'unread_message_count': new_msg_unread,
+                'unread_notification_count': new_notif_unread,
+            }
 
         if activity_id is not None:
             try:
@@ -546,14 +584,24 @@ class WoowPortalUI(CustomerPortal):
             ])
             partner = request.env.user.partner_id
             Notification = request.env['mail.notification'].sudo()
-            unread_notif = Notification.search_count([
+            new_msg_unread = Notification.search_count([
                 ('res_partner_id', '=', partner.id),
                 ('is_read', '=', False),
+                ('mail_message_id.message_type', 'in',
+                 ['comment', 'email']),
+            ])
+            new_notif_unread = Notification.search_count([
+                ('res_partner_id', '=', partner.id),
+                ('is_read', '=', False),
+                ('mail_message_id.message_type', 'in',
+                 ['notification', 'auto_comment', 'user_notification']),
             ])
             return {
                 'success': True,
                 'activity_count': new_count,
-                'unread_count': unread_notif,
+                'unread_count': new_msg_unread + new_notif_unread,
+                'unread_message_count': new_msg_unread,
+                'unread_notification_count': new_notif_unread,
             }
 
         return {'success': False, 'error': _('Missing ID parameter.')}
@@ -564,19 +612,43 @@ class WoowPortalUI(CustomerPortal):
 
     @http.route('/my/notifications/mark_all_read', type='json',
                 auth='user', methods=['POST'])
-    def mark_all_read(self, **kw):
-        """Mark all unread notifications as read for the current user."""
+    def mark_all_read(self, tab=None, **kw):
+        """Mark unread notifications as read, scoped to the given tab."""
         partner = request.env.user.partner_id
         Notification = request.env['mail.notification'].sudo()
-        unread = Notification.search([
+        domain = [
             ('res_partner_id', '=', partner.id),
             ('is_read', '=', False),
-        ])
+        ]
+        if tab == 'message':
+            domain.append(
+                ('mail_message_id.message_type', 'in',
+                 ['comment', 'email']))
+        elif tab == 'notification':
+            domain.append(
+                ('mail_message_id.message_type', 'in',
+                 ['notification', 'auto_comment', 'user_notification']))
+        # 'all' or None → no additional filter (marks everything)
+
+        unread = Notification.search(domain)
         if unread:
             unread.write({
                 'is_read': True,
                 'read_date': FieldDatetime.now(),
             })
+
+        # Return separate counts after update
+        new_msg_unread = Notification.search_count([
+            ('res_partner_id', '=', partner.id),
+            ('is_read', '=', False),
+            ('mail_message_id.message_type', 'in', ['comment', 'email']),
+        ])
+        new_notif_unread = Notification.search_count([
+            ('res_partner_id', '=', partner.id),
+            ('is_read', '=', False),
+            ('mail_message_id.message_type', 'in',
+             ['notification', 'auto_comment', 'user_notification']),
+        ])
         activity_count = 0
         if request.env.user._is_internal():
             activity_count = request.env['mail.activity'].sudo().search_count(
@@ -584,7 +656,9 @@ class WoowPortalUI(CustomerPortal):
         return {
             'success': True,
             'updated': len(unread),
-            'unread_count': 0,
+            'unread_count': new_msg_unread + new_notif_unread,
+            'unread_message_count': new_msg_unread,
+            'unread_notification_count': new_notif_unread,
             'activity_count': activity_count,
         }
 
@@ -645,7 +719,7 @@ class WoowPortalUI(CustomerPortal):
                     'author_avatar_url': (
                         '/web/image/res.partner/%d/avatar_128'
                         % msg.author_id.id if msg.author_id else ''),
-                    'date': str(msg.date) if msg.date else '',
+                    'date': msg.date.strftime('%Y-%m-%d %H:%M') if msg.date else '',
                     'is_read': notif.is_read,
                     'document_url': self._get_document_portal_url(
                         msg.model, msg.res_id),
