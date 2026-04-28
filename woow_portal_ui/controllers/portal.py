@@ -10,7 +10,7 @@ from odoo.fields import Datetime as FieldDatetime
 from odoo.http import request
 from odoo.tools import html2plaintext
 from odoo.addons.portal.controllers.portal import CustomerPortal
-from odoo.addons.web.controllers.home import Home
+from odoo.addons.portal.controllers.web import Home
 
 # Hard cap for pagination to prevent abuse
 _MAX_LIMIT = 100
@@ -711,3 +711,11 @@ class WoowHome(Home):
         if user.exists() and user._is_internal():
             return '/my/home'
         return super()._login_redirect(uid, redirect)
+
+    @http.route()
+    def index(self, *args, **kw):
+        if request.session.uid:
+            user = request.env['res.users'].sudo().browse(request.session.uid)
+            if user.exists() and user._is_internal():
+                return request.redirect_query('/my/home', query=request.params)
+        return super().index(*args, **kw)
