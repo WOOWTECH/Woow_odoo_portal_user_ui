@@ -662,9 +662,8 @@
 }
 
 /* ============================================================
-   ⑩ Login Page — hide "Powered by Odoo"
+   ⑩ Login Page — "Powered by Odoo" removed via QWeb template
+      (login_hide_powered_by in portal_templates.xml)
+      CSS approach does not work here because the login page
+      does not load web.assets_frontend.
    ============================================================ */
-
-.oe_login_form ~ .text-center:has(a[href*="odoo.com"]) {
-    display: none !important;
-}

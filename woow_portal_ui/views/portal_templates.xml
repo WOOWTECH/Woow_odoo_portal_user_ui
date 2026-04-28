@@ -515,4 +515,13 @@
         </xpath>
     </template>
 
+    <!-- ============================================================ -->
+    <!-- Login page — remove "Powered by Odoo" link                 -->
+    <!-- ============================================================ -->
+    <template id="login_hide_powered_by" name="Hide Powered by Odoo"
+              inherit_id="web.login_layout" priority="99">
+        <xpath expr="//div[hasclass('text-center','small','border-top')]//a[contains(@href,'odoo.com')]"
+               position="replace"/>
+    </template>
+
 </odoo>
