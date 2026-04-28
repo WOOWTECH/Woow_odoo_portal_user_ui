@@ -705,8 +705,6 @@ class WoowHome(Home):
     """Redirect internal users to portal home after login."""
 
     def _login_redirect(self, uid, redirect=None):
-        if redirect:
-            return redirect
         user = request.env['res.users'].sudo().browse(uid)
         if user.exists() and user._is_internal():
             return '/my/home'
