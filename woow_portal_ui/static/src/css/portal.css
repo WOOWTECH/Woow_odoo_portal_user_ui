@@ -81,14 +81,16 @@
 }
 
 .wpu-search-bar.wpu-stuck {
-    position: fixed;
-    left: 0;
-    right: 0;
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
     padding: 0.5rem 1rem;
+    background: #ffffff !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     /* top is set dynamically by JS */
 }
 
+/* Spacer created by inline sticky script — hidden by default */
 .wpu-scroll-spacer {
     display: none;
 }
@@ -216,10 +218,11 @@
 }
 
 .wpu-notif-sticky-top.wpu-stuck {
-    position: fixed;
-    left: 0;
-    right: 0;
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
     padding: 0.75rem 1rem 0.25rem;
+    background: #ffffff !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     /* top is set dynamically by JS */
 }

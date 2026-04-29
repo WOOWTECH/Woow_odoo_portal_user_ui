@@ -42,7 +42,7 @@
         <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
 
             <!-- Search Bar -->
-            <div class="wpu-search-bar mb-3">
+            <div class="wpu-search-bar mb-3" id="wpu_search_bar">
                 <div class="input-group">
                     <span class="input-group-text border-end-0">
                         <i class="fa fa-search text-muted"/>
@@ -53,6 +53,67 @@
                            placeholder="Search modules or notifications..."/>
                 </div>
             </div>
+            <!-- Inline sticky scroll — bypasses asset cache -->
+            <script>
+                (function(){
+                    function wpuSticky(el){
+                        if(!el)return;
+                        if(el.dataset.wpuStickyInit)return;
+                        el.dataset.wpuStickyInit='1';
+                        var sp=document.createElement('div');
+                        sp.style.display='none';
+                        el.parentNode.insertBefore(sp,el.nextSibling);
+                        var oTop=0,eH=0;
+                        function hdr(){var h=document.querySelector('header');return h?h.getBoundingClientRect().height:0;}
+                        function measure(){
+                            var ws=el.classList.contains('wpu-stuck');
+                            if(ws){el.classList.remove('wpu-stuck');el.style.top='';el.style.position='';el.style.left='';el.style.right='';el.style.zIndex='';sp.style.display='none';}
+                            var r=el.getBoundingClientRect();
+                            oTop=r.top+(window.pageYOffset||document.documentElement.scrollTop||0);
+                            eH=r.height;
+                            sp.style.height=eH+'px';
+                            if(ws)onScr();
+                        }
+                        function onScr(){
+                            var nh=hdr();
+                            var sy=window.pageYOffset||document.documentElement.scrollTop||0;
+                            if(sy>=oTop-nh){
+                                if(!el.classList.contains('wpu-stuck')){
+                                    el.classList.add('wpu-stuck');
+                                    el.style.position='fixed';
+                                    el.style.top=nh+'px';
+                                    el.style.left='0';
+                                    el.style.right='0';
+                                    el.style.zIndex='100';
+                                    sp.style.display='block';
+                                }else{
+                                    el.style.top=nh+'px';
+                                }
+                            }else{
+                                if(el.classList.contains('wpu-stuck')){
+                                    el.classList.remove('wpu-stuck');
+                                    el.style.position='';
+                                    el.style.top='';
+                                    el.style.left='';
+                                    el.style.right='';
+                                    el.style.zIndex='';
+                                    sp.style.display='none';
+                                }
+                            }
+                        }
+                        if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){requestAnimationFrame(function(){measure();onScr();});});}
+                        else{requestAnimationFrame(function(){measure();onScr();});}
+                        window.addEventListener('scroll',onScr,{passive:true});
+                        var rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){measure();onScr();},150);});
+                    }
+                    function init(){
+                        wpuSticky(document.getElementById('wpu_search_bar'));
+                        wpuSticky(document.querySelector('.wpu-notif-sticky-top'));
+                    }
+                    if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}
+                    else{init();}
+                })();
+            </script>
 
             <!-- Notification Preview Card -->
             <div class="wpu-notification-preview card mb-4">
@@ -359,6 +420,64 @@
                 </t>
 
               </div><!-- /wpu-notif-sticky-top -->
+                <!-- Inline sticky scroll for notification page — bypasses asset cache -->
+                <script>
+                    (function(){
+                        function wpuSticky(el){
+                            if(!el)return;
+                            var sp=document.createElement('div');
+                            sp.style.display='none';
+                            el.parentNode.insertBefore(sp,el.nextSibling);
+                            var oTop=0,eH=0;
+                            function hdr(){var h=document.querySelector('header');return h?h.getBoundingClientRect().height:0;}
+                            function measure(){
+                                var ws=el.classList.contains('wpu-stuck');
+                                if(ws){el.classList.remove('wpu-stuck');el.style.top='';el.style.position='';el.style.left='';el.style.right='';el.style.zIndex='';sp.style.display='none';}
+                                var r=el.getBoundingClientRect();
+                                oTop=r.top+(window.pageYOffset||document.documentElement.scrollTop||0);
+                                eH=r.height;
+                                sp.style.height=eH+'px';
+                                if(ws)onScr();
+                            }
+                            function onScr(){
+                                var nh=hdr();
+                                var sy=window.pageYOffset||document.documentElement.scrollTop||0;
+                                if(sy>=oTop-nh){
+                                    if(!el.classList.contains('wpu-stuck')){
+                                        el.classList.add('wpu-stuck');
+                                        el.style.position='fixed';
+                                        el.style.top=nh+'px';
+                                        el.style.left='0';
+                                        el.style.right='0';
+                                        el.style.zIndex='100';
+                                        sp.style.display='block';
+                                    }else{
+                                        el.style.top=nh+'px';
+                                    }
+                                }else{
+                                    if(el.classList.contains('wpu-stuck')){
+                                        el.classList.remove('wpu-stuck');
+                                        el.style.position='';
+                                        el.style.top='';
+                                        el.style.left='';
+                                        el.style.right='';
+                                        el.style.zIndex='';
+                                        sp.style.display='none';
+                                    }
+                                }
+                            }
+                            if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){requestAnimationFrame(function(){measure();onScr();});});}
+                            else{requestAnimationFrame(function(){measure();onScr();});}
+                            window.addEventListener('scroll',onScr,{passive:true});
+                            var rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){measure();onScr();},150);});
+                        }
+                        function init(){
+                            wpuSticky(document.querySelector('.wpu-notif-sticky-top'));
+                        }
+                        if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}
+                        else{init();}
+                    })();
+                </script>
 
                 <!-- Notification List -->
                 <div class="wpu-notif-list" id="wpu_notif_list">
