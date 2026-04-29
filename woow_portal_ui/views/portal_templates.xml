@@ -365,8 +365,14 @@
                                      t-att-data-notif-id="item['notif_id']"
                                      data-item-type="notification">
                                     <div class="wpu-notif-swipe-bg">
-                                        <i class="fa fa-check"/>
-                                        <span>Read</span>
+                                        <t t-if="item['is_read']">
+                                            <i class="fa fa-times"/>
+                                            <span>Dismiss</span>
+                                        </t>
+                                        <t t-else="">
+                                            <i class="fa fa-check"/>
+                                            <span>Read</span>
+                                        </t>
                                     </div>
                                     <div class="wpu-notif-card" data-action="show-detail">
                                         <div class="wpu-notif-card-icon">

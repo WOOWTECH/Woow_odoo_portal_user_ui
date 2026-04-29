@@ -300,6 +300,14 @@ function handleSwipeAction(wrapper) {
             }
         });
     } else {
+        var isAlreadyRead = wrapper.classList.contains("wpu-notif-read");
+
+        if (isAlreadyRead) {
+            // Already read — just dismiss the card visually (no API call needed)
+            collapseAndRemove(wrapper);
+            return;
+        }
+
         const notifId = wrapper.getAttribute("data-notif-id");
         jsonRpc("/my/notifications/action", {
             notification_id: notifId,
