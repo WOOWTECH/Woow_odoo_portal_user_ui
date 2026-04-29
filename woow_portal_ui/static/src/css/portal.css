@@ -488,7 +488,7 @@
 }
 
 .wpu-notif-modal {
-    background: var(--bs-body-bg);
+    background: #ffffff;
     border-radius: var(--bs-border-radius);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
     width: 100%;
