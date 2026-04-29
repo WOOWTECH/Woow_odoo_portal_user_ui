@@ -73,11 +73,14 @@
    ============================================================ */
 
 .wpu-search-bar {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
     background: #ffffff;
-    padding: 0.5rem 0;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .wpu-search-bar .input-group {
@@ -193,13 +196,16 @@
    ⑥ Notification List Page (/my/notifications)
    ============================================================ */
 
-/* Sticky top bar — keeps header + tabs fixed while scrolling */
+/* Fixed top bar — keeps header + tabs fixed while scrolling */
 .wpu-notif-sticky-top {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
     background: #ffffff;
-    padding-bottom: 0.25rem;
+    padding: 0.75rem 1rem 0.25rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 /* Tab navigation */

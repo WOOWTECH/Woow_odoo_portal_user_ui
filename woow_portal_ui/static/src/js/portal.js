@@ -18,6 +18,7 @@ import { _t, translationIsReady } from "@web/core/l10n/translation";
 
 whenReady(async () => {
     await translationIsReady;
+    initFixedBars();
     initSearchFilter();
     initNotificationPage();
     initNotificationModal();
@@ -27,6 +28,38 @@ whenReady(async () => {
     initNotifSearchbar();
     rewriteLogoLink();
 });
+
+// ------------------------------------------------------------------
+// ⓪ Fixed bars — add spacer below position:fixed elements
+// ------------------------------------------------------------------
+
+function initFixedBars() {
+    // Home page search bar
+    const searchBar = document.querySelector(".wpu-search-bar");
+    if (searchBar) {
+        const spacer = document.createElement("div");
+        spacer.className = "wpu-fixed-spacer";
+        searchBar.parentNode.insertBefore(spacer, searchBar.nextSibling);
+        const updateSpacer = () => {
+            spacer.style.height = searchBar.offsetHeight + "px";
+        };
+        updateSpacer();
+        window.addEventListener("resize", updateSpacer);
+    }
+
+    // Notification page sticky top
+    const stickyTop = document.querySelector(".wpu-notif-sticky-top");
+    if (stickyTop) {
+        const spacer = document.createElement("div");
+        spacer.className = "wpu-fixed-spacer";
+        stickyTop.parentNode.insertBefore(spacer, stickyTop.nextSibling);
+        const updateSpacer = () => {
+            spacer.style.height = stickyTop.offsetHeight + "px";
+        };
+        updateSpacer();
+        window.addEventListener("resize", updateSpacer);
+    }
+}
 
 // ------------------------------------------------------------------
 // ① Search filter — client-side module name filtering
