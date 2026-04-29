@@ -30,35 +30,84 @@ whenReady(async () => {
 });
 
 // ------------------------------------------------------------------
-// ⓪ Fixed bars — add spacer below position:fixed elements
+// ⓪ Scroll-based sticky bars — elements fix below navbar on scroll
 // ------------------------------------------------------------------
 
 function initFixedBars() {
-    // Home page search bar
-    const searchBar = document.querySelector(".wpu-search-bar");
-    if (searchBar) {
-        const spacer = document.createElement("div");
-        spacer.className = "wpu-fixed-spacer";
-        searchBar.parentNode.insertBefore(spacer, searchBar.nextSibling);
-        const updateSpacer = () => {
-            spacer.style.height = searchBar.offsetHeight + "px";
-        };
-        updateSpacer();
-        window.addEventListener("resize", updateSpacer);
+    function getNavbarHeight() {
+        var header = document.querySelector("header");
+        if (!header) return 0;
+        return header.getBoundingClientRect().height;
     }
 
-    // Notification page sticky top
-    const stickyTop = document.querySelector(".wpu-notif-sticky-top");
-    if (stickyTop) {
-        const spacer = document.createElement("div");
-        spacer.className = "wpu-fixed-spacer";
-        stickyTop.parentNode.insertBefore(spacer, stickyTop.nextSibling);
-        const updateSpacer = () => {
-            spacer.style.height = stickyTop.offsetHeight + "px";
-        };
-        updateSpacer();
-        window.addEventListener("resize", updateSpacer);
+    function setupStickyOnScroll(element) {
+        if (!element) return;
+
+        var spacer = document.createElement("div");
+        spacer.className = "wpu-scroll-spacer";
+        spacer.style.display = "none";
+        element.parentNode.insertBefore(spacer, element.nextSibling);
+
+        var originalOffsetTop = 0;
+        var elementHeight = 0;
+
+        function measure() {
+            var wasStuck = element.classList.contains("wpu-stuck");
+            if (wasStuck) {
+                element.classList.remove("wpu-stuck");
+                element.style.top = "";
+                spacer.style.display = "none";
+            }
+            var rect = element.getBoundingClientRect();
+            originalOffsetTop = rect.top + window.pageYOffset;
+            elementHeight = rect.height;
+            spacer.style.height = elementHeight + "px";
+            if (wasStuck) {
+                onScroll();
+            }
+        }
+
+        function onScroll() {
+            var navbarH = getNavbarHeight();
+            var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+            var triggerPoint = originalOffsetTop - navbarH;
+
+            if (scrollY >= triggerPoint) {
+                if (!element.classList.contains("wpu-stuck")) {
+                    element.classList.add("wpu-stuck");
+                    element.style.top = navbarH + "px";
+                    spacer.style.display = "block";
+                } else {
+                    element.style.top = navbarH + "px";
+                }
+            } else {
+                if (element.classList.contains("wpu-stuck")) {
+                    element.classList.remove("wpu-stuck");
+                    element.style.top = "";
+                    spacer.style.display = "none";
+                }
+            }
+        }
+
+        requestAnimationFrame(function () {
+            measure();
+            onScroll();
+        });
+
+        window.addEventListener("scroll", onScroll, { passive: true });
+
+        var resizeTimer;
+        window.addEventListener("resize", function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                measure();
+                onScroll();
+            }, 150);
+        });
     }
+
+    setupStickyOnScroll(document.querySelector(".wpu-search-bar"));
+    setupStickyOnScroll(document.querySelector(".wpu-notif-sticky-top"));
 }
 
 // ------------------------------------------------------------------
