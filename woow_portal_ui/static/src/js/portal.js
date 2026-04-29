@@ -34,80 +34,8 @@ whenReady(async () => {
 // ------------------------------------------------------------------
 
 function initFixedBars() {
-    function getNavbarHeight() {
-        var header = document.querySelector("header");
-        if (!header) return 0;
-        return header.getBoundingClientRect().height;
-    }
-
-    function setupStickyOnScroll(element) {
-        if (!element) return;
-
-        var spacer = document.createElement("div");
-        spacer.className = "wpu-scroll-spacer";
-        spacer.style.display = "none";
-        element.parentNode.insertBefore(spacer, element.nextSibling);
-
-        var originalOffsetTop = 0;
-        var elementHeight = 0;
-
-        function measure() {
-            var wasStuck = element.classList.contains("wpu-stuck");
-            if (wasStuck) {
-                element.classList.remove("wpu-stuck");
-                element.style.top = "";
-                spacer.style.display = "none";
-            }
-            var rect = element.getBoundingClientRect();
-            originalOffsetTop = rect.top + window.pageYOffset;
-            elementHeight = rect.height;
-            spacer.style.height = elementHeight + "px";
-            if (wasStuck) {
-                onScroll();
-            }
-        }
-
-        function onScroll() {
-            var navbarH = getNavbarHeight();
-            var scrollY = window.pageYOffset || document.documentElement.scrollTop;
-            var triggerPoint = originalOffsetTop - navbarH;
-
-            if (scrollY >= triggerPoint) {
-                if (!element.classList.contains("wpu-stuck")) {
-                    element.classList.add("wpu-stuck");
-                    element.style.top = navbarH + "px";
-                    spacer.style.display = "block";
-                } else {
-                    element.style.top = navbarH + "px";
-                }
-            } else {
-                if (element.classList.contains("wpu-stuck")) {
-                    element.classList.remove("wpu-stuck");
-                    element.style.top = "";
-                    spacer.style.display = "none";
-                }
-            }
-        }
-
-        requestAnimationFrame(function () {
-            measure();
-            onScroll();
-        });
-
-        window.addEventListener("scroll", onScroll, { passive: true });
-
-        var resizeTimer;
-        window.addEventListener("resize", function () {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(function () {
-                measure();
-                onScroll();
-            }, 150);
-        });
-    }
-
-    setupStickyOnScroll(document.querySelector(".wpu-search-bar"));
-    setupStickyOnScroll(document.querySelector(".wpu-notif-sticky-top"));
+    // No-op: sticky behaviour removed per design decision.
+    // Search bar and notification top bar now scroll naturally with the page.
 }
 
 // ------------------------------------------------------------------
