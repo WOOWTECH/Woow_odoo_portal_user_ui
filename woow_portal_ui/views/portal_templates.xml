@@ -232,6 +232,9 @@
 
             <div class="container py-3">
 
+              <!-- Sticky top bar: header + searchbar + tabs + mark-all -->
+              <div class="wpu-notif-sticky-top">
+
                 <!-- Header -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <a href="/my/home" class="btn btn-sm btn-outline-secondary">
@@ -354,6 +357,8 @@
                         </button>
                     </div>
                 </t>
+
+              </div><!-- /wpu-notif-sticky-top -->
 
                 <!-- Notification List -->
                 <div class="wpu-notif-list" id="wpu_notif_list">
