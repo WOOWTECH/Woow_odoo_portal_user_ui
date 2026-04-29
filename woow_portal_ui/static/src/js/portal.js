@@ -313,7 +313,9 @@ function handleSwipeAction(wrapper) {
             }
 
             const currentTab = getCurrentTab();
-            if (currentTab === "all") {
+            const wasUnread = wrapper.classList.contains("wpu-notif-unread");
+            if (currentTab === "all" && wasUnread) {
+                // First swipe on unread: mark read, snap back
                 wrapper.classList.remove("wpu-removing", "wpu-notif-unread");
                 wrapper.classList.add("wpu-notif-read");
                 if (card) {
@@ -323,6 +325,7 @@ function handleSwipeAction(wrapper) {
                 const dot = wrapper.querySelector(".wpu-unread-dot");
                 if (dot) dot.remove();
             } else {
+                // Already read or non-all tab: dismiss card
                 collapseAndRemove(wrapper);
             }
 
