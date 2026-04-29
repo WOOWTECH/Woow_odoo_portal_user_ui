@@ -34,16 +34,8 @@ whenReady(async () => {
 // ------------------------------------------------------------------
 
 function initFixedBars() {
-    function getNavbarHeight() {
-        var header = document.querySelector("header");
-        if (!header) return 0;
-        return header.getBoundingClientRect().height;
-    }
-
-    // Inline <script> in the template now handles sticky behavior directly
-    // (bypasses asset bundle caching issues on mobile browsers).
-    // This function is kept as a no-op fallback for backward compatibility.
-    // The inline script sets data-wpu-sticky-init="1" on each element it manages.
+    // No-op: sticky behaviour removed per design decision.
+    // Search bar and notification top bar now scroll naturally with the page.
 }
 
 // ------------------------------------------------------------------
