@@ -531,6 +531,15 @@ class WoowPortalUI(CustomerPortal):
                     'is_read': False,
                     'read_date': False,
                 })
+            elif action == 'dismiss':
+                # Permanently remove a read notification so it won't
+                # reappear on page reload.  The underlying mail.message
+                # is preserved — only the per-partner link is deleted.
+                if not notif.is_read:
+                    # Safety: refuse to dismiss unread notifications
+                    return {'success': False,
+                            'error': _('Cannot dismiss unread notification.')}
+                notif.unlink()
             else:
                 return {'success': False, 'error': _('Invalid action.')}
 

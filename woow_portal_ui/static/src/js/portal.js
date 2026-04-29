@@ -303,8 +303,20 @@ function handleSwipeAction(wrapper) {
         var isAlreadyRead = wrapper.classList.contains("wpu-notif-read");
 
         if (isAlreadyRead) {
-            // Already read — just dismiss the card visually (no API call needed)
-            collapseAndRemove(wrapper);
+            // Already read — dismiss permanently via API so it won't reappear
+            var dismissId = wrapper.getAttribute("data-notif-id");
+            jsonRpc("/my/notifications/action", {
+                notification_id: dismissId,
+                action: "dismiss",
+            }).then(function (data) {
+                if (data && data.success) {
+                    collapseAndRemove(wrapper);
+                } else {
+                    console.error("Failed to dismiss:", data);
+                    wrapper.classList.remove("wpu-removing");
+                    snapBack(wrapper);
+                }
+            });
             return;
         }
 
