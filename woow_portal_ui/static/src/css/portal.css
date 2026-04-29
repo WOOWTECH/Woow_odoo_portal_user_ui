@@ -193,6 +193,15 @@
    ⑥ Notification List Page (/my/notifications)
    ============================================================ */
 
+/* Sticky top bar — keeps header + tabs fixed while scrolling */
+.wpu-notif-sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #ffffff;
+    padding-bottom: 0.25rem;
+}
+
 /* Tab navigation */
 .wpu-notif-tabs {
     display: flex;
