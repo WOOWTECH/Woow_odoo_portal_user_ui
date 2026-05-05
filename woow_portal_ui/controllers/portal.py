@@ -785,18 +785,13 @@ class WoowPortalUI(CustomerPortal):
 
 
 class WoowHome(Home):
-    """Redirect internal users to portal home after login."""
+    """Redirect all users to portal home after login."""
 
     def _login_redirect(self, uid, redirect=None):
-        user = request.env['res.users'].sudo().browse(uid)
-        if user.exists() and user._is_internal():
-            return '/my/home'
+        # Only override when the user did not explicitly request a redirect
+        # (e.g. via deep link). Check the original form/query parameter
+        # instead of the `redirect` argument, which may have been pre-set
+        # by another module (e.g. website) earlier in the MRO chain.
+        if not request.params.get('redirect'):
+            redirect = '/my/home'
         return super()._login_redirect(uid, redirect)
-
-    @http.route()
-    def index(self, *args, **kw):
-        if request.session.uid:
-            user = request.env['res.users'].sudo().browse(request.session.uid)
-            if user.exists() and user._is_internal():
-                return request.redirect_query('/my/home', query=request.params)
-        return super().index(*args, **kw)
