@@ -18,7 +18,7 @@
     "author": "Woow Tech",
     "website": "https://www.woow.tw",
     "license": "LGPL-3",
-    "depends": ["portal", "mail", "web"],
+    "depends": ["portal", "mail", "web", "sale", "account"],
     "data": [
         "security/ir.model.access.csv",
         "views/portal_templates.xml",
@@ -26,6 +26,7 @@
     "assets": {
         "web.assets_frontend": [
             "woow_portal_ui/static/src/css/portal.css",
+            "woow_portal_ui/static/src/css/woowtech_theme.css",
             "woow_portal_ui/static/src/js/portal.js",
         ],
         "web.assets_backend": [

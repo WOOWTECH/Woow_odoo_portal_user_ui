@@ -1,0 +1,598 @@
+/* =========================================================
+   WoowTech Portal Theme — Odoo 18
+   CSS-first approach: styles existing Odoo elements by class
+   Brand: WoowTech Blue #6183fc
+   ========================================================= */
+
+/* Google Fonts loaded via <link> tag in portal_templates.xml
+   (Odoo SCSS compiler breaks @import url() in .css files) */
+
+/* =========================================================
+   1. Design Tokens
+   ========================================================= */
+:root {
+    --wt-blue:        #6183fc;
+    --wt-blue-700:    #4a6ae0;
+    --wt-blue-100:    #e7ecff;
+    --wt-blue-50:     #f3f6ff;
+    --wt-tone-coral:  #f45d6d;
+    --wt-tone-yellow: #F8D158;
+    --wt-tone-green:  #8CD37F;
+    --wt-tone-cyan:   #7BDBE0;
+    --wt-tone-orange: #E66D3E;
+    --wt-tone-lilac:  #C09FE0;
+
+    --tint-blue:   #eef2ff;
+    --tint-coral:  #fde9eb;
+    --tint-yellow: #fff5d4;
+    --tint-green:  #ebf7e7;
+    --tint-cyan:   #e3f8f9;
+    --tint-orange: #fdeadf;
+    --tint-lilac:  #f1e8f8;
+
+    --wt-canvas:    #f5f7fc;
+    --wt-surface:   #ffffff;
+    --wt-line:      #e3e6ee;
+    --wt-line-soft: #eef0f5;
+    --wt-ink:       #1a1d29;
+    --wt-ink-2:     #4a4e5b;
+    --wt-ink-3:     #8b8e9a;
+    --wt-ink-4:     #b6b9c4;
+
+    --wt-font: "Outfit", "Noto Sans TC", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+
+    --r-sm:   8px;
+    --r-md:   12px;
+    --r-lg:   20px;
+    --r-pill: 999px;
+
+    --sh-1: 0 1px 2px rgba(20,22,30,.04), 0 2px 6px rgba(20,22,30,.04);
+    --sh-2: 0 6px 16px rgba(20,22,30,.06), 0 2px 4px rgba(20,22,30,.04);
+}
+
+/* =========================================================
+   2. Global Portal Overrides
+   ========================================================= */
+.o_portal,
+.o_portal_wrap,
+#wrapwrap.o_portal {
+    font-family: var(--wt-font);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    --custom-primary: var(--wt-blue);
+    --custom-primary-hover: var(--wt-blue-700);
+}
+
+#wrapwrap.o_portal #wrap {
+    background: var(--wt-canvas);
+}
+
+.o_portal a { color: var(--wt-blue); }
+.o_portal a:hover { color: var(--wt-blue-700); }
+
+.o_portal .btn-primary,
+.o_portal_wrap .btn-primary {
+    background-color: var(--wt-blue);
+    border-color: var(--wt-blue);
+    border-radius: var(--r-pill);
+    font-weight: 600;
+}
+.o_portal .btn-primary:hover,
+.o_portal_wrap .btn-primary:hover {
+    background-color: var(--wt-blue-700);
+    border-color: var(--wt-blue-700);
+}
+
+.o_portal .btn-outline-primary { color: var(--wt-blue); border-color: var(--wt-blue); }
+.o_portal .btn-outline-primary:hover { background-color: var(--wt-blue); border-color: var(--wt-blue); color: #fff; }
+
+/* =========================================================
+   3. Shared Components
+   ========================================================= */
+
+/* Buttons */
+.wt-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 18px; border-radius: var(--r-pill);
+    font-size: 13px; font-weight: 600;
+    border: 1px solid transparent; cursor: pointer;
+    transition: all .15s; font-family: var(--wt-font);
+}
+.wt-btn-primary { background: var(--wt-blue); color: #fff; box-shadow: 0 6px 16px rgba(97,131,252,.30); }
+.wt-btn-primary:hover { background: var(--wt-blue-700); transform: translateY(-1px); color: #fff; }
+.wt-btn-dark { background: var(--wt-ink); color: #fff; }
+.wt-btn-dark:hover { background: #000; transform: translateY(-1px); color: #fff; }
+.wt-btn-ghost { background: #fff; border-color: var(--wt-line); color: var(--wt-ink); }
+.wt-btn-ghost:hover { border-color: var(--wt-blue); color: var(--wt-blue); }
+
+/* Status Badges */
+.wt-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 10px; border-radius: var(--r-pill);
+    font-size: 11px; font-weight: 600; border: 1px solid; white-space: nowrap;
+}
+.wt-badge-paid      { background: #ebf7ee; color: #1b8a4d; border-color: #b8e0c4; }
+.wt-badge-reversed  { background: #ebf7ee; color: #1b8a4d; border-color: #b8e0c4; }
+.wt-badge-waiting   { background: #e7f1fb; color: #2a7fc4; border-color: #b6d4ee; }
+.wt-badge-processing { background: #e7f1fb; color: #2a7fc4; border-color: #b6d4ee; }
+.wt-badge-cancelled { background: #fff4e1; color: #b86f1e; border-color: #f1d49a; }
+
+/* Form inputs on portal */
+.o_portal .form-control,
+.o_portal .form-select {
+    border-radius: var(--r-md);
+    font-family: var(--wt-font);
+    transition: border-color .15s, box-shadow .15s;
+}
+.o_portal .form-control:focus,
+.o_portal .form-select:focus {
+    border-color: var(--wt-blue);
+    box-shadow: 0 0 0 4px rgba(97,131,252,.12);
+}
+
+/* =========================================================
+   4. HOME PAGE — CSS Grid on existing Odoo container
+   ========================================================= */
+
+/* Turn .o_portal_my_home into 2-column grid */
+.o_portal_my_home {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 24px 32px;
+}
+
+/* All children go to column 1 by default */
+.o_portal_my_home > * {
+    grid-column: 1;
+}
+
+/* Profile sidebar goes to column 2, spanning all rows */
+.o_portal_my_home > .wt-profile-aside {
+    grid-column: 2;
+    grid-row: 1 / span 20;
+    align-self: start;
+}
+
+/* Background gradient for home */
+.o_portal_my_home {
+    background: linear-gradient(180deg, #fcfcff 0%, #f6f8ff 100%);
+    padding: 24px 0 48px;
+    border-radius: var(--r-lg);
+}
+
+/* Style the module grid */
+.o_portal_docs {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+/* Hide the category headers and spinner */
+.o_portal_category { display: contents; }
+.o_portal_doc_spinner { display: none; }
+
+/* Style module cards as tiles */
+.o_portal_index_card {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line);
+    border-radius: var(--r-lg);
+    padding: 16px 18px;
+    transition: transform .18s, box-shadow .18s, border-color .18s;
+    cursor: pointer;
+}
+.o_portal_index_card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(20,22,30,.06);
+    border-color: var(--wt-blue);
+}
+.o_portal_index_card a { text-decoration: none; color: inherit; }
+
+/* Greeting Card (WoowTech design) */
+.wt-greeting-card {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line);
+    border-radius: var(--r-lg);
+    padding: 24px 26px 20px;
+    box-shadow: var(--sh-1);
+    text-decoration: none; color: inherit;
+    display: block;
+}
+.wt-greeting-card:hover { box-shadow: var(--sh-2); color: inherit; text-decoration: none; }
+
+.wt-greet-row {
+    display: grid; grid-template-columns: 64px 1fr auto;
+    gap: 18px; align-items: flex-start;
+}
+.wt-greet-avatar {
+    width: 56px; height: 56px; border-radius: 14px;
+    background: var(--wt-blue); color: #fff;
+    font-weight: 800; font-size: 22px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 16px rgba(97,131,252,.28);
+}
+.wt-greet-h1 {
+    font-size: 22px; font-weight: 700; letter-spacing: -.005em;
+    margin: 4px 0 10px; line-height: 1.25;
+    word-break: break-all; color: #212121;
+}
+.wt-greet-meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.wt-gm-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 11px; border-radius: var(--r-pill);
+    background: var(--tint-blue); color: var(--wt-blue);
+    font-size: 11.5px; font-weight: 600;
+    border: 1px solid rgba(97,131,252,.18);
+}
+.wt-gm-chip.wt-gm-time {
+    background: var(--tint-yellow); color: #c08b15;
+    border-color: rgba(248,209,88,.40);
+}
+.wt-greet-edit {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: #fff; border: 1px solid var(--wt-line);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--wt-ink-2); transition: all .15s; text-decoration: none;
+}
+.wt-greet-edit:hover {
+    background: var(--wt-blue); color: #fff;
+    border-color: var(--wt-blue); text-decoration: none;
+}
+
+/* Search Bar */
+.wt-hero-search {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line); border-radius: var(--r-md);
+    padding: 6px 6px 6px 16px;
+    display: flex; align-items: center; gap: 10px;
+    transition: all .15s;
+}
+.wt-hero-search:focus-within {
+    border-color: var(--wt-blue);
+    box-shadow: 0 0 0 4px rgba(97,131,252,.10);
+}
+.wt-hero-search input {
+    flex: 1; border: none; outline: none; background: transparent;
+    font-size: 13.5px; color: var(--wt-ink); font-family: var(--wt-font);
+}
+.wt-hero-search input::placeholder { color: var(--wt-ink-3); }
+
+/* Notification Preview Block */
+.wt-notif-block {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line); border-radius: var(--r-lg);
+    padding: 22px 24px; box-shadow: var(--sh-1);
+}
+.wt-notif-block-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 18px;
+}
+.wt-nb-title {
+    margin: 0; font-size: 16px; font-weight: 700;
+    display: inline-flex; align-items: center; gap: 10px; color: #212121;
+}
+.wt-nb-count {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--wt-tone-coral); color: #fff;
+    font-size: 11px; font-weight: 700;
+    min-width: 22px; height: 22px; padding: 0 8px;
+    border-radius: var(--r-pill);
+}
+.wt-nb-viewall {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 12.5px; color: var(--wt-blue); font-weight: 600; text-decoration: none;
+}
+.wt-nb-viewall:hover { text-decoration: underline; color: var(--wt-blue-700); }
+
+.wt-notif-group { margin-bottom: 14px; }
+.wt-notif-group:last-child { margin-bottom: 0; }
+.wt-ng-head { display: flex; align-items: center; gap: 8px; padding: 6px 0; margin-bottom: 4px; }
+.wt-ng-icon {
+    width: 22px; height: 22px; border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+}
+.wt-ng-icon.wt-ng-msg  { background: var(--tint-coral); color: var(--wt-tone-coral); }
+.wt-ng-icon.wt-ng-bell { background: var(--tint-blue);  color: var(--wt-blue); }
+.wt-ng-icon.wt-ng-activity { background: var(--tint-green); color: var(--wt-tone-green); }
+.wt-ng-label { font-weight: 700; font-size: 13px; color: var(--wt-ink); }
+.wt-ng-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--wt-tone-coral); color: #fff;
+    font-size: 10px; font-weight: 700;
+    min-width: 18px; height: 18px; padding: 0 6px; border-radius: var(--r-pill);
+}
+.wt-ng-num.wt-ng-bell-num { background: var(--wt-blue); }
+.wt-ng-num.wt-ng-activity-num { background: var(--wt-tone-green); }
+
+.wt-notif-item {
+    display: grid; grid-template-columns: 32px 1fr 12px;
+    gap: 12px; align-items: center;
+    padding: 10px 12px; border-radius: var(--r-md);
+    transition: background .15s; text-decoration: none; color: inherit;
+}
+.wt-notif-item:hover { background: var(--wt-blue-50); color: inherit; text-decoration: none; }
+.wt-ni-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+}
+.wt-ni-avatar.wt-ni-coral { background: var(--tint-coral); color: var(--wt-tone-coral); }
+.wt-ni-avatar.wt-ni-blue  { background: var(--tint-blue);  color: var(--wt-blue); }
+.wt-ni-body { min-width: 0; }
+.wt-ni-t { font-weight: 700; font-size: 13.5px; color: var(--wt-ink); }
+.wt-ni-s { font-size: 12px; color: var(--wt-ink-3); margin-top: 2px; }
+.wt-ni-chev { color: var(--wt-ink-4); }
+
+/* Invoices-to-pay Banner */
+.wt-ip-banner {
+    background: linear-gradient(135deg, #eef2ff 0%, #dde6ff 100%);
+    border: 1px solid rgba(97,131,252,.30);
+    border-radius: var(--r-lg); padding: 18px 22px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    box-shadow: 0 2px 10px rgba(97,131,252,.18);
+}
+.wt-ip-left { display: flex; align-items: center; gap: 14px; }
+.wt-ip-icon {
+    width: 40px; height: 40px; border-radius: 12px;
+    background: #fff; color: var(--wt-blue);
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0; box-shadow: 0 2px 6px rgba(97,131,252,.30);
+}
+.wt-ip-text { font-size: 15px; color: #212121; font-weight: 500; }
+.wt-ip-text b { font-weight: 800; font-size: 18px; color: var(--wt-blue); margin-right: 2px; }
+.wt-ip-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #212121; color: #fff; border: none;
+    padding: 9px 18px; border-radius: var(--r-pill);
+    font-size: 13px; font-weight: 600; text-decoration: none;
+    transition: background .15s, transform .15s;
+}
+.wt-ip-btn:hover { background: #000; transform: translateY(-1px); color: #fff; text-decoration: none; }
+
+/* Profile Aside */
+.wt-profile-aside {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line); border-radius: var(--r-lg);
+    padding: 22px; box-shadow: var(--sh-1);
+}
+.wt-pa-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+.wt-pa-avatar {
+    width: 48px; height: 48px; border-radius: 14px;
+    background: var(--wt-blue); color: #fff;
+    font-weight: 800; font-size: 20px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; box-shadow: 0 6px 14px rgba(97,131,252,.30);
+}
+.wt-pa-mail { font-weight: 700; font-size: 13.5px; word-break: break-all; line-height: 1.3; }
+.wt-pa-rows { display: flex; flex-direction: column; gap: 10px; }
+.wt-pa-row {
+    display: grid; grid-template-columns: 24px 1fr;
+    gap: 10px; align-items: start;
+    padding: 8px 0; border-bottom: 1px solid var(--wt-line-soft);
+}
+.wt-pa-row:last-of-type { border-bottom: none; }
+.wt-pi-icon { width: 24px; height: 24px; color: var(--wt-blue); display: inline-flex; align-items: center; justify-content: center; }
+.wt-pi-text { font-size: 12.5px; color: var(--wt-ink); line-height: 1.45; word-break: break-word; }
+.wt-pa-edit {
+    margin-top: 16px; width: 100%;
+    background: #fff; color: #212121; border: 1px solid var(--wt-line);
+    border-radius: var(--r-md); padding: 9px 14px;
+    font-weight: 500; font-size: 13px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    transition: all .15s; text-decoration: none;
+}
+.wt-pa-edit:hover { border-color: var(--wt-blue); color: var(--wt-blue); text-decoration: none; }
+
+/* =========================================================
+   5. SECURITY PAGE — CSS-only on existing Odoo elements
+   ========================================================= */
+.o_portal_security_body {
+    max-width: 900px !important;
+    width: 100% !important;
+}
+.o_portal_security_body section {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line);
+    border-radius: var(--r-md);
+    padding: 20px 22px;
+    margin-bottom: 16px;
+}
+.o_portal_security_body section h4 {
+    font-size: 15px; font-weight: 700; color: #212121;
+    margin-bottom: 16px;
+}
+.o_portal_security_body .form-control {
+    border: 1px solid var(--wt-line);
+    border-radius: var(--r-md);
+    font-size: 13.5px; font-family: var(--wt-font);
+    padding: 10px 14px;
+}
+.o_portal_security_body .form-control:focus {
+    border-color: var(--wt-blue);
+    box-shadow: 0 0 0 4px rgba(97,131,252,.12);
+}
+.o_portal_security_body label {
+    font-size: 12.5px; font-weight: 600; color: var(--wt-ink);
+}
+
+/* =========================================================
+   6. ACCOUNT DETAILS PAGE — CSS-only on existing elements
+   ========================================================= */
+.o_portal_details {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line);
+    border-radius: var(--r-lg);
+    padding: 28px 32px;
+    box-shadow: var(--sh-2);
+}
+.o_portal_details .form-control,
+.o_portal_details .form-select {
+    border: 1px solid var(--wt-line);
+    border-radius: var(--r-md);
+    font-size: 13.5px; font-family: var(--wt-font);
+    padding: 10px 14px;
+}
+.o_portal_details .form-control:focus,
+.o_portal_details .form-select:focus {
+    border-color: var(--wt-blue);
+    box-shadow: 0 0 0 4px rgba(97,131,252,.12);
+}
+.o_portal_details label {
+    font-size: 12.5px; font-weight: 600; color: var(--wt-ink);
+}
+
+/* =========================================================
+   7. ORDERS PAGE — Card grid
+   ========================================================= */
+.wt-orders-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+.wt-order-card {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line); border-radius: var(--r-md);
+    padding: 16px 18px;
+    display: flex; flex-direction: column; gap: 12px;
+    transition: transform .18s, border-color .18s, box-shadow .18s;
+    cursor: pointer; text-decoration: none; color: inherit;
+}
+.wt-order-card:hover {
+    transform: translateY(-2px); border-color: var(--wt-blue);
+    box-shadow: 0 12px 24px rgba(20,22,30,.06);
+    color: inherit; text-decoration: none;
+}
+.wt-oc-head {
+    display: flex; align-items: center; gap: 10px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--wt-line-soft);
+}
+.wt-oc-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--tint-blue); color: var(--wt-blue);
+    display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.wt-oc-num { font-weight: 700; font-size: 14px; color: var(--wt-blue); font-variant-numeric: tabular-nums; }
+.wt-oc-meta { display: flex; flex-direction: column; gap: 6px; }
+.wt-oc-row { display: flex; align-items: center; justify-content: space-between; font-size: 12.5px; }
+.wt-oc-label { color: var(--wt-ink-3); }
+.wt-oc-value { color: #212121; font-weight: 500; font-variant-numeric: tabular-nums; }
+.wt-oc-total { font-weight: 700; }
+.wt-oc-foot {
+    display: flex; align-items: center; justify-content: flex-end; gap: 4px;
+    font-size: 12px; color: var(--wt-ink-3);
+    padding-top: 8px; border-top: 1px solid var(--wt-line-soft);
+}
+.wt-order-card:hover .wt-oc-foot { color: var(--wt-blue); }
+
+/* =========================================================
+   8. INVOICES PAGE — Card grid + toolbar
+   ========================================================= */
+.wt-invoices-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+.wt-invoice-card {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line); border-radius: var(--r-md);
+    padding: 16px 18px;
+    display: flex; flex-direction: column; gap: 12px;
+    transition: transform .18s, border-color .18s, box-shadow .18s;
+    text-decoration: none; color: inherit;
+}
+.wt-invoice-card:hover {
+    transform: translateY(-2px); border-color: var(--wt-blue);
+    box-shadow: 0 12px 24px rgba(20,22,30,.06);
+    color: inherit; text-decoration: none;
+}
+.wt-invoice-card.wt-is-overdue { border-left: 3px solid var(--wt-tone-coral); }
+.wt-invoice-card.wt-is-overdue:hover { border-color: var(--wt-tone-coral); }
+
+.wt-ic-head {
+    display: flex; align-items: center; gap: 10px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--wt-line-soft);
+}
+.wt-ic-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--tint-blue); color: var(--wt-blue);
+    display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.wt-ic-num { font-weight: 700; font-size: 14px; color: var(--wt-blue); font-variant-numeric: tabular-nums; flex: 1; min-width: 0; }
+.wt-ic-meta { display: flex; flex-direction: column; gap: 6px; }
+.wt-ic-row { display: flex; align-items: center; justify-content: space-between; font-size: 12.5px; }
+.wt-ic-label { color: var(--wt-ink-3); }
+.wt-ic-value { color: #212121; font-weight: 500; font-variant-numeric: tabular-nums; }
+.wt-ic-amount { font-weight: 700; }
+.wt-ic-value.wt-due-overdue { color: var(--wt-tone-coral); font-weight: 600; }
+.wt-ic-foot {
+    display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+    padding-top: 8px; border-top: 1px solid var(--wt-line-soft);
+}
+.wt-inv-due-note { font-size: 11.5px; color: var(--wt-tone-coral); font-weight: 600; white-space: nowrap; }
+.wt-inv-paynow {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--wt-ink); color: #fff; border: none;
+    padding: 5px 12px; border-radius: var(--r-pill);
+    font-size: 11.5px; font-weight: 600; text-decoration: none;
+}
+.wt-inv-paynow:hover { background: #000; color: #fff; text-decoration: none; }
+
+/* =========================================================
+   9. NOTIFICATION CENTER — Theme color updates
+   ========================================================= */
+.wpu-notif-card-icon,
+.wpu-notification-icon {
+    color: var(--wt-blue) !important;
+    background: color-mix(in srgb, var(--wt-blue) 12%, transparent) !important;
+}
+.wpu-view-all-link { color: var(--wt-blue) !important; }
+.wpu-notif-tab.active { color: var(--wt-blue) !important; border-bottom-color: var(--wt-blue) !important; }
+.wpu-unread-dot { background: var(--wt-blue) !important; }
+.wpu-notif-searchbar .btn.active { background-color: var(--wt-blue) !important; border-color: var(--wt-blue) !important; }
+.wpu-notif-modal { border-radius: var(--r-lg) !important; }
+
+/* =========================================================
+   10. BREADCRUMB — styled back button
+   ========================================================= */
+.o_portal .wpu-breadcrumb-back-btn {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 0 12px; height: 28px; border-radius: var(--r-pill);
+    background: #fff; border: 1px solid var(--wt-line);
+    font-size: 12.5px; color: var(--wt-ink); font-weight: 500;
+    transition: all .15s; text-decoration: none;
+}
+.o_portal .wpu-breadcrumb-back-btn:hover {
+    border-color: var(--wt-blue); color: var(--wt-blue); text-decoration: none;
+}
+
+/* =========================================================
+   11. Responsive — Tablet (max-width: 1100px)
+   ========================================================= */
+@media (max-width: 1100px) {
+    .o_portal_my_home { grid-template-columns: 1fr; }
+    .o_portal_my_home > .wt-profile-aside { grid-column: 1; grid-row: auto; }
+    .o_portal_docs { grid-template-columns: 1fr 1fr; }
+    .wt-orders-grid { grid-template-columns: repeat(2, 1fr); }
+    .wt-invoices-grid { grid-template-columns: 1fr; }
+}
+
+/* =========================================================
+   12. Responsive — Mobile (max-width: 767px)
+   ========================================================= */
+@media (max-width: 767px) {
+    .o_portal_docs { grid-template-columns: 1fr; }
+    .wt-orders-grid { grid-template-columns: 1fr; gap: 12px; }
+    .wt-invoices-grid { grid-template-columns: 1fr; gap: 12px; }
+
+    .wt-greeting-card { padding: 14px; border-radius: var(--r-md); }
+    .wt-greet-row { grid-template-columns: 44px 1fr auto; gap: 12px; align-items: center; }
+    .wt-greet-avatar { width: 44px; height: 44px; border-radius: 12px; font-size: 18px; }
+    .wt-greet-h1 { font-size: 15px; margin: 0 0 6px; }
+    .wt-gm-chip { font-size: 11px; padding: 3px 8px; }
+
+    .wt-notif-block { padding: 18px; }
+    .wt-ip-banner { flex-direction: column; align-items: stretch; gap: 14px; padding: 18px; }
+    .wt-ip-btn { width: 100%; justify-content: center; }
+    .wt-profile-aside { padding: 18px; }
+
+    .o_portal_details { padding: 18px; }
+    .o_portal_security_body section { padding: 18px; }
+}

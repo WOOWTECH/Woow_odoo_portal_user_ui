@@ -84,132 +84,132 @@ header .navbar .navbar-toggler .navbar-toggler-icon {
 
 /* ============================================================
    Portal Content — Reset remaining blue elements to Odoo native
-   Odoo 18 default brand: #714B67
+   Odoo 18 default brand: #6183fc
    ============================================================ */
 
 /* ---- Override --custom-primary on portal to Odoo native ---- */
 .o_portal,
 .o_portal_wrap,
 #wrapwrap.o_portal {
-    --custom-primary: #714B67;
-    --custom-primary-hover: #5f3f57;
+    --custom-primary: #6183fc;
+    --custom-primary-hover: #4a6ae0;
 }
 
 /* ---- View All link ---- */
 .wpu-view-all-link {
-    color: #714B67 !important;
+    color: #6183fc !important;
 }
 
 .wpu-view-all-link:hover {
-    color: #5f3f57 !important;
+    color: #4a6ae0 !important;
 }
 
 /* ---- Portal general links ---- */
 .o_portal a:not(.btn):not(.nav-link):not(.dropdown-item):not(.badge):not(.wpu-notif-tab),
 .o_portal_wrap main a:not(.btn):not(.nav-link):not(.dropdown-item):not(.badge):not(.wpu-notif-tab) {
-    color: #714B67 !important;
+    color: #6183fc !important;
 }
 
 .o_portal a:not(.btn):not(.nav-link):not(.dropdown-item):not(.badge):not(.wpu-notif-tab):hover,
 .o_portal_wrap main a:not(.btn):not(.nav-link):not(.dropdown-item):not(.badge):not(.wpu-notif-tab):hover {
-    color: #5f3f57 !important;
+    color: #4a6ae0 !important;
 }
 
 /* ---- Portal breadcrumb links ---- */
 .o_portal .breadcrumb-item a {
-    color: #714B67 !important;
+    color: #6183fc !important;
 }
 
 .o_portal .breadcrumb-item a:hover {
-    color: #5f3f57 !important;
+    color: #4a6ae0 !important;
 }
 
 /* ---- Portal counters / badges ---- */
 .o_portal_my_home .badge.bg-primary,
 .o_portal_my_home .badge.rounded-pill.bg-primary {
-    background-color: #714B67 !important;
+    background-color: #6183fc !important;
 }
 
 /* ---- Portal category icons ---- */
 .o_portal_my_home .o_portal_category .o_portal_category_icon,
 .o_portal_my_home .o_portal_index .o_portal_category_icon {
-    color: #714B67 !important;
+    color: #6183fc !important;
 }
 
 /* ---- Portal buttons ---- */
 .o_portal .btn-primary,
 .o_portal_wrap .btn-primary {
-    background-color: #714B67 !important;
-    border-color: #714B67 !important;
+    background-color: #6183fc !important;
+    border-color: #6183fc !important;
 }
 
 .o_portal .btn-primary:hover,
 .o_portal_wrap .btn-primary:hover {
-    background-color: #5f3f57 !important;
-    border-color: #5f3f57 !important;
+    background-color: #4a6ae0 !important;
+    border-color: #4a6ae0 !important;
 }
 
 .o_portal .btn-outline-primary,
 .o_portal_wrap .btn-outline-primary {
-    color: #714B67 !important;
-    border-color: #714B67 !important;
+    color: #6183fc !important;
+    border-color: #6183fc !important;
 }
 
 .o_portal .btn-outline-primary:hover,
 .o_portal_wrap .btn-outline-primary:hover {
-    background-color: #714B67 !important;
-    border-color: #714B67 !important;
+    background-color: #6183fc !important;
+    border-color: #6183fc !important;
     color: #ffffff !important;
 }
 
 /* ---- Portal form focus ---- */
 .o_portal .form-control:focus,
 .o_portal .form-select:focus {
-    border-color: #714B67 !important;
+    border-color: #6183fc !important;
     box-shadow: 0 0 0 0.25rem rgba(113, 75, 103, 0.25) !important;
 }
 
 /* ---- Portal pagination ---- */
 .o_portal .page-item.active .page-link {
-    background-color: #714B67 !important;
-    border-color: #714B67 !important;
+    background-color: #6183fc !important;
+    border-color: #6183fc !important;
 }
 
 .o_portal .page-link {
-    color: #714B67 !important;
+    color: #6183fc !important;
 }
 
 /* ---- Portal checkboxes ---- */
 .o_portal .form-check-input:checked {
-    background-color: #714B67 !important;
-    border-color: #714B67 !important;
+    background-color: #6183fc !important;
+    border-color: #6183fc !important;
 }
 
 /* ---- Notification tab active ---- */
 .wpu-notif-tab.active {
-    color: #714B67 !important;
-    border-bottom-color: #714B67 !important;
+    color: #6183fc !important;
+    border-bottom-color: #6183fc !important;
 }
 
 /* ---- Notification card icon ---- */
 .wpu-notification-icon,
 .wpu-notif-card-icon,
 .wpu-notif-card-icon i.fa {
-    color: #714B67 !important;
+    color: #6183fc !important;
 }
 
 /* ---- Unread dot ---- */
 .wpu-unread-dot {
-    background: #714B67 !important;
+    background: #6183fc !important;
 }
 
 /* ---- Notification group header ---- */
 .wpu-notif-group-header {
-    color: #714B67 !important;
+    color: #6183fc !important;
 }
 
 /* ---- Notification searchbar active button ---- */
 .wpu-notif-searchbar .btn.active {
-    background-color: #714B67 !important;
-    border-color: #714B67 !important;
+    background-color: #6183fc !important;
+    border-color: #6183fc !important;
 }

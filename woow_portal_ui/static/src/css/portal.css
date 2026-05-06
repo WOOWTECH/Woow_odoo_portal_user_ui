@@ -26,7 +26,7 @@
 
 :root {
     /* ── Theme-following aliases ── */
-    --wpu-brand: var(--custom-primary, var(--o-brand-primary, #714B67));
+    --wpu-brand: var(--custom-primary, var(--o-brand-primary, #6183fc));
     --wpu-unread-bg: color-mix(in srgb, var(--wpu-brand) 8%, transparent);
     --wpu-transition: 0.2s ease;
 }
