@@ -276,20 +276,6 @@ class WoowPortalUI(CustomerPortal):
         values = self._prepare_portal_layout_values()
         values.update(self._prepare_home_portal_values([]))
         values.update(self._prepare_notification_values())
-
-        # Unpaid invoices for CTA banner
-        try:
-            Invoice = request.env['account.move'].sudo()
-            unpaid_invoices = Invoice.search([
-                ('partner_id', '=', request.env.user.partner_id.id),
-                ('move_type', '=', 'out_invoice'),
-                ('payment_state', 'in', ['not_paid', 'partial']),
-                ('state', '=', 'posted'),
-            ])
-            values['unpaid_invoice_count'] = len(unpaid_invoices)
-        except Exception:
-            values['unpaid_invoice_count'] = 0
-
         return request.render("portal.portal_my_home", values)
 
     # ------------------------------------------------------------------

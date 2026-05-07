@@ -30,7 +30,7 @@
     --tint-orange: #fdeadf;
     --tint-lilac:  #f1e8f8;
 
-    --wt-canvas:    #f5f7fc;
+    --wt-canvas:    #FAFBFF;
     --wt-surface:   #ffffff;
     --wt-line:      #e3e6ee;
     --wt-line-soft: #eef0f5;
@@ -134,11 +134,36 @@
    4. HOME PAGE — CSS Grid on existing Odoo container
    ========================================================= */
 
-/* Turn .o_portal_my_home into 2-column grid */
+/* Issue 1: Hide Odoo's native side_content sidebar (we use .wt-profile-aside) */
+.o_portal_wrap .row.justify-content-between > .d-none.d-lg-flex,
+.o_portal_wrap .row.justify-content-between > .d-lg-flex.col-lg-4,
+.o_portal_wrap #accountOffCanvas {
+    display: none !important;
+}
+
+/* Make the content column full width (we handle sidebar inside our CSS Grid) */
+.o_portal_wrap .o_portal_content.col-lg-8 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* Reduce top spacing — greeting card should be close to navbar */
+.o_portal_wrap .container:has(.o_portal_my_home) {
+    padding-top: 24px !important;
+}
+
+/* Grid fills full container width */
 .o_portal_my_home {
     display: grid;
-    grid-template-columns: 1fr 320px;
+    grid-template-columns: minmax(0, 1fr) 320px;
     gap: 24px 32px;
+    width: 100%;
+}
+
+/* Ensure parent container allows full width */
+.o_portal_wrap .o_portal_my_home {
+    max-width: none;
 }
 
 /* All children go to column 1 by default */
@@ -146,17 +171,18 @@
     grid-column: 1;
 }
 
-/* Profile sidebar goes to column 2, spanning all rows */
+/* Profile sidebar goes to column 2, aligned with greeting card top */
 .o_portal_my_home > .wt-profile-aside {
     grid-column: 2;
     grid-row: 1 / span 20;
     align-self: start;
+    margin-top: 0;
 }
 
 /* Background gradient for home */
 .o_portal_my_home {
-    background: linear-gradient(180deg, #fcfcff 0%, #f6f8ff 100%);
-    padding: 24px 0 48px;
+    background: #FAFBFF;
+    padding: 0 0 48px;
     border-radius: var(--r-lg);
 }
 
@@ -167,25 +193,112 @@
     gap: 14px;
 }
 
-/* Hide the category headers and spinner */
+/* Hide the category headers, spinner, and empty structure divs */
 .o_portal_category { display: contents; }
 .o_portal_doc_spinner { display: none; }
+.o_portal_my_home > .oe_structure { display: none; }
+
+/* Issue 1: Alert cards (Invoices to pay, Quotations) span full width in module grid */
+#portal_alert_category .o_portal_index_card {
+    grid-column: 1 / -1;
+}
 
 /* Style module cards as tiles */
 .o_portal_index_card {
     background: var(--wt-surface);
     border: 1px solid var(--wt-line);
     border-radius: var(--r-lg);
-    padding: 16px 18px;
+    padding: 0;
+    box-shadow: var(--sh-1);
     transition: transform .18s, box-shadow .18s, border-color .18s;
     cursor: pointer;
+    overflow: hidden;
+    /* Override Bootstrap col-md-6 width inside CSS Grid */
+    width: auto !important;
+    max-width: none !important;
+    flex: none !important;
 }
 .o_portal_index_card:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 24px rgba(20,22,30,.06);
     border-color: var(--wt-blue);
 }
-.o_portal_index_card a { text-decoration: none; color: inherit; }
+.o_portal_index_card a {
+    text-decoration: none;
+    color: inherit;
+    background: transparent !important;
+}
+.o_portal_index_card a:hover {
+    background: transparent !important;
+}
+
+/* H-NEW1: Force horizontal row layout inside module cards */
+.o_portal_my_home .o_portal_index_card > a {
+    display: grid !important;
+    grid-template-columns: 44px 1fr 16px;
+    gap: 14px;
+    align-items: center;
+    padding: 16px 18px !important;
+}
+
+/* Show icon container (Odoo hides it with d-none) */
+.o_portal_my_home .o_portal_index_card .o_portal_icon {
+    display: flex !important;
+    width: 44px; height: 44px; border-radius: 12px;
+    background: var(--tint-blue);
+    align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+/* Hide default Odoo icon images — replace with FontAwesome */
+.o_portal_my_home .o_portal_index_card .o_portal_icon img {
+    display: none !important;
+}
+
+/* Base icon pseudo-element styling */
+.o_portal_my_home .o_portal_index_card .o_portal_icon::before {
+    font-family: FontAwesome;
+    font-size: 20px;
+    color: var(--wt-blue);
+}
+
+/* Per-module icon assignment via card link href */
+.o_portal_my_home .o_portal_index_card:has(a[href*="/my/orders"]) .o_portal_icon::before { content: "\f290"; } /* fa-shopping-bag */
+.o_portal_my_home .o_portal_index_card:has(a[href*="/my/quotes"]) .o_portal_icon::before { content: "\f15c"; } /* fa-file-text */
+.o_portal_my_home .o_portal_index_card:has(a[href*="/my/invoices"]) .o_portal_icon::before { content: "\f15c"; } /* fa-file-text */
+.o_portal_my_home .o_portal_index_card:has(a[href*="/my/projects"]) .o_portal_icon::before { content: "\f07b"; } /* fa-folder */
+.o_portal_my_home .o_portal_index_card:has(a[href*="/my/task"]) .o_portal_icon::before { content: "\f046"; } /* fa-check-square-o */
+.o_portal_my_home .o_portal_index_card:has(a[href*="/my/security"]) .o_portal_icon::before { content: "\f1eb"; } /* fa-wifi */
+.o_portal_my_home .o_portal_index_card:has(a[href*="/my/tools"]) .o_portal_icon::before { content: "\f0ad"; } /* fa-wrench */
+.o_portal_my_home .o_portal_index_card:has(a[href*="/my/loan"]) .o_portal_icon::before { content: "\f155"; } /* fa-dollar */
+.o_portal_my_home .o_portal_index_card:has(a[href*="/my/payment_method"]) .o_portal_icon::before { content: "\f09d"; } /* fa-credit-card */
+.o_portal_my_home .o_portal_index_card:has(a[href*="/my/timesheets"]) .o_portal_icon::before { content: "\f017"; } /* fa-clock-o */
+.o_portal_my_home .o_portal_index_card:has(a[href*="/my/leads"]) .o_portal_icon::before { content: "\f140"; } /* fa-bullseye */
+.o_portal_my_home .o_portal_index_card:has(a[href*="/my/opportunities"]) .o_portal_icon::before { content: "\f201"; } /* fa-line-chart */
+.o_portal_my_home .o_portal_index_card:has(a[href*="/my/productions"]) .o_portal_icon::before { content: "\f275"; } /* fa-industry */
+.o_portal_my_home .o_portal_index_card:has(a[href*="/my/rfq"]) .o_portal_icon::before { content: "\f0ea"; } /* fa-clipboard */
+.o_portal_my_home .o_portal_index_card:has(a[href*="/my/purchase"]) .o_portal_icon::before { content: "\f0d1"; } /* fa-truck */
+
+/* Module card text styling */
+.o_portal_my_home .o_portal_index_card .fs-5 {
+    font-size: 14.5px !important;
+    font-weight: 700;
+}
+.o_portal_my_home .o_portal_index_card .opacity-75 {
+    font-size: 12px;
+    color: var(--wt-ink-3);
+    line-height: 1.4;
+}
+
+/* H-NEW2: Arrow chevron on module cards */
+.o_portal_my_home .o_portal_index_card > a::after {
+    content: "\f105"; /* fa-angle-right */
+    font-family: FontAwesome;
+    color: var(--wt-ink-4);
+    font-size: 14px;
+}
+.o_portal_my_home .o_portal_index_card:hover > a::after {
+    color: var(--wt-blue);
+}
 
 /* Greeting Card (WoowTech design) */
 .wt-greeting-card {
@@ -201,7 +314,7 @@
 
 .wt-greet-row {
     display: grid; grid-template-columns: 64px 1fr auto;
-    gap: 18px; align-items: flex-start;
+    gap: 18px; align-items: center;
 }
 .wt-greet-avatar {
     width: 56px; height: 56px; border-radius: 14px;
@@ -215,6 +328,8 @@
     margin: 4px 0 10px; line-height: 1.25;
     word-break: break-all; color: #212121;
 }
+/* Hide greeting line break on desktop, show on mobile */
+.wt-greet-br { display: none; }
 .wt-greet-meta { display: flex; flex-wrap: wrap; gap: 8px; }
 .wt-gm-chip {
     display: inline-flex; align-items: center; gap: 6px;
@@ -345,7 +460,8 @@
     font-size: 13px; font-weight: 600; text-decoration: none;
     transition: background .15s, transform .15s;
 }
-.wt-ip-btn:hover { background: #000; transform: translateY(-1px); color: #fff; text-decoration: none; }
+.wt-ip-btn, .wt-ip-btn:visited { color: #fff !important; }
+.wt-ip-btn:hover { background: #000; transform: translateY(-1px); color: #fff !important; text-decoration: none; }
 
 /* Profile Aside */
 .wt-profile-aside {
@@ -384,21 +500,107 @@
 /* =========================================================
    5. SECURITY PAGE — CSS-only on existing Odoo elements
    ========================================================= */
+/* S1: 2-column grid layout */
 .o_portal_security_body {
-    max-width: 900px !important;
+    max-width: 1000px !important;
     width: 100% !important;
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 16px;
+    align-items: start;
 }
+
+/* Page header and alerts span full width */
+.o_portal_security_body > .d-flex,
+.o_portal_security_body > .alert {
+    grid-column: 1 / -1;
+}
+
+/* Password section = column 1 */
+.o_portal_security_body > section:first-of-type {
+    grid-column: 1;
+    grid-row: 2 / span 5;
+}
+
+/* All other sections = column 2 */
+.o_portal_security_body > section:not(:first-of-type) {
+    grid-column: 2;
+}
+
+/* Section card styling */
 .o_portal_security_body section {
     background: var(--wt-surface);
     border: 1px solid var(--wt-line);
     border-radius: var(--r-md);
     padding: 20px 22px;
-    margin-bottom: 16px;
+    margin-bottom: 0;
+    box-shadow: var(--sh-1);
 }
+
+/* S-NEW1: Section icon headers via ::before pseudo-elements */
 .o_portal_security_body section h4 {
     font-size: 15px; font-weight: 700; color: #212121;
     margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
 }
+
+.o_portal_security_body section[name="portal_change_password"] h4::before {
+    content: "\f023"; /* fa-lock */
+    font-family: FontAwesome;
+    display: inline-flex; width: 36px; height: 36px; min-width: 36px;
+    border-radius: 10px;
+    background: var(--tint-blue); color: var(--wt-blue);
+    align-items: center; justify-content: center;
+    font-size: 16px;
+}
+
+.o_portal_security_body section[name="portal_revoke_all_devices_popup"] h4::before {
+    content: "\f08b"; /* fa-sign-out */
+    font-family: FontAwesome;
+    display: inline-flex; width: 36px; height: 36px; min-width: 36px;
+    border-radius: 10px;
+    background: var(--tint-coral); color: var(--wt-tone-coral);
+    align-items: center; justify-content: center;
+    font-size: 16px;
+}
+
+/* 2FA section — target by position (2nd section, no name on some Odoo builds) */
+.o_portal_security_body section:nth-of-type(2):not([name="portal_revoke_all_devices_popup"]) h4::before,
+.o_portal_security_body section h4 .fa-shield::before {
+    content: "\f132"; /* fa-shield */
+    font-family: FontAwesome;
+    display: inline-flex; width: 36px; height: 36px; min-width: 36px;
+    border-radius: 10px;
+    background: var(--tint-yellow); color: #c08b15;
+    align-items: center; justify-content: center;
+    font-size: 16px;
+}
+
+/* S-NEW2: Change Password button — blue primary pill */
+.o_portal_security_body .oe_reset_password_form button[type="submit"],
+.o_portal_security_body .oe_reset_password_form input[type="submit"] {
+    background: var(--wt-blue) !important;
+    border-color: var(--wt-blue) !important;
+    color: #fff !important;
+    border-radius: var(--r-pill);
+    padding: 9px 18px;
+    font-weight: 600;
+}
+.o_portal_security_body .oe_reset_password_form button[type="submit"]:hover {
+    background: var(--wt-blue-700) !important;
+    border-color: var(--wt-blue-700) !important;
+}
+
+/* S-NEW3: Required asterisks on security fields */
+.o_portal_security_body label[for="current"]::after,
+.o_portal_security_body label[for="new1"]::after,
+.o_portal_security_body label[for="new2"]::after {
+    content: " *";
+    color: var(--wt-tone-coral);
+    font-weight: 600;
+}
+
+/* Form inputs */
 .o_portal_security_body .form-control {
     border: 1px solid var(--wt-line);
     border-radius: var(--r-md);
@@ -439,6 +641,45 @@
     font-size: 12.5px; font-weight: 600; color: var(--wt-ink);
 }
 
+/* A-NEW1: Account warning box styling */
+.wt-account-warning {
+    background: var(--tint-coral);
+    border: 1px solid rgba(244,93,109,.30);
+    border-radius: var(--r-md);
+    padding: 12px 16px;
+    font-size: 13px; line-height: 1.55;
+    margin-bottom: 20px;
+    display: flex; gap: 12px; align-items: flex-start;
+}
+.wt-account-warning .wt-aw-ico {
+    color: var(--wt-tone-coral); flex-shrink: 0; margin-top: 2px; font-size: 16px;
+}
+.wt-account-warning .wt-aw-text { color: var(--wt-ink); }
+.wt-account-warning b { color: var(--wt-tone-coral); }
+.wt-account-warning a { color: var(--wt-tone-coral); font-weight: 600; text-decoration: underline; }
+
+/* A-NEW2: Required field asterisks on account page */
+.o_portal_details label[for="name"]::after,
+.o_portal_details label[for="email"]::after {
+    content: " *";
+    color: var(--wt-tone-coral);
+    font-weight: 600;
+}
+
+/* A-NEW3: Phone and Country fields full width */
+.o_portal_details .mb-3:has(> [name="phone"]),
+.o_portal_details .mb-1:has(> [name="phone"]),
+.o_portal_details .mb-3:has(> [name="country_id"]) {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+}
+
+/* A-NEW4: Button icons via ::before */
+.o_portal_details .btn-primary::before { content: "\f00c  "; font-family: FontAwesome; }
+.o_portal_details a.btn-light::before,
+.o_portal_details a[href="/my/"].btn::before { content: "\f00d  "; font-family: FontAwesome; }
+
 /* =========================================================
    7. ORDERS PAGE — Card grid
    ========================================================= */
@@ -452,6 +693,7 @@
     border: 1px solid var(--wt-line); border-radius: var(--r-md);
     padding: 16px 18px;
     display: flex; flex-direction: column; gap: 12px;
+    box-shadow: var(--sh-1);
     transition: transform .18s, border-color .18s, box-shadow .18s;
     cursor: pointer; text-decoration: none; color: inherit;
 }
@@ -495,6 +737,7 @@
     border: 1px solid var(--wt-line); border-radius: var(--r-md);
     padding: 16px 18px;
     display: flex; flex-direction: column; gap: 12px;
+    box-shadow: var(--sh-1);
     transition: transform .18s, border-color .18s, box-shadow .18s;
     text-decoration: none; color: inherit;
 }
@@ -535,6 +778,22 @@
 }
 .wt-inv-paynow:hover { background: #000; color: #fff; text-decoration: none; }
 
+/* I-NEW1: "Pay overdue" button styling */
+.o_portal a.btn-primary[href*="overdue"],
+.o_portal_submenu ~ a.btn-primary[href*="overdue"] {
+    background: var(--wt-blue) !important;
+    color: #fff !important;
+    border-radius: var(--r-md);
+    padding: 6px 14px;
+    font-size: 12.5px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+}
+.o_portal a.btn-primary[href*="overdue"]:hover {
+    background: var(--wt-blue-700) !important;
+}
+
 /* =========================================================
    9. NOTIFICATION CENTER — Theme color updates
    ========================================================= */
@@ -548,6 +807,84 @@
 .wpu-unread-dot { background: var(--wt-blue) !important; }
 .wpu-notif-searchbar .btn.active { background-color: var(--wt-blue) !important; border-color: var(--wt-blue) !important; }
 .wpu-notif-modal { border-radius: var(--r-lg) !important; }
+
+/* Account page warning — coral tint */
+.o_portal_details .form-text.text-muted,
+.o_portal_details .alert-danger,
+.o_portal_details > .col-lg-8 > .row > .col-12:first-child small.form-text {
+    background: var(--tint-coral);
+    border: 1px solid rgba(244,93,109,.30);
+    border-radius: var(--r-md);
+    padding: 12px 16px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--wt-ink) !important;
+    display: block;
+    margin-bottom: 20px;
+}
+
+/* Style ALL alert cards (Invoices to pay, Quotations to review) as ip-banner style */
+#portal_alert_category .o_portal_index_card {
+    background: linear-gradient(135deg, #eef2ff 0%, #dde6ff 100%) !important;
+    border: 1px solid rgba(97,131,252,.30) !important;
+    border-radius: var(--r-lg) !important;
+    box-shadow: 0 2px 10px rgba(97,131,252,.18);
+    color: var(--wt-ink) !important;
+    width: auto !important;
+    max-width: none !important;
+    flex: none !important;
+    padding: 0 !important;
+}
+/* Alert card inner link — horizontal layout */
+#portal_alert_category .o_portal_index_card > a {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 22px !important;
+    color: #212121 !important;
+    text-decoration: none !important;
+    background: transparent !important;
+    border: none !important;
+}
+/* Count number + title styling */
+#portal_alert_category .o_portal_index_card .fs-5 {
+    font-size: 15px !important;
+    font-weight: 500;
+    color: #212121 !important;
+}
+#portal_alert_category .o_portal_index_card .fs-5 .fw-bold,
+#portal_alert_category .o_portal_index_card .fs-5 span[data-placeholder_count] {
+    font-weight: 800 !important;
+    font-size: 18px !important;
+    color: var(--wt-blue) !important;
+    margin-right: 2px;
+}
+/* Hide description text in alert cards */
+#portal_alert_category .o_portal_index_card .opacity-75 {
+    display: none;
+}
+/* Show icon container in alerts */
+#portal_alert_category .o_portal_index_card .o_portal_icon {
+    display: flex !important;
+    width: 40px; height: 40px; border-radius: 12px;
+    background: #fff; color: var(--wt-blue);
+    align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(97,131,252,.30);
+}
+/* Style "Pay Now" button inside alert cards as dark pill */
+#portal_alert_category .o_portal_index_card .btn-secondary,
+#portal_alert_category .o_portal_index_card .btn {
+    background: #212121 !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: var(--r-pill) !important;
+    padding: 9px 18px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    margin-left: auto;
+}
 
 /* =========================================================
    10. BREADCRUMB — styled back button
@@ -568,10 +905,22 @@
    ========================================================= */
 @media (max-width: 1100px) {
     .o_portal_my_home { grid-template-columns: 1fr; }
-    .o_portal_my_home > .wt-profile-aside { grid-column: 1; grid-row: auto; }
+    /* Issue 2: Hide profile sidebar on mobile/tablet — design doesn't show it */
+    .o_portal_my_home > .wt-profile-aside { display: none; }
     .o_portal_docs { grid-template-columns: 1fr 1fr; }
     .wt-orders-grid { grid-template-columns: repeat(2, 1fr); }
     .wt-invoices-grid { grid-template-columns: 1fr; }
+
+    /* Security: single column on tablet */
+    .o_portal_security_body {
+        grid-template-columns: 1fr;
+    }
+    .o_portal_security_body > section:first-of-type {
+        grid-column: 1; grid-row: auto;
+    }
+    .o_portal_security_body > section:not(:first-of-type) {
+        grid-column: 1;
+    }
 }
 
 /* =========================================================
@@ -586,6 +935,7 @@
     .wt-greet-row { grid-template-columns: 44px 1fr auto; gap: 12px; align-items: center; }
     .wt-greet-avatar { width: 44px; height: 44px; border-radius: 12px; font-size: 18px; }
     .wt-greet-h1 { font-size: 15px; margin: 0 0 6px; }
+    .wt-greet-br { display: inline; }
     .wt-gm-chip { font-size: 11px; padding: 3px 8px; }
 
     .wt-notif-block { padding: 18px; }

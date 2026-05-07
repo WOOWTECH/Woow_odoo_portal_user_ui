@@ -18,8 +18,23 @@
     <!-- ============================================================ -->
     <template id="portal_greeting_card" name="Woow Portal Greeting Card"
               inherit_id="portal.portal_layout" priority="10">
+        <!-- Remove the default "My account" header — greeting card is inside portal_my_home instead -->
         <xpath expr="//div[hasclass('wrapper')][.//h3[hasclass('my-3')]]" position="replace">
-            <div class="wt-greeting-card" t-if="my_details">
+            <!-- Empty: greeting card rendered inside portal_my_home grid for correct column placement -->
+        </xpath>
+    </template>
+
+    <!-- ============================================================ -->
+    <!-- Portal home: search bar + notification preview               -->
+    <!-- ============================================================ -->
+    <template id="portal_my_home_enhanced" name="Woow Enhanced Portal Home"
+              inherit_id="portal.portal_my_home" priority="10">
+
+        <!-- Greeting card + Search bar + Notification preview — before the module grid -->
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+
+            <!-- Greeting Card (inside grid for column 1 placement) -->
+            <div class="wt-greeting-card" t-if="greeting">
                 <div class="wt-greet-row">
                     <div class="wt-greet-avatar">
                         <t t-set="partner_name" t-value="user_id.partner_id.name or ''"/>
@@ -27,7 +42,7 @@
                     </div>
                     <div class="wt-greet-body">
                         <h1 class="wt-greet-h1">
-                            <t t-if="greeting" t-esc="greeting"/><t t-if="not greeting">Hello</t>,
+                            <t t-esc="greeting"/>,<br class="wt-greet-br"/>
                             <t t-esc="greeting_name or user_id.partner_id.name"/>
                         </h1>
                         <div class="wt-greet-meta">
@@ -46,17 +61,6 @@
                     </a>
                 </div>
             </div>
-        </xpath>
-    </template>
-
-    <!-- ============================================================ -->
-    <!-- Portal home: search bar + notification preview               -->
-    <!-- ============================================================ -->
-    <template id="portal_my_home_enhanced" name="Woow Enhanced Portal Home"
-              inherit_id="portal.portal_my_home" priority="10">
-
-        <!-- Search bar + Notification preview + Invoice banner — before the module grid -->
-        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
 
             <!-- Search Bar (WoowTech design) -->
             <div class="wt-hero-search">
@@ -144,20 +148,8 @@
                 </t>
             </div>
 
-            <!-- Invoices to Pay Banner -->
-            <t t-if="unpaid_invoice_count">
-                <div class="wt-ip-banner">
-                    <div class="wt-ip-left">
-                        <div class="wt-ip-icon"><i class="fa fa-file-text-o" style="font-size:18px;"/></div>
-                        <div class="wt-ip-text">
-                            <b><t t-esc="unpaid_invoice_count"/></b> Invoices to pay
-                        </div>
-                    </div>
-                    <a href="/my/invoices" class="wt-ip-btn">
-                        <i class="fa fa-credit-card"/> Pay Now
-                    </a>
-                </div>
-            </t>
+            <!-- Dynamic alert banners: rendered via Odoo's portal_alert_category -->
+            <!-- Styling handled by CSS (#portal_alert_category rules in woowtech_theme.css) -->
 
         </xpath>
 
@@ -531,7 +523,7 @@
                         <div class="wt-oc-meta">
                             <div class="wt-oc-row">
                                 <span class="wt-oc-label">Order Date</span>
-                                <span class="wt-oc-value"><t t-esc="order.date_order" t-options='{"widget": "date"}'/></span>
+                                <span class="wt-oc-value"><t t-esc="order.date_order" t-options='{"widget": "datetime"}'/></span>
                             </div>
                             <div class="wt-oc-row">
                                 <span class="wt-oc-label">Total</span>
@@ -624,6 +616,33 @@
             </t>
             <div t-if="pager" class="o_portal_pager d-flex justify-content-center my-3">
                 <t t-call="portal.pager"/>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- ============================================================ -->
+    <!-- Security Page — Enable breadcrumb (S-NEW4)                   -->
+    <!-- ============================================================ -->
+    <template id="portal_security_breadcrumb" name="Woow Security Breadcrumb"
+              inherit_id="portal.portal_my_security" priority="10">
+        <xpath expr="//t[@t-set='no_breadcrumbs']" position="replace">
+            <!-- Removed no_breadcrumbs to show breadcrumb trail -->
+        </xpath>
+    </template>
+
+    <!-- ============================================================ -->
+    <!-- Account Page — Styled warning box (A-NEW1)                   -->
+    <!-- ============================================================ -->
+    <template id="portal_account_warning" name="Woow Account Warning Box"
+              inherit_id="portal.portal_my_details_fields" priority="10">
+        <xpath expr="//div[hasclass('col-12')][.//small[hasclass('form-text')]]" position="replace">
+            <div t-if="not partner_can_edit_vat" class="col-12 wt-account-warning mb-3">
+                <i class="fa fa-exclamation-triangle wt-aw-ico"/>
+                <div class="wt-aw-text">
+                    <b>Company name</b>, <b>VAT Number</b> and <b>country</b>
+                    can not be changed once <a href="#">document(s) have been issued</a> for your account.
+                    Please <a href="/contactus">contact us</a> directly for that operation.
+                </div>
             </div>
         </xpath>
     </template>
