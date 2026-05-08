@@ -63,19 +63,32 @@
     --custom-primary-hover: var(--wt-blue-700);
 }
 
-#wrapwrap.o_portal #wrap {
+/* Canvas background for content area only (not header) */
+#wrapwrap.o_portal #wrap,
+#wrapwrap #wrap .o_portal_wrap,
+#wrapwrap #wrap > .wrap,
+#wrapwrap .wrap {
     background: var(--wt-canvas);
+}
+
+/* Force white header on portal pages even when sticky/scrolled */
+#wrapwrap.o_portal > header,
+header:has(+ #wrap .o_payment_form),
+header:has(+ .wrap .o_payment_form) {
+    background: #fff !important;
 }
 
 .o_portal a { color: var(--wt-blue); }
 .o_portal a:hover { color: var(--wt-blue-700); }
 
 .o_portal .btn-primary,
-.o_portal_wrap .btn-primary {
+.o_portal_wrap .btn-primary,
+.o_portal .btn-primary.btn_cta {
     background-color: var(--wt-blue);
     border-color: var(--wt-blue);
     border-radius: var(--r-pill);
     font-weight: 600;
+    color: #fff !important;
 }
 .o_portal .btn-primary:hover,
 .o_portal_wrap .btn-primary:hover {
@@ -942,6 +955,51 @@
    9b. PAYMENT METHODS PAGE — styled cards
    ========================================================= */
 
+/* Fix 1: Breadcrumb — style payment breadcrumb to match portal breadcrumb */
+#wrapwrap.o_portal div.row:has(> .col-md-6 > .breadcrumb) {
+    margin-bottom: 16px;
+}
+#wrapwrap.o_portal div.row:has(> .col-md-6 > .breadcrumb) > .col-md-6 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+}
+#wrapwrap.o_portal div.row:has(> .col-md-6 > .breadcrumb) .breadcrumb {
+    background: transparent;
+    padding: 0;
+    margin: 0 !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+/* Remove mt16 top margin on payment breadcrumb */
+.breadcrumb.mt16 {
+    margin-top: 0 !important;
+}
+/* Apply canvas background to payment page (uses .wrap not .o_portal_wrap) */
+#wrapwrap.o_portal div.wrap {
+    background: var(--wt-canvas);
+}
+/* Apply font to payment page */
+#wrapwrap.o_portal div.wrap {
+    font-family: var(--wt-font);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Fix 2: Footer — hide footer on portal/payment pages only */
+#wrapwrap.o_portal footer,
+#wrapwrap.o_portal .o_footer {
+    display: none !important;
+}
+
+/* Fix 3: Content width — widen from col-lg-7 to full width */
+.o_payment_form {
+    max-width: 100%;
+}
+div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+}
+
 /* Section headings */
 .o_payment_form h4 {
     font-size: 15px; font-weight: 700; color: #212121;
@@ -1012,15 +1070,26 @@
 /* =========================================================
    10. BREADCRUMB — styled back button
    ========================================================= */
-.o_portal .wpu-breadcrumb-back-btn {
+.wpu-breadcrumb-back-btn {
     display: inline-flex; align-items: center; gap: 4px;
-    padding: 0 12px; height: 28px; border-radius: var(--r-pill);
-    background: #fff; border: 1px solid var(--wt-line);
-    font-size: 12.5px; color: var(--wt-ink); font-weight: 500;
-    transition: all .15s; text-decoration: none;
+    padding: 0 12px; height: 28px; border-radius: var(--r-pill) !important;
+    background: #fff !important; border: 1px solid var(--wt-line) !important;
+    font-size: 12.5px; color: var(--wt-ink) !important; font-weight: 500;
+    transition: all .15s; text-decoration: none !important;
 }
-.o_portal .wpu-breadcrumb-back-btn:hover {
-    border-color: var(--wt-blue); color: var(--wt-blue); text-decoration: none;
+.wpu-breadcrumb-back-btn:hover {
+    border-color: var(--wt-blue) !important; color: var(--wt-blue) !important;
+    background: #fff !important; text-decoration: none !important;
+}
+
+/* Home icon in all breadcrumbs — blue color */
+.breadcrumb .fa-home {
+    color: var(--wt-blue) !important;
+}
+
+/* Breadcrumb vertical spacing — consistent across all pages */
+.breadcrumb {
+    padding: 12px 0 !important;
 }
 
 /* =========================================================
