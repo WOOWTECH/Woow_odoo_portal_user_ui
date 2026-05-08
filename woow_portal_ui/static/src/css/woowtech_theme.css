@@ -1109,6 +1109,57 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
 }
 
 /* =========================================================
+   10b. PORTAL NAVBAR — Sort By / Filter By dropdowns
+   ========================================================= */
+.o_portal .o_portal_navbar .btn-light.dropdown-toggle {
+    background: #fff;
+    border: 1px solid var(--wt-line);
+    border-radius: var(--r-md);
+    color: var(--wt-ink);
+    font-size: 13px;
+    font-weight: 500;
+}
+.o_portal .o_portal_navbar .btn-light.dropdown-toggle:hover,
+.o_portal .o_portal_navbar .btn-light.dropdown-toggle:focus {
+    border-color: var(--wt-blue);
+    color: var(--wt-blue);
+}
+
+/* "Pay overdue" button — move inline with filters and style as pill */
+.o_portal .o_portal_navbar {
+    flex-wrap: nowrap;
+    align-items: center;
+}
+.o_portal .o_portal_navbar #o_portal_navbar_content {
+    order: 10;
+}
+.o_portal .o_portal_navbar > a.btn-primary[href*="overdue"] {
+    order: 99;
+    margin-left: 0.5rem;
+    background: var(--wt-blue) !important;
+    border-color: var(--wt-blue) !important;
+    color: #fff !important;
+    border-radius: var(--r-pill);
+    padding: 7px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.o_portal .o_portal_navbar > a.btn-primary[href*="overdue"]:hover {
+    background: var(--wt-blue-700) !important;
+    border-color: var(--wt-blue-700) !important;
+}
+
+/* Force navbar always expanded on portal — no collapse toggler */
+.o_portal .o_portal_navbar .navbar-toggler {
+    display: none !important;
+}
+.o_portal .o_portal_navbar #o_portal_navbar_content {
+    display: flex !important;
+    flex-basis: auto;
+}
+
+/* =========================================================
    11. Responsive — Tablet (max-width: 1100px)
    ========================================================= */
 @media (max-width: 1100px) {
@@ -1157,4 +1208,40 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
 
     .o_portal_details { padding: 18px; }
     .o_portal_security_body section { padding: 18px; }
+
+    /* Portal navbar — wrap filters to next row on mobile */
+    .o_portal .o_portal_navbar {
+        flex-wrap: wrap;
+    }
+    .o_portal .o_portal_navbar #o_portal_navbar_content {
+        flex-wrap: wrap;
+        width: 100%;
+        gap: 0.5rem;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        justify-content: flex-start !important;
+    }
+    .o_portal .o_portal_navbar #o_portal_navbar_content .nav {
+        flex-direction: row !important;
+        flex-wrap: nowrap;
+        gap: 0.5rem;
+        width: auto;
+        margin: 0 !important;
+        margin-left: 0 !important;
+        padding: 0;
+    }
+    /* Compact dropdown buttons on mobile — white bg, border, rounded */
+    .o_portal .o_portal_navbar .btn-light.dropdown-toggle {
+        font-size: 12px;
+        padding: 5px 10px;
+        background: #fff !important;
+        border: 1px solid #e3e6ee !important;
+        border-radius: 12px;
+    }
+    /* Search panel full width on mobile */
+    .o_portal .o_portal_navbar .o_portal_search_panel {
+        width: 100%;
+        margin: 0;
+    }
 }
