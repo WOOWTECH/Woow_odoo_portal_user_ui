@@ -972,7 +972,7 @@ header:has(+ .wrap .o_payment_form) {
     gap: 8px;
 }
 /* Remove mt16 top margin on payment breadcrumb */
-.breadcrumb.mt16 {
+.o_portal .breadcrumb.mt16 {
     margin-top: 0 !important;
 }
 /* Apply canvas background to payment page (uses .wrap not .o_portal_wrap) */
@@ -1082,13 +1082,13 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     background: #fff !important; text-decoration: none !important;
 }
 
-/* Home icon in all breadcrumbs — blue color */
-.breadcrumb .fa-home {
+/* Home icon in portal breadcrumbs — blue color */
+.o_portal .breadcrumb .fa-home {
     color: var(--wt-blue) !important;
 }
 
-/* Breadcrumb vertical spacing — consistent across all pages */
-.breadcrumb {
+/* Breadcrumb vertical spacing — portal pages only */
+.o_portal .breadcrumb {
     padding: 12px 0 !important;
 }
 
