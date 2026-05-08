@@ -1206,8 +1206,15 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
 
     .o_portal_details { padding: 18px; }
     .o_portal_security_body section { padding: 18px; }
+}
 
-    /* Portal navbar — wrap filters to next row on mobile */
+/* =========================================================
+   13. Responsive — Sub-desktop navbar (max-width: 991px)
+   Covers tablet (768-991px) and mobile (< 768px) together,
+   matching Odoo's navbar-expand-lg breakpoint.
+   ========================================================= */
+@media (max-width: 991px) {
+    /* Portal navbar — wrap filters to next row */
     .o_portal .o_portal_navbar {
         flex-wrap: wrap;
     }
@@ -1229,7 +1236,7 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
         margin-left: 0 !important;
         padding: 0;
     }
-    /* Compact dropdown buttons on mobile — white bg, border, rounded */
+    /* Dropdown buttons — white bg, border, rounded */
     .o_portal .o_portal_navbar .btn-light.dropdown-toggle {
         font-size: 12px;
         padding: 5px 10px;
@@ -1237,7 +1244,7 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
         border: 1px solid #e3e6ee !important;
         border-radius: 12px;
     }
-    /* Search panel full width on mobile */
+    /* Search panel full width */
     .o_portal .o_portal_navbar .o_portal_search_panel {
         width: 100%;
         margin: 0;
