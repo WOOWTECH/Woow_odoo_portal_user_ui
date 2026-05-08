@@ -403,7 +403,7 @@ header:has(+ .wrap .o_payment_form) {
 }
 .wt-nb-count {
     display: inline-flex; align-items: center; justify-content: center;
-    background: var(--wt-tone-coral); color: #fff;
+    background: var(--wt-blue); color: #fff;
     font-size: 11px; font-weight: 700;
     min-width: 22px; height: 22px; padding: 0 8px;
     border-radius: var(--r-pill);
@@ -421,18 +421,16 @@ header:has(+ .wrap .o_payment_form) {
     width: 22px; height: 22px; border-radius: 7px;
     display: inline-flex; align-items: center; justify-content: center;
 }
-.wt-ng-icon.wt-ng-msg  { background: var(--tint-coral); color: var(--wt-tone-coral); }
+.wt-ng-icon.wt-ng-msg  { background: var(--tint-blue);  color: var(--wt-blue); }
 .wt-ng-icon.wt-ng-bell { background: var(--tint-blue);  color: var(--wt-blue); }
-.wt-ng-icon.wt-ng-activity { background: var(--tint-green); color: var(--wt-tone-green); }
+.wt-ng-icon.wt-ng-activity { background: var(--tint-blue);  color: var(--wt-blue); }
 .wt-ng-label { font-weight: 700; font-size: 13px; color: var(--wt-ink); }
 .wt-ng-num {
     display: inline-flex; align-items: center; justify-content: center;
-    background: var(--wt-tone-coral); color: #fff;
+    background: var(--wt-blue); color: #fff;
     font-size: 10px; font-weight: 700;
     min-width: 18px; height: 18px; padding: 0 6px; border-radius: var(--r-pill);
 }
-.wt-ng-num.wt-ng-bell-num { background: var(--wt-blue); }
-.wt-ng-num.wt-ng-activity-num { background: var(--wt-tone-green); }
 
 .wt-notif-item {
     display: grid; grid-template-columns: 32px 1fr 12px;
@@ -445,7 +443,7 @@ header:has(+ .wrap .o_payment_form) {
     width: 32px; height: 32px; border-radius: 50%;
     display: inline-flex; align-items: center; justify-content: center;
 }
-.wt-ni-avatar.wt-ni-coral { background: var(--tint-coral); color: var(--wt-tone-coral); }
+.wt-ni-avatar.wt-ni-coral { background: var(--tint-blue);  color: var(--wt-blue); }
 .wt-ni-avatar.wt-ni-blue  { background: var(--tint-blue);  color: var(--wt-blue); }
 .wt-ni-body { min-width: 0; }
 .wt-ni-t { font-weight: 700; font-size: 13.5px; color: var(--wt-ink); }

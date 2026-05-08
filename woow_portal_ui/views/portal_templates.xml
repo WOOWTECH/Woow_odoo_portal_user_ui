@@ -94,7 +94,7 @@
                         </div>
                         <t t-foreach="message_previews" t-as="notif">
                             <a href="/my/notifications?tab=message" class="wt-notif-item">
-                                <div class="wt-ni-avatar wt-ni-coral"><i class="fa fa-comment" style="font-size:13px;"/></div>
+                                <div class="wt-ni-avatar wt-ni-blue"><i class="fa fa-comment" style="font-size:13px;"/></div>
                                 <div class="wt-ni-body">
                                     <div class="wt-ni-t"><t t-esc="notif['subject']"/></div>
                                     <div class="wt-ni-s"><t t-esc="notif['record_name']"/></div>
