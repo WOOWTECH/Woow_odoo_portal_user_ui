@@ -508,52 +508,59 @@
     <!-- ============================================================ -->
     <!-- Orders Page — Card grid (replaces table)                     -->
     <!-- ============================================================ -->
-    <template id="portal_orders_cards" name="Woow Orders Card View"
-              inherit_id="sale.portal_my_orders" priority="99">
-        <xpath expr="//t[@t-call='portal.portal_table']" position="replace">
-            <div class="wt-orders-grid" t-if="orders">
-                <t t-foreach="orders" t-as="order">
-                    <a t-att-href="order.get_portal_url()" class="wt-order-card">
-                        <div class="wt-oc-head">
-                            <div class="wt-oc-icon">
-                                <i class="fa fa-shopping-bag" style="font-size: 14px;"/>
+    <record id="portal_orders_cards" model="ir.ui.view" forcecreate="False">
+        <field name="name">Woow Orders Card View</field>
+        <field name="inherit_id" ref="sale.portal_my_orders"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-call='portal.portal_table']" position="replace">
+                <div class="wt-orders-grid" t-if="orders">
+                    <t t-foreach="orders" t-as="order">
+                        <a t-att-href="order.get_portal_url()" class="wt-order-card">
+                            <div class="wt-oc-head">
+                                <div class="wt-oc-icon">
+                                    <i class="fa fa-shopping-bag" style="font-size: 14px;"/>
+                                </div>
+                                <span class="wt-oc-num"><t t-esc="order.name"/></span>
                             </div>
-                            <span class="wt-oc-num"><t t-esc="order.name"/></span>
-                        </div>
-                        <div class="wt-oc-meta">
-                            <div class="wt-oc-row">
-                                <span class="wt-oc-label">Order Date</span>
-                                <span class="wt-oc-value"><t t-esc="order.date_order" t-options='{"widget": "datetime"}'/></span>
+                            <div class="wt-oc-meta">
+                                <div class="wt-oc-row">
+                                    <span class="wt-oc-label">Order Date</span>
+                                    <span class="wt-oc-value"><t t-esc="order.date_order" t-options='{"widget": "datetime"}'/></span>
+                                </div>
+                                <div class="wt-oc-row">
+                                    <span class="wt-oc-label">Total</span>
+                                    <span class="wt-oc-value wt-oc-total">
+                                        <t t-esc="order.amount_total" t-options='{"widget": "monetary", "display_currency": order.currency_id}'/>
+                                    </span>
+                                </div>
                             </div>
-                            <div class="wt-oc-row">
-                                <span class="wt-oc-label">Total</span>
-                                <span class="wt-oc-value wt-oc-total">
-                                    <t t-esc="order.amount_total" t-options='{"widget": "monetary", "display_currency": order.currency_id}'/>
-                                </span>
+                            <div class="wt-oc-foot">
+                                <span>View order</span>
+                                <i class="fa fa-angle-right"/>
                             </div>
-                        </div>
-                        <div class="wt-oc-foot">
-                            <span>View order</span>
-                            <i class="fa fa-angle-right"/>
-                        </div>
-                    </a>
+                        </a>
+                    </t>
+                </div>
+                <t t-if="not orders">
+                    <p class="alert alert-warning">There are currently no sales orders for your account.</p>
                 </t>
-            </div>
-            <t t-if="not orders">
-                <p class="alert alert-warning">There are currently no sales orders for your account.</p>
-            </t>
-            <div t-if="pager" class="o_portal_pager d-flex justify-content-center my-3">
-                <t t-call="portal.pager"/>
-            </div>
-        </xpath>
-    </template>
+                <div t-if="pager" class="o_portal_pager d-flex justify-content-center my-3">
+                    <t t-call="portal.pager"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
 
     <!-- ============================================================ -->
     <!-- Invoices Page — Card grid (replaces table)                   -->
     <!-- ============================================================ -->
-    <template id="portal_invoices_cards" name="Woow Invoices Card View"
-              inherit_id="account.portal_my_invoices" priority="99">
-        <xpath expr="//t[@t-call='portal.portal_table']" position="replace">
+    <record id="portal_invoices_cards" model="ir.ui.view" forcecreate="False">
+        <field name="name">Woow Invoices Card View</field>
+        <field name="inherit_id" ref="account.portal_my_invoices"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-call='portal.portal_table']" position="replace">
             <div class="wt-invoices-grid" t-if="invoices">
                 <t t-foreach="invoices" t-as="invoice_data">
                     <t t-set="invoice" t-value="invoice_data['invoice']"/>
@@ -617,8 +624,9 @@
             <div t-if="pager" class="o_portal_pager d-flex justify-content-center my-3">
                 <t t-call="portal.pager"/>
             </div>
-        </xpath>
-    </template>
+            </xpath>
+        </field>
+    </record>
 
     <!-- ============================================================ -->
     <!-- Security Page — Enable breadcrumb (S-NEW4)                   -->
@@ -646,5 +654,352 @@
             </div>
         </xpath>
     </template>
+
+    <!-- ============================================================ -->
+    <!-- Card views for additional portal pages (forcecreate=False    -->
+    <!-- for safe cross-module inheritance — silently skips if the    -->
+    <!-- parent module is not installed)                              -->
+    <!-- ============================================================ -->
+
+    <!-- Quotations Card View -->
+    <record id="portal_quotations_cards" model="ir.ui.view" forcecreate="False">
+        <field name="name">Woow Quotations Card View</field>
+        <field name="inherit_id" ref="sale.portal_my_quotations"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-call='portal.portal_table']" position="replace">
+                <div class="wt-card-grid" t-if="quotations">
+                    <t t-foreach="quotations" t-as="quotation">
+                        <a t-att-href="quotation.get_portal_url()" class="wt-portal-card">
+                            <div class="wt-pc-head">
+                                <div class="wt-pc-icon"><i class="fa fa-file-text-o" style="font-size:14px;"/></div>
+                                <span class="wt-pc-num"><t t-esc="quotation.name"/></span>
+                                <t t-if="quotation.state == 'cancel'"><span class="wt-badge wt-badge-cancelled">Cancelled</span></t>
+                                <t t-elif="quotation.is_expired"><span class="wt-badge wt-badge-cancelled">Expired</span></t>
+                            </div>
+                            <div class="wt-pc-meta">
+                                <div class="wt-pc-row">
+                                    <span class="wt-pc-label">Date</span>
+                                    <span class="wt-pc-value"><t t-esc="quotation.date_order" t-options='{"widget": "date"}'/></span>
+                                </div>
+                                <div class="wt-pc-row" t-if="quotation.validity_date">
+                                    <span class="wt-pc-label">Valid Until</span>
+                                    <span class="wt-pc-value"><t t-esc="quotation.validity_date" t-options='{"widget": "date"}'/></span>
+                                </div>
+                                <div class="wt-pc-row">
+                                    <span class="wt-pc-label">Total</span>
+                                    <span class="wt-pc-value wt-pc-total"><t t-esc="quotation.amount_total" t-options='{"widget": "monetary", "display_currency": quotation.currency_id}'/></span>
+                                </div>
+                            </div>
+                            <div class="wt-pc-foot"><span>View quotation</span><i class="fa fa-angle-right"/></div>
+                        </a>
+                    </t>
+                </div>
+                <t t-if="not quotations"><p class="alert alert-warning">There are currently no quotations for your account.</p></t>
+                <div t-if="pager" class="o_portal_pager d-flex justify-content-center my-3"><t t-call="portal.pager"/></div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Projects Card View -->
+    <record id="portal_projects_cards" model="ir.ui.view" forcecreate="False">
+        <field name="name">Woow Projects Card View</field>
+        <field name="inherit_id" ref="project.portal_my_projects"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-call='portal.portal_table']" position="replace">
+                <div class="wt-card-grid" t-if="projects">
+                    <t t-foreach="projects" t-as="project">
+                        <a t-attf-href="/my/projects/#{project.id}" class="wt-portal-card">
+                            <div class="wt-pc-head">
+                                <div class="wt-pc-icon"><i class="fa fa-folder-o" style="font-size:14px;"/></div>
+                                <span class="wt-pc-num"><t t-esc="project.name"/></span>
+                            </div>
+                            <div class="wt-pc-meta">
+                                <div class="wt-pc-row">
+                                    <span class="wt-pc-label">Tasks</span>
+                                    <span class="wt-pc-value"><t t-esc="project.task_count"/> <t t-esc="project.label_tasks"/></span>
+                                </div>
+                            </div>
+                            <div class="wt-pc-foot"><span>View project</span><i class="fa fa-angle-right"/></div>
+                        </a>
+                    </t>
+                </div>
+                <t t-if="not projects"><p class="alert alert-warning">There are currently no projects for your account.</p></t>
+                <div t-if="pager" class="o_portal_pager d-flex justify-content-center my-3"><t t-call="portal.pager"/></div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Tasks Card View -->
+    <record id="portal_tasks_cards" model="ir.ui.view" forcecreate="False">
+        <field name="name">Woow Tasks Card View</field>
+        <field name="inherit_id" ref="project.portal_tasks_list"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-call='portal.portal_table']" position="replace">
+                <div class="wt-card-grid">
+                    <t t-foreach="grouped_tasks" t-as="tasks">
+                        <t t-foreach="tasks" t-as="task">
+                            <a t-attf-href="/my/#{task_url}/#{task.id}?{{ keep_query() }}" class="wt-portal-card">
+                                <div class="wt-pc-head">
+                                    <div class="wt-pc-icon"><i class="fa fa-check-square-o" style="font-size:14px;"/></div>
+                                    <span class="wt-pc-num">#<t t-esc="task.id"/> <t t-esc="task.name"/></span>
+                                </div>
+                                <div class="wt-pc-meta">
+                                    <div class="wt-pc-row" t-if="task.project_id">
+                                        <span class="wt-pc-label">Project</span>
+                                        <span class="wt-pc-value"><t t-esc="task.project_id.name"/></span>
+                                    </div>
+                                    <div class="wt-pc-row">
+                                        <span class="wt-pc-label">Stage</span>
+                                        <span class="wt-pc-value"><t t-esc="task.stage_id.name"/></span>
+                                    </div>
+                                </div>
+                                <div class="wt-pc-foot"><span>View task</span><i class="fa fa-angle-right"/></div>
+                            </a>
+                        </t>
+                    </t>
+                </div>
+                <div t-if="pager" class="o_portal_pager d-flex justify-content-center my-3"><t t-call="portal.pager"/></div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Opportunities Card View -->
+    <record id="portal_opportunities_cards" model="ir.ui.view" forcecreate="False">
+        <field name="name">Woow Opportunities Card View</field>
+        <field name="inherit_id" ref="website_crm_partner_assign.portal_my_opportunities"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-call='portal.portal_table']" position="replace">
+                <div class="wt-card-grid-2" t-if="opportunities">
+                    <t t-foreach="opportunities" t-as="opp">
+                        <a t-attf-href="/my/opportunity/#{opp.id}" class="wt-portal-card">
+                            <div class="wt-pc-head">
+                                <div class="wt-pc-icon"><i class="fa fa-line-chart" style="font-size:14px;"/></div>
+                                <span class="wt-pc-num"><t t-esc="opp.name"/></span>
+                            </div>
+                            <div class="wt-pc-meta">
+                                <div class="wt-pc-row">
+                                    <span class="wt-pc-label">Contact</span>
+                                    <span class="wt-pc-value"><t t-esc="opp.contact_name or ''"/></span>
+                                </div>
+                                <div class="wt-pc-row" t-if="opp.expected_revenue">
+                                    <span class="wt-pc-label">Revenue</span>
+                                    <span class="wt-pc-value wt-pc-total"><t t-esc="opp.expected_revenue" t-options='{"widget": "monetary", "display_currency": opp.company_currency}'/></span>
+                                </div>
+                                <div class="wt-pc-row">
+                                    <span class="wt-pc-label">Stage</span>
+                                    <span class="wt-pc-value"><t t-esc="opp.stage_id.name"/></span>
+                                </div>
+                            </div>
+                            <div class="wt-pc-foot"><span>View opportunity</span><i class="fa fa-angle-right"/></div>
+                        </a>
+                    </t>
+                </div>
+                <t t-if="not opportunities"><p class="alert alert-warning">There are currently no opportunities.</p></t>
+                <div t-if="pager" class="o_portal_pager d-flex justify-content-center my-3"><t t-call="portal.pager"/></div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Manufacturing Orders Card View -->
+    <record id="portal_productions_cards" model="ir.ui.view" forcecreate="False">
+        <field name="name">Woow Manufacturing Card View</field>
+        <field name="inherit_id" ref="mrp_subcontracting.portal_my_productions"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-call='portal.portal_table']" position="replace">
+                <div class="wt-card-grid" t-if="pickings">
+                    <t t-foreach="pickings" t-as="picking">
+                        <a t-attf-href="/my/productions/#{picking.id}" class="wt-portal-card">
+                            <div class="wt-pc-head">
+                                <div class="wt-pc-icon"><i class="fa fa-industry" style="font-size:14px;"/></div>
+                                <span class="wt-pc-num"><t t-esc="picking.name"/></span>
+                            </div>
+                            <div class="wt-pc-meta">
+                                <div class="wt-pc-row" t-if="picking.origin">
+                                    <span class="wt-pc-label">Source</span>
+                                    <span class="wt-pc-value"><t t-esc="picking.origin"/></span>
+                                </div>
+                                <div class="wt-pc-row">
+                                    <span class="wt-pc-label">Scheduled</span>
+                                    <span class="wt-pc-value"><t t-esc="picking.scheduled_date" t-options='{"widget": "date"}'/></span>
+                                </div>
+                                <div class="wt-pc-row" t-if="picking.date_deadline">
+                                    <span class="wt-pc-label">Deadline</span>
+                                    <span class="wt-pc-value"><t t-esc="picking.date_deadline" t-options='{"widget": "date"}'/></span>
+                                </div>
+                            </div>
+                            <div class="wt-pc-foot"><span>View order</span><i class="fa fa-angle-right"/></div>
+                        </a>
+                    </t>
+                </div>
+                <t t-if="not pickings"><p class="alert alert-warning">There are currently no manufacturing orders.</p></t>
+                <div t-if="pager" class="o_portal_pager d-flex justify-content-center my-3"><t t-call="portal.pager"/></div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- RFQ Card View -->
+    <record id="portal_rfq_cards" model="ir.ui.view" forcecreate="False">
+        <field name="name">Woow RFQ Card View</field>
+        <field name="inherit_id" ref="purchase.portal_my_purchase_rfqs"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-call='portal.portal_table']" position="replace">
+                <div class="wt-card-grid" t-if="rfqs">
+                    <t t-foreach="rfqs" t-as="rfq">
+                        <a t-att-href="rfq.get_portal_url()" class="wt-portal-card">
+                            <div class="wt-pc-head">
+                                <div class="wt-pc-icon"><i class="fa fa-clipboard" style="font-size:14px;"/></div>
+                                <span class="wt-pc-num"><t t-esc="rfq.name"/></span>
+                            </div>
+                            <div class="wt-pc-meta">
+                                <div class="wt-pc-row">
+                                    <span class="wt-pc-label">Order Date</span>
+                                    <span class="wt-pc-value"><t t-esc="rfq.date_order" t-options='{"widget": "date"}'/></span>
+                                </div>
+                                <div class="wt-pc-row">
+                                    <span class="wt-pc-label">Total</span>
+                                    <span class="wt-pc-value wt-pc-total"><t t-esc="rfq.amount_total" t-options='{"widget": "monetary", "display_currency": rfq.currency_id}'/></span>
+                                </div>
+                            </div>
+                            <div class="wt-pc-foot"><span>View RFQ</span><i class="fa fa-angle-right"/></div>
+                        </a>
+                    </t>
+                </div>
+                <t t-if="not rfqs"><p class="alert alert-warning">There are currently no requests for quotation.</p></t>
+                <div t-if="pager" class="o_portal_pager d-flex justify-content-center my-3"><t t-call="portal.pager"/></div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Purchase Orders Card View -->
+    <record id="portal_purchase_cards" model="ir.ui.view" forcecreate="False">
+        <field name="name">Woow Purchase Orders Card View</field>
+        <field name="inherit_id" ref="purchase.portal_my_purchase_orders"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-call='portal.portal_table']" position="replace">
+                <div class="wt-card-grid" t-if="orders">
+                    <t t-foreach="orders" t-as="order">
+                        <a t-att-href="order.get_portal_url()" class="wt-portal-card">
+                            <div class="wt-pc-head">
+                                <div class="wt-pc-icon"><i class="fa fa-truck" style="font-size:14px;"/></div>
+                                <span class="wt-pc-num"><t t-esc="order.name"/></span>
+                                <t t-if="order.state == 'cancel'"><span class="wt-badge wt-badge-cancelled">Cancelled</span></t>
+                                <t t-elif="order.state == 'done'"><span class="wt-badge wt-badge-paid">Done</span></t>
+                                <t t-elif="order.invoice_status == 'to invoice'"><span class="wt-badge wt-badge-waiting">To Invoice</span></t>
+                            </div>
+                            <div class="wt-pc-meta">
+                                <div class="wt-pc-row" t-if="order.date_approve">
+                                    <span class="wt-pc-label">Confirmed</span>
+                                    <span class="wt-pc-value"><t t-esc="order.date_approve" t-options='{"widget": "date"}'/></span>
+                                </div>
+                                <div class="wt-pc-row">
+                                    <span class="wt-pc-label">Total</span>
+                                    <span class="wt-pc-value wt-pc-total"><t t-esc="order.amount_total" t-options='{"widget": "monetary", "display_currency": order.currency_id}'/></span>
+                                </div>
+                            </div>
+                            <div class="wt-pc-foot"><span>View order</span><i class="fa fa-angle-right"/></div>
+                        </a>
+                    </t>
+                </div>
+                <t t-if="not orders"><p class="alert alert-warning">There are currently no purchase orders.</p></t>
+                <div t-if="pager" class="o_portal_pager d-flex justify-content-center my-3"><t t-call="portal.pager"/></div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Leads Card View -->
+    <record id="portal_leads_cards" model="ir.ui.view" forcecreate="False">
+        <field name="name">Woow Leads Card View</field>
+        <field name="inherit_id" ref="website_crm_partner_assign.portal_my_leads"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-call='portal.portal_table']" position="replace">
+                <div class="wt-card-grid" t-if="leads">
+                    <t t-foreach="leads" t-as="lead">
+                        <a t-attf-href="/my/lead/#{lead.id}" class="wt-portal-card">
+                            <div class="wt-pc-head">
+                                <div class="wt-pc-icon"><i class="fa fa-bullseye" style="font-size:14px;"/></div>
+                                <span class="wt-pc-num"><t t-esc="lead.name"/></span>
+                            </div>
+                            <div class="wt-pc-meta">
+                                <div class="wt-pc-row">
+                                    <span class="wt-pc-label">Date</span>
+                                    <span class="wt-pc-value"><t t-esc="lead.create_date" t-options='{"widget": "date"}'/></span>
+                                </div>
+                                <div class="wt-pc-row" t-if="lead.contact_name">
+                                    <span class="wt-pc-label">Contact</span>
+                                    <span class="wt-pc-value"><t t-esc="lead.contact_name"/></span>
+                                </div>
+                                <div class="wt-pc-row" t-if="lead.email_from">
+                                    <span class="wt-pc-label">Email</span>
+                                    <span class="wt-pc-value"><t t-esc="lead.email_from"/></span>
+                                </div>
+                                <div class="wt-pc-row" t-if="lead.phone">
+                                    <span class="wt-pc-label">Phone</span>
+                                    <span class="wt-pc-value"><t t-esc="lead.phone"/></span>
+                                </div>
+                            </div>
+                            <div class="wt-pc-foot"><span>View lead</span><i class="fa fa-angle-right"/></div>
+                        </a>
+                    </t>
+                </div>
+                <t t-if="not leads"><p class="alert alert-warning">There are no leads.</p></t>
+                <div t-if="pager" class="o_portal_pager d-flex justify-content-center my-3"><t t-call="portal.pager"/></div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Timesheets Card View -->
+    <record id="portal_timesheets_cards" model="ir.ui.view" forcecreate="False">
+        <field name="name">Woow Timesheets Card View</field>
+        <field name="inherit_id" ref="hr_timesheet.portal_my_timesheets"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-call='portal.portal_table']" position="replace">
+                <div class="wt-card-grid">
+                    <t t-foreach="grouped_timesheets" t-as="timesheets_with_hours">
+                        <t t-set="timesheets" t-value="timesheets_with_hours[0]"/>
+                        <t t-foreach="timesheets" t-as="timesheet">
+                            <div class="wt-portal-card" style="cursor: default;">
+                                <div class="wt-pc-head">
+                                    <div class="wt-pc-icon"><i class="fa fa-clock-o" style="font-size:14px;"/></div>
+                                    <span class="wt-pc-num"><t t-esc="timesheet.name or 'Timesheet'"/></span>
+                                </div>
+                                <div class="wt-pc-meta">
+                                    <div class="wt-pc-row">
+                                        <span class="wt-pc-label">Date</span>
+                                        <span class="wt-pc-value"><t t-esc="timesheet.date" t-options='{"widget": "date"}'/></span>
+                                    </div>
+                                    <div class="wt-pc-row">
+                                        <span class="wt-pc-label">Employee</span>
+                                        <span class="wt-pc-value"><t t-esc="timesheet.employee_id.name"/></span>
+                                    </div>
+                                    <div class="wt-pc-row">
+                                        <span class="wt-pc-label">Project</span>
+                                        <span class="wt-pc-value"><t t-esc="timesheet.project_id.name"/></span>
+                                    </div>
+                                    <div class="wt-pc-row" t-if="timesheet.task_id">
+                                        <span class="wt-pc-label">Task</span>
+                                        <span class="wt-pc-value"><t t-esc="timesheet.task_id.name"/></span>
+                                    </div>
+                                    <div class="wt-pc-row">
+                                        <span class="wt-pc-label">Time Spent</span>
+                                        <span class="wt-pc-value wt-pc-total"><t t-esc="timesheet.unit_amount" t-options='{"widget": "float_time"}'/></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </div>
+                <div t-if="pager" class="o_portal_pager d-flex justify-content-center my-3"><t t-call="portal.pager"/></div>
+            </xpath>
+        </field>
+    </record>
 
 </odoo>

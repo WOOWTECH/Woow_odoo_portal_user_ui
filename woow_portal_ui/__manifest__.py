@@ -18,7 +18,7 @@
     "author": "Woow Tech",
     "website": "https://www.woow.tw",
     "license": "LGPL-3",
-    "depends": ["portal", "mail", "web", "sale", "account"],
+    "depends": ["portal", "mail", "web"],
     "data": [
         "security/ir.model.access.csv",
         "views/portal_templates.xml",

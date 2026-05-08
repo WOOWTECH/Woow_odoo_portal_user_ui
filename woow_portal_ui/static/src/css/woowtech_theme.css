@@ -778,6 +778,58 @@
 }
 .wt-inv-paynow:hover { background: #000; color: #fff; text-decoration: none; }
 
+/* =========================================================
+   8b. GENERIC PORTAL CARD GRID (reuses order card styling)
+   Used by quotations, projects, tasks, opportunities,
+   manufacturing, RFQ, purchase orders
+   ========================================================= */
+.wt-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+.wt-card-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+.wt-portal-card {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line); border-radius: var(--r-md);
+    padding: 16px 18px;
+    display: flex; flex-direction: column; gap: 12px;
+    box-shadow: var(--sh-1);
+    transition: transform .18s, border-color .18s, box-shadow .18s;
+    cursor: pointer; text-decoration: none; color: inherit;
+}
+.wt-portal-card:hover {
+    transform: translateY(-2px); border-color: var(--wt-blue);
+    box-shadow: 0 12px 24px rgba(20,22,30,.06);
+    color: inherit; text-decoration: none;
+}
+.wt-pc-head {
+    display: flex; align-items: center; gap: 10px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--wt-line-soft);
+}
+.wt-pc-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--tint-blue); color: var(--wt-blue);
+    display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.wt-pc-num { font-weight: 700; font-size: 14px; color: var(--wt-blue); font-variant-numeric: tabular-nums; flex: 1; min-width: 0; }
+.wt-pc-badge { flex-shrink: 0; }
+.wt-pc-meta { display: flex; flex-direction: column; gap: 6px; }
+.wt-pc-row { display: flex; align-items: center; justify-content: space-between; font-size: 12.5px; }
+.wt-pc-label { color: var(--wt-ink-3); }
+.wt-pc-value { color: #212121; font-weight: 500; font-variant-numeric: tabular-nums; }
+.wt-pc-total { font-weight: 700; }
+.wt-pc-foot {
+    display: flex; align-items: center; justify-content: flex-end; gap: 4px;
+    font-size: 12px; color: var(--wt-ink-3);
+    padding-top: 8px; border-top: 1px solid var(--wt-line-soft);
+}
+.wt-portal-card:hover .wt-pc-foot { color: var(--wt-blue); }
+
 /* I-NEW1: "Pay overdue" button styling */
 .o_portal a.btn-primary[href*="overdue"],
 .o_portal_submenu ~ a.btn-primary[href*="overdue"] {
@@ -887,6 +939,77 @@
 }
 
 /* =========================================================
+   9b. PAYMENT METHODS PAGE — styled cards
+   ========================================================= */
+
+/* Section headings */
+.o_payment_form h4 {
+    font-size: 15px; font-weight: 700; color: #212121;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+/* Token list — each item is its own card */
+.o_payment_form #o_payment_form_options > div:first-child .list-group {
+    border: none;
+    display: flex; flex-direction: column; gap: 14px;
+}
+.o_payment_form #o_payment_form_options > div:first-child .list-group-item {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line) !important;
+    border-radius: var(--r-md) !important;
+    box-shadow: var(--sh-1);
+    padding: 16px 18px;
+}
+
+/* "Choose a payment method" section — title outside, content in card */
+#o_payment_methods h4 {
+    margin-bottom: 16px;
+}
+#o_payment_methods .list-group {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line) !important;
+    border-radius: var(--r-lg);
+    padding: 24px 28px;
+    box-shadow: var(--sh-2);
+}
+#o_payment_methods .list-group-item {
+    border: none !important;
+    border-bottom: 1px solid var(--wt-line-soft) !important;
+    border-radius: 0 !important;
+    padding: 14px 0;
+}
+#o_payment_methods .list-group-item:last-child {
+    border-bottom: none !important;
+}
+
+/* Save/Submit button — blue pill */
+.o_payment_form button[name="o_payment_submit_button"] {
+    background: var(--wt-blue) !important;
+    border-color: var(--wt-blue) !important;
+    color: #fff !important;
+    border-radius: var(--r-pill) !important;
+    padding: 9px 24px !important;
+    font-weight: 600;
+}
+.o_payment_form button[name="o_payment_submit_button"]:hover {
+    background: var(--wt-blue-700) !important;
+    border-color: var(--wt-blue-700) !important;
+}
+
+/* Radio/checkbox inputs */
+.o_payment_form .form-check-input:checked {
+    background-color: var(--wt-blue);
+    border-color: var(--wt-blue);
+}
+
+/* Delete token button */
+.o_payment_form button[name="o_payment_delete_token"] {
+    color: var(--wt-tone-coral);
+}
+
+/* =========================================================
    10. BREADCRUMB — styled back button
    ========================================================= */
 .o_portal .wpu-breadcrumb-back-btn {
@@ -909,6 +1032,8 @@
     .o_portal_my_home > .wt-profile-aside { display: none; }
     .o_portal_docs { grid-template-columns: 1fr 1fr; }
     .wt-orders-grid { grid-template-columns: repeat(2, 1fr); }
+    .wt-card-grid { grid-template-columns: repeat(2, 1fr); }
+    .wt-card-grid-2 { grid-template-columns: 1fr; }
     .wt-invoices-grid { grid-template-columns: 1fr; }
 
     /* Security: single column on tablet */
@@ -929,6 +1054,8 @@
 @media (max-width: 767px) {
     .o_portal_docs { grid-template-columns: 1fr; }
     .wt-orders-grid { grid-template-columns: 1fr; gap: 12px; }
+    .wt-card-grid { grid-template-columns: 1fr; gap: 12px; }
+    .wt-card-grid-2 { grid-template-columns: 1fr; gap: 12px; }
     .wt-invoices-grid { grid-template-columns: 1fr; gap: 12px; }
 
     .wt-greeting-card { padding: 14px; border-radius: var(--r-md); }
