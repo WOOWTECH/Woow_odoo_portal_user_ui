@@ -63,11 +63,14 @@
     --custom-primary-hover: var(--wt-blue-700);
 }
 
-/* Canvas background for content area only (not header) */
+/* Canvas background for portal pages (not header) */
+#wrapwrap.o_portal {
+    background: var(--wt-canvas);
+}
 #wrapwrap.o_portal #wrap,
-#wrapwrap #wrap .o_portal_wrap,
-#wrapwrap #wrap > .wrap,
-#wrapwrap .wrap {
+#wrapwrap.o_portal #wrap .o_portal_wrap,
+#wrapwrap.o_portal #wrap > .wrap,
+#wrapwrap.o_portal .wrap {
     background: var(--wt-canvas);
 }
 
@@ -985,9 +988,21 @@ header:has(+ .wrap .o_payment_form) {
     -webkit-font-smoothing: antialiased;
 }
 
+/* Payment pages don't have .o_portal — target via :has() */
+#wrapwrap:has(.o_payment_form) {
+    background: var(--wt-canvas);
+}
+#wrapwrap:has(.o_payment_form) div.wrap {
+    background: var(--wt-canvas);
+    font-family: var(--wt-font);
+    -webkit-font-smoothing: antialiased;
+}
+
 /* Fix 2: Footer — hide footer on portal/payment pages only */
 #wrapwrap.o_portal footer,
-#wrapwrap.o_portal .o_footer {
+#wrapwrap.o_portal .o_footer,
+#wrapwrap:has(.o_payment_form) footer,
+#wrapwrap:has(.o_payment_form) .o_footer {
     display: none !important;
 }
 
@@ -1083,7 +1098,8 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
 }
 
 /* Home icon in portal breadcrumbs — blue color */
-.o_portal .breadcrumb .fa-home {
+.o_portal .breadcrumb .fa-home,
+#wrapwrap:has(.o_payment_form) .breadcrumb .fa-home {
     color: var(--wt-blue) !important;
 }
 
