@@ -1122,6 +1122,16 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     border-color: var(--wt-blue);
     color: var(--wt-blue);
 }
+/* Dropdown menu items — active and hover */
+.o_portal .o_portal_navbar .dropdown-menu .dropdown-item.active,
+.o_portal .o_portal_navbar .dropdown-menu .dropdown-item:active {
+    background-color: var(--wt-blue);
+    color: #fff;
+}
+.o_portal .o_portal_navbar .dropdown-menu .dropdown-item:hover:not(.active) {
+    background-color: var(--wt-blue-100);
+    color: var(--wt-blue);
+}
 
 /* "Pay overdue" button — move inline with filters and style as pill */
 .o_portal .o_portal_navbar {
