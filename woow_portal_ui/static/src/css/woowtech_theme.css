@@ -1153,6 +1153,11 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     font-weight: 600;
     white-space: nowrap;
 }
+.o_portal .o_portal_navbar > a.btn-primary[href*="overdue"]::before {
+    content: "\f09d"; /* fa-credit-card */
+    font-family: FontAwesome;
+    margin-right: 6px;
+}
 .o_portal .o_portal_navbar > a.btn-primary[href*="overdue"]:hover {
     background: var(--wt-blue-700) !important;
     border-color: var(--wt-blue-700) !important;
@@ -1236,6 +1241,7 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
         border: none !important;
         box-shadow: none !important;
         justify-content: flex-start !important;
+        padding: 0 !important;
     }
     .o_portal .o_portal_navbar #o_portal_navbar_content .nav {
         flex-direction: row !important;
