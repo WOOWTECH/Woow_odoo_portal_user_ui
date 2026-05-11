@@ -1233,9 +1233,14 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     .o_portal .o_portal_navbar {
         flex-wrap: wrap;
     }
+    /* Breadcrumb takes full first row */
+    .o_portal .o_portal_navbar > .breadcrumb {
+        flex: 0 0 100%;
+    }
     .o_portal .o_portal_navbar #o_portal_navbar_content {
-        flex-wrap: wrap;
-        width: 100%;
+        flex-wrap: nowrap;
+        width: auto;
+        flex: 0 1 auto;
         gap: 0.5rem;
         background: transparent !important;
         border: none !important;
@@ -1251,6 +1256,16 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
         margin: 0 !important;
         margin-left: 0 !important;
         padding: 0;
+    }
+    /* Pay overdue button — icon-only in mobile, same row as filters */
+    .o_portal .o_portal_navbar > a.btn-primary[href*="overdue"] {
+        font-size: 0;
+        padding: 6px 12px;
+        margin-left: auto;
+    }
+    .o_portal .o_portal_navbar > a.btn-primary[href*="overdue"]::before {
+        font-size: 14px;
+        margin-right: 0;
     }
     /* Dropdown buttons — white bg, border, rounded */
     .o_portal .o_portal_navbar .btn-light.dropdown-toggle {
