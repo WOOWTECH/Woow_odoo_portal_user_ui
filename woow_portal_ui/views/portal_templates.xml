@@ -499,11 +499,10 @@
         </xpath>
     </template>
 
-    <!-- NOTE: login_hide_powered_by removed — website module replaces
-         web.login_layout entirely (website.login_layout, priority 20),
-         so the xpath target no longer exists and causes a 500 error.
-         The "Powered by Odoo" link is already absent from the website
-         login page. -->
+    <!-- Remove "Powered by Odoo" from portal record sidebar -->
+    <template id="portal_record_sidebar_hide_powered" inherit_id="portal.portal_record_sidebar">
+        <xpath expr="//div[hasclass('o_portal_sidebar_content')]/div[hasclass('text-muted')][last()]" position="replace"/>
+    </template>
 
     <!-- ============================================================ -->
     <!-- Orders Page — Card grid (replaces table)                     -->
