@@ -629,12 +629,22 @@
     </record>
 
     <!-- ============================================================ -->
-    <!-- Security Page — Enable breadcrumb (S-NEW4)                   -->
+    <!-- Security Page — Enable breadcrumb + set page_name           -->
     <!-- ============================================================ -->
     <template id="portal_security_breadcrumb" name="Woow Security Breadcrumb"
               inherit_id="portal.portal_my_security" priority="10">
         <xpath expr="//t[@t-set='no_breadcrumbs']" position="replace">
-            <!-- Removed no_breadcrumbs to show breadcrumb trail -->
+            <t t-set="page_name" t-value="'security'"/>
+        </xpath>
+    </template>
+
+    <!-- Security Page — Add breadcrumb item -->
+    <template id="portal_breadcrumbs_security" name="Security Breadcrumb Item"
+              inherit_id="portal.portal_breadcrumbs" priority="30">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'security'" class="breadcrumb-item active">
+                Connection &amp; Security
+            </li>
         </xpath>
     </template>
 

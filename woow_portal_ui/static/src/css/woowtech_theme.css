@@ -516,12 +516,17 @@ header:has(+ .wrap .o_payment_form) {
    ========================================================= */
 /* S1: 2-column grid layout */
 .o_portal_security_body {
-    max-width: 1000px !important;
+    max-width: none !important;
     width: 100% !important;
     display: grid;
     grid-template-columns: 1.35fr 1fr;
     gap: 16px;
     align-items: start;
+}
+
+/* Hide the original Go Back chevron + h3 — replaced by breadcrumb navbar */
+.o_portal_security_body > .d-flex.gap-2.my-3 {
+    display: none !important;
 }
 
 /* Page header and alerts span full width */
@@ -533,7 +538,7 @@ header:has(+ .wrap .o_payment_form) {
 /* Password section = column 1 */
 .o_portal_security_body > section:first-of-type {
     grid-column: 1;
-    grid-row: 2 / span 5;
+    grid-row: 1 / span 5;
 }
 
 /* All other sections = column 2 */
@@ -547,7 +552,7 @@ header:has(+ .wrap .o_payment_form) {
     border: 1px solid var(--wt-line);
     border-radius: var(--r-md);
     padding: 20px 22px;
-    margin-bottom: 0;
+    margin: 0;
     box-shadow: var(--sh-1);
 }
 
@@ -627,6 +632,34 @@ header:has(+ .wrap .o_payment_form) {
 }
 .o_portal_security_body label {
     font-size: 12.5px; font-weight: 600; color: var(--wt-ink);
+}
+
+/* S-NEW5: 2FA alert — yellow/amber tint (design reference) */
+.o_portal_security_body .alert:not(.alert-success):not(.alert-danger) {
+    background: var(--tint-yellow);
+    color: #7a5d0a;
+    border: 1px solid rgba(192, 139, 21, 0.2);
+    border-radius: var(--r-md);
+}
+
+/* S-NEW6: "Log out from all devices" — ghost/outline button with icon */
+.o_portal_security_body section[name="portal_revoke_all_devices_popup"] .btn-light {
+    background: #fff;
+    border: 1px solid var(--wt-line);
+    border-radius: var(--r-pill);
+    color: var(--wt-ink);
+    font-weight: 500;
+    padding: 8px 16px;
+}
+.o_portal_security_body section[name="portal_revoke_all_devices_popup"] .btn-light::before {
+    content: "\f08b"; /* fa-sign-out */
+    font-family: FontAwesome;
+    margin-right: 6px;
+}
+.o_portal_security_body section[name="portal_revoke_all_devices_popup"] .btn-light:hover {
+    background: var(--wt-bg);
+    border-color: var(--wt-blue);
+    color: var(--wt-blue);
 }
 
 /* =========================================================
