@@ -150,15 +150,15 @@ header:has(+ .wrap .o_payment_form) {
    4. HOME PAGE — CSS Grid on existing Odoo container
    ========================================================= */
 
-/* Issue 1: Hide Odoo's native side_content sidebar (we use .wt-profile-aside) */
-.o_portal_wrap .row.justify-content-between > .d-none.d-lg-flex,
-.o_portal_wrap .row.justify-content-between > .d-lg-flex.col-lg-4,
+/* Issue 1: Hide Odoo's native side_content sidebar (we use .wt-profile-aside) — HOME PAGE ONLY */
+.o_portal_wrap .row.justify-content-between:has(.o_portal_my_home) > .d-none.d-lg-flex,
+.o_portal_wrap .row.justify-content-between:has(.o_portal_my_home) > .d-lg-flex.col-lg-4,
 .o_portal_wrap #accountOffCanvas {
     display: none !important;
 }
 
-/* Make the content column full width (we handle sidebar inside our CSS Grid) */
-.o_portal_wrap .o_portal_content.col-lg-8 {
+/* Make the content column full width (we handle sidebar inside our CSS Grid) — HOME PAGE ONLY */
+.o_portal_wrap .o_portal_content.col-lg-8:has(.o_portal_my_home) {
     flex: 0 0 100% !important;
     max-width: 100% !important;
     width: 100% !important;
