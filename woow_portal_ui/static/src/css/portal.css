@@ -60,11 +60,11 @@
    ② Footer — hidden on all portal pages
    ============================================================ */
 
-.o_portal footer,
-.o_portal_wrap footer,
+.o_portal footer:not(.modal-footer),
+.o_portal_wrap footer:not(.modal-footer),
 .o_portal .o_footer,
 .o_portal_wrap .o_footer,
-#wrapwrap.o_portal footer {
+#wrapwrap.o_portal footer:not(.modal-footer) {
     display: none !important;
 }
 

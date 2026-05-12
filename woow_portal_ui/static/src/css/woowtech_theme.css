@@ -1030,9 +1030,9 @@ header:has(+ .wrap .o_payment_form) {
 }
 
 /* Fix 2: Footer — hide footer on portal/payment pages only */
-#wrapwrap.o_portal footer,
+#wrapwrap.o_portal footer:not(.modal-footer),
 #wrapwrap.o_portal .o_footer,
-#wrapwrap:has(.o_payment_form) footer,
+#wrapwrap:has(.o_payment_form) footer:not(.modal-footer),
 #wrapwrap:has(.o_payment_form) .o_footer {
     display: none !important;
 }
