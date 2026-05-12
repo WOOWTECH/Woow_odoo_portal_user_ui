@@ -1,0 +1,488 @@
+/* =========================================================
+   Portal Detail Pages — WoowTech Theme
+   CSS-only overrides for Odoo portal record detail pages
+   (sale orders, invoices, tasks, etc.)
+   ========================================================= */
+
+
+/* =========================================================
+   A. Sidebar Card (generic — all portal_sidebar pages)
+   ========================================================= */
+
+/* Card container */
+.o_portal_sidebar .o_portal_sidebar_content {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line);
+    border-radius: var(--r-lg);
+    padding: 22px 20px;
+    position: sticky;
+    top: 16px;
+    box-shadow: var(--sh-1);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 0 !important;
+    padding-right: 20px !important;  /* override pe-lg-4 */
+}
+
+/* Hide vertical rule between sidebar and content */
+.o_portal_sidebar .o_portal_sidebar_content + .vr {
+    display: none !important;
+}
+
+/* Price display */
+.o_portal_sidebar .o_portal_sidebar_content h2[data-id="total_amount"] {
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    text-align: center;
+    padding: 4px 0 6px;
+    color: var(--wt-ink);
+}
+
+/* Action buttons container */
+.o_portal_sidebar #sale_order_sidebar_button {
+    gap: 8px !important;
+}
+.o_portal_sidebar #sale_order_sidebar_button .btn {
+    width: 100%;
+    border-radius: var(--r-md);
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 12px 14px;
+}
+.o_portal_sidebar #sale_order_sidebar_button .btn-primary {
+    background: var(--wt-blue);
+    border-color: var(--wt-blue);
+}
+.o_portal_sidebar #sale_order_sidebar_button .btn-primary:hover {
+    background: var(--wt-blue-700);
+    border-color: var(--wt-blue-700);
+}
+.o_portal_sidebar .o_download_pdf {
+    flex-direction: column !important;
+}
+.o_portal_sidebar .o_download_pdf .btn {
+    width: 100%;
+    border-radius: var(--r-md);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 11px 14px;
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line);
+    color: var(--wt-ink);
+}
+.o_portal_sidebar .o_download_pdf .btn:hover {
+    border-color: var(--wt-blue);
+    color: var(--wt-blue);
+}
+
+/* Sidenav links */
+.o_portal_sidebar .navspy .nav.bs-sidenav {
+    gap: 4px;
+}
+.o_portal_sidebar .navspy .nav.bs-sidenav a {
+    font-size: 13px;
+    color: var(--wt-blue);
+    font-weight: 500;
+    padding: 4px 0;
+}
+.o_portal_sidebar .navspy .nav.bs-sidenav a:hover {
+    text-decoration: underline;
+    color: var(--wt-blue);
+}
+.o_portal_sidebar .navspy .nav.bs-sidenav a.active {
+    color: var(--wt-blue-700);
+    font-weight: 600;
+}
+
+/* Advantage / discount block */
+.o_portal_sidebar [name="sale_order_advantage"] {
+    border-radius: var(--r-md);
+    border: 1px solid var(--wt-line-soft);
+    padding: 14px 16px;
+}
+
+/* Contact section */
+.o_portal_sidebar .o_portal_sidebar_content > div:last-of-type h6 {
+    margin-bottom: 8px;
+}
+.o_portal_sidebar .o_portal_sidebar_content h6 small.text-muted {
+    font-size: 11px !important;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--wt-ink-3) !important;
+    font-weight: 600;
+}
+
+/* Hide "Powered by Odoo" in sidebar (already hidden via template) */
+.o_portal_sidebar .o_portal_sidebar_content > .d-none.d-lg-block.small.text-center {
+    display: none !important;
+}
+
+
+/* =========================================================
+   B. Main Content Card
+   ========================================================= */
+
+/* Main content wrapper */
+.o_portal_sidebar #portal_sale_content {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line);
+    border-radius: var(--r-lg);
+    padding: 28px 32px;
+    box-shadow: var(--sh-1);
+}
+
+/* Remove top margin on main column */
+.o_portal_sidebar #quote_content {
+    margin-top: 0 !important;
+}
+
+/* Title */
+.o_portal_sidebar #introduction h2 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    color: var(--wt-ink);
+    margin: 0 0 18px;
+}
+.o_portal_sidebar #introduction h2 em {
+    font-weight: 700;
+    color: var(--wt-ink);
+}
+
+
+/* =========================================================
+   C. Info Grid Override (#informations)
+   ========================================================= */
+
+.o_portal_sidebar #informations {
+    display: grid !important;
+    grid-template-columns: 1fr 1.4fr 1fr;
+    gap: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--wt-line-soft);
+    margin-bottom: 24px;
+}
+
+/* Transaction info spans full width */
+.o_portal_sidebar #informations > #transaction_info {
+    grid-column: 1 / -1;
+}
+
+/* Reset Bootstrap col sizing */
+.o_portal_sidebar #informations > [class*="col-"] {
+    flex: none !important;
+    max-width: none !important;
+    width: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Section headers */
+.o_portal_sidebar #informations h5 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--wt-ink);
+    margin: 0 0 8px;
+    letter-spacing: .01em;
+}
+
+/* Hide <hr> separators after section headers */
+.o_portal_sidebar #informations hr {
+    display: none;
+}
+
+/* Key-value table (Sale Information) */
+.o_portal_sidebar #informations .table-borderless {
+    font-size: 13px;
+    margin-bottom: 0;
+}
+.o_portal_sidebar #informations .table-borderless th {
+    font-weight: 600;
+    color: var(--wt-ink);
+    padding: 3px 12px 3px 0;
+    border: none;
+    white-space: nowrap;
+}
+.o_portal_sidebar #informations .table-borderless td {
+    color: var(--wt-ink-2);
+    padding: 3px 0;
+    border: none;
+}
+
+/* Address blocks (contact widget) */
+.o_portal_sidebar #informations address,
+.o_portal_sidebar #informations .o_portal_address,
+.o_portal_sidebar #customer_info div[itemprop] {
+    font-size: 12.5px;
+    color: var(--wt-ink-2);
+    line-height: 1.7;
+}
+
+/* Invoice status badges */
+.o_portal_sidebar #sale_invoices .badge {
+    border-radius: var(--r-pill);
+    font-size: 11px;
+    font-weight: 600;
+}
+.o_portal_sidebar #sale_invoices a {
+    color: var(--wt-blue);
+    font-weight: 500;
+}
+.o_portal_sidebar #sale_invoices a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   D. Order Lines Table
+   ========================================================= */
+
+.o_portal_sidebar .table-responsive {
+    margin: 12px 0 6px;
+}
+
+.o_portal_sidebar #sales_order_table {
+    border-collapse: collapse;
+    font-size: 13px;
+}
+.o_portal_sidebar #sales_order_table thead th {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--wt-line) !important;
+    border-top: none !important;
+    font-weight: 700;
+    color: var(--wt-ink);
+    font-size: 12.5px;
+    background: #f9fafd;
+}
+.o_portal_sidebar #sales_order_table tbody td {
+    padding: 12px;
+    border-bottom: 1px solid var(--wt-line-soft) !important;
+    border-top: none !important;
+    color: var(--wt-ink);
+    vertical-align: middle;
+}
+/* Amount cells */
+.o_portal_sidebar #sales_order_table .text-end {
+    font-variant-numeric: tabular-nums;
+}
+.o_portal_sidebar #sales_order_table #subtotal_header,
+.o_portal_sidebar #sales_order_table .oe_order_line_price_subtotal {
+    font-weight: 600;
+}
+
+/* Section & note rows */
+.o_portal_sidebar #sales_order_table .o_line_section {
+    font-weight: 700;
+    color: var(--wt-ink);
+    background: transparent;
+}
+.o_portal_sidebar #sales_order_table .o_line_note {
+    font-style: italic;
+    color: var(--wt-ink-2);
+}
+
+/* Subtotal rows */
+.o_portal_sidebar #sales_order_table .is-subtotal td {
+    font-weight: 600;
+    border-top: 1px solid var(--wt-line) !important;
+    border-bottom: none !important;
+}
+
+
+/* =========================================================
+   E. Totals Section
+   ========================================================= */
+
+.o_portal_sidebar #total .table {
+    font-size: 13px;
+    min-width: 280px;
+}
+.o_portal_sidebar #total .table td {
+    padding: 5px 0;
+    color: var(--wt-ink-2);
+    border: none !important;
+}
+.o_portal_sidebar #total .table td:last-child {
+    text-align: right;
+    color: var(--wt-ink);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+}
+/* Grand total row (last row or .border-black) */
+.o_portal_sidebar #total .table tr:last-child td,
+.o_portal_sidebar #total .table .border-black td {
+    font-weight: 700;
+    color: var(--wt-ink);
+    font-size: 14px;
+    padding-top: 10px;
+    border-top: 1px solid var(--wt-line) !important;
+}
+
+
+/* =========================================================
+   F. Sections Below Table (T&C, Signature, Payment Terms)
+   ========================================================= */
+
+.o_portal_sidebar #portal_sale_content > section,
+.o_portal_sidebar #portal_sale_content #terms,
+.o_portal_sidebar #portal_sale_content [name="payment_term"] {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--wt-line-soft);
+}
+.o_portal_sidebar #portal_sale_content section h4 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--wt-ink);
+}
+/* Hide redundant hr separators inside content */
+.o_portal_sidebar #portal_sale_content > section hr,
+.o_portal_sidebar #content > section hr {
+    display: none;
+}
+
+/* Signature display */
+.o_portal_sidebar #portal_sale_content img[t-att-src],
+.o_portal_sidebar #portal_sale_content .card-body img {
+    max-width: 200px;
+    border-radius: var(--r-sm);
+}
+
+
+/* =========================================================
+   G. Communication Block
+   ========================================================= */
+
+/* Hide the <hr> before communication */
+.o_portal_sidebar #quote_content > hr {
+    display: none;
+}
+
+.o_portal_sidebar #sale_order_communication {
+    margin-top: 18px;
+    padding: 22px 28px;
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line);
+    border-radius: var(--r-lg);
+    box-shadow: var(--sh-1);
+}
+.o_portal_sidebar #sale_order_communication h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--wt-ink);
+    margin: 0 0 14px;
+}
+
+/* Chatter send button */
+.o_portal_sidebar .o_portal_chatter .btn-primary {
+    background: var(--wt-blue);
+    border-color: var(--wt-blue);
+    border-radius: var(--r-md);
+    font-size: 13px;
+    font-weight: 600;
+}
+.o_portal_sidebar .o_portal_chatter .btn-primary:hover {
+    background: var(--wt-blue-700);
+    border-color: var(--wt-blue-700);
+}
+
+/* Chatter message input */
+.o_portal_sidebar .o_portal_chatter textarea {
+    border-radius: var(--r-md);
+    border-color: var(--wt-line);
+    font-size: 13px;
+}
+.o_portal_sidebar .o_portal_chatter textarea:focus {
+    border-color: var(--wt-blue);
+    box-shadow: 0 0 0 4px rgba(97, 131, 252, .12);
+}
+
+
+/* =========================================================
+   H. Status Alerts & Bottom Actions
+   ========================================================= */
+
+.o_portal_sidebar #quote_content > .alert {
+    border-radius: var(--r-md);
+    font-size: 13px;
+}
+
+/* Bottom CTA row */
+.o_portal_sidebar [name="sale_order_actions"] {
+    margin-top: 20px;
+    gap: 12px !important;
+}
+.o_portal_sidebar [name="sale_order_actions"] .btn {
+    border-radius: var(--r-md);
+    font-weight: 600;
+    font-size: 13.5px;
+    padding: 11px 22px;
+}
+
+
+/* =========================================================
+   I. Responsive
+   ========================================================= */
+
+@media (max-width: 991px) {
+    .o_portal_sidebar .o_portal_sidebar_content {
+        position: static;
+        border-radius: var(--r-md);
+    }
+}
+
+@media (max-width: 900px) {
+    .o_portal_sidebar #informations {
+        grid-template-columns: 1fr !important;
+        gap: 18px;
+    }
+}
+
+@media (max-width: 767px) {
+    .o_portal_sidebar #portal_sale_content {
+        padding: 18px 16px;
+        border-radius: var(--r-md);
+    }
+
+    .o_portal_sidebar #sale_order_communication {
+        padding: 16px;
+        border-radius: var(--r-md);
+    }
+
+    .o_portal_sidebar #sales_order_table {
+        font-size: 12px;
+    }
+    .o_portal_sidebar #sales_order_table thead th,
+    .o_portal_sidebar #sales_order_table tbody td {
+        padding: 8px 6px;
+    }
+
+    .o_portal_sidebar #introduction h2 {
+        font-size: 20px;
+    }
+
+    .o_portal_sidebar .o_portal_sidebar_content {
+        padding: 16px;
+    }
+}
+
+
+/* =========================================================
+   J. Print Styles
+   ========================================================= */
+
+@media print {
+    .o_portal_sidebar #portal_sale_content {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        border-radius: 0;
+    }
+    .o_portal_sidebar #sale_order_communication {
+        border: none;
+        box-shadow: none;
+    }
+}

@@ -27,6 +27,7 @@
         "web.assets_frontend": [
             "woow_portal_ui/static/src/css/portal.css",
             "woow_portal_ui/static/src/css/woowtech_theme.css",
+            "woow_portal_ui/static/src/css/detail_pages.css",
             "woow_portal_ui/static/src/js/portal.js",
         ],
         "web.assets_backend": [
