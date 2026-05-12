@@ -33,6 +33,9 @@
         "web.assets_backend": [
             "woow_portal_ui/static/src/js/switch_portal.js",
         ],
+        "portal.assets_chatter_style": [
+            "woow_portal_ui/static/src/css/chatter_theme.css",
+        ],
     },
     "installable": True,
     "application": False,

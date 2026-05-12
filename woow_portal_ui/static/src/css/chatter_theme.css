@@ -1,0 +1,18 @@
+/* =========================================================
+   Chatter Theme — WoowTech Blue
+   Loaded inside portal chatter Shadow DOM via
+   portal.assets_chatter_style bundle
+   ========================================================= */
+
+.btn-primary {
+    background-color: #6183fc !important;
+    border-color: #6183fc !important;
+}
+.btn-primary:hover {
+    background-color: #4a6ae0 !important;
+    border-color: #4a6ae0 !important;
+}
+.btn-primary:disabled {
+    background-color: #6183fc !important;
+    border-color: #6183fc !important;
+}

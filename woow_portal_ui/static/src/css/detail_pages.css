@@ -296,9 +296,18 @@
    E. Totals Section
    ========================================================= */
 
+/* Make totals wrapper full-width so it aligns with the table above */
+.o_portal_sidebar #total > div[class*="col-"] {
+    max-width: none !important;
+    width: 100% !important;
+    flex: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
 .o_portal_sidebar #total .table {
     font-size: 13px;
     min-width: 280px;
+    margin-left: auto;
 }
 .o_portal_sidebar #total .table td {
     padding: 5px 0;
