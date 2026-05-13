@@ -26,7 +26,8 @@
 }
 
 /* Sidebar column: fit content height, keep full width */
-.o_portal_sidebar .o_portal_sale_sidebar > .d-flex:first-child {
+.o_portal_sidebar .o_portal_sale_sidebar > .d-flex:first-child,
+.o_portal_sidebar .o_portal_invoice_sidebar > .d-flex:first-child {
     align-items: flex-start !important;
 }
 
