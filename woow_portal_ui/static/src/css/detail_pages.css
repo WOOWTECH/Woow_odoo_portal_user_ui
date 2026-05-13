@@ -138,7 +138,8 @@
    ========================================================= */
 
 /* Main content wrapper */
-.o_portal_sidebar #portal_sale_content {
+.o_portal_sidebar #portal_sale_content,
+.o_portal_sidebar #task_content > #card {
     background: var(--wt-surface);
     border: 1px solid var(--wt-line);
     border-radius: var(--r-lg);
@@ -147,7 +148,8 @@
 }
 
 /* Remove top margin on main column */
-.o_portal_sidebar #quote_content {
+.o_portal_sidebar #quote_content,
+.o_portal_sidebar #task_content {
     margin-top: 0 !important;
 }
 
@@ -378,7 +380,8 @@
    ========================================================= */
 
 /* Hide the <hr> before communication */
-.o_portal_sidebar #quote_content > hr {
+.o_portal_sidebar #quote_content > hr,
+.o_portal_sidebar #task_content > hr {
     display: none;
 }
 
@@ -467,7 +470,8 @@
 }
 
 @media (max-width: 767px) {
-    .o_portal_sidebar #portal_sale_content {
+    .o_portal_sidebar #portal_sale_content,
+    .o_portal_sidebar #task_content > #card {
         padding: 18px 16px;
         border-radius: var(--r-md);
     }
@@ -502,7 +506,8 @@
    ========================================================= */
 
 @media print {
-    .o_portal_sidebar #portal_sale_content {
+    .o_portal_sidebar #portal_sale_content,
+    .o_portal_sidebar #task_content > #card {
         border: none;
         box-shadow: none;
         padding: 0;
