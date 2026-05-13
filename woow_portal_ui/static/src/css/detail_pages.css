@@ -45,9 +45,10 @@
     padding: 4px 0 6px;
     color: var(--wt-ink);
 }
-/* Center price wrapper (override flex justify-content-lg-between) */
+/* Center price wrapper and stack badge below */
 .o_portal_sidebar .o_portal_sidebar_content .position-relative.d-flex {
-    justify-content: center !important;
+    flex-direction: column !important;
+    align-items: center !important;
 }
 
 /* Action buttons container */
