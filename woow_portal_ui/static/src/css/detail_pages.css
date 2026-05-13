@@ -380,7 +380,8 @@
     display: none;
 }
 
-.o_portal_sidebar #sale_order_communication {
+.o_portal_sidebar #sale_order_communication,
+.o_portal_sidebar #invoice_communication {
     margin-top: 18px;
     padding: 22px 28px;
     background: var(--wt-surface);
@@ -388,7 +389,8 @@
     border-radius: var(--r-lg);
     box-shadow: var(--sh-1);
 }
-.o_portal_sidebar #sale_order_communication h3 {
+.o_portal_sidebar #sale_order_communication h3,
+.o_portal_sidebar #invoice_communication h3 {
     font-size: 18px;
     font-weight: 700;
     color: var(--wt-ink);
@@ -466,7 +468,8 @@
         border-radius: var(--r-md);
     }
 
-    .o_portal_sidebar #sale_order_communication {
+    .o_portal_sidebar #sale_order_communication,
+    .o_portal_sidebar #invoice_communication {
         padding: 16px;
         border-radius: var(--r-md);
     }
@@ -500,7 +503,8 @@
         padding: 0;
         border-radius: 0;
     }
-    .o_portal_sidebar #sale_order_communication {
+    .o_portal_sidebar #sale_order_communication,
+    .o_portal_sidebar #invoice_communication {
         border: none;
         box-shadow: none;
     }
