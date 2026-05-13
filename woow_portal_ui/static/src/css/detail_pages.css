@@ -27,7 +27,8 @@
 
 /* Sidebar column: fit content height, keep full width */
 .o_portal_sidebar .o_portal_sale_sidebar > .d-flex:first-child,
-.o_portal_sidebar .o_portal_invoice_sidebar > .d-flex:first-child {
+.o_portal_sidebar .o_portal_invoice_sidebar > .d-flex:first-child,
+.o_portal_sidebar .o_project_portal_sidebar > .d-flex:first-child {
     align-items: flex-start !important;
 }
 
@@ -382,7 +383,8 @@
 }
 
 .o_portal_sidebar #sale_order_communication,
-.o_portal_sidebar #invoice_communication {
+.o_portal_sidebar #invoice_communication,
+.o_portal_sidebar #task_chat {
     margin-top: 18px;
     padding: 22px 28px;
     background: var(--wt-surface);
@@ -391,7 +393,8 @@
     box-shadow: var(--sh-1);
 }
 .o_portal_sidebar #sale_order_communication h3,
-.o_portal_sidebar #invoice_communication h3 {
+.o_portal_sidebar #invoice_communication h3,
+.o_portal_sidebar #task_chat h3 {
     font-size: 18px;
     font-weight: 700;
     color: var(--wt-ink);
@@ -470,7 +473,8 @@
     }
 
     .o_portal_sidebar #sale_order_communication,
-    .o_portal_sidebar #invoice_communication {
+    .o_portal_sidebar #invoice_communication,
+    .o_portal_sidebar #task_chat {
         padding: 16px;
         border-radius: var(--r-md);
     }
@@ -505,7 +509,8 @@
         border-radius: 0;
     }
     .o_portal_sidebar #sale_order_communication,
-    .o_portal_sidebar #invoice_communication {
+    .o_portal_sidebar #invoice_communication,
+    .o_portal_sidebar #task_chat {
         border: none;
         box-shadow: none;
     }
