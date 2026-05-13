@@ -25,6 +25,11 @@
     padding-right: 20px !important;  /* override pe-lg-4 */
 }
 
+/* Sidebar column: fit content height, keep full width */
+.o_portal_sidebar .o_portal_sale_sidebar > .d-flex:first-child {
+    align-items: flex-start !important;
+}
+
 /* Hide vertical rule between sidebar and content */
 .o_portal_sidebar .o_portal_sidebar_content + .vr {
     display: none !important;
@@ -38,6 +43,10 @@
     text-align: center;
     padding: 4px 0 6px;
     color: var(--wt-ink);
+}
+/* Center price wrapper (override flex justify-content-lg-between) */
+.o_portal_sidebar .o_portal_sidebar_content .position-relative.d-flex {
+    justify-content: center !important;
 }
 
 /* Action buttons container */
