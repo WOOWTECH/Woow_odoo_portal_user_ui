@@ -502,7 +502,112 @@
 
 
 /* =========================================================
-   J. Print Styles
+   K. Opportunity Detail Page (no sidebar — single-column layout)
+   Scoped via :has(.opp-stage-button)
+   ========================================================= */
+
+/* Stage buttons — pill shape + hover */
+.opp-stage-button.btn-light {
+    border-radius: var(--r-pill);
+    border: 1px solid var(--wt-line);
+    background: var(--wt-surface);
+    transition: all .15s;
+}
+.opp-stage-button.btn-light:hover {
+    border-color: var(--wt-blue);
+    color: var(--wt-blue);
+    background: rgba(97, 131, 252, 0.08);
+}
+
+/* Title row (top half of card) */
+.o_portal_wrap .container:has(.opp-stage-button) > .d-flex.mb-3 {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line);
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+    padding: 24px 28px 16px;
+    box-shadow: var(--sh-1);
+    border-bottom: none;
+    margin-bottom: 0 !important;
+}
+
+/* Content row (bottom half of card) */
+.o_portal_wrap .container:has(.opp-stage-button) > .row {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line);
+    border-radius: 0 0 var(--r-lg) var(--r-lg);
+    padding: 16px 28px 28px;
+    box-shadow: var(--sh-1);
+    border-top: none;
+    margin-left: 0;
+    margin-right: 0;
+    column-gap: 20px;
+}
+/* Neutralize Bootstrap offsets — use row gap instead */
+.o_portal_wrap .container:has(.opp-stage-button) > .row > [class*="offset-"] {
+    margin-left: 0;
+}
+.o_portal_wrap .container:has(.opp-stage-button) > .row > .col-lg-5 {
+    flex: 1 1 0;
+}
+.o_portal_wrap .container:has(.opp-stage-button) > .row > .col-lg-6 {
+    flex: 1 1 0;
+}
+
+/* Edit buttons — WoowTech blue instead of Odoo purple */
+.o_portal_wrap .container:has(.opp-stage-button) .btn-link {
+    color: var(--wt-blue);
+    text-decoration: none;
+    font-weight: 600;
+}
+.o_portal_wrap .container:has(.opp-stage-button) .btn-link:hover {
+    color: var(--wt-blue-700);
+}
+
+/* Column borders for info blocks */
+.o_portal_wrap .container:has(.opp-stage-button) > .row > .col-lg-5,
+.o_portal_wrap .container:has(.opp-stage-button) > .row > .col-lg-6 {
+    border: 1px solid var(--wt-line);
+    border-radius: var(--r-md);
+    padding: 20px 24px;
+}
+
+/* Hide hr separator */
+.o_portal_wrap .container:has(.opp-stage-button) > hr {
+    display: none;
+}
+
+/* Communication block as card */
+.o_portal_wrap .container:has(.opp-stage-button) > div:has(#discussion) {
+    margin-top: 18px;
+    padding: 22px 28px;
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line);
+    border-radius: var(--r-lg);
+    box-shadow: var(--sh-1);
+}
+.o_portal_wrap .container:has(.opp-stage-button) > div:has(#discussion) h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--wt-ink);
+    margin: 0 0 14px;
+}
+
+@media (max-width: 767px) {
+    .o_portal_wrap .container:has(.opp-stage-button) > .d-flex.mb-3 {
+        padding: 18px 16px 12px;
+    }
+    .o_portal_wrap .container:has(.opp-stage-button) > .row {
+        padding: 12px 16px 18px;
+    }
+    .o_portal_wrap .container:has(.opp-stage-button) > div:has(#discussion) {
+        padding: 16px;
+        border-radius: var(--r-md);
+    }
+}
+
+
+/* =========================================================
+   Z. Print Styles
    ========================================================= */
 
 @media print {
