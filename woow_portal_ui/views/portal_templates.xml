@@ -667,23 +667,6 @@
     </record>
 
     <!-- ============================================================ -->
-    <!-- Account Page — Styled warning box (A-NEW1)                   -->
-    <!-- ============================================================ -->
-    <template id="portal_account_warning" name="Woow Account Warning Box"
-              inherit_id="portal.portal_my_details_fields" priority="10">
-        <xpath expr="//div[hasclass('col-12')][.//small[hasclass('form-text')]]" position="replace">
-            <div t-if="not partner_can_edit_vat" class="col-12 wt-account-warning mb-3">
-                <i class="fa fa-exclamation-triangle wt-aw-ico"/>
-                <div class="wt-aw-text">
-                    <b>Company name</b>, <b>VAT Number</b> and <b>country</b>
-                    can not be changed once <a href="#">document(s) have been issued</a> for your account.
-                    Please <a href="/contactus">contact us</a> directly for that operation.
-                </div>
-            </div>
-        </xpath>
-    </template>
-
-    <!-- ============================================================ -->
     <!-- Card views for additional portal pages (forcecreate=False    -->
     <!-- for safe cross-module inheritance — silently skips if the    -->
     <!-- parent module is not installed)                              -->
