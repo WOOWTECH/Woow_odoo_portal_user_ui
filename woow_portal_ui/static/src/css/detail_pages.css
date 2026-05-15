@@ -27,9 +27,85 @@
 
 /* Sidebar column: fit content height, keep full width */
 .o_portal_sidebar .o_portal_sale_sidebar > .d-flex:first-child,
+.o_portal_sidebar .o_portal_purchase_sidebar > .d-flex:first-child,
 .o_portal_sidebar .o_portal_invoice_sidebar > .d-flex:first-child,
 .o_portal_sidebar .o_project_portal_sidebar > .d-flex:first-child {
     align-items: flex-start !important;
+}
+
+/* Purchase sidebar: prevent Accept/Decline from stretching sidebar */
+.o_portal_sidebar .o_portal_sidebar_content > .flex-grow-1 {
+    flex-grow: 0 !important;
+}
+/* Remove mt-3 gap between Accept/Decline and Download/Print blocks */
+.o_portal_sidebar .o_portal_purchase_sidebar .o_portal_sidebar_content > .d-flex.mt-3 {
+    margin-top: 0 !important;
+}
+
+/* Purchase sidebar: Accept/Decline wrapper — grid layout */
+.o_portal_sidebar .o_portal_sidebar_content > .flex-grow-1 {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+/* All sidebar btn-secondary: base style */
+.o_portal_sidebar .o_portal_sidebar_content .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: var(--r-md) !important;
+    font-size: 13.5px;
+    font-weight: 600;
+    transition: all .15s;
+}
+/* Accept button — solid blue (override inline style) */
+.o_portal_sidebar .o_portal_sidebar_content [name="accept"] {
+    background-color: var(--wt-blue) !important;
+    border-color: var(--wt-blue) !important;
+    color: #fff !important;
+}
+.o_portal_sidebar .o_portal_sidebar_content [name="accept"]:hover {
+    background-color: var(--wt-blue-700) !important;
+    border-color: var(--wt-blue-700) !important;
+}
+/* Decline button — outline blue */
+.o_portal_sidebar .o_portal_sidebar_content [name="decline"] {
+    background-color: #fff !important;
+    color: var(--wt-blue) !important;
+    border: 1px solid var(--wt-blue) !important;
+}
+.o_portal_sidebar .o_portal_sidebar_content [name="decline"]:hover {
+    background-color: var(--wt-blue-50) !important;
+}
+/* Download/Print button — ghost (light blue) */
+.o_portal_sidebar .o_portal_sidebar_content .o_print_btn {
+    background: var(--wt-blue-50) !important;
+    color: var(--wt-blue) !important;
+    border: 1px solid var(--wt-blue-100) !important;
+    border-radius: var(--r-md) !important;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 11px 14px;
+    width: 100%;
+}
+.o_portal_sidebar .o_portal_sidebar_content .o_print_btn:hover {
+    background: var(--wt-blue-100) !important;
+}
+/* "Connect with your software!" — same ghost style as Download/Print */
+.o_portal_sidebar .o_portal_sidebar_content .btn-primary[data-bs-toggle="modal"] {
+    background: var(--wt-blue-50) !important;
+    color: var(--wt-blue) !important;
+    border: 1px solid var(--wt-blue-100) !important;
+    border-radius: var(--r-md) !important;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 11px 14px;
+    width: 100%;
+}
+.o_portal_sidebar .o_portal_sidebar_content .btn-primary[data-bs-toggle="modal"]:hover {
+    background: var(--wt-blue-100) !important;
 }
 
 /* Hide vertical rule between sidebar and content */
@@ -139,6 +215,7 @@
 
 /* Main content wrapper */
 .o_portal_sidebar #portal_sale_content,
+.o_portal_sidebar #portal_purchase_content,
 .o_portal_sidebar #task_content > #card {
     background: var(--wt-surface);
     border: 1px solid var(--wt-line);
@@ -258,11 +335,13 @@
     margin: 12px 0 6px;
 }
 
-.o_portal_sidebar #sales_order_table {
+.o_portal_sidebar #sales_order_table,
+.o_portal_sidebar #purchase_order_table {
     border-collapse: collapse;
     font-size: 13px;
 }
-.o_portal_sidebar #sales_order_table thead th {
+.o_portal_sidebar #sales_order_table thead th,
+.o_portal_sidebar #purchase_order_table thead th {
     padding: 10px 12px;
     border-bottom: 1px solid var(--wt-line) !important;
     border-top: none !important;
@@ -271,7 +350,8 @@
     font-size: 12.5px;
     background: #f9fafd;
 }
-.o_portal_sidebar #sales_order_table tbody td {
+.o_portal_sidebar #sales_order_table tbody td,
+.o_portal_sidebar #purchase_order_table tbody td {
     padding: 12px;
     border-bottom: 1px solid var(--wt-line-soft) !important;
     border-top: none !important;
@@ -279,27 +359,33 @@
     vertical-align: middle;
 }
 /* Amount cells */
-.o_portal_sidebar #sales_order_table .text-end {
+.o_portal_sidebar #sales_order_table .text-end,
+.o_portal_sidebar #purchase_order_table .text-end {
     font-variant-numeric: tabular-nums;
 }
 .o_portal_sidebar #sales_order_table #subtotal_header,
-.o_portal_sidebar #sales_order_table .oe_order_line_price_subtotal {
+.o_portal_sidebar #sales_order_table .oe_order_line_price_subtotal,
+.o_portal_sidebar #purchase_order_table #subtotal_header,
+.o_portal_sidebar #purchase_order_table .oe_order_line_price_subtotal {
     font-weight: 600;
 }
 
 /* Section & note rows */
-.o_portal_sidebar #sales_order_table .o_line_section {
+.o_portal_sidebar #sales_order_table .o_line_section,
+.o_portal_sidebar #purchase_order_table .o_line_section {
     font-weight: 700;
     color: var(--wt-ink);
     background: transparent;
 }
-.o_portal_sidebar #sales_order_table .o_line_note {
+.o_portal_sidebar #sales_order_table .o_line_note,
+.o_portal_sidebar #purchase_order_table .o_line_note {
     font-style: italic;
     color: var(--wt-ink-2);
 }
 
 /* Subtotal rows */
-.o_portal_sidebar #sales_order_table .is-subtotal td {
+.o_portal_sidebar #sales_order_table .is-subtotal td,
+.o_portal_sidebar #purchase_order_table .is-subtotal td {
     font-weight: 600;
     border-top: 1px solid var(--wt-line) !important;
     border-bottom: none !important;
@@ -350,26 +436,33 @@
    ========================================================= */
 
 .o_portal_sidebar #portal_sale_content > section,
+.o_portal_sidebar #portal_purchase_content > section,
 .o_portal_sidebar #portal_sale_content #terms,
-.o_portal_sidebar #portal_sale_content [name="payment_term"] {
+.o_portal_sidebar #portal_purchase_content #terms,
+.o_portal_sidebar #portal_sale_content [name="payment_term"],
+.o_portal_sidebar #portal_purchase_content [name="payment_term"] {
     margin-top: 22px;
     padding-top: 18px;
     border-top: 1px solid var(--wt-line-soft);
 }
-.o_portal_sidebar #portal_sale_content section h4 {
+.o_portal_sidebar #portal_sale_content section h4,
+.o_portal_sidebar #portal_purchase_content section h4 {
     font-size: 17px;
     font-weight: 700;
     color: var(--wt-ink);
 }
 /* Hide redundant hr separators inside content */
 .o_portal_sidebar #portal_sale_content > section hr,
+.o_portal_sidebar #portal_purchase_content > section hr,
 .o_portal_sidebar #content > section hr {
     display: none;
 }
 
 /* Signature display */
 .o_portal_sidebar #portal_sale_content img[t-att-src],
-.o_portal_sidebar #portal_sale_content .card-body img {
+.o_portal_sidebar #portal_purchase_content img[t-att-src],
+.o_portal_sidebar #portal_sale_content .card-body img,
+.o_portal_sidebar #portal_purchase_content .card-body img {
     max-width: 200px;
     border-radius: var(--r-sm);
 }
@@ -386,6 +479,7 @@
 }
 
 .o_portal_sidebar #sale_order_communication,
+.o_portal_sidebar #purchase_order_communication,
 .o_portal_sidebar #invoice_communication,
 .o_portal_sidebar #task_chat {
     margin-top: 18px;
@@ -396,6 +490,7 @@
     box-shadow: var(--sh-1);
 }
 .o_portal_sidebar #sale_order_communication h3,
+.o_portal_sidebar #purchase_order_communication h3,
 .o_portal_sidebar #invoice_communication h3,
 .o_portal_sidebar #task_chat h3 {
     font-size: 18px;
@@ -471,23 +566,28 @@
 
 @media (max-width: 767px) {
     .o_portal_sidebar #portal_sale_content,
+    .o_portal_sidebar #portal_purchase_content,
     .o_portal_sidebar #task_content > #card {
         padding: 18px 16px;
         border-radius: var(--r-md);
     }
 
     .o_portal_sidebar #sale_order_communication,
+    .o_portal_sidebar #purchase_order_communication,
     .o_portal_sidebar #invoice_communication,
     .o_portal_sidebar #task_chat {
         padding: 16px;
         border-radius: var(--r-md);
     }
 
-    .o_portal_sidebar #sales_order_table {
+    .o_portal_sidebar #sales_order_table,
+    .o_portal_sidebar #purchase_order_table {
         font-size: 12px;
     }
     .o_portal_sidebar #sales_order_table thead th,
-    .o_portal_sidebar #sales_order_table tbody td {
+    .o_portal_sidebar #sales_order_table tbody td,
+    .o_portal_sidebar #purchase_order_table thead th,
+    .o_portal_sidebar #purchase_order_table tbody td {
         padding: 8px 6px;
     }
 
@@ -612,6 +712,7 @@
 
 @media print {
     .o_portal_sidebar #portal_sale_content,
+    .o_portal_sidebar #portal_purchase_content,
     .o_portal_sidebar #task_content > #card {
         border: none;
         box-shadow: none;
@@ -619,6 +720,7 @@
         border-radius: 0;
     }
     .o_portal_sidebar #sale_order_communication,
+    .o_portal_sidebar #purchase_order_communication,
     .o_portal_sidebar #invoice_communication,
     .o_portal_sidebar #task_chat {
         border: none;
