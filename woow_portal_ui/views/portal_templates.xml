@@ -204,255 +204,262 @@
             <t t-set="breadcrumbs_searchbar" t-value="True"/>
 
             <div class="container py-3">
+              <div class="nc-page">
 
-              <!-- Sticky top bar: header + searchbar + tabs + mark-all -->
-              <div class="wpu-notif-sticky-top">
-
-                <!-- Header -->
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <a href="/my/home" class="btn btn-sm btn-outline-secondary">
-                        <i class="fa fa-arrow-left me-1"/><span>Back</span>
-                    </a>
-                    <h4 class="mb-0 fw-bold flex-grow-1 text-center">Notification Center</h4>
-                    <button type="button"
-                            class="navbar-toggler border-0 p-1"
-                            id="wpu_notif_searchbar_toggle"
-                            t-att-aria-label="'Search and filter'">
-                        <span class="fa fa-fw fa-bars"/>
-                    </button>
+                <!-- ===== Header Row ===== -->
+                <div class="nc-head-row">
+                    <div>
+                        <div class="nc-breadcrumb">
+                            <a href="/my/home" class="nc-bc-link">
+                                <i class="fa fa-chevron-left me-1"/>Back
+                            </a>
+                            <span class="nc-bc-sep">/</span>
+                            <a href="/my/home" class="nc-bc-link">
+                                <i class="fa fa-home"/>
+                            </a>
+                            <span class="nc-bc-sep">/</span>
+                            <span class="nc-bc-current">Notification Center</span>
+                        </div>
+                        <h1 class="nc-h1">Notification Center</h1>
+                    </div>
+                    <div class="nc-actions">
+                        <!-- Mobile filter toggle (hidden on desktop via CSS) -->
+                        <button type="button"
+                                class="nc-filter-toggle"
+                                id="wpu_notif_searchbar_toggle">
+                            <i class="fa fa-filter"/>
+                            <span class="nc-ft-label">Filters</span>
+                            <i class="fa fa-chevron-down nc-ft-chev"/>
+                        </button>
+                        <t t-if="unread_notif_count">
+                            <button type="button" class="nc-mark-all"
+                                    id="wpu_mark_all_read">
+                                <i class="fa fa-check me-1"/>Mark all read
+                            </button>
+                        </t>
+                    </div>
                 </div>
 
-                <!-- Search / Filter / Sort / Group panel -->
-                <div class="wpu-notif-searchbar d-none mb-3" id="wpu_notif_searchbar">
-                    <div class="bg-light border rounded p-3">
+                <!-- ===== 2-Column Layout ===== -->
+                <div class="nc-layout">
 
-                        <!-- Sort By -->
-                        <div class="mb-2">
-                            <label class="form-label fw-semibold small mb-1">Sort By:</label>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-sm btn-outline-secondary wpu-notif-sort-btn active"
-                                        data-sort="newest">Newest</button>
-                                <button class="btn btn-sm btn-outline-secondary wpu-notif-sort-btn"
-                                        data-sort="oldest">Oldest</button>
-                            </div>
-                        </div>
+                    <!-- LEFT SIDEBAR -->
+                    <aside class="nc-side" id="wpu_notif_sidebar">
 
-                        <!-- Filter By -->
-                        <div class="mb-2">
-                            <label class="form-label fw-semibold small mb-1">Filter By:</label>
-                            <div class="d-flex gap-2 flex-wrap">
-                                <button class="btn btn-sm btn-outline-secondary wpu-notif-filter-btn active"
-                                        data-filter="all">All</button>
-                                <button class="btn btn-sm btn-outline-secondary wpu-notif-filter-btn"
-                                        data-filter="unread">Unread</button>
-                                <button class="btn btn-sm btn-outline-secondary wpu-notif-filter-btn"
-                                        data-filter="read">Read</button>
-                            </div>
-                        </div>
+                        <!-- Vertical Tab Nav -->
+                        <nav class="nc-tabs wpu-notif-tabs">
+                            <a t-attf-href="/my/notifications?tab=all"
+                               t-attf-class="nc-tab wpu-notif-tab tone-ink #{'active' if current_tab == 'all' else ''}">
+                                <span class="nc-tab-ico"><i class="fa fa-fw fa-asterisk"/></span>
+                                <span class="nc-tab-l">All</span>
+                                <span class="nc-tab-c" data-unread-badge="all">
+                                    <t t-esc="unread_all_count or 0"/>
+                                </span>
+                            </a>
+                            <a t-attf-href="/my/notifications?tab=message"
+                               t-attf-class="nc-tab wpu-notif-tab tone-coral #{'active' if current_tab == 'message' else ''}">
+                                <span class="nc-tab-ico"><i class="fa fa-fw fa-comment"/></span>
+                                <span class="nc-tab-l">Messages</span>
+                                <span class="nc-tab-c" data-unread-badge="message">
+                                    <t t-esc="unread_message_count or 0"/>
+                                </span>
+                            </a>
+                            <a t-attf-href="/my/notifications?tab=notification"
+                               t-attf-class="nc-tab wpu-notif-tab tone-blue #{'active' if current_tab == 'notification' else ''}">
+                                <span class="nc-tab-ico"><i class="fa fa-fw fa-bell"/></span>
+                                <span class="nc-tab-l">Notifications</span>
+                                <span class="nc-tab-c" data-unread-badge="notification">
+                                    <t t-esc="unread_sys_notif_count or 0"/>
+                                </span>
+                            </a>
+                            <t t-if="is_internal_user">
+                                <a t-attf-href="/my/notifications?tab=activity"
+                                   t-attf-class="nc-tab wpu-notif-tab tone-green #{'active' if current_tab == 'activity' else ''}">
+                                    <span class="nc-tab-ico"><i class="fa fa-fw fa-check-square-o"/></span>
+                                    <span class="nc-tab-l">To-Do</span>
+                                    <span class="nc-tab-c" data-activity-badge="activity">
+                                        <t t-esc="activity_count or 0"/>
+                                    </span>
+                                </a>
+                            </t>
+                        </nav>
 
-                        <!-- Group By -->
-                        <div class="mb-2">
-                            <label class="form-label fw-semibold small mb-1">Group By:</label>
-                            <div class="d-flex gap-2 flex-wrap">
-                                <button class="btn btn-sm btn-outline-secondary wpu-notif-group-btn active"
-                                        data-group="none">None</button>
-                                <button class="btn btn-sm btn-outline-secondary wpu-notif-group-btn"
-                                        data-group="type">Type</button>
-                                <button class="btn btn-sm btn-outline-secondary wpu-notif-group-btn"
-                                        data-group="source">Source</button>
-                            </div>
-                        </div>
-
-                        <!-- Search -->
-                        <div class="mb-0">
-                            <div class="input-group input-group-sm">
-                                <span class="input-group-text"><i class="fa fa-search text-muted"/></span>
-                                <input type="text" class="form-control" id="wpu_notif_search_input"
-                                       placeholder="Search"/>
-                                <button class="btn btn-outline-secondary" type="button" id="wpu_notif_search_btn">
-                                    <i class="fa fa-search"/>
+                        <!-- Filter / Sort / Group / Search Card -->
+                        <section class="nc-filter-card wpu-notif-searchbar" id="wpu_notif_searchbar">
+                            <!-- Search -->
+                            <div class="ncf-search">
+                                <i class="fa fa-search" style="color: var(--wt-ink-3);"/>
+                                <input type="text" id="wpu_notif_search_input"
+                                       placeholder="Search notifications..."/>
+                                <button type="button" class="ncf-search-clear d-none"
+                                        id="wpu_notif_search_btn" aria-label="Clear">
+                                    <i class="fa fa-times"/>
                                 </button>
                             </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Tabs -->
-                <div class="wpu-notif-tabs mb-3">
-                    <a t-attf-href="/my/notifications?tab=all"
-                       t-attf-class="wpu-notif-tab #{'active' if current_tab == 'all' else ''}">
-                        All
-                        <t t-if="unread_all_count">
-                            <span class="badge bg-danger ms-1" data-unread-badge="all">
-                                <t t-esc="unread_all_count"/>
-                            </span>
-                        </t>
-                    </a>
-                    <a t-attf-href="/my/notifications?tab=message"
-                       t-attf-class="wpu-notif-tab #{'active' if current_tab == 'message' else ''}">
-                        Messages
-                        <t t-if="unread_message_count">
-                            <span class="badge bg-danger ms-1" data-unread-badge="message">
-                                <t t-esc="unread_message_count"/>
-                            </span>
-                        </t>
-                    </a>
-                    <a t-attf-href="/my/notifications?tab=notification"
-                       t-attf-class="wpu-notif-tab #{'active' if current_tab == 'notification' else ''}">
-                        Notifications
-                        <t t-if="unread_sys_notif_count">
-                            <span class="badge bg-danger ms-1" data-unread-badge="notification">
-                                <t t-esc="unread_sys_notif_count"/>
-                            </span>
-                        </t>
-                    </a>
-                    <t t-if="is_internal_user">
-                        <a t-attf-href="/my/notifications?tab=activity"
-                           t-attf-class="wpu-notif-tab #{'active' if current_tab == 'activity' else ''}">
-                            To-Do
-                            <t t-if="activity_count">
-                                <span class="badge bg-danger ms-1"
-                                      data-activity-badge="activity">
-                                    <t t-esc="activity_count"/>
-                                </span>
-                            </t>
-                        </a>
-                    </t>
-                </div>
-
-                <!-- Mark All Read button -->
-                <t t-if="unread_notif_count">
-                    <div class="text-end mb-2">
-                        <button type="button" class="btn btn-sm btn-outline-secondary"
-                                id="wpu_mark_all_read">
-                            <i class="fa fa-check-double me-1"/>Mark all read
-                        </button>
-                    </div>
-                </t>
-
-              </div><!-- /wpu-notif-sticky-top -->
-
-                <!-- Notification List -->
-                <div class="wpu-notif-list" id="wpu_notif_list">
-                    <t t-if="notification_items">
-                        <t t-foreach="notification_items" t-as="item">
-                            <!-- Notification-type item -->
-                            <t t-if="item.get('notif_id')">
-                                <div t-attf-class="wpu-notif-card-wrapper #{'wpu-notif-read' if item['is_read'] else 'wpu-notif-unread'}"
-                                     t-att-data-notif-id="item['notif_id']"
-                                     data-item-type="notification">
-                                    <div class="wpu-notif-swipe-bg">
-                                        <t t-if="item['is_read']">
-                                            <i class="fa fa-times"/>
-                                            <span>Dismiss</span>
-                                        </t>
-                                        <t t-else="">
-                                            <i class="fa fa-check"/>
-                                            <span>Read</span>
-                                        </t>
-                                    </div>
-                                    <div class="wpu-notif-card" data-action="show-detail">
-                                        <div class="wpu-notif-card-icon">
-                                            <i t-attf-class="fa #{item.get('icon', 'fa-bell')}"/>
-                                        </div>
-                                        <div class="wpu-notif-card-body">
-                                            <div class="wpu-notif-card-title">
-                                                <t t-esc="item['subject']"/>
-                                            </div>
-                                            <div class="wpu-notif-card-meta">
-                                                <span class="wpu-notif-card-source">
-                                                    <t t-esc="item['record_name']"/>
-                                                </span>
-                                                <span class="wpu-notif-card-date">
-                                                    <t t-esc="item['time_ago']"/>
-                                                </span>
-                                            </div>
-                                            <t t-if="item.get('tracking_summary')">
-                                                <div class="wpu-notif-card-tracking">
-                                                    <small class="text-muted">
-                                                        <i class="fa fa-exchange me-1"/>
-                                                        <t t-esc="item['tracking_summary']"/>
-                                                    </small>
-                                                </div>
-                                            </t>
-                                            <t t-if="item.get('body_preview') and not item.get('tracking_summary')">
-                                                <div class="wpu-notif-card-preview">
-                                                    <small class="text-muted">
-                                                        <t t-esc="item['body_preview']"/>
-                                                    </small>
-                                                </div>
-                                            </t>
-                                        </div>
-                                        <div class="wpu-notif-card-hint">
-                                            <span t-attf-class="wpu-unread-dot #{'d-none' if item['is_read'] else ''}"
-                                                  t-att-data-notif-id="item['notif_id']"/>
-                                            <i class="fa fa-angle-right text-muted"/>
-                                        </div>
+                            <!-- Sort -->
+                            <div class="ncf-segs">
+                                <div class="ncf-row">
+                                    <span class="ncf-label">Sort</span>
+                                    <div class="ncf-seg">
+                                        <button class="ncf-seg-btn wpu-notif-sort-btn active"
+                                                data-sort="newest">Newest</button>
+                                        <button class="ncf-seg-btn wpu-notif-sort-btn"
+                                                data-sort="oldest">Oldest</button>
                                     </div>
                                 </div>
-                            </t>
-                            <!-- Activity-type item -->
-                            <t t-if="item.get('activity_id')">
-                                <div t-attf-class="wpu-notif-card-wrapper wpu-activity-#{item.get('state', 'planned')}"
-                                     t-att-data-activity-id="item['activity_id']"
-                                     data-item-type="activity">
-                                    <div class="wpu-notif-swipe-bg">
-                                        <i class="fa fa-check"/>
-                                        <span>Done</span>
+                                <!-- Filter -->
+                                <div class="ncf-row">
+                                    <span class="ncf-label">Filter</span>
+                                    <div class="ncf-seg">
+                                        <button class="ncf-seg-btn wpu-notif-filter-btn active"
+                                                data-filter="all">All</button>
+                                        <button class="ncf-seg-btn wpu-notif-filter-btn"
+                                                data-filter="unread">Unread</button>
+                                        <button class="ncf-seg-btn wpu-notif-filter-btn"
+                                                data-filter="read">Read</button>
                                     </div>
-                                    <div class="wpu-notif-card" data-action="show-detail">
-                                        <div class="wpu-notif-card-icon">
-                                            <i t-attf-class="fa #{item.get('icon', 'fa-clock-o')}"/>
-                                        </div>
-                                        <div class="wpu-notif-card-body">
-                                            <div class="wpu-notif-card-title">
-                                                <t t-esc="item['summary']"/>
-                                            </div>
-                                            <div class="wpu-notif-card-meta">
-                                                <span class="wpu-notif-card-source">
-                                                    <t t-esc="item['res_name']"/>
-                                                </span>
-                                                <t t-if="item.get('date_deadline')">
-                                                    <span class="wpu-notif-card-date">
-                                                        <i class="fa fa-calendar-o me-1"/>
-                                                        <t t-esc="item['date_deadline']"/>
-                                                    </span>
+                                </div>
+                                <!-- Group -->
+                                <div class="ncf-row">
+                                    <span class="ncf-label">Group</span>
+                                    <div class="ncf-seg">
+                                        <button class="ncf-seg-btn wpu-notif-group-btn active"
+                                                data-group="none">None</button>
+                                        <button class="ncf-seg-btn wpu-notif-group-btn"
+                                                data-group="source">Source</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                    </aside>
+
+                    <!-- RIGHT MAIN CONTENT -->
+                    <div class="nc-main">
+
+                        <!-- Notification List -->
+                        <div class="wpu-notif-list" id="wpu_notif_list">
+                            <t t-if="notification_items">
+                                <t t-foreach="notification_items" t-as="item">
+                                    <!-- Notification-type item -->
+                                    <t t-if="item.get('notif_id')">
+                                        <div t-attf-class="wpu-notif-card-wrapper #{'wpu-notif-read' if item['is_read'] else 'wpu-notif-unread'}"
+                                             t-att-data-notif-id="item['notif_id']"
+                                             data-item-type="notification">
+                                            <div class="wpu-notif-swipe-bg">
+                                                <t t-if="item['is_read']">
+                                                    <i class="fa fa-times"/>
+                                                    <span>Dismiss</span>
+                                                </t>
+                                                <t t-else="">
+                                                    <i class="fa fa-check"/>
+                                                    <span>Read</span>
                                                 </t>
                                             </div>
-                                            <div class="wpu-notif-card-type">
-                                                <span class="badge bg-light text-dark">
-                                                    <t t-esc="item.get('activity_type', 'Activity')"/>
-                                                </span>
+                                            <div class="wpu-notif-card" data-action="show-detail">
+                                                <div class="wpu-notif-card-icon">
+                                                    <i t-attf-class="fa #{item.get('icon', 'fa-bell')}"/>
+                                                </div>
+                                                <div class="wpu-notif-card-body">
+                                                    <div class="wpu-notif-card-title">
+                                                        <t t-esc="item['subject']"/>
+                                                    </div>
+                                                    <div class="wpu-notif-card-meta">
+                                                        <span class="wpu-notif-card-source">
+                                                            <t t-esc="item['record_name']"/>
+                                                        </span>
+                                                        <span class="nc-meta-sep">·</span>
+                                                        <span class="wpu-notif-card-date">
+                                                            <t t-esc="item['time_ago']"/>
+                                                        </span>
+                                                    </div>
+                                                    <t t-if="item.get('tracking_summary')">
+                                                        <div class="wpu-notif-card-preview">
+                                                            <t t-esc="item['tracking_summary']"/>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="item.get('body_preview') and not item.get('tracking_summary')">
+                                                        <div class="wpu-notif-card-preview">
+                                                            <t t-esc="item['body_preview']"/>
+                                                        </div>
+                                                    </t>
+                                                </div>
+                                                <div class="wpu-notif-card-hint">
+                                                    <span t-attf-class="wpu-unread-dot #{'d-none' if item['is_read'] else ''}"
+                                                          t-att-data-notif-id="item['notif_id']"/>
+                                                    <i class="fa fa-angle-right nc-chev"/>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="wpu-notif-card-hint">
-                                            <span class="wpu-activity-dot"
-                                                  t-att-data-activity-id="item['activity_id']"/>
-                                            <i class="fa fa-angle-right text-muted"/>
+                                    </t>
+                                    <!-- Activity-type item -->
+                                    <t t-if="item.get('activity_id')">
+                                        <div t-attf-class="wpu-notif-card-wrapper wpu-activity-#{item.get('state', 'planned')}"
+                                             t-att-data-activity-id="item['activity_id']"
+                                             data-item-type="activity">
+                                            <div class="wpu-notif-swipe-bg">
+                                                <i class="fa fa-check"/>
+                                                <span>Done</span>
+                                            </div>
+                                            <div class="wpu-notif-card" data-action="show-detail">
+                                                <div class="wpu-notif-card-icon">
+                                                    <i t-attf-class="fa #{item.get('icon', 'fa-clock-o')}"/>
+                                                </div>
+                                                <div class="wpu-notif-card-body">
+                                                    <div class="wpu-notif-card-title">
+                                                        <t t-esc="item['summary']"/>
+                                                    </div>
+                                                    <div class="wpu-notif-card-meta">
+                                                        <span class="wpu-notif-card-source">
+                                                            <t t-esc="item['res_name']"/>
+                                                        </span>
+                                                        <t t-if="item.get('date_deadline')">
+                                                            <span class="nc-meta-sep">·</span>
+                                                            <span class="wpu-notif-card-date">
+                                                                <i class="fa fa-calendar-o me-1"/>
+                                                                <t t-esc="item['date_deadline']"/>
+                                                            </span>
+                                                        </t>
+                                                    </div>
+                                                    <div class="wpu-notif-card-type">
+                                                        <span class="nc-tag-todo">
+                                                            <t t-esc="item.get('activity_type', 'Activity')"/>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="wpu-notif-card-hint">
+                                                    <span class="wpu-activity-dot"
+                                                          t-att-data-activity-id="item['activity_id']"/>
+                                                    <i class="fa fa-angle-right nc-chev"/>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </t>
+                                </t>
+                            </t>
+                            <t t-else="">
+                                <div class="nc-empty">
+                                    <span class="nc-empty-ico"><i class="fa fa-bell fa-lg"/></span>
+                                    <div class="nc-empty-t">No notifications</div>
+                                    <div class="nc-empty-s">You're all caught up.</div>
                                 </div>
                             </t>
-                        </t>
-                    </t>
-                    <t t-else="">
-                        <div class="wpu-notif-empty text-center text-muted py-5">
-                            <i class="fa fa-check-circle fa-3x mb-3 d-block" style="opacity: 0.3;"/>
-                            <p class="mb-0">No notifications</p>
                         </div>
-                    </t>
-                </div>
 
-                <!-- Swipe hint -->
-                <t t-if="notification_items">
-                    <div class="wpu-swipe-hint text-center text-muted mt-2 mb-4"
-                         id="wpu_swipe_hint">
-                        <i class="fa fa-long-arrow-right me-1"/>
-                        <span>Swipe right to mark as read / done</span>
-                    </div>
-                </t>
+                        <!-- Swipe hint -->
+                        <t t-if="notification_items">
+                            <div class="wpu-swipe-hint text-center text-muted mt-2 mb-4"
+                                 id="wpu_swipe_hint">
+                                <i class="fa fa-long-arrow-right me-1"/>
+                                <span>Swipe right to mark as read / done</span>
+                            </div>
+                        </t>
 
+                    </div><!-- /nc-main -->
+
+                </div><!-- /nc-layout -->
+
+              </div><!-- /nc-page -->
             </div>
 
             <!-- Detail Modal -->

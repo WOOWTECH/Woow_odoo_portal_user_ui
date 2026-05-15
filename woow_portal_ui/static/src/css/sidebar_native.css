@@ -185,11 +185,6 @@ header .navbar .navbar-toggler .navbar-toggler-icon {
     border-color: #6183fc !important;
 }
 
-/* ---- Notification tab active ---- */
-.wpu-notif-tab.active {
-    color: #6183fc !important;
-    border-bottom-color: #6183fc !important;
-}
 
 /* ---- Notification card icon ---- */
 .wpu-notification-icon,

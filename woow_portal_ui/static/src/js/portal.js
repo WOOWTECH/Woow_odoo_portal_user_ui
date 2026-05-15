@@ -835,7 +835,8 @@ function initNotifSearchbar() {
     if (!toggle || !panel) return;
 
     toggle.addEventListener("click", function () {
-        panel.classList.toggle("d-none");
+        panel.classList.toggle("nc-filter-open");
+        toggle.classList.toggle("active");
     });
 
     var list = document.getElementById("wpu_notif_list");

@@ -886,9 +886,7 @@ header:has(+ .wrap .o_payment_form) {
     background: color-mix(in srgb, var(--wt-blue) 12%, transparent) !important;
 }
 .wpu-view-all-link { color: var(--wt-blue) !important; }
-.wpu-notif-tab.active { color: var(--wt-blue) !important; border-bottom-color: var(--wt-blue) !important; }
 .wpu-unread-dot { background: var(--wt-blue) !important; }
-.wpu-notif-searchbar .btn.active { background-color: var(--wt-blue) !important; border-color: var(--wt-blue) !important; }
 .wpu-notif-modal { border-radius: var(--r-lg) !important; }
 
 /* Account page warning — coral tint */
