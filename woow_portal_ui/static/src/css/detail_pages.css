@@ -707,6 +707,136 @@
 
 
 /* =========================================================
+   L. Lead Detail Page (no sidebar — single-column layout)
+   Scoped via :has(table.table-borderless):not(:has(.opp-stage-button))
+   ========================================================= */
+
+/* Title row (card top) */
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > .d-flex.mb-4 {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line);
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+    padding: 24px 28px 18px;
+    box-shadow: var(--sh-1);
+    border-bottom: 1px solid var(--wt-line-soft);
+    margin-bottom: 0 !important;
+}
+
+/* Info table (card middle) */
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > table.table-borderless {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line);
+    border-radius: 0;
+    padding: 16px 28px 16px;
+    box-shadow: var(--sh-1);
+    border-top: none;
+    border-bottom: none;
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* Table row styling */
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > table.table-borderless th,
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > table.table-borderless td {
+    font-size: 13px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--wt-line-soft);
+}
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > table.table-borderless th {
+    font-weight: 600;
+    color: var(--wt-ink);
+    min-width: 140px;
+    padding-right: 24px;
+}
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > table.table-borderless td {
+    color: var(--wt-ink-2);
+}
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > table.table-borderless tr:last-child th,
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > table.table-borderless tr:last-child td {
+    border-bottom: none;
+}
+
+/* Action buttons wrapper (card bottom) */
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > .d-flex.justify-content-center {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line);
+    border-top: none;
+    border-radius: 0 0 var(--r-lg) var(--r-lg);
+    box-shadow: var(--sh-1);
+    padding: 18px 28px 28px;
+    margin-top: 0 !important;
+    justify-content: flex-start !important;
+}
+
+/* "I'm interested" — solid blue */
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > .d-flex.justify-content-center [data-bs-target=".modal_partner_assign_interested"] {
+    background-color: var(--wt-blue) !important;
+    border-color: var(--wt-blue) !important;
+    color: #fff !important;
+    border-radius: var(--r-md);
+    font-weight: 600;
+    font-size: 13.5px;
+    padding: 11px 22px;
+}
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > .d-flex.justify-content-center [data-bs-target=".modal_partner_assign_interested"]:hover {
+    background-color: var(--wt-blue-700) !important;
+    border-color: var(--wt-blue-700) !important;
+}
+
+/* "I'm not interested" — outline blue */
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > .d-flex.justify-content-center [data-bs-target=".modal_partner_assign_desinterested"] {
+    background-color: #fff !important;
+    color: var(--wt-blue) !important;
+    border: 1px solid var(--wt-blue) !important;
+    border-radius: var(--r-md);
+    font-weight: 600;
+    font-size: 13.5px;
+    padding: 11px 22px;
+}
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > .d-flex.justify-content-center [data-bs-target=".modal_partner_assign_desinterested"]:hover {
+    background-color: var(--wt-blue-50) !important;
+}
+
+/* Hide hr separator */
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > hr {
+    display: none;
+}
+
+/* Communication block as card */
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > div:has(#discussion) {
+    margin-top: 18px;
+    padding: 22px 28px;
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line);
+    border-radius: var(--r-lg);
+    box-shadow: var(--sh-1);
+}
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > div:has(#discussion) h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--wt-ink);
+    margin: 0 0 14px;
+}
+
+@media (max-width: 767px) {
+    .o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > .d-flex.mb-4 {
+        padding: 18px 16px 12px;
+    }
+    .o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > table.table-borderless {
+        padding: 8px 16px 8px;
+    }
+    .o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > .d-flex.justify-content-center {
+        padding: 14px 16px 18px;
+    }
+    .o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > div:has(#discussion) {
+        padding: 16px;
+        border-radius: var(--r-md);
+    }
+}
+
+
+/* =========================================================
    Z. Print Styles
    ========================================================= */
 
