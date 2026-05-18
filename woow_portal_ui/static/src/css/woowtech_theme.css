@@ -1214,31 +1214,37 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
 }
 
 /* =========================================================
-   10c. PORTAL NAVBAR — Search Panel (pill search bar)
+   10c. PORTAL NAVBAR — Search Panel (separated toggle + pill)
    ========================================================= */
 
-/* Container — pill shape, light bg, subtle border */
+/* Container — flex, no outer border */
 .o_portal .o_portal_navbar .o_portal_search_panel .input-group {
-    background: var(--wt-surface);
-    border: 1px solid var(--wt-line);
-    border-radius: var(--r-pill);
+    background: transparent;
+    border: none;
+    border-radius: 0;
     transition: all .15s;
 }
-.o_portal .o_portal_navbar .o_portal_search_panel .input-group:focus-within {
-    border-color: var(--wt-blue);
-    box-shadow: 0 0 0 4px rgba(97, 131, 252, .10);
-}
 
-/* Dropdown toggle (field selector) — transparent, no border */
+/* Dropdown toggle — standalone button with filter icon */
 .o_portal .o_portal_navbar .o_portal_search_panel .dropdown-toggle {
-    background: transparent !important;
-    border: none !important;
+    background: #fff !important;
+    border: 1px solid var(--wt-line) !important;
+    border-radius: var(--r-md) !important;
     color: var(--wt-ink-2);
     font-size: 13px;
-    padding: 6px 10px 6px 14px;
+    padding: 6px 10px !important;
     box-shadow: none !important;
+    flex: 0 0 auto;
+    margin-right: 8px;
+}
+.o_portal .o_portal_navbar .o_portal_search_panel .dropdown-toggle::before {
+    content: "\f0b0";
+    font-family: FontAwesome;
+    margin-right: 4px;
+    font-size: 12px;
 }
 .o_portal .o_portal_navbar .o_portal_search_panel .dropdown-toggle:hover {
+    border-color: var(--wt-blue) !important;
     color: var(--wt-blue);
 }
 
@@ -1265,40 +1271,58 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     color: var(--wt-blue);
 }
 
-/* Search input — transparent, clean */
+/* Search input — left pill, border shared with submit */
 .o_portal .o_portal_navbar .o_portal_search_panel .form-control {
-    border: none !important;
-    background: transparent !important;
+    border: 1px solid var(--wt-line) !important;
+    border-right: none !important;
+    background: var(--wt-surface) !important;
+    border-radius: var(--r-pill) 0 0 var(--r-pill) !important;
     font-size: 13px;
     color: var(--wt-ink);
-    padding: 7px 0;
+    padding: 7px 12px 7px 16px;
     box-shadow: none !important;
+}
+.o_portal .o_portal_navbar .o_portal_search_panel .form-control:focus {
+    border-color: var(--wt-blue) !important;
 }
 .o_portal .o_portal_navbar .o_portal_search_panel .form-control::placeholder {
     color: var(--wt-ink-3);
 }
 
-/* Submit button — blue circle */
+/* Submit button wrapper — closes the pill border on the right */
 .o_portal .o_portal_navbar .o_portal_search_panel .input-group > button[type="submit"],
 .o_portal .o_portal_navbar .o_portal_search_panel .input-group > .btn:last-child {
-    background: var(--wt-blue) !important;
-    border: none !important;
-    color: #fff !important;
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    padding: 0;
-    border-radius: 50% !important;
+    background: var(--wt-surface) !important;
+    border: 1px solid var(--wt-line) !important;
+    border-left: none !important;
+    border-radius: 0 var(--r-pill) var(--r-pill) 0 !important;
+    color: var(--wt-blue) !important;
+    width: 42px;
+    min-width: 42px;
+    padding: 4px 5px 4px 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin: 3px 4px 3px 0;
     flex-shrink: 0;
+    transition: all .15s;
+}
+/* Inner icon — blue circle */
+.o_portal .o_portal_navbar .o_portal_search_panel .input-group > button[type="submit"] .oi,
+.o_portal .o_portal_navbar .o_portal_search_panel .input-group > .btn:last-child .oi {
+    background: var(--wt-blue);
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
     transition: background .15s;
 }
-.o_portal .o_portal_navbar .o_portal_search_panel .input-group > button[type="submit"]:hover,
-.o_portal .o_portal_navbar .o_portal_search_panel .input-group > .btn:last-child:hover {
-    background: var(--wt-blue-700) !important;
+.o_portal .o_portal_navbar .o_portal_search_panel .input-group > button[type="submit"]:hover .oi,
+.o_portal .o_portal_navbar .o_portal_search_panel .input-group > .btn:last-child:hover .oi {
+    background: var(--wt-blue-700);
 }
 
 /* "Pay overdue" button — move inline with filters and style as pill */
