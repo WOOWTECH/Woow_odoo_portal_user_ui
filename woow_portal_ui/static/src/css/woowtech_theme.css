@@ -1421,6 +1421,11 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
    matching Odoo's navbar-expand-lg breakpoint.
    ========================================================= */
 @media (max-width: 991px) {
+    /* Hide toggler when navbar content has no filter controls */
+    .o_portal .o_portal_navbar:not(:has(#o_portal_navbar_content .btn-group)):not(:has(.o_portal_search_panel)) .navbar-toggler {
+        display: none !important;
+    }
+
     /* Show navbar toggler on mobile, styled as filter button */
     .o_portal .o_portal_navbar .navbar-toggler {
         display: inline-flex !important;
@@ -1450,12 +1455,14 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     .o_portal .o_portal_navbar #o_portal_navbar_content.show,
     .o_portal .o_portal_navbar #o_portal_navbar_content.collapsing {
         display: flex !important;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        padding: 8px 0 0 !important;
+        flex-direction: column;
+        gap: 14px;
+        background: #fff !important;
+        border: 1px solid var(--wt-line) !important;
+        border-radius: var(--r-lg);
+        box-shadow: var(--sh-1) !important;
+        padding: 14px 16px !important;
+        margin-top: 8px;
     }
 
     /* Portal navbar — wrap filters to next row */
@@ -1466,26 +1473,57 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     .o_portal .o_portal_navbar > .breadcrumb {
         flex: 1;
     }
+
+    /* Nav container — vertical layout like NC filter segments */
     .o_portal .o_portal_navbar #o_portal_navbar_content .nav {
-        flex-direction: row !important;
-        flex-wrap: nowrap;
-        gap: 0.5rem;
-        width: auto;
+        flex-direction: column !important;
+        width: 100%;
+        gap: 12px;
         margin: 0 !important;
-        margin-left: 0 !important;
         padding: 0;
     }
 
-    /* Dropdown buttons — white bg, border, rounded */
-    .o_portal .o_portal_navbar .btn-light.dropdown-toggle {
-        font-size: 12px;
-        padding: 5px 10px;
-        background: #fff !important;
-        border: 1px solid #e3e6ee !important;
-        border-radius: 12px;
+    /* Each filter group — full width, vertical stack */
+    .o_portal .o_portal_navbar #o_portal_navbar_content .nav > div {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        width: 100%;
+        margin: 0 !important;
     }
-    /* Search panel full width */
+
+    /* Labels — uppercase, small, like ncf-label */
+    .o_portal .o_portal_navbar #o_portal_navbar_content .navbar-text {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--wt-ink-3);
+        letter-spacing: .14em;
+        text-transform: uppercase;
+    }
+
+    /* Dropdown buttons — pill style like NC segment buttons */
+    .o_portal .o_portal_navbar #o_portal_navbar_content .btn-group {
+        width: 100%;
+    }
+    .o_portal .o_portal_navbar #o_portal_navbar_content .btn-light.dropdown-toggle {
+        width: 100%;
+        text-align: left;
+        background: var(--wt-canvas) !important;
+        border: 1px solid var(--wt-line-soft) !important;
+        border-radius: var(--r-pill) !important;
+        padding: 8px 14px;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--wt-ink);
+    }
+    .o_portal .o_portal_navbar #o_portal_navbar_content .btn-light.dropdown-toggle:hover {
+        border-color: var(--wt-blue) !important;
+        color: var(--wt-blue);
+    }
+
+    /* Search panel — full width, show first */
     .o_portal .o_portal_navbar .o_portal_search_panel {
+        order: -1;
         width: 100%;
         margin: 0;
     }
