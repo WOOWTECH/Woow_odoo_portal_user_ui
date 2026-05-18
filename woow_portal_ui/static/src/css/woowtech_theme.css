@@ -745,10 +745,28 @@ header:has(+ .wrap .o_payment_form) {
     flex: 0 0 100% !important;
 }
 
-/* A-NEW4: Button icons via ::before */
-.o_portal_details .btn-primary::before { content: "\f00c  "; font-family: FontAwesome; }
-.o_portal_details a.btn-light::before,
-.o_portal_details a[href="/my/"].btn::before { content: "\f00d  "; font-family: FontAwesome; }
+/* A-NEW4: Discard button — pill outline style matching Save */
+.o_portal_details a.btn-light,
+.o_portal_details a[href="/my/"].btn {
+    border-radius: var(--r-pill);
+    font-weight: 600;
+    border: 1px solid var(--wt-line);
+    background: #fff;
+    color: var(--wt-ink);
+}
+.o_portal_details a.btn-light:hover,
+.o_portal_details a[href="/my/"].btn:hover {
+    border-color: var(--wt-blue);
+    color: var(--wt-blue);
+    background: #fff;
+}
+
+/* A-NEW5: Expand content column to full width (no sidebar on account page) */
+.o_portal_details > .col-lg-8 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
 
 /* =========================================================
    7. ORDERS PAGE — Card grid
