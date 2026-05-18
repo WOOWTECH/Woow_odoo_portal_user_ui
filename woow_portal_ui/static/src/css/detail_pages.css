@@ -708,11 +708,11 @@
 
 /* =========================================================
    L. Lead Detail Page (no sidebar — single-column layout)
-   Scoped via :has(table.table-borderless):not(:has(.opp-stage-button))
+   Scoped via :has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar))
    ========================================================= */
 
 /* Title row (card top) */
-.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > .d-flex.mb-4 {
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > .d-flex.mb-4 {
     background: var(--wt-surface);
     border: 1px solid var(--wt-line);
     border-radius: var(--r-lg) var(--r-lg) 0 0;
@@ -723,7 +723,7 @@
 }
 
 /* Info table (card middle) */
-.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > table.table-borderless {
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > table.table-borderless {
     background: var(--wt-surface);
     border: 1px solid var(--wt-line);
     border-radius: 0;
@@ -737,28 +737,28 @@
 }
 
 /* Table row styling */
-.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > table.table-borderless th,
-.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > table.table-borderless td {
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > table.table-borderless th,
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > table.table-borderless td {
     font-size: 13px;
     padding: 8px 0;
     border-bottom: 1px solid var(--wt-line-soft);
 }
-.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > table.table-borderless th {
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > table.table-borderless th {
     font-weight: 600;
     color: var(--wt-ink);
     min-width: 140px;
     padding-right: 24px;
 }
-.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > table.table-borderless td {
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > table.table-borderless td {
     color: var(--wt-ink-2);
 }
-.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > table.table-borderless tr:last-child th,
-.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > table.table-borderless tr:last-child td {
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > table.table-borderless tr:last-child th,
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > table.table-borderless tr:last-child td {
     border-bottom: none;
 }
 
 /* Action buttons wrapper (card bottom) */
-.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > .d-flex.justify-content-center {
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > .d-flex.justify-content-center {
     background: var(--wt-surface);
     border: 1px solid var(--wt-line);
     border-top: none;
@@ -770,7 +770,7 @@
 }
 
 /* "I'm interested" — solid blue */
-.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > .d-flex.justify-content-center [data-bs-target=".modal_partner_assign_interested"] {
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > .d-flex.justify-content-center [data-bs-target=".modal_partner_assign_interested"] {
     background-color: var(--wt-blue) !important;
     border-color: var(--wt-blue) !important;
     color: #fff !important;
@@ -779,13 +779,13 @@
     font-size: 13.5px;
     padding: 11px 22px;
 }
-.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > .d-flex.justify-content-center [data-bs-target=".modal_partner_assign_interested"]:hover {
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > .d-flex.justify-content-center [data-bs-target=".modal_partner_assign_interested"]:hover {
     background-color: var(--wt-blue-700) !important;
     border-color: var(--wt-blue-700) !important;
 }
 
 /* "I'm not interested" — outline blue */
-.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > .d-flex.justify-content-center [data-bs-target=".modal_partner_assign_desinterested"] {
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > .d-flex.justify-content-center [data-bs-target=".modal_partner_assign_desinterested"] {
     background-color: #fff !important;
     color: var(--wt-blue) !important;
     border: 1px solid var(--wt-blue) !important;
@@ -794,17 +794,17 @@
     font-size: 13.5px;
     padding: 11px 22px;
 }
-.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > .d-flex.justify-content-center [data-bs-target=".modal_partner_assign_desinterested"]:hover {
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > .d-flex.justify-content-center [data-bs-target=".modal_partner_assign_desinterested"]:hover {
     background-color: var(--wt-blue-50) !important;
 }
 
 /* Hide hr separator */
-.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > hr {
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > hr {
     display: none;
 }
 
 /* Communication block as card */
-.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > div:has(#discussion) {
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > div:has(#discussion) {
     margin-top: 18px;
     padding: 22px 28px;
     background: var(--wt-surface);
@@ -812,7 +812,7 @@
     border-radius: var(--r-lg);
     box-shadow: var(--sh-1);
 }
-.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > div:has(#discussion) h3 {
+.o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > div:has(#discussion) h3 {
     font-size: 18px;
     font-weight: 700;
     color: var(--wt-ink);
@@ -820,16 +820,16 @@
 }
 
 @media (max-width: 767px) {
-    .o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > .d-flex.mb-4 {
+    .o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > .d-flex.mb-4 {
         padding: 18px 16px 12px;
     }
-    .o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > table.table-borderless {
+    .o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > table.table-borderless {
         padding: 8px 16px 8px;
     }
-    .o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > .d-flex.justify-content-center {
+    .o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > .d-flex.justify-content-center {
         padding: 14px 16px 18px;
     }
-    .o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)) > div:has(#discussion) {
+    .o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > div:has(#discussion) {
         padding: 16px;
         border-radius: var(--r-md);
     }
