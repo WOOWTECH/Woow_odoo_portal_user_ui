@@ -394,7 +394,6 @@
 .wpu-notif-card-wrapper {
     position: relative;
     border-radius: var(--r-md);
-    overflow: hidden;
 }
 
 /* ----- Swipe background ----- */
