@@ -491,20 +491,6 @@
         </t>
     </template>
 
-    <!-- ============================================================ -->
-    <!-- Breadcrumb — back button at leftmost position                -->
-    <!-- ============================================================ -->
-    <template id="portal_breadcrumb_back_btn" name="Breadcrumb Back Button"
-              inherit_id="portal.portal_breadcrumbs" priority="50">
-        <xpath expr="//li[hasclass('breadcrumb-item')][1]" position="before">
-            <li class="breadcrumb-item wpu-back-btn-item">
-                <a href="#" class="wpu-breadcrumb-back-btn btn btn-sm btn-outline-secondary"
-                   onclick="event.preventDefault(); if (window.history.length > 1) { window.history.back(); } else { window.location.href='/my/home'; }">
-                    <i class="fa fa-arrow-left me-1"/><span>Back</span>
-                </a>
-            </li>
-        </xpath>
-    </template>
 
     <!-- Remove "Powered by Odoo" from portal record sidebar -->
     <template id="portal_record_sidebar_hide_powered" inherit_id="portal.portal_record_sidebar">
@@ -654,24 +640,6 @@
         </xpath>
     </template>
 
-    <!-- ============================================================ -->
-    <!-- Payment Methods — Add back button to breadcrumb              -->
-    <!-- ============================================================ -->
-    <record id="portal_payment_breadcrumb" model="ir.ui.view" forcecreate="False">
-        <field name="name">Woow Payment Breadcrumb</field>
-        <field name="inherit_id" ref="payment.portal_breadcrumb"/>
-        <field name="priority">50</field>
-        <field name="arch" type="xml">
-            <xpath expr="//li[hasclass('breadcrumb-item')][1]" position="before">
-                <li class="breadcrumb-item wpu-back-btn-item">
-                    <a href="#" class="wpu-breadcrumb-back-btn btn btn-sm btn-outline-secondary"
-                       onclick="event.preventDefault(); if (window.history.length > 1) { window.history.back(); } else { window.location.href='/my/home'; }">
-                        <i class="fa fa-arrow-left me-1"/><span>Back</span>
-                    </a>
-                </li>
-            </xpath>
-        </field>
-    </record>
 
     <!-- ============================================================ -->
     <!-- Card views for additional portal pages (forcecreate=False    -->

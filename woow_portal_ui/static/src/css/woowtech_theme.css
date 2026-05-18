@@ -185,6 +185,29 @@ header:has(+ .wrap .o_payment_form) {
     border-radius: var(--r-sm);
 }
 
+/* Record pager (prev/next) on detail pages */
+.record_pager.btn-group {
+    gap: 6px;
+}
+.record_pager .btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: var(--r-sm) !important;
+    border: 1px solid var(--wt-line) !important;
+    background: #fff !important;
+    color: var(--wt-ink-2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .15s;
+}
+.record_pager .btn:hover {
+    border-color: var(--wt-blue) !important;
+    color: var(--wt-blue);
+    background: var(--wt-blue-50) !important;
+}
+
 /* =========================================================
    4. HOME PAGE — CSS Grid on existing Odoo container
    ========================================================= */
@@ -1150,21 +1173,6 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
 /* Delete token button */
 .o_payment_form button[name="o_payment_delete_token"] {
     color: var(--wt-tone-coral);
-}
-
-/* =========================================================
-   10. BREADCRUMB — styled back button
-   ========================================================= */
-.wpu-breadcrumb-back-btn {
-    display: inline-flex; align-items: center; gap: 4px;
-    padding: 0 12px; height: 28px; border-radius: var(--r-pill) !important;
-    background: #fff !important; border: 1px solid var(--wt-line) !important;
-    font-size: 12.5px; color: var(--wt-ink) !important; font-weight: 500;
-    transition: all .15s; text-decoration: none !important;
-}
-.wpu-breadcrumb-back-btn:hover {
-    border-color: var(--wt-blue) !important; color: var(--wt-blue) !important;
-    background: #fff !important; text-decoration: none !important;
 }
 
 /* Home icon in portal breadcrumbs — blue color */
