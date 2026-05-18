@@ -842,6 +842,11 @@ function initNotifSearchbar() {
     var list = document.getElementById("wpu_notif_list");
     if (!list) return;
 
+    // Store original server-rendered order for stable sort
+    Array.from(list.querySelectorAll(".wpu-notif-card-wrapper")).forEach(function (card, i) {
+        card.dataset.origIndex = i;
+    });
+
     // Sort By
     var sortBtns = panel.querySelectorAll(".wpu-notif-sort-btn");
     sortBtns.forEach(function (btn) {
@@ -940,25 +945,24 @@ function _applyNotifFilters(list, panel) {
         }
     });
 
-    // Sort
+    // Sort by stored original index (stable across filter/sort switches)
     if (sortVal === "oldest") {
-        var parent = cards[0].parentNode;
-        visibleCards.reverse();
-        visibleCards.forEach(function (card) {
-            parent.appendChild(card);
+        visibleCards.sort(function (a, b) {
+            return Number(b.dataset.origIndex) - Number(a.dataset.origIndex);
         });
-        cards.forEach(function (card) {
-            if (card.classList.contains("wpu-filter-hidden")) {
-                parent.appendChild(card);
-            }
-        });
-    } else if (sortVal === "newest") {
-        var parent = cards[0].parentNode;
-        var allCards = Array.from(cards);
-        allCards.forEach(function (card) {
-            parent.appendChild(card);
+    } else {
+        visibleCards.sort(function (a, b) {
+            return Number(a.dataset.origIndex) - Number(b.dataset.origIndex);
         });
     }
+
+    // Re-append: sorted visible cards first, then hidden cards
+    visibleCards.forEach(function (card) { list.appendChild(card); });
+    Array.from(cards).forEach(function (card) {
+        if (card.classList.contains("wpu-filter-hidden")) {
+            list.appendChild(card);
+        }
+    });
 
     // Group
     if (groupVal !== "none" && visibleCards.length > 0) {
