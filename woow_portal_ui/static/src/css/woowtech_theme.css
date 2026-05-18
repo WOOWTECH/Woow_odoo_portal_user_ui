@@ -1421,24 +1421,50 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
    matching Odoo's navbar-expand-lg breakpoint.
    ========================================================= */
 @media (max-width: 991px) {
-    /* Portal navbar — wrap filters to next row */
-    .o_portal .o_portal_navbar {
-        flex-wrap: wrap;
+    /* Show navbar toggler on mobile, styled as filter button */
+    .o_portal .o_portal_navbar .navbar-toggler {
+        display: inline-flex !important;
+        background: #fff;
+        border: 1px solid var(--wt-line);
+        border-radius: var(--r-md);
+        padding: 6px 12px;
+        color: var(--wt-ink-2);
+        align-items: center;
+        gap: 4px;
+        font-size: 13px;
     }
-    /* Breadcrumb takes full first row */
-    .o_portal .o_portal_navbar > .breadcrumb {
-        flex: 0 0 100%;
+    .o_portal .o_portal_navbar .navbar-toggler .fa-bars::before {
+        content: "\f0b0"; /* fa-filter replaces fa-bars */
     }
+    .o_portal .o_portal_navbar .navbar-toggler:hover {
+        border-color: var(--wt-blue);
+        color: var(--wt-blue);
+    }
+
+    /* Let Bootstrap collapse handle content visibility */
     .o_portal .o_portal_navbar #o_portal_navbar_content {
-        flex-wrap: nowrap;
-        width: auto;
-        flex: 0 1 auto;
+        display: none !important;
+        width: 100%;
+        flex-basis: 100%;
+    }
+    .o_portal .o_portal_navbar #o_portal_navbar_content.show,
+    .o_portal .o_portal_navbar #o_portal_navbar_content.collapsing {
+        display: flex !important;
+        flex-wrap: wrap;
         gap: 0.5rem;
         background: transparent !important;
         border: none !important;
         box-shadow: none !important;
-        justify-content: flex-start !important;
-        padding: 0 !important;
+        padding: 8px 0 0 !important;
+    }
+
+    /* Portal navbar — wrap filters to next row */
+    .o_portal .o_portal_navbar {
+        flex-wrap: wrap;
+    }
+    /* Breadcrumb fills available space, toggler stays on same row */
+    .o_portal .o_portal_navbar > .breadcrumb {
+        flex: 1;
     }
     .o_portal .o_portal_navbar #o_portal_navbar_content .nav {
         flex-direction: row !important;
@@ -1449,16 +1475,7 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
         margin-left: 0 !important;
         padding: 0;
     }
-    /* Pay overdue button — icon-only in mobile, same row as filters */
-    .o_portal .o_portal_navbar > a.btn-primary[href*="overdue"] {
-        font-size: 0;
-        padding: 6px 12px;
-        margin-left: auto;
-    }
-    .o_portal .o_portal_navbar > a.btn-primary[href*="overdue"]::before {
-        font-size: 14px;
-        margin-right: 0;
-    }
+
     /* Dropdown buttons — white bg, border, rounded */
     .o_portal .o_portal_navbar .btn-light.dropdown-toggle {
         font-size: 12px;
