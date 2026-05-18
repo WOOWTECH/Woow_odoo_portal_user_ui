@@ -146,6 +146,45 @@ header:has(+ .wrap .o_payment_form) {
     box-shadow: 0 0 0 4px rgba(97,131,252,.12);
 }
 
+/* Pager buttons */
+.o_portal_pager .pagination {
+    gap: 6px;
+}
+.o_portal_pager .page-link {
+    color: var(--wt-ink-2);
+    border: 1px solid var(--wt-line);
+    border-radius: var(--r-sm);
+    background: #fff;
+    transition: all .15s;
+    min-width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    padding: 0 10px;
+}
+.o_portal_pager .page-link:hover {
+    border-color: var(--wt-blue);
+    color: var(--wt-blue);
+    background: var(--wt-blue-50);
+}
+.o_portal_pager .page-item.active .page-link {
+    background: var(--wt-blue);
+    border-color: var(--wt-blue);
+    color: #fff;
+}
+.o_portal_pager .page-item.disabled .page-link {
+    opacity: .4;
+    background: #fff;
+    border-color: var(--wt-line);
+    color: var(--wt-ink-2);
+}
+.o_portal_pager .page-item:first-child .page-link,
+.o_portal_pager .page-item:last-child .page-link {
+    border-radius: var(--r-sm);
+}
+
 /* =========================================================
    4. HOME PAGE — CSS Grid on existing Odoo container
    ========================================================= */
