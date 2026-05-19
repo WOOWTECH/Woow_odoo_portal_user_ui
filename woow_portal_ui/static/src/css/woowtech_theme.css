@@ -1355,6 +1355,24 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     border-color: var(--wt-blue-700) !important;
 }
 
+/* "Create Opportunity" button — style like "Pay overdue" pill */
+.o_portal .o_portal_navbar button[name="new_opp"] {
+    order: 99;
+    margin-left: 0.5rem;
+    background: var(--wt-blue) !important;
+    border-color: var(--wt-blue) !important;
+    color: #fff !important;
+    border-radius: var(--r-pill);
+    padding: 7px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.o_portal .o_portal_navbar button[name="new_opp"]:hover {
+    background: var(--wt-blue-700) !important;
+    border-color: var(--wt-blue-700) !important;
+}
+
 /* Force navbar always expanded on portal — no collapse toggler */
 .o_portal .o_portal_navbar .navbar-toggler {
     display: none !important;
@@ -1482,6 +1500,12 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     }
     .o_portal .o_portal_navbar .navbar-toggler {
         order: 3;
+    }
+    /* Create Opportunity button — smaller font on mobile */
+    .o_portal .o_portal_navbar button[name="new_opp"] {
+        font-size: 13px;
+        padding: 6px 14px;
+        margin-top: 6px;
     }
 
     /* Nav container — vertical layout like NC filter segments */
