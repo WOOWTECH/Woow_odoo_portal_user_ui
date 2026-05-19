@@ -1521,10 +1521,23 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
         color: var(--wt-blue);
     }
 
-    /* Search panel — full width, show first */
+    /* Search panel — full width, show first, prevent overflow */
     .o_portal .o_portal_navbar .o_portal_search_panel {
         order: -1;
-        width: 100%;
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100%;
         margin: 0;
+        padding: 0;
+    }
+
+    /* Segments — horizontal scroll for many options */
+    .o_portal .o_portal_navbar #o_portal_navbar_content .ncf-seg {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .o_portal .o_portal_navbar #o_portal_navbar_content .ncf-seg::-webkit-scrollbar {
+        display: none;
     }
 }

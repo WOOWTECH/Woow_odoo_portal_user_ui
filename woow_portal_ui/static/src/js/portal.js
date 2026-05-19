@@ -26,6 +26,7 @@ whenReady(async () => {
     initMarkAllRead();
     hideEmptyModuleCards();
     initNotifSearchbar();
+    initMobileFilterSegments();
     rewriteLogoLink();
 });
 
@@ -1071,4 +1072,45 @@ function jsonRpc(url, params) {
             console.error("Fetch error:", err);
             return null;
         });
+}
+
+// ------------------------------------------------------------------
+// Mobile filter segments — transform dropdowns to NC-style buttons
+// ------------------------------------------------------------------
+
+function initMobileFilterSegments() {
+    if (window.innerWidth > 991) return;
+
+    var navContent = document.getElementById("o_portal_navbar_content");
+    if (!navContent) return;
+
+    var btnGroups = navContent.querySelectorAll(".nav .btn-group");
+    btnGroups.forEach(function (group) {
+        var toggle = group.querySelector(".dropdown-toggle");
+        var menu = group.querySelector(".dropdown-menu");
+        if (!toggle || !menu) return;
+
+        // Dispose Bootstrap dropdown instance to prevent JS conflicts
+        if (window.bootstrap && window.bootstrap.Dropdown) {
+            var instance = bootstrap.Dropdown.getInstance(toggle);
+            if (instance) instance.dispose();
+        }
+        toggle.removeAttribute("data-bs-toggle");
+        toggle.style.display = "none";
+
+        // Transform menu to inline segmented control
+        menu.classList.remove("dropdown-menu", "dropdown-menu-end");
+        menu.classList.add("ncf-seg");
+        menu.style.position = "static";
+        menu.style.display = "flex";
+        menu.style.transform = "none";
+
+        // Transform items to segment buttons
+        menu.querySelectorAll("a").forEach(function (item) {
+            var isActive = item.classList.contains("active");
+            item.classList.remove("dropdown-item");
+            item.classList.add("ncf-seg-btn");
+            if (isActive) item.classList.add("active");
+        });
+    });
 }
