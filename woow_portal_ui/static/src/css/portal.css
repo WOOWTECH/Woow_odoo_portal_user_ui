@@ -368,7 +368,7 @@
     padding: 6px 10px; border-radius: var(--r-pill);
     font-size: 12px; font-weight: 600; color: var(--wt-ink-2);
     cursor: pointer; transition: all .15s; white-space: nowrap;
-    font-family: inherit;
+    font-family: inherit; text-align: center;
 }
 .ncf-seg-btn:hover:not(.active) { color: var(--wt-blue); }
 .ncf-seg-btn.active {

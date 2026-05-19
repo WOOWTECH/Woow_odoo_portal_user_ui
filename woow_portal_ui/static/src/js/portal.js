@@ -1112,5 +1112,33 @@ function initMobileFilterSegments() {
             item.classList.add("ncf-seg-btn");
             if (isActive) item.classList.add("active");
         });
+
+        // Add arrow scroll hints when panel opens (dimensions are 0 while collapsed)
+        var wrapper = group.parentElement;
+        if (!wrapper) return;
+
+        var hintsAdded = false;
+        navContent.addEventListener("shown.bs.collapse", function () {
+            if (hintsAdded) return;
+            if (menu.scrollWidth <= menu.clientWidth) return;
+            hintsAdded = true;
+
+            var leftHint = document.createElement("span");
+            leftHint.className = "ncf-scroll-hint ncf-scroll-hint-left";
+            leftHint.innerHTML = '<i class="fa fa-chevron-left"></i>';
+
+            var rightHint = document.createElement("span");
+            rightHint.className = "ncf-scroll-hint ncf-scroll-hint-right visible";
+            rightHint.innerHTML = '<i class="fa fa-chevron-right"></i>';
+
+            wrapper.appendChild(leftHint);
+            wrapper.appendChild(rightHint);
+
+            menu.addEventListener("scroll", function () {
+                leftHint.classList.toggle("visible", menu.scrollLeft > 4);
+                rightHint.classList.toggle("visible",
+                    menu.scrollLeft < menu.scrollWidth - menu.clientWidth - 4);
+            });
+        });
     });
 }
