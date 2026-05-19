@@ -1473,6 +1473,16 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     .o_portal .o_portal_navbar > .breadcrumb {
         flex: 1;
     }
+    /* Pay overdue / action buttons — keep on breadcrumb row, match toggler height */
+    .o_portal .o_portal_navbar > a.btn-primary[href*="overdue"] {
+        order: 2;
+        padding: 4px 12px;
+        font-size: 13px;
+        margin-right: 8px;
+    }
+    .o_portal .o_portal_navbar .navbar-toggler {
+        order: 3;
+    }
 
     /* Nav container — vertical layout like NC filter segments */
     .o_portal .o_portal_navbar #o_portal_navbar_content .nav {
