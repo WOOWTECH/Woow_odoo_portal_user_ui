@@ -533,16 +533,79 @@
     font-size: 13px;
 }
 
-/* Bottom CTA row */
+/* Bottom CTA — "Next Step" card */
 .o_portal_sidebar [name="sale_order_actions"] {
-    margin-top: 20px;
-    gap: 12px !important;
+    display: flex !important;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    border: 1px solid var(--wt-line);
+    border-left: 4px solid var(--wt-blue);
+    border-radius: var(--r-lg);
+    box-shadow: var(--sh-1);
+    padding: 20px 24px;
+    margin-top: 24px;
 }
+/* Text block — takes available space on left */
+.o_portal_sidebar [name="sale_order_actions"] .wt-cta-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+.wt-cta-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--wt-blue);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+.wt-cta-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--wt-ink);
+}
+.wt-cta-desc {
+    font-size: 13px;
+    color: var(--wt-ink-3);
+}
+/* Buttons — stay grouped on right */
 .o_portal_sidebar [name="sale_order_actions"] .btn {
-    border-radius: var(--r-md);
+    border-radius: var(--r-pill);
     font-weight: 600;
-    font-size: 13.5px;
-    padding: 11px 22px;
+    font-size: 13px;
+    padding: 9px 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.o_portal_sidebar [name="sale_order_actions"] .btn-primary {
+    background: var(--wt-blue) !important;
+    border-color: var(--wt-blue) !important;
+    color: #fff;
+}
+.o_portal_sidebar [name="sale_order_actions"] .btn-primary:hover {
+    background: var(--wt-blue-700) !important;
+    border-color: var(--wt-blue-700) !important;
+}
+.o_portal_sidebar [name="sale_order_actions"] .btn-light {
+    background: #fff !important;
+    border: 1px solid var(--wt-line) !important;
+    color: var(--wt-ink);
+}
+.o_portal_sidebar [name="sale_order_actions"] .btn-light:hover {
+    border-color: var(--wt-blue) !important;
+    color: var(--wt-blue);
+}
+.o_portal_sidebar [name="sale_order_actions"] .btn-danger {
+    background: #fff !important;
+    border: 1px solid var(--wt-tone-coral) !important;
+    color: var(--wt-tone-coral);
+}
+.o_portal_sidebar [name="sale_order_actions"] .btn-danger:hover {
+    background: var(--wt-tone-coral) !important;
+    color: #fff;
 }
 
 
@@ -565,6 +628,27 @@
 }
 
 @media (max-width: 767px) {
+    .o_portal_sidebar [name="sale_order_actions"] {
+        flex-wrap: wrap;
+    }
+    .o_portal_sidebar [name="sale_order_actions"] .wt-cta-text {
+        flex: 0 0 100%;
+        margin-bottom: 8px;
+    }
+    .o_portal_sidebar [name="sale_order_actions"] > .col-sm-auto {
+        flex: 1 1 0 !important;
+        width: auto !important;
+        max-width: none !important;
+        margin-top: 0 !important;
+    }
+    .o_portal_sidebar [name="sale_order_actions"] > .col-sm-auto .btn {
+        width: 100%;
+    }
+    .o_portal_sidebar [name="sale_order_actions"] .btn {
+        font-size: 12px;
+        padding: 7px 10px;
+    }
+
     .o_portal_sidebar #portal_sale_content,
     .o_portal_sidebar #portal_purchase_content,
     .o_portal_sidebar #task_content > #card {

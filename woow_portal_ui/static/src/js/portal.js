@@ -27,6 +27,7 @@ whenReady(async () => {
     hideEmptyModuleCards();
     initNotifSearchbar();
     initMobileFilterSegments();
+    initQuotationActions();
     rewriteLogoLink();
 });
 
@@ -1141,4 +1142,41 @@ function initMobileFilterSegments() {
             });
         });
     });
+}
+
+// ------------------------------------------------------------------
+// Quotation actions — add "Next Step" text block
+// ------------------------------------------------------------------
+
+function initQuotationActions() {
+    var actions = document.querySelector('[name="sale_order_actions"]');
+    if (!actions) return;
+
+    var primaryBtn = actions.querySelector('.btn-primary');
+    var primaryText = primaryBtn ? primaryBtn.textContent.trim() : "";
+    var hasSign = primaryText.includes("Sign");
+    var hasPay = primaryText.includes("Pay");
+
+    var title, desc;
+    if (hasSign && hasPay) {
+        title = "Confirm this order to continue";
+        desc = "Sign & Pay to confirm. You can leave feedback or reject before signing.";
+    } else if (hasSign) {
+        title = "Confirm this order to continue";
+        desc = "Sign to confirm. You can leave feedback or reject before signing.";
+    } else if (hasPay) {
+        title = "Complete your payment";
+        desc = "Pay now to finalize your order. Click the button below to proceed with payment and confirm your order.";
+    } else {
+        title = "Actions available";
+        desc = "";
+    }
+
+    var textBlock = document.createElement("div");
+    textBlock.className = "wt-cta-text";
+    textBlock.innerHTML =
+        '<span class="wt-cta-label">NEXT STEP</span>' +
+        '<span class="wt-cta-title">' + title + '</span>' +
+        (desc ? '<span class="wt-cta-desc">' + desc + '</span>' : '');
+    actions.prepend(textBlock);
 }
