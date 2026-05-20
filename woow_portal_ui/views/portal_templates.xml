@@ -201,25 +201,15 @@
     <!-- ============================================================ -->
     <template id="portal_notifications_page" name="Portal Notifications Page">
         <t t-call="portal.portal_layout">
-            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-set="no_breadcrumbs" t-value="True"/>
 
             <div class="container py-3">
+              <t t-call="portal.portal_breadcrumbs"/>
               <div class="nc-page">
 
                 <!-- ===== Header Row ===== -->
                 <div class="nc-head-row">
                     <div>
-                        <div class="nc-breadcrumb">
-                            <a href="/my/home" class="nc-bc-link">
-                                <i class="fa fa-chevron-left me-1"/>Back
-                            </a>
-                            <span class="nc-bc-sep">/</span>
-                            <a href="/my/home" class="nc-bc-link">
-                                <i class="fa fa-home"/>
-                            </a>
-                            <span class="nc-bc-sep">/</span>
-                            <span class="nc-bc-current">Notification Center</span>
-                        </div>
                         <h1 class="nc-h1">Notification Center</h1>
                     </div>
                     <div class="nc-actions">
@@ -636,6 +626,16 @@
         <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
             <li t-if="page_name == 'security'" class="breadcrumb-item active">
                 Connection &amp; Security
+            </li>
+        </xpath>
+    </template>
+
+    <!-- Notifications Page — Add breadcrumb item -->
+    <template id="portal_breadcrumbs_notifications" name="Notifications Breadcrumb Item"
+              inherit_id="portal.portal_breadcrumbs" priority="40">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'notifications'" class="breadcrumb-item active">
+                Notification Center
             </li>
         </xpath>
     </template>
