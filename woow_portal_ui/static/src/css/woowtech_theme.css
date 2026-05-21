@@ -84,6 +84,70 @@ header:has(+ .wrap .o_payment_form) {
 .o_portal a { color: var(--wt-blue); }
 .o_portal a:hover { color: var(--wt-blue-700); }
 
+/* ---- Form Focus + Hover — Brand Blue (override Odoo purple) ---- */
+#wrapwrap.o_portal .form-control:focus,
+#wrapwrap.o_portal .form-select:focus,
+#wrapwrap:has(.o_payment_form) .form-control:focus,
+#wrapwrap:has(.o_payment_form) .form-select:focus {
+    border-color: var(--wt-blue) !important;
+    box-shadow: 0 0 0 0.25rem rgba(97, 131, 252, 0.25) !important;
+}
+#wrapwrap.o_portal .form-control:hover,
+#wrapwrap.o_portal .form-select:hover,
+#wrapwrap:has(.o_payment_form) .form-control:hover,
+#wrapwrap:has(.o_payment_form) .form-select:hover {
+    border-color: var(--wt-blue) !important;
+}
+
+/* ---- Payment Bug/Debug Button — Brand Blue ---- */
+#wrapwrap.o_portal a[href="#payment_availability_report"],
+#wrapwrap:has(.o_payment_form) a[href="#payment_availability_report"] {
+    color: var(--wt-blue);
+}
+#wrapwrap.o_portal a[href="#payment_availability_report"]:hover,
+#wrapwrap:has(.o_payment_form) a[href="#payment_availability_report"]:hover {
+    color: var(--wt-blue-700);
+}
+
+/* ---- Payment Availability Report — styled card ---- */
+#payment_availability_report {
+    background: var(--wt-surface);
+    border: 1px solid var(--wt-line);
+    border-radius: var(--r-lg);
+    padding: 20px 24px;
+    box-shadow: var(--sh-1);
+    margin-top: 16px;
+}
+#payment_availability_report .list-group {
+    border-radius: var(--r-md);
+    overflow: hidden;
+}
+#payment_availability_report .list-group-item {
+    border-color: var(--wt-line);
+    font-size: 13.5px;
+}
+#payment_availability_report h4 {
+    color: var(--wt-ink);
+    font-size: 14px;
+}
+#payment_availability_report h6 {
+    color: var(--wt-ink-3);
+    font-size: 11px;
+    letter-spacing: .14em;
+}
+
+/* ---- Payment Form Buttons — Brand Blue ---- */
+#wrapwrap.o_portal .o_payment_form .btn-primary,
+#wrapwrap:has(.o_payment_form) .btn-primary {
+    background-color: var(--wt-blue) !important;
+    border-color: var(--wt-blue) !important;
+}
+#wrapwrap.o_portal .o_payment_form .btn-primary:hover,
+#wrapwrap:has(.o_payment_form) .btn-primary:hover {
+    background-color: var(--wt-blue-700) !important;
+    border-color: var(--wt-blue-700) !important;
+}
+
 /* ---- Portal Alert Messages — Brand Colors ---- */
 .o_portal .alert,
 .o_portal_wrap .alert {
