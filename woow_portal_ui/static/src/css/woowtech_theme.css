@@ -84,6 +84,66 @@ header:has(+ .wrap .o_payment_form) {
 .o_portal a { color: var(--wt-blue); }
 .o_portal a:hover { color: var(--wt-blue-700); }
 
+/* ---- Portal Alert Messages — Brand Colors ---- */
+.o_portal .alert,
+.o_portal_wrap .alert {
+    border-radius: var(--r-md);
+    font-size: 13.5px;
+    font-weight: 500;
+    padding: 14px 18px;
+    border-width: 1px;
+    border-style: solid;
+}
+.o_portal .alert-info,
+.o_portal_wrap .alert-info {
+    background: var(--tint-blue);
+    border-color: rgba(97, 131, 252, .20);
+    color: var(--wt-blue);
+}
+.o_portal .alert-info a,
+.o_portal_wrap .alert-info a {
+    color: var(--wt-blue);
+    font-weight: 600;
+}
+.o_portal .alert-success,
+.o_portal_wrap .alert-success {
+    background: var(--tint-green);
+    border-color: rgba(140, 211, 127, .30);
+    color: #2d6a1e;
+}
+.o_portal .alert-success a,
+.o_portal_wrap .alert-success a {
+    color: #2d6a1e;
+    font-weight: 600;
+}
+.o_portal .alert-warning,
+.o_portal_wrap .alert-warning {
+    background: var(--tint-yellow);
+    border-color: rgba(248, 209, 88, .40);
+    color: #7a5d0a;
+}
+.o_portal .alert-warning a,
+.o_portal_wrap .alert-warning a {
+    color: #7a5d0a;
+    font-weight: 600;
+}
+.o_portal .alert-danger,
+.o_portal_wrap .alert-danger {
+    background: var(--tint-coral);
+    border-color: rgba(244, 93, 109, .30);
+    color: #8b2020;
+}
+.o_portal .alert-danger a,
+.o_portal_wrap .alert-danger a {
+    color: #8b2020;
+    font-weight: 600;
+}
+.o_portal .alert-dismissible .btn-close,
+.o_portal_wrap .alert-dismissible .btn-close {
+    opacity: 0.5;
+    padding: 16px;
+}
+
 .o_portal .btn-primary,
 .o_portal_wrap .btn-primary,
 .o_portal .btn-primary.btn_cta {
