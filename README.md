@@ -567,7 +567,7 @@ This module has been comprehensively tested with **87 automated tests** across 1
 
 ## Changelog
 
-### v18.0.1.1.0 (2026-05)
+### v18.0.2.0.0 (2026-05)
 - Restyle all portal pages with WoowTech brand design
 - RWD (Responsive Web Design) for all portal pages
 - Card-based layout for list and detail pages
