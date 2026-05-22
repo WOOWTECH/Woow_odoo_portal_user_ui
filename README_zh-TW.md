@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>Odoo 18 全新清爽入口網站體驗</strong><br/>
-  重新設計的首頁儀表板、統一通知中心、滑動手勢操作、角色權限隔離
+  重新設計的首頁儀表板、統一通知中心、WoowTech 品牌風格入口頁面、響應式設計
 </p>
 
 <p align="center">
@@ -31,7 +31,7 @@
 
 ## 概述
 
-**Woow Portal UI** 是一個 Odoo 18 單模組附加套件，全面翻新入口網站的使用者體驗。以乾淨的儀表板取代預設的 Odoo 入口網站首頁，包含時段問候卡片、統一通知中心（分頁：留言 / 通知 / 待辦活動）、滑動操作手勢，以及內部使用者與入口網站使用者的智慧角色 UI 隔離。
+**Woow Portal UI** 是一個 Odoo 18 單模組附加套件，全面翻新入口網站的使用者體驗。以 WoowTech 品牌風格重新設計所有入口頁面，採用卡片式佈局，搭配乾淨的儀表板、統一通知中心、響應式手機端設計含可收合篩選面板，以及內部使用者與入口網站使用者的智慧角色 UI 隔離。
 
 <p align="center">
   <img src="docs/screenshots/01_portal_home_full.png" alt="入口網站首頁儀表板" width="720"/>
@@ -108,6 +108,27 @@
 ### 後台切換至入口網站
 - **快速切換** — 後台使用者可透過專用按鈕快速導航至入口網站
 - **無縫轉換** — 切換過程中保持使用者工作階段
+
+### 入口頁面風格化
+- **WoowTech 設計** — 以 WoowTech 品牌風格重新設計所有入口頁面（品牌藍 #6183fc）
+- **響應式設計** — 所有入口頁面支援響應式設計，手機端最佳化佈局
+- **卡片式佈局** — 所有入口頁面採用統一的卡片式佈局
+
+#### 已風格化的頁面
+
+| 頁面 | 列表頁 | 詳細頁 |
+|------|--------|--------|
+| 銷售訂單 / 報價單 | 卡片網格，懸停效果 | 側邊欄 + 主要內容卡片，資訊網格，「下一步」操作卡片 |
+| 發票 | 卡片網格，狀態標籤 | 側邊欄含付款資訊，樣式化表格 |
+| 任務 | 卡片網格 | 卡片式詳細頁含側邊欄 |
+| 工時表 | 卡片網格 | — |
+| 專案 | 卡片網格 | — |
+| 商機 / 潛在客戶 | 卡片網格 | 卡片式佈局含側邊欄 |
+| 採購訂單 | 卡片網格 | 卡片式佈局含側邊欄 |
+| 帳戶資訊 | 樣式化表單 | — |
+| 安全性 | 卡片式區塊 | — |
+| 付款方式 | 樣式化表單 | 可用性報告卡片 |
+| 通知中心 | 雙欄式佈局 | — |
 
 ---
 
@@ -245,7 +266,10 @@ woow_portal_ui/
 │   │   │   ├── portal.js       # 1026 行 — 前端邏輯
 │   │   │   └── switch_portal.js # 後台切換至入口網站
 │   │   └── css/
-│   │       └── portal.css      # 625 行 — 所有樣式
+│   │       ├── portal.css          # 通知中心及功能性樣式
+│   │       ├── woowtech_theme.css  # WoowTech 品牌設計系統
+│   │       ├── detail_pages.css    # 詳細頁卡片佈局
+│   │       └── chatter_theme.css   # 訊息/聊天主題樣式
 │   └── description/
 │       └── icon.png
 ├── security/
@@ -398,6 +422,65 @@ services:
   <img src="docs/screenshots/13_search_filter.png" alt="搜尋篩選" width="720"/>
 </p>
 
+### 入口頁面風格化
+
+#### 銷售訂單列表
+卡片式網格佈局，含懸停效果和狀態指示。
+
+<p align="center">
+  <img src="docs/screenshots/sales-orders-list.png" alt="銷售訂單列表" width="720"/>
+</p>
+
+#### 銷售訂單詳細頁
+側邊欄卡片含價格和操作，主要內容卡片含資訊網格和樣式化表格。
+
+<p align="center">
+  <img src="docs/screenshots/sale-order-detail.png" alt="銷售訂單詳細頁" width="720"/>
+</p>
+
+#### 報價單詳細頁 — 下一步操作卡片
+含動態文字和膠囊按鈕（簽署並付款 / 回饋 / 拒絕）的操作卡片。
+
+<p align="center">
+  <img src="docs/screenshots/quotation-detail.png" alt="報價單詳細頁" width="720"/>
+</p>
+
+#### 發票列表
+<p align="center">
+  <img src="docs/screenshots/invoices-list.png" alt="發票列表" width="720"/>
+</p>
+
+#### 任務列表
+含膠囊搜尋列、分離式篩選切換按鈕和樣式化下拉選單的卡片網格。
+
+<p align="center">
+  <img src="docs/screenshots/tasks-list.png" alt="任務列表" width="720"/>
+</p>
+
+#### 商機列表
+<p align="center">
+  <img src="docs/screenshots/opportunities-list.png" alt="商機列表" width="720"/>
+</p>
+
+#### 安全性頁面
+<p align="center">
+  <img src="docs/screenshots/security-page.png" alt="安全性頁面" width="720"/>
+</p>
+
+#### 手機版 — 任務列表含篩選面板
+可收合的篩選面板，含通知中心風格的分段按鈕和捲動提示。
+
+<p align="center">
+  <img src="docs/screenshots/tasks-list-mobile.png" alt="手機版任務列表" width="360"/>
+</p>
+
+#### 手機版 — 銷售訂單詳細頁
+響應式卡片佈局，含全寬操作按鈕。
+
+<p align="center">
+  <img src="docs/screenshots/sale-order-detail-mobile.png" alt="手機版銷售訂單詳細頁" width="360"/>
+</p>
+
 ---
 
 ## 設定說明
@@ -472,6 +555,20 @@ services:
 ---
 
 ## 版本紀錄
+
+### v18.0.1.1.0 (2026-05)
+- 以 WoowTech 品牌風格重新設計所有入口頁面
+- 所有入口頁面支援響應式設計（RWD）
+- 列表頁和詳細頁採用卡片式佈局
+- 膠囊搜尋列含分離式篩選切換按鈕
+- 手機版可收合篩選面板含分段按鈕
+- 報價頁「下一步」操作卡片含動態文字
+- 入口提示訊息以品牌色調風格化
+- 表單聚焦 / 懸停邊框使用品牌藍色
+- 通知中心頁面使用標準入口麵包屑
+- 建立商機 / 逾期付款按鈕風格化為膠囊按鈕
+- 付款可用性報告風格化為卡片
+- 手機版卡片間距和按鈕佈局最佳化
 
 ### v18.0.1.0.0 (2026-04)
 - 初始版本

@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>Clean, Modern Portal Experience for Odoo 18</strong><br/>
-  Redesigned home dashboard, unified notification center, swipe gestures, and role-based UI isolation
+  Redesigned home dashboard, unified notification center, WoowTech-styled portal pages, and responsive design
 </p>
 
 <p align="center">
@@ -31,7 +31,7 @@
 
 ## Overview
 
-**Woow Portal UI** is a single-module Odoo 18 addon that completely overhauls the portal user experience. It replaces the default Odoo portal home with a clean dashboard featuring time-based greetings, a unified notification center with tab-based categorization (Messages / Notifications / Activities), swipe-to-action gestures, and intelligent role-based UI separation between internal and portal users.
+**Woow Portal UI** is a single-module Odoo 18 addon that completely overhauls the portal user experience. It restyles all portal pages with the WoowTech brand design, features a clean dashboard with time-based greetings, a unified notification center, card-based layouts for all list and detail pages, responsive mobile design with collapsible filter panels, and intelligent role-based UI separation between internal and portal users.
 
 <p align="center">
   <img src="docs/screenshots/01_portal_home_full.png" alt="Portal Home Dashboard" width="720"/>
@@ -108,6 +108,27 @@
 ### Backend-to-Portal Switch
 - **Quick switch** — Backend users can quickly navigate to the portal view via a dedicated button
 - **Seamless transition** — Maintains user session across the switch
+
+### Portal Page Styling
+- **WoowTech design** — Restyle all portal pages with WoowTech brand identity (Blue #6183fc)
+- **RWD** — Responsive Web Design for all portal pages with mobile-optimized layouts
+- **Card-based layout** — Clean card-based layout across all portal pages
+
+#### Styled Pages
+
+| Page | List | Detail |
+|------|------|--------|
+| Sales Orders / Quotations | Card grid with hover effects | Sidebar + main content card, info grid, "Next Step" action card |
+| Invoices | Card grid with status badges | Sidebar with payment info, styled table |
+| Tasks | Card grid | Card-based detail with sidebar |
+| Timesheets | Card grid | — |
+| Projects | Card grid | — |
+| Opportunities / Leads | Card grid | Card layout with sidebar |
+| Purchase Orders | Card grid | Card layout with sidebar |
+| Account Details | Styled form | — |
+| Security | Card-based sections | — |
+| Payment Methods | Styled form | Availability report card |
+| Notification Center | 2-column layout | — |
 
 ---
 
@@ -245,7 +266,10 @@ woow_portal_ui/
 │   │   │   ├── portal.js       # 1026 lines — Frontend logic
 │   │   │   └── switch_portal.js # Backend-to-portal switch
 │   │   └── css/
-│   │       └── portal.css      # 625 lines — All styles
+│   │       ├── portal.css          # Notification center & functional styles
+│   │       ├── woowtech_theme.css  # WoowTech brand design system
+│   │       ├── detail_pages.css    # Detail page card layouts
+│   │       └── chatter_theme.css   # Messaging/chatter theme
 │   └── description/
 │       └── icon.png
 ├── security/
@@ -398,6 +422,65 @@ Real-time search filtering on the portal home page — type to instantly filter 
   <img src="docs/screenshots/13_search_filter.png" alt="Search Filter" width="720"/>
 </p>
 
+### Portal Page Styling
+
+#### Sales Orders List
+Card-based grid layout with hover effects and status indicators.
+
+<p align="center">
+  <img src="docs/screenshots/sales-orders-list.png" alt="Sales Orders List" width="720"/>
+</p>
+
+#### Sale Order Detail
+Sidebar card with price and actions, main content card with info grid and styled table.
+
+<p align="center">
+  <img src="docs/screenshots/sale-order-detail.png" alt="Sale Order Detail" width="720"/>
+</p>
+
+#### Quotation Detail — Next Step Card
+Action card with dynamic text and pill-shaped buttons (Sign & Pay / Feedback / Reject).
+
+<p align="center">
+  <img src="docs/screenshots/quotation-detail.png" alt="Quotation Detail" width="720"/>
+</p>
+
+#### Invoices List
+<p align="center">
+  <img src="docs/screenshots/invoices-list.png" alt="Invoices List" width="720"/>
+</p>
+
+#### Tasks List
+Card grid with pill-shaped search bar, separated filter toggle, and styled dropdowns.
+
+<p align="center">
+  <img src="docs/screenshots/tasks-list.png" alt="Tasks List" width="720"/>
+</p>
+
+#### Opportunities List
+<p align="center">
+  <img src="docs/screenshots/opportunities-list.png" alt="Opportunities List" width="720"/>
+</p>
+
+#### Security Page
+<p align="center">
+  <img src="docs/screenshots/security-page.png" alt="Security Page" width="720"/>
+</p>
+
+#### Mobile — Tasks List with Filter Panel
+Collapsible filter panel with NC-style segmented buttons and scroll hints.
+
+<p align="center">
+  <img src="docs/screenshots/tasks-list-mobile.png" alt="Tasks List Mobile" width="360"/>
+</p>
+
+#### Mobile — Sale Order Detail
+Responsive card layout with full-width action buttons.
+
+<p align="center">
+  <img src="docs/screenshots/sale-order-detail-mobile.png" alt="Sale Order Detail Mobile" width="360"/>
+</p>
+
 ---
 
 ## Configuration
@@ -483,6 +566,20 @@ This module has been comprehensively tested with **87 automated tests** across 1
 ---
 
 ## Changelog
+
+### v18.0.1.1.0 (2026-05)
+- Restyle all portal pages with WoowTech brand design
+- RWD (Responsive Web Design) for all portal pages
+- Card-based layout for list and detail pages
+- Pill-shaped search bar with separated filter toggle
+- Mobile collapsible filter panel with segmented buttons
+- "Next Step" action card on quotation pages with dynamic text
+- Portal alert messages styled with brand color tints
+- Form focus/hover borders use brand blue
+- Standard portal breadcrumb on Notification Center page
+- Create Opportunity / Pay overdue buttons styled as pills
+- Payment availability report styled as card
+- Mobile-optimized card margins and button layouts
 
 ### v18.0.1.0.0 (2026-04)
 - Initial release
