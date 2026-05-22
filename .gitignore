@@ -47,3 +47,12 @@ browser_tests/
 
 # Addons directory (module is at root)
 addons/
+
+# Local development directories
+.playwright-mcp/
+.claude/
+claude_design/
+portal_cards_functionality.md
+portal_header_modification.md
+research-odoo-settings-portal-impact.md
+woow_color_design.md
