@@ -5,14 +5,14 @@
    ========================================================= */
 
 .btn-primary {
-    background-color: #6183fc !important;
-    border-color: #6183fc !important;
+    background-color: #71639e !important;
+    border-color: #71639e !important;
 }
 .btn-primary:hover {
-    background-color: #4a6ae0 !important;
-    border-color: #4a6ae0 !important;
+    background-color: #5a4e7f !important;
+    border-color: #5a4e7f !important;
 }
 .btn-primary:disabled {
-    background-color: #6183fc !important;
-    border-color: #6183fc !important;
+    background-color: #71639e !important;
+    border-color: #71639e !important;
 }

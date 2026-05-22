@@ -94,7 +94,7 @@
     background: var(--wt-blue-100) !important;
 }
 /* "Connect with your software!" — same ghost style as Download/Print */
-.o_portal_sidebar .o_portal_sidebar_content .btn-primary[data-bs-toggle="modal"] {
+.o_portal_sidebar .o_portal_sidebar_content .btn-primary[data-bs-target="#modalconnect"] {
     background: var(--wt-blue-50) !important;
     color: var(--wt-blue) !important;
     border: 1px solid var(--wt-blue-100) !important;
@@ -104,7 +104,7 @@
     padding: 11px 14px;
     width: 100%;
 }
-.o_portal_sidebar .o_portal_sidebar_content .btn-primary[data-bs-toggle="modal"]:hover {
+.o_portal_sidebar .o_portal_sidebar_content .btn-primary[data-bs-target="#modalconnect"]:hover {
     background: var(--wt-blue-100) !important;
 }
 
@@ -520,7 +520,7 @@
 }
 .o_portal_sidebar .o_portal_chatter textarea:focus {
     border-color: var(--wt-blue);
-    box-shadow: 0 0 0 4px rgba(97, 131, 252, .12);
+    box-shadow: 0 0 0 4px rgba(113, 99, 158, .12);
 }
 
 
@@ -701,7 +701,7 @@
 .opp-stage-button.btn-light:hover {
     border-color: var(--wt-blue);
     color: var(--wt-blue);
-    background: rgba(97, 131, 252, 0.08);
+    background: rgba(113, 99, 158, 0.08);
 }
 
 /* Title row (top half of card) */

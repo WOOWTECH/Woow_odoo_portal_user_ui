@@ -110,7 +110,7 @@
 - **Seamless transition** — Maintains user session across the switch
 
 ### Portal Page Styling
-- **WoowTech design** — Restyle all portal pages with WoowTech brand identity (Blue #6183fc)
+- **WoowTech design** — Restyle all portal pages with WoowTech brand identity (#71639e)
 - **RWD** — Responsive Web Design for all portal pages with mobile-optimized layouts
 - **Card-based layout** — Clean card-based layout across all portal pages
 

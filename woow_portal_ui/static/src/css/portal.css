@@ -26,7 +26,7 @@
 
 :root {
     /* ── Theme-following aliases ── */
-    --wpu-brand: var(--custom-primary, var(--o-brand-primary, #6183fc));
+    --wpu-brand: var(--custom-primary, var(--o-brand-primary, #71639e));
     --wpu-unread-bg: color-mix(in srgb, var(--wpu-brand) 8%, transparent);
     --wpu-transition: 0.2s ease;
 }
@@ -237,7 +237,7 @@
 .nc-filter-toggle { display: none; }
 .nc-filter-toggle.active {
     background: var(--wt-blue); color: #fff; border-color: var(--wt-blue);
-    box-shadow: 0 2px 6px rgba(97,131,252,.30);
+    box-shadow: 0 2px 6px rgba(113,99,158,.30);
 }
 .nc-ft-chev { opacity: .8; transition: transform .2s; }
 
@@ -278,7 +278,7 @@
     transition: all .15s;
 }
 .nc-tab:hover:not(.active) {
-    background: var(--wt-blue-50, #f3f6ff); color: var(--wt-blue);
+    background: var(--wt-blue-50, #f4f3f7); color: var(--wt-blue);
     text-decoration: none;
 }
 .nc-tab.active { text-decoration: none; color: #fff !important; }
@@ -291,7 +291,7 @@
 .nc-tab.tone-blue  .nc-tab-ico,
 .nc-tab.tone-coral .nc-tab-ico,
 .nc-tab.tone-green .nc-tab-ico {
-    background: var(--tint-blue, #eef2ff); color: var(--wt-blue);
+    background: var(--tint-blue, #efeef4); color: var(--wt-blue);
 }
 .nc-tab-l { min-width: 0; }
 .nc-tab-c {
@@ -329,7 +329,7 @@
 }
 .ncf-search:focus-within {
     border-color: var(--wt-blue); background: #fff;
-    box-shadow: 0 0 0 4px rgba(97,131,252,.10);
+    box-shadow: 0 0 0 4px rgba(113,99,158,.10);
 }
 .ncf-search input {
     flex: 1; min-width: 0;
@@ -373,7 +373,7 @@
 .ncf-seg-btn:hover:not(.active) { color: var(--wt-blue); }
 .ncf-seg-btn.active {
     background: var(--wt-blue); color: #fff;
-    box-shadow: 0 2px 6px rgba(97,131,252,.30);
+    box-shadow: 0 2px 6px rgba(113,99,158,.30);
 }
 
 /* ----- Notification list ----- */
@@ -441,7 +441,7 @@
     width: 36px; height: 36px; border-radius: 10px;
     display: inline-flex; align-items: center; justify-content: center;
     flex-shrink: 0;
-    background: var(--tint-blue, #eef2ff); color: var(--wt-blue);
+    background: var(--tint-blue, #efeef4); color: var(--wt-blue);
 }
 .wpu-notif-card-icon i.fa {
     color: inherit !important; font-size: 15px;
@@ -495,7 +495,7 @@
 .wpu-unread-dot {
     width: 8px; height: 8px; border-radius: 50%;
     background: var(--wt-blue);
-    box-shadow: 0 0 0 3px rgba(97,131,252,.18);
+    box-shadow: 0 0 0 3px rgba(113,99,158,.18);
     display: inline-block; flex-shrink: 0;
 }
 
@@ -509,8 +509,8 @@
 
 /* ----- Unread state ----- */
 .wpu-notif-unread .wpu-notif-card {
-    background: #f3f6ff;
-    border-color: rgba(97,131,252,.25);
+    background: #f4f3f7;
+    border-color: rgba(113,99,158,.25);
 }
 .wpu-notif-unread .wpu-notif-card:hover { background: #ecf1ff; }
 .wpu-notif-unread .wpu-notif-card-title { font-weight: 700; }
@@ -576,7 +576,7 @@
 .nc-empty-ico {
     display: inline-flex; align-items: center; justify-content: center;
     width: 52px; height: 52px; border-radius: 16px;
-    background: var(--tint-blue, #eef2ff); color: var(--wt-blue);
+    background: var(--tint-blue, #efeef4); color: var(--wt-blue);
     margin-bottom: 12px; font-size: 20px;
 }
 .nc-empty-t { font-size: 15px; font-weight: 700; color: var(--wt-ink); }

@@ -1,7 +1,7 @@
 /* =========================================================
    WoowTech Portal Theme — Odoo 18
    CSS-first approach: styles existing Odoo elements by class
-   Brand: WoowTech Blue #6183fc
+   Brand: WoowTech Blue #71639e
    ========================================================= */
 
 /* Google Fonts loaded via <link> tag in portal_templates.xml
@@ -11,10 +11,10 @@
    1. Design Tokens
    ========================================================= */
 :root {
-    --wt-blue:        #6183fc;
-    --wt-blue-700:    #4a6ae0;
-    --wt-blue-100:    #e7ecff;
-    --wt-blue-50:     #f3f6ff;
+    --wt-blue:        #71639e;
+    --wt-blue-700:    #5a4e7f;
+    --wt-blue-100:    #e9e7f0;
+    --wt-blue-50:     #f4f3f7;
     --wt-tone-coral:  #f45d6d;
     --wt-tone-yellow: #F8D158;
     --wt-tone-green:  #8CD37F;
@@ -22,7 +22,7 @@
     --wt-tone-orange: #E66D3E;
     --wt-tone-lilac:  #C09FE0;
 
-    --tint-blue:   #eef2ff;
+    --tint-blue:   #efeef4;
     --tint-coral:  #fde9eb;
     --tint-yellow: #fff5d4;
     --tint-green:  #ebf7e7;
@@ -90,7 +90,7 @@ header:has(+ .wrap .o_payment_form) {
 #wrapwrap:has(.o_payment_form) .form-control:focus,
 #wrapwrap:has(.o_payment_form) .form-select:focus {
     border-color: var(--wt-blue) !important;
-    box-shadow: 0 0 0 0.25rem rgba(97, 131, 252, 0.25) !important;
+    box-shadow: 0 0 0 0.25rem rgba(113, 99, 158, 0.25) !important;
 }
 #wrapwrap.o_portal .form-control:hover,
 #wrapwrap.o_portal .form-select:hover,
@@ -161,7 +161,7 @@ header:has(+ .wrap .o_payment_form) {
 .o_portal .alert-info,
 .o_portal_wrap .alert-info {
     background: var(--tint-blue);
-    border-color: rgba(97, 131, 252, .20);
+    border-color: rgba(113, 99, 158, .20);
     color: var(--wt-blue);
 }
 .o_portal .alert-info a,
@@ -238,7 +238,7 @@ header:has(+ .wrap .o_payment_form) {
     border: 1px solid transparent; cursor: pointer;
     transition: all .15s; font-family: var(--wt-font);
 }
-.wt-btn-primary { background: var(--wt-blue); color: #fff; box-shadow: 0 6px 16px rgba(97,131,252,.30); }
+.wt-btn-primary { background: var(--wt-blue); color: #fff; box-shadow: 0 6px 16px rgba(113,99,158,.30); }
 .wt-btn-primary:hover { background: var(--wt-blue-700); transform: translateY(-1px); color: #fff; }
 .wt-btn-dark { background: var(--wt-ink); color: #fff; }
 .wt-btn-dark:hover { background: #000; transform: translateY(-1px); color: #fff; }
@@ -267,7 +267,7 @@ header:has(+ .wrap .o_payment_form) {
 .o_portal .form-control:focus,
 .o_portal .form-select:focus {
     border-color: var(--wt-blue);
-    box-shadow: 0 0 0 4px rgba(97,131,252,.12);
+    box-shadow: 0 0 0 4px rgba(113,99,158,.12);
 }
 
 /* Pager buttons */
@@ -523,7 +523,7 @@ header:has(+ .wrap .o_payment_form) {
     background: var(--wt-blue); color: #fff;
     font-weight: 800; font-size: 22px;
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 6px 16px rgba(97,131,252,.28);
+    box-shadow: 0 6px 16px rgba(113,99,158,.28);
 }
 .wt-greet-h1 {
     font-size: 22px; font-weight: 700; letter-spacing: -.005em;
@@ -538,7 +538,7 @@ header:has(+ .wrap .o_payment_form) {
     padding: 4px 11px; border-radius: var(--r-pill);
     background: var(--tint-blue); color: var(--wt-blue);
     font-size: 11.5px; font-weight: 600;
-    border: 1px solid rgba(97,131,252,.18);
+    border: 1px solid rgba(113,99,158,.18);
 }
 .wt-gm-chip.wt-gm-time {
     background: var(--tint-yellow); color: #c08b15;
@@ -565,7 +565,7 @@ header:has(+ .wrap .o_payment_form) {
 }
 .wt-hero-search:focus-within {
     border-color: var(--wt-blue);
-    box-shadow: 0 0 0 4px rgba(97,131,252,.10);
+    box-shadow: 0 0 0 4px rgba(113,99,158,.10);
 }
 .wt-hero-search input {
     flex: 1; border: none; outline: none; background: transparent;
@@ -638,18 +638,18 @@ header:has(+ .wrap .o_payment_form) {
 
 /* Invoices-to-pay Banner */
 .wt-ip-banner {
-    background: linear-gradient(135deg, #eef2ff 0%, #dde6ff 100%);
-    border: 1px solid rgba(97,131,252,.30);
+    background: linear-gradient(135deg, #efeef4 0%, #dde6ff 100%);
+    border: 1px solid rgba(113,99,158,.30);
     border-radius: var(--r-lg); padding: 18px 22px;
     display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    box-shadow: 0 2px 10px rgba(97,131,252,.18);
+    box-shadow: 0 2px 10px rgba(113,99,158,.18);
 }
 .wt-ip-left { display: flex; align-items: center; gap: 14px; }
 .wt-ip-icon {
     width: 40px; height: 40px; border-radius: 12px;
     background: #fff; color: var(--wt-blue);
     display: inline-flex; align-items: center; justify-content: center;
-    flex-shrink: 0; box-shadow: 0 2px 6px rgba(97,131,252,.30);
+    flex-shrink: 0; box-shadow: 0 2px 6px rgba(113,99,158,.30);
 }
 .wt-ip-text { font-size: 15px; color: #212121; font-weight: 500; }
 .wt-ip-text b { font-weight: 800; font-size: 18px; color: var(--wt-blue); margin-right: 2px; }
@@ -675,7 +675,7 @@ header:has(+ .wrap .o_payment_form) {
     background: var(--wt-blue); color: #fff;
     font-weight: 800; font-size: 20px;
     display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; box-shadow: 0 6px 14px rgba(97,131,252,.30);
+    flex-shrink: 0; box-shadow: 0 6px 14px rgba(113,99,158,.30);
 }
 .wt-pa-mail { font-weight: 700; font-size: 13.5px; word-break: break-all; line-height: 1.3; }
 .wt-pa-rows { display: flex; flex-direction: column; gap: 10px; }
@@ -814,7 +814,7 @@ header:has(+ .wrap .o_payment_form) {
 }
 .o_portal_security_body .form-control:focus {
     border-color: var(--wt-blue);
-    box-shadow: 0 0 0 4px rgba(97,131,252,.12);
+    box-shadow: 0 0 0 4px rgba(113,99,158,.12);
 }
 .o_portal_security_body label {
     font-size: 12.5px; font-weight: 600; color: var(--wt-ink);
@@ -868,7 +868,7 @@ header:has(+ .wrap .o_payment_form) {
 .o_portal_details .form-control:focus,
 .o_portal_details .form-select:focus {
     border-color: var(--wt-blue);
-    box-shadow: 0 0 0 4px rgba(97,131,252,.12);
+    box-shadow: 0 0 0 4px rgba(113,99,158,.12);
 }
 .o_portal_details label {
     font-size: 12.5px; font-weight: 600; color: var(--wt-ink);
@@ -1110,10 +1110,10 @@ header:has(+ .wrap .o_payment_form) {
 
 /* Style ALL alert cards (Invoices to pay, Quotations to review) as ip-banner style */
 #portal_alert_category .o_portal_index_card {
-    background: linear-gradient(135deg, #eef2ff 0%, #dde6ff 100%) !important;
-    border: 1px solid rgba(97,131,252,.30) !important;
+    background: linear-gradient(135deg, #efeef4 0%, #dde6ff 100%) !important;
+    border: 1px solid rgba(113,99,158,.30) !important;
     border-radius: var(--r-lg) !important;
-    box-shadow: 0 2px 10px rgba(97,131,252,.18);
+    box-shadow: 0 2px 10px rgba(113,99,158,.18);
     color: var(--wt-ink) !important;
     width: auto !important;
     max-width: none !important;
@@ -1156,7 +1156,7 @@ header:has(+ .wrap .o_payment_form) {
     background: #fff; color: var(--wt-blue);
     align-items: center; justify-content: center;
     flex-shrink: 0;
-    box-shadow: 0 2px 6px rgba(97,131,252,.30);
+    box-shadow: 0 2px 6px rgba(113,99,158,.30);
 }
 /* Style "Pay Now" button inside alert cards as dark pill */
 #portal_alert_category .o_portal_index_card .btn-secondary,
