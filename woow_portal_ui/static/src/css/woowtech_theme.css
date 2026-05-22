@@ -11,10 +11,10 @@
    1. Design Tokens
    ========================================================= */
 :root {
-    --wt-blue:        #71639e;
-    --wt-blue-700:    #5a4e7f;
-    --wt-blue-100:    #e9e7f0;
-    --wt-blue-50:     #f4f3f7;
+    --odoo-purple:        #71639e;
+    --odoo-purple-700:    #5a4e7f;
+    --odoo-purple-100:    #e9e7f0;
+    --odoo-purple-50:     #f4f3f7;
     --wt-tone-coral:  #f45d6d;
     --wt-tone-yellow: #F8D158;
     --wt-tone-green:  #8CD37F;
@@ -22,7 +22,7 @@
     --wt-tone-orange: #E66D3E;
     --wt-tone-lilac:  #C09FE0;
 
-    --tint-blue:   #efeef4;
+    --tint-purple:   #efeef4;
     --tint-coral:  #fde9eb;
     --tint-yellow: #fff5d4;
     --tint-green:  #ebf7e7;
@@ -59,8 +59,8 @@
     font-family: var(--wt-font);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    --custom-primary: var(--wt-blue);
-    --custom-primary-hover: var(--wt-blue-700);
+    --custom-primary: var(--odoo-purple);
+    --custom-primary-hover: var(--odoo-purple-700);
 }
 
 /* Canvas background for portal pages (not header) */
@@ -81,32 +81,32 @@ header:has(+ .wrap .o_payment_form) {
     background: #fff !important;
 }
 
-.o_portal a { color: var(--wt-blue); }
-.o_portal a:hover { color: var(--wt-blue-700); }
+.o_portal a { color: var(--odoo-purple); }
+.o_portal a:hover { color: var(--odoo-purple-700); }
 
 /* ---- Form Focus + Hover — Brand Blue (override Odoo purple) ---- */
 #wrapwrap.o_portal .form-control:focus,
 #wrapwrap.o_portal .form-select:focus,
 #wrapwrap:has(.o_payment_form) .form-control:focus,
 #wrapwrap:has(.o_payment_form) .form-select:focus {
-    border-color: var(--wt-blue) !important;
+    border-color: var(--odoo-purple) !important;
     box-shadow: 0 0 0 0.25rem rgba(113, 99, 158, 0.25) !important;
 }
 #wrapwrap.o_portal .form-control:hover,
 #wrapwrap.o_portal .form-select:hover,
 #wrapwrap:has(.o_payment_form) .form-control:hover,
 #wrapwrap:has(.o_payment_form) .form-select:hover {
-    border-color: var(--wt-blue) !important;
+    border-color: var(--odoo-purple) !important;
 }
 
 /* ---- Payment Bug/Debug Button — Brand Blue ---- */
 #wrapwrap.o_portal a[href="#payment_availability_report"],
 #wrapwrap:has(.o_payment_form) a[href="#payment_availability_report"] {
-    color: var(--wt-blue);
+    color: var(--odoo-purple);
 }
 #wrapwrap.o_portal a[href="#payment_availability_report"]:hover,
 #wrapwrap:has(.o_payment_form) a[href="#payment_availability_report"]:hover {
-    color: var(--wt-blue-700);
+    color: var(--odoo-purple-700);
 }
 
 /* ---- Payment Availability Report — styled card ---- */
@@ -139,13 +139,13 @@ header:has(+ .wrap .o_payment_form) {
 /* ---- Payment Form Buttons — Brand Blue ---- */
 #wrapwrap.o_portal .o_payment_form .btn-primary,
 #wrapwrap:has(.o_payment_form) .btn-primary {
-    background-color: var(--wt-blue) !important;
-    border-color: var(--wt-blue) !important;
+    background-color: var(--odoo-purple) !important;
+    border-color: var(--odoo-purple) !important;
 }
 #wrapwrap.o_portal .o_payment_form .btn-primary:hover,
 #wrapwrap:has(.o_payment_form) .btn-primary:hover {
-    background-color: var(--wt-blue-700) !important;
-    border-color: var(--wt-blue-700) !important;
+    background-color: var(--odoo-purple-700) !important;
+    border-color: var(--odoo-purple-700) !important;
 }
 
 /* ---- Portal Alert Messages — Brand Colors ---- */
@@ -160,13 +160,13 @@ header:has(+ .wrap .o_payment_form) {
 }
 .o_portal .alert-info,
 .o_portal_wrap .alert-info {
-    background: var(--tint-blue);
+    background: var(--tint-purple);
     border-color: rgba(113, 99, 158, .20);
-    color: var(--wt-blue);
+    color: var(--odoo-purple);
 }
 .o_portal .alert-info a,
 .o_portal_wrap .alert-info a {
-    color: var(--wt-blue);
+    color: var(--odoo-purple);
     font-weight: 600;
 }
 .o_portal .alert-success,
@@ -211,20 +211,20 @@ header:has(+ .wrap .o_payment_form) {
 .o_portal .btn-primary,
 .o_portal_wrap .btn-primary,
 .o_portal .btn-primary.btn_cta {
-    background-color: var(--wt-blue);
-    border-color: var(--wt-blue);
+    background-color: var(--odoo-purple);
+    border-color: var(--odoo-purple);
     border-radius: var(--r-pill);
     font-weight: 600;
     color: #fff !important;
 }
 .o_portal .btn-primary:hover,
 .o_portal_wrap .btn-primary:hover {
-    background-color: var(--wt-blue-700);
-    border-color: var(--wt-blue-700);
+    background-color: var(--odoo-purple-700);
+    border-color: var(--odoo-purple-700);
 }
 
-.o_portal .btn-outline-primary { color: var(--wt-blue); border-color: var(--wt-blue); }
-.o_portal .btn-outline-primary:hover { background-color: var(--wt-blue); border-color: var(--wt-blue); color: #fff; }
+.o_portal .btn-outline-primary { color: var(--odoo-purple); border-color: var(--odoo-purple); }
+.o_portal .btn-outline-primary:hover { background-color: var(--odoo-purple); border-color: var(--odoo-purple); color: #fff; }
 
 /* =========================================================
    3. Shared Components
@@ -238,12 +238,12 @@ header:has(+ .wrap .o_payment_form) {
     border: 1px solid transparent; cursor: pointer;
     transition: all .15s; font-family: var(--wt-font);
 }
-.wt-btn-primary { background: var(--wt-blue); color: #fff; box-shadow: 0 6px 16px rgba(113,99,158,.30); }
-.wt-btn-primary:hover { background: var(--wt-blue-700); transform: translateY(-1px); color: #fff; }
+.wt-btn-primary { background: var(--odoo-purple); color: #fff; box-shadow: 0 6px 16px rgba(113,99,158,.30); }
+.wt-btn-primary:hover { background: var(--odoo-purple-700); transform: translateY(-1px); color: #fff; }
 .wt-btn-dark { background: var(--wt-ink); color: #fff; }
 .wt-btn-dark:hover { background: #000; transform: translateY(-1px); color: #fff; }
 .wt-btn-ghost { background: #fff; border-color: var(--wt-line); color: var(--wt-ink); }
-.wt-btn-ghost:hover { border-color: var(--wt-blue); color: var(--wt-blue); }
+.wt-btn-ghost:hover { border-color: var(--odoo-purple); color: var(--odoo-purple); }
 
 /* Status Badges */
 .wt-badge {
@@ -266,7 +266,7 @@ header:has(+ .wrap .o_payment_form) {
 }
 .o_portal .form-control:focus,
 .o_portal .form-select:focus {
-    border-color: var(--wt-blue);
+    border-color: var(--odoo-purple);
     box-shadow: 0 0 0 4px rgba(113,99,158,.12);
 }
 
@@ -289,13 +289,13 @@ header:has(+ .wrap .o_payment_form) {
     padding: 0 10px;
 }
 .o_portal_pager .page-link:hover {
-    border-color: var(--wt-blue);
-    color: var(--wt-blue);
-    background: var(--wt-blue-50);
+    border-color: var(--odoo-purple);
+    color: var(--odoo-purple);
+    background: var(--odoo-purple-50);
 }
 .o_portal_pager .page-item.active .page-link {
-    background: var(--wt-blue);
-    border-color: var(--wt-blue);
+    background: var(--odoo-purple);
+    border-color: var(--odoo-purple);
     color: #fff;
 }
 .o_portal_pager .page-item.disabled .page-link {
@@ -327,9 +327,9 @@ header:has(+ .wrap .o_payment_form) {
     transition: all .15s;
 }
 .record_pager .btn:hover {
-    border-color: var(--wt-blue) !important;
-    color: var(--wt-blue);
-    background: var(--wt-blue-50) !important;
+    border-color: var(--odoo-purple) !important;
+    color: var(--odoo-purple);
+    background: var(--odoo-purple-50) !important;
 }
 
 /* =========================================================
@@ -423,7 +423,7 @@ header:has(+ .wrap .o_payment_form) {
 .o_portal_index_card:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 24px rgba(20,22,30,.06);
-    border-color: var(--wt-blue);
+    border-color: var(--odoo-purple);
 }
 .o_portal_index_card a {
     text-decoration: none;
@@ -447,7 +447,7 @@ header:has(+ .wrap .o_payment_form) {
 .o_portal_my_home .o_portal_index_card .o_portal_icon {
     display: flex !important;
     width: 44px; height: 44px; border-radius: 12px;
-    background: var(--tint-blue);
+    background: var(--tint-purple);
     align-items: center; justify-content: center;
     flex-shrink: 0;
 }
@@ -460,7 +460,7 @@ header:has(+ .wrap .o_payment_form) {
 .o_portal_my_home .o_portal_index_card .o_portal_icon::before {
     font-family: FontAwesome;
     font-size: 20px;
-    color: var(--wt-blue);
+    color: var(--odoo-purple);
 }
 
 /* Per-module icon assignment via card link href */
@@ -499,7 +499,7 @@ header:has(+ .wrap .o_payment_form) {
     font-size: 14px;
 }
 .o_portal_my_home .o_portal_index_card:hover > a::after {
-    color: var(--wt-blue);
+    color: var(--odoo-purple);
 }
 
 /* Greeting Card (WoowTech design) */
@@ -520,7 +520,7 @@ header:has(+ .wrap .o_payment_form) {
 }
 .wt-greet-avatar {
     width: 56px; height: 56px; border-radius: 14px;
-    background: var(--wt-blue); color: #fff;
+    background: var(--odoo-purple); color: #fff;
     font-weight: 800; font-size: 22px;
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 6px 16px rgba(113,99,158,.28);
@@ -536,7 +536,7 @@ header:has(+ .wrap .o_payment_form) {
 .wt-gm-chip {
     display: inline-flex; align-items: center; gap: 6px;
     padding: 4px 11px; border-radius: var(--r-pill);
-    background: var(--tint-blue); color: var(--wt-blue);
+    background: var(--tint-purple); color: var(--odoo-purple);
     font-size: 11.5px; font-weight: 600;
     border: 1px solid rgba(113,99,158,.18);
 }
@@ -551,8 +551,8 @@ header:has(+ .wrap .o_payment_form) {
     color: var(--wt-ink-2); transition: all .15s; text-decoration: none;
 }
 .wt-greet-edit:hover {
-    background: var(--wt-blue); color: #fff;
-    border-color: var(--wt-blue); text-decoration: none;
+    background: var(--odoo-purple); color: #fff;
+    border-color: var(--odoo-purple); text-decoration: none;
 }
 
 /* Search Bar */
@@ -564,7 +564,7 @@ header:has(+ .wrap .o_payment_form) {
     transition: all .15s;
 }
 .wt-hero-search:focus-within {
-    border-color: var(--wt-blue);
+    border-color: var(--odoo-purple);
     box-shadow: 0 0 0 4px rgba(113,99,158,.10);
 }
 .wt-hero-search input {
@@ -589,16 +589,16 @@ header:has(+ .wrap .o_payment_form) {
 }
 .wt-nb-count {
     display: inline-flex; align-items: center; justify-content: center;
-    background: var(--wt-blue); color: #fff;
+    background: var(--odoo-purple); color: #fff;
     font-size: 11px; font-weight: 700;
     min-width: 22px; height: 22px; padding: 0 8px;
     border-radius: var(--r-pill);
 }
 .wt-nb-viewall {
     display: inline-flex; align-items: center; gap: 4px;
-    font-size: 12.5px; color: var(--wt-blue); font-weight: 600; text-decoration: none;
+    font-size: 12.5px; color: var(--odoo-purple); font-weight: 600; text-decoration: none;
 }
-.wt-nb-viewall:hover { text-decoration: underline; color: var(--wt-blue-700); }
+.wt-nb-viewall:hover { text-decoration: underline; color: var(--odoo-purple-700); }
 
 .wt-notif-group { margin-bottom: 14px; }
 .wt-notif-group:last-child { margin-bottom: 0; }
@@ -607,13 +607,13 @@ header:has(+ .wrap .o_payment_form) {
     width: 22px; height: 22px; border-radius: 7px;
     display: inline-flex; align-items: center; justify-content: center;
 }
-.wt-ng-icon.wt-ng-msg  { background: var(--tint-blue);  color: var(--wt-blue); }
-.wt-ng-icon.wt-ng-bell { background: var(--tint-blue);  color: var(--wt-blue); }
-.wt-ng-icon.wt-ng-activity { background: var(--tint-blue);  color: var(--wt-blue); }
+.wt-ng-icon.wt-ng-msg  { background: var(--tint-purple);  color: var(--odoo-purple); }
+.wt-ng-icon.wt-ng-bell { background: var(--tint-purple);  color: var(--odoo-purple); }
+.wt-ng-icon.wt-ng-activity { background: var(--tint-purple);  color: var(--odoo-purple); }
 .wt-ng-label { font-weight: 700; font-size: 13px; color: var(--wt-ink); }
 .wt-ng-num {
     display: inline-flex; align-items: center; justify-content: center;
-    background: var(--wt-blue); color: #fff;
+    background: var(--odoo-purple); color: #fff;
     font-size: 10px; font-weight: 700;
     min-width: 18px; height: 18px; padding: 0 6px; border-radius: var(--r-pill);
 }
@@ -624,13 +624,13 @@ header:has(+ .wrap .o_payment_form) {
     padding: 10px 12px; border-radius: var(--r-md);
     transition: background .15s; text-decoration: none; color: inherit;
 }
-.wt-notif-item:hover { background: var(--wt-blue-50); color: inherit; text-decoration: none; }
+.wt-notif-item:hover { background: var(--odoo-purple-50); color: inherit; text-decoration: none; }
 .wt-ni-avatar {
     width: 32px; height: 32px; border-radius: 50%;
     display: inline-flex; align-items: center; justify-content: center;
 }
-.wt-ni-avatar.wt-ni-coral { background: var(--tint-blue);  color: var(--wt-blue); }
-.wt-ni-avatar.wt-ni-blue  { background: var(--tint-blue);  color: var(--wt-blue); }
+.wt-ni-avatar.wt-ni-coral { background: var(--tint-purple);  color: var(--odoo-purple); }
+.wt-ni-avatar.wt-ni-blue  { background: var(--tint-purple);  color: var(--odoo-purple); }
 .wt-ni-body { min-width: 0; }
 .wt-ni-t { font-weight: 700; font-size: 13.5px; color: var(--wt-ink); }
 .wt-ni-s { font-size: 12px; color: var(--wt-ink-3); margin-top: 2px; }
@@ -647,12 +647,12 @@ header:has(+ .wrap .o_payment_form) {
 .wt-ip-left { display: flex; align-items: center; gap: 14px; }
 .wt-ip-icon {
     width: 40px; height: 40px; border-radius: 12px;
-    background: #fff; color: var(--wt-blue);
+    background: #fff; color: var(--odoo-purple);
     display: inline-flex; align-items: center; justify-content: center;
     flex-shrink: 0; box-shadow: 0 2px 6px rgba(113,99,158,.30);
 }
 .wt-ip-text { font-size: 15px; color: #212121; font-weight: 500; }
-.wt-ip-text b { font-weight: 800; font-size: 18px; color: var(--wt-blue); margin-right: 2px; }
+.wt-ip-text b { font-weight: 800; font-size: 18px; color: var(--odoo-purple); margin-right: 2px; }
 .wt-ip-btn {
     display: inline-flex; align-items: center; gap: 6px;
     background: #212121; color: #fff; border: none;
@@ -672,7 +672,7 @@ header:has(+ .wrap .o_payment_form) {
 .wt-pa-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
 .wt-pa-avatar {
     width: 48px; height: 48px; border-radius: 14px;
-    background: var(--wt-blue); color: #fff;
+    background: var(--odoo-purple); color: #fff;
     font-weight: 800; font-size: 20px;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0; box-shadow: 0 6px 14px rgba(113,99,158,.30);
@@ -685,7 +685,7 @@ header:has(+ .wrap .o_payment_form) {
     padding: 8px 0; border-bottom: 1px solid var(--wt-line-soft);
 }
 .wt-pa-row:last-of-type { border-bottom: none; }
-.wt-pi-icon { width: 24px; height: 24px; color: var(--wt-blue); display: inline-flex; align-items: center; justify-content: center; }
+.wt-pi-icon { width: 24px; height: 24px; color: var(--odoo-purple); display: inline-flex; align-items: center; justify-content: center; }
 .wt-pi-text { font-size: 12.5px; color: var(--wt-ink); line-height: 1.45; word-break: break-word; }
 .wt-pa-edit {
     margin-top: 16px; width: 100%;
@@ -695,7 +695,7 @@ header:has(+ .wrap .o_payment_form) {
     display: inline-flex; align-items: center; justify-content: center; gap: 6px;
     transition: all .15s; text-decoration: none;
 }
-.wt-pa-edit:hover { border-color: var(--wt-blue); color: var(--wt-blue); text-decoration: none; }
+.wt-pa-edit:hover { border-color: var(--odoo-purple); color: var(--odoo-purple); text-decoration: none; }
 
 /* =========================================================
    5. SECURITY PAGE — CSS-only on existing Odoo elements
@@ -754,7 +754,7 @@ header:has(+ .wrap .o_payment_form) {
     font-family: FontAwesome;
     display: inline-flex; width: 36px; height: 36px; min-width: 36px;
     border-radius: 10px;
-    background: var(--tint-blue); color: var(--wt-blue);
+    background: var(--tint-purple); color: var(--odoo-purple);
     align-items: center; justify-content: center;
     font-size: 16px;
 }
@@ -784,16 +784,16 @@ header:has(+ .wrap .o_payment_form) {
 /* S-NEW2: Change Password button — blue primary pill */
 .o_portal_security_body .oe_reset_password_form button[type="submit"],
 .o_portal_security_body .oe_reset_password_form input[type="submit"] {
-    background: var(--wt-blue) !important;
-    border-color: var(--wt-blue) !important;
+    background: var(--odoo-purple) !important;
+    border-color: var(--odoo-purple) !important;
     color: #fff !important;
     border-radius: var(--r-pill);
     padding: 9px 18px;
     font-weight: 600;
 }
 .o_portal_security_body .oe_reset_password_form button[type="submit"]:hover {
-    background: var(--wt-blue-700) !important;
-    border-color: var(--wt-blue-700) !important;
+    background: var(--odoo-purple-700) !important;
+    border-color: var(--odoo-purple-700) !important;
 }
 
 /* S-NEW3: Required asterisks on security fields */
@@ -813,7 +813,7 @@ header:has(+ .wrap .o_payment_form) {
     padding: 10px 14px;
 }
 .o_portal_security_body .form-control:focus {
-    border-color: var(--wt-blue);
+    border-color: var(--odoo-purple);
     box-shadow: 0 0 0 4px rgba(113,99,158,.12);
 }
 .o_portal_security_body label {
@@ -844,8 +844,8 @@ header:has(+ .wrap .o_payment_form) {
 }
 .o_portal_security_body section[name="portal_revoke_all_devices_popup"] .btn-light:hover {
     background: var(--wt-bg);
-    border-color: var(--wt-blue);
-    color: var(--wt-blue);
+    border-color: var(--odoo-purple);
+    color: var(--odoo-purple);
 }
 
 /* =========================================================
@@ -867,7 +867,7 @@ header:has(+ .wrap .o_payment_form) {
 }
 .o_portal_details .form-control:focus,
 .o_portal_details .form-select:focus {
-    border-color: var(--wt-blue);
+    border-color: var(--odoo-purple);
     box-shadow: 0 0 0 4px rgba(113,99,158,.12);
 }
 .o_portal_details label {
@@ -903,8 +903,8 @@ header:has(+ .wrap .o_payment_form) {
 }
 .o_portal_details a.btn-light:hover,
 .o_portal_details a[href="/my/"].btn:hover {
-    border-color: var(--wt-blue);
-    color: var(--wt-blue);
+    border-color: var(--odoo-purple);
+    color: var(--odoo-purple);
     background: #fff;
 }
 
@@ -933,7 +933,7 @@ header:has(+ .wrap .o_payment_form) {
     cursor: pointer; text-decoration: none; color: inherit;
 }
 .wt-order-card:hover {
-    transform: translateY(-2px); border-color: var(--wt-blue);
+    transform: translateY(-2px); border-color: var(--odoo-purple);
     box-shadow: 0 12px 24px rgba(20,22,30,.06);
     color: inherit; text-decoration: none;
 }
@@ -943,10 +943,10 @@ header:has(+ .wrap .o_payment_form) {
 }
 .wt-oc-icon {
     width: 32px; height: 32px; border-radius: 8px;
-    background: var(--tint-blue); color: var(--wt-blue);
+    background: var(--tint-purple); color: var(--odoo-purple);
     display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.wt-oc-num { font-weight: 700; font-size: 14px; color: var(--wt-blue); font-variant-numeric: tabular-nums; }
+.wt-oc-num { font-weight: 700; font-size: 14px; color: var(--odoo-purple); font-variant-numeric: tabular-nums; }
 .wt-oc-meta { display: flex; flex-direction: column; gap: 6px; }
 .wt-oc-row { display: flex; align-items: center; justify-content: space-between; font-size: 12.5px; }
 .wt-oc-label { color: var(--wt-ink-3); }
@@ -957,7 +957,7 @@ header:has(+ .wrap .o_payment_form) {
     font-size: 12px; color: var(--wt-ink-3);
     padding-top: 8px; border-top: 1px solid var(--wt-line-soft);
 }
-.wt-order-card:hover .wt-oc-foot { color: var(--wt-blue); }
+.wt-order-card:hover .wt-oc-foot { color: var(--odoo-purple); }
 
 /* =========================================================
    8. INVOICES PAGE — Card grid + toolbar
@@ -977,7 +977,7 @@ header:has(+ .wrap .o_payment_form) {
     text-decoration: none; color: inherit;
 }
 .wt-invoice-card:hover {
-    transform: translateY(-2px); border-color: var(--wt-blue);
+    transform: translateY(-2px); border-color: var(--odoo-purple);
     box-shadow: 0 12px 24px rgba(20,22,30,.06);
     color: inherit; text-decoration: none;
 }
@@ -990,10 +990,10 @@ header:has(+ .wrap .o_payment_form) {
 }
 .wt-ic-icon {
     width: 32px; height: 32px; border-radius: 8px;
-    background: var(--tint-blue); color: var(--wt-blue);
+    background: var(--tint-purple); color: var(--odoo-purple);
     display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.wt-ic-num { font-weight: 700; font-size: 14px; color: var(--wt-blue); font-variant-numeric: tabular-nums; flex: 1; min-width: 0; }
+.wt-ic-num { font-weight: 700; font-size: 14px; color: var(--odoo-purple); font-variant-numeric: tabular-nums; flex: 1; min-width: 0; }
 .wt-ic-meta { display: flex; flex-direction: column; gap: 6px; }
 .wt-ic-row { display: flex; align-items: center; justify-content: space-between; font-size: 12.5px; }
 .wt-ic-label { color: var(--wt-ink-3); }
@@ -1038,7 +1038,7 @@ header:has(+ .wrap .o_payment_form) {
     cursor: pointer; text-decoration: none; color: inherit;
 }
 .wt-portal-card:hover {
-    transform: translateY(-2px); border-color: var(--wt-blue);
+    transform: translateY(-2px); border-color: var(--odoo-purple);
     box-shadow: 0 12px 24px rgba(20,22,30,.06);
     color: inherit; text-decoration: none;
 }
@@ -1048,10 +1048,10 @@ header:has(+ .wrap .o_payment_form) {
 }
 .wt-pc-icon {
     width: 32px; height: 32px; border-radius: 8px;
-    background: var(--tint-blue); color: var(--wt-blue);
+    background: var(--tint-purple); color: var(--odoo-purple);
     display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.wt-pc-num { font-weight: 700; font-size: 14px; color: var(--wt-blue); font-variant-numeric: tabular-nums; flex: 1; min-width: 0; }
+.wt-pc-num { font-weight: 700; font-size: 14px; color: var(--odoo-purple); font-variant-numeric: tabular-nums; flex: 1; min-width: 0; }
 .wt-pc-badge { flex-shrink: 0; }
 .wt-pc-meta { display: flex; flex-direction: column; gap: 6px; }
 .wt-pc-row { display: flex; align-items: center; justify-content: space-between; font-size: 12.5px; }
@@ -1063,12 +1063,12 @@ header:has(+ .wrap .o_payment_form) {
     font-size: 12px; color: var(--wt-ink-3);
     padding-top: 8px; border-top: 1px solid var(--wt-line-soft);
 }
-.wt-portal-card:hover .wt-pc-foot { color: var(--wt-blue); }
+.wt-portal-card:hover .wt-pc-foot { color: var(--odoo-purple); }
 
 /* I-NEW1: "Pay overdue" button styling */
 .o_portal a.btn-primary[href*="overdue"],
 .o_portal_submenu ~ a.btn-primary[href*="overdue"] {
-    background: var(--wt-blue) !important;
+    background: var(--odoo-purple) !important;
     color: #fff !important;
     border-radius: var(--r-md);
     padding: 6px 14px;
@@ -1078,7 +1078,7 @@ header:has(+ .wrap .o_payment_form) {
     border: none;
 }
 .o_portal a.btn-primary[href*="overdue"]:hover {
-    background: var(--wt-blue-700) !important;
+    background: var(--odoo-purple-700) !important;
 }
 
 /* =========================================================
@@ -1086,11 +1086,11 @@ header:has(+ .wrap .o_payment_form) {
    ========================================================= */
 .wpu-notif-card-icon,
 .wpu-notification-icon {
-    color: var(--wt-blue) !important;
-    background: color-mix(in srgb, var(--wt-blue) 12%, transparent) !important;
+    color: var(--odoo-purple) !important;
+    background: color-mix(in srgb, var(--odoo-purple) 12%, transparent) !important;
 }
-.wpu-view-all-link { color: var(--wt-blue) !important; }
-.wpu-unread-dot { background: var(--wt-blue) !important; }
+.wpu-view-all-link { color: var(--odoo-purple) !important; }
+.wpu-unread-dot { background: var(--odoo-purple) !important; }
 .wpu-notif-modal { border-radius: var(--r-lg) !important; }
 
 /* Account page warning — coral tint */
@@ -1142,7 +1142,7 @@ header:has(+ .wrap .o_payment_form) {
 #portal_alert_category .o_portal_index_card .fs-5 span[data-placeholder_count] {
     font-weight: 800 !important;
     font-size: 18px !important;
-    color: var(--wt-blue) !important;
+    color: var(--odoo-purple) !important;
     margin-right: 2px;
 }
 /* Hide description text in alert cards */
@@ -1153,7 +1153,7 @@ header:has(+ .wrap .o_payment_form) {
 #portal_alert_category .o_portal_index_card .o_portal_icon {
     display: flex !important;
     width: 40px; height: 40px; border-radius: 12px;
-    background: #fff; color: var(--wt-blue);
+    background: #fff; color: var(--odoo-purple);
     align-items: center; justify-content: center;
     flex-shrink: 0;
     box-shadow: 0 2px 6px rgba(113,99,158,.30);
@@ -1276,22 +1276,22 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
 
 /* Save/Submit button — blue pill */
 .o_payment_form button[name="o_payment_submit_button"] {
-    background: var(--wt-blue) !important;
-    border-color: var(--wt-blue) !important;
+    background: var(--odoo-purple) !important;
+    border-color: var(--odoo-purple) !important;
     color: #fff !important;
     border-radius: var(--r-pill) !important;
     padding: 9px 24px !important;
     font-weight: 600;
 }
 .o_payment_form button[name="o_payment_submit_button"]:hover {
-    background: var(--wt-blue-700) !important;
-    border-color: var(--wt-blue-700) !important;
+    background: var(--odoo-purple-700) !important;
+    border-color: var(--odoo-purple-700) !important;
 }
 
 /* Radio/checkbox inputs */
 .o_payment_form .form-check-input:checked {
-    background-color: var(--wt-blue);
-    border-color: var(--wt-blue);
+    background-color: var(--odoo-purple);
+    border-color: var(--odoo-purple);
 }
 
 /* Delete token button */
@@ -1302,7 +1302,7 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
 /* Home icon in portal breadcrumbs — blue color */
 .o_portal .breadcrumb .fa-home,
 #wrapwrap:has(.o_payment_form) .breadcrumb .fa-home {
-    color: var(--wt-blue) !important;
+    color: var(--odoo-purple) !important;
 }
 
 /* Breadcrumb vertical spacing — portal pages only */
@@ -1323,18 +1323,18 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
 }
 .o_portal .o_portal_navbar .btn-light.dropdown-toggle:hover,
 .o_portal .o_portal_navbar .btn-light.dropdown-toggle:focus {
-    border-color: var(--wt-blue);
-    color: var(--wt-blue);
+    border-color: var(--odoo-purple);
+    color: var(--odoo-purple);
 }
 /* Dropdown menu items — active and hover */
 .o_portal .o_portal_navbar .dropdown-menu .dropdown-item.active,
 .o_portal .o_portal_navbar .dropdown-menu .dropdown-item:active {
-    background-color: var(--wt-blue);
+    background-color: var(--odoo-purple);
     color: #fff;
 }
 .o_portal .o_portal_navbar .dropdown-menu .dropdown-item:hover:not(.active) {
-    background-color: var(--wt-blue-100);
-    color: var(--wt-blue);
+    background-color: var(--odoo-purple-100);
+    color: var(--odoo-purple);
 }
 
 /* =========================================================
@@ -1368,8 +1368,8 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     font-size: 12px;
 }
 .o_portal .o_portal_navbar .o_portal_search_panel .dropdown-toggle:hover {
-    border-color: var(--wt-blue) !important;
-    color: var(--wt-blue);
+    border-color: var(--odoo-purple) !important;
+    color: var(--odoo-purple);
 }
 
 /* Dropdown menu — WoowTech styled */
@@ -1387,12 +1387,12 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
 }
 .o_portal .o_portal_navbar .o_portal_search_panel .dropdown-item.active,
 .o_portal .o_portal_navbar .o_portal_search_panel .dropdown-item:active {
-    background-color: var(--wt-blue);
+    background-color: var(--odoo-purple);
     color: #fff;
 }
 .o_portal .o_portal_navbar .o_portal_search_panel .dropdown-item:hover:not(.active) {
-    background-color: var(--wt-blue-100);
-    color: var(--wt-blue);
+    background-color: var(--odoo-purple-100);
+    color: var(--odoo-purple);
 }
 
 /* Search input — left pill, border shared with submit */
@@ -1407,7 +1407,7 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     box-shadow: none !important;
 }
 .o_portal .o_portal_navbar .o_portal_search_panel .form-control:focus {
-    border-color: var(--wt-blue) !important;
+    border-color: var(--odoo-purple) !important;
 }
 .o_portal .o_portal_navbar .o_portal_search_panel .form-control::placeholder {
     color: var(--wt-ink-3);
@@ -1420,7 +1420,7 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     border: 1px solid var(--wt-line) !important;
     border-left: none !important;
     border-radius: 0 var(--r-pill) var(--r-pill) 0 !important;
-    color: var(--wt-blue) !important;
+    color: var(--odoo-purple) !important;
     width: 42px;
     min-width: 42px;
     padding: 4px 5px 4px 0;
@@ -1433,7 +1433,7 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
 /* Inner icon — blue circle */
 .o_portal .o_portal_navbar .o_portal_search_panel .input-group > button[type="submit"] .oi,
 .o_portal .o_portal_navbar .o_portal_search_panel .input-group > .btn:last-child .oi {
-    background: var(--wt-blue);
+    background: var(--odoo-purple);
     color: #fff;
     width: 30px;
     height: 30px;
@@ -1446,7 +1446,7 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
 }
 .o_portal .o_portal_navbar .o_portal_search_panel .input-group > button[type="submit"]:hover .oi,
 .o_portal .o_portal_navbar .o_portal_search_panel .input-group > .btn:last-child:hover .oi {
-    background: var(--wt-blue-700);
+    background: var(--odoo-purple-700);
 }
 
 /* "Pay overdue" button — move inline with filters and style as pill */
@@ -1460,8 +1460,8 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
 .o_portal .o_portal_navbar > a.btn-primary[href*="overdue"] {
     order: 99;
     margin-left: 0.5rem;
-    background: var(--wt-blue) !important;
-    border-color: var(--wt-blue) !important;
+    background: var(--odoo-purple) !important;
+    border-color: var(--odoo-purple) !important;
     color: #fff !important;
     border-radius: var(--r-pill);
     padding: 7px 18px;
@@ -1475,16 +1475,16 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     margin-right: 6px;
 }
 .o_portal .o_portal_navbar > a.btn-primary[href*="overdue"]:hover {
-    background: var(--wt-blue-700) !important;
-    border-color: var(--wt-blue-700) !important;
+    background: var(--odoo-purple-700) !important;
+    border-color: var(--odoo-purple-700) !important;
 }
 
 /* "Create Opportunity" button — style like "Pay overdue" pill */
 .o_portal .o_portal_navbar button[name="new_opp"] {
     order: 99;
     margin-left: 0.5rem;
-    background: var(--wt-blue) !important;
-    border-color: var(--wt-blue) !important;
+    background: var(--odoo-purple) !important;
+    border-color: var(--odoo-purple) !important;
     color: #fff !important;
     border-radius: var(--r-pill);
     padding: 7px 18px;
@@ -1493,8 +1493,8 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     white-space: nowrap;
 }
 .o_portal .o_portal_navbar button[name="new_opp"]:hover {
-    background: var(--wt-blue-700) !important;
-    border-color: var(--wt-blue-700) !important;
+    background: var(--odoo-purple-700) !important;
+    border-color: var(--odoo-purple-700) !important;
 }
 
 /* Force navbar always expanded on portal — no collapse toggler */
@@ -1584,8 +1584,8 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
         content: "\f0b0"; /* fa-filter replaces fa-bars */
     }
     .o_portal .o_portal_navbar .navbar-toggler:hover {
-        border-color: var(--wt-blue);
-        color: var(--wt-blue);
+        border-color: var(--odoo-purple);
+        color: var(--odoo-purple);
     }
 
     /* Let Bootstrap collapse handle content visibility */
@@ -1675,8 +1675,8 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
         color: var(--wt-ink);
     }
     .o_portal .o_portal_navbar #o_portal_navbar_content .btn-light.dropdown-toggle:hover {
-        border-color: var(--wt-blue) !important;
-        color: var(--wt-blue);
+        border-color: var(--odoo-purple) !important;
+        color: var(--odoo-purple);
     }
 
     /* Search panel — full width, show first, prevent overflow */

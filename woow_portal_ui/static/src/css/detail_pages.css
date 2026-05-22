@@ -62,28 +62,28 @@
 }
 /* Accept button — solid blue (override inline style) */
 .o_portal_sidebar .o_portal_sidebar_content [name="accept"] {
-    background-color: var(--wt-blue) !important;
-    border-color: var(--wt-blue) !important;
+    background-color: var(--odoo-purple) !important;
+    border-color: var(--odoo-purple) !important;
     color: #fff !important;
 }
 .o_portal_sidebar .o_portal_sidebar_content [name="accept"]:hover {
-    background-color: var(--wt-blue-700) !important;
-    border-color: var(--wt-blue-700) !important;
+    background-color: var(--odoo-purple-700) !important;
+    border-color: var(--odoo-purple-700) !important;
 }
 /* Decline button — outline blue */
 .o_portal_sidebar .o_portal_sidebar_content [name="decline"] {
     background-color: #fff !important;
-    color: var(--wt-blue) !important;
-    border: 1px solid var(--wt-blue) !important;
+    color: var(--odoo-purple) !important;
+    border: 1px solid var(--odoo-purple) !important;
 }
 .o_portal_sidebar .o_portal_sidebar_content [name="decline"]:hover {
-    background-color: var(--wt-blue-50) !important;
+    background-color: var(--odoo-purple-50) !important;
 }
 /* Download/Print button — ghost (light blue) */
 .o_portal_sidebar .o_portal_sidebar_content .o_print_btn {
-    background: var(--wt-blue-50) !important;
-    color: var(--wt-blue) !important;
-    border: 1px solid var(--wt-blue-100) !important;
+    background: var(--odoo-purple-50) !important;
+    color: var(--odoo-purple) !important;
+    border: 1px solid var(--odoo-purple-100) !important;
     border-radius: var(--r-md) !important;
     font-size: 13px;
     font-weight: 600;
@@ -91,13 +91,13 @@
     width: 100%;
 }
 .o_portal_sidebar .o_portal_sidebar_content .o_print_btn:hover {
-    background: var(--wt-blue-100) !important;
+    background: var(--odoo-purple-100) !important;
 }
 /* "Connect with your software!" — same ghost style as Download/Print */
 .o_portal_sidebar .o_portal_sidebar_content .btn-primary[data-bs-target="#modalconnect"] {
-    background: var(--wt-blue-50) !important;
-    color: var(--wt-blue) !important;
-    border: 1px solid var(--wt-blue-100) !important;
+    background: var(--odoo-purple-50) !important;
+    color: var(--odoo-purple) !important;
+    border: 1px solid var(--odoo-purple-100) !important;
     border-radius: var(--r-md) !important;
     font-size: 13px;
     font-weight: 600;
@@ -105,7 +105,7 @@
     width: 100%;
 }
 .o_portal_sidebar .o_portal_sidebar_content .btn-primary[data-bs-target="#modalconnect"]:hover {
-    background: var(--wt-blue-100) !important;
+    background: var(--odoo-purple-100) !important;
 }
 
 /* Hide vertical rule between sidebar and content */
@@ -140,12 +140,12 @@
     padding: 12px 14px;
 }
 .o_portal_sidebar #sale_order_sidebar_button .btn-primary {
-    background: var(--wt-blue);
-    border-color: var(--wt-blue);
+    background: var(--odoo-purple);
+    border-color: var(--odoo-purple);
 }
 .o_portal_sidebar #sale_order_sidebar_button .btn-primary:hover {
-    background: var(--wt-blue-700);
-    border-color: var(--wt-blue-700);
+    background: var(--odoo-purple-700);
+    border-color: var(--odoo-purple-700);
 }
 .o_portal_sidebar .o_download_pdf {
     flex-direction: column !important;
@@ -161,8 +161,8 @@
     color: var(--wt-ink);
 }
 .o_portal_sidebar .o_download_pdf .btn:hover {
-    border-color: var(--wt-blue);
-    color: var(--wt-blue);
+    border-color: var(--odoo-purple);
+    color: var(--odoo-purple);
 }
 
 /* Sidenav links */
@@ -171,16 +171,16 @@
 }
 .o_portal_sidebar .navspy .nav.bs-sidenav a {
     font-size: 13px;
-    color: var(--wt-blue);
+    color: var(--odoo-purple);
     font-weight: 500;
     padding: 4px 0;
 }
 .o_portal_sidebar .navspy .nav.bs-sidenav a:hover {
     text-decoration: underline;
-    color: var(--wt-blue);
+    color: var(--odoo-purple);
 }
 .o_portal_sidebar .navspy .nav.bs-sidenav a.active {
-    color: var(--wt-blue-700);
+    color: var(--odoo-purple-700);
     font-weight: 600;
 }
 
@@ -319,7 +319,7 @@
     font-weight: 600;
 }
 .o_portal_sidebar #sale_invoices a {
-    color: var(--wt-blue);
+    color: var(--odoo-purple);
     font-weight: 500;
 }
 .o_portal_sidebar #sale_invoices a:hover {
@@ -501,15 +501,15 @@
 
 /* Chatter send button */
 .o_portal_sidebar .o_portal_chatter .btn-primary {
-    background: var(--wt-blue);
-    border-color: var(--wt-blue);
+    background: var(--odoo-purple);
+    border-color: var(--odoo-purple);
     border-radius: var(--r-md);
     font-size: 13px;
     font-weight: 600;
 }
 .o_portal_sidebar .o_portal_chatter .btn-primary:hover {
-    background: var(--wt-blue-700);
-    border-color: var(--wt-blue-700);
+    background: var(--odoo-purple-700);
+    border-color: var(--odoo-purple-700);
 }
 
 /* Chatter message input */
@@ -519,7 +519,7 @@
     font-size: 13px;
 }
 .o_portal_sidebar .o_portal_chatter textarea:focus {
-    border-color: var(--wt-blue);
+    border-color: var(--odoo-purple);
     box-shadow: 0 0 0 4px rgba(113, 99, 158, .12);
 }
 
@@ -541,7 +541,7 @@
     gap: 12px;
     background: #fff;
     border: 1px solid var(--wt-line);
-    border-left: 4px solid var(--wt-blue);
+    border-left: 4px solid var(--odoo-purple);
     border-radius: var(--r-lg);
     box-shadow: var(--sh-1);
     padding: 20px 24px;
@@ -558,7 +558,7 @@
 .wt-cta-label {
     font-size: 11px;
     font-weight: 700;
-    color: var(--wt-blue);
+    color: var(--odoo-purple);
     letter-spacing: .14em;
     text-transform: uppercase;
 }
@@ -581,13 +581,13 @@
     flex-shrink: 0;
 }
 .o_portal_sidebar [name="sale_order_actions"] .btn-primary {
-    background: var(--wt-blue) !important;
-    border-color: var(--wt-blue) !important;
+    background: var(--odoo-purple) !important;
+    border-color: var(--odoo-purple) !important;
     color: #fff;
 }
 .o_portal_sidebar [name="sale_order_actions"] .btn-primary:hover {
-    background: var(--wt-blue-700) !important;
-    border-color: var(--wt-blue-700) !important;
+    background: var(--odoo-purple-700) !important;
+    border-color: var(--odoo-purple-700) !important;
 }
 .o_portal_sidebar [name="sale_order_actions"] .btn-light {
     background: #fff !important;
@@ -595,8 +595,8 @@
     color: var(--wt-ink);
 }
 .o_portal_sidebar [name="sale_order_actions"] .btn-light:hover {
-    border-color: var(--wt-blue) !important;
-    color: var(--wt-blue);
+    border-color: var(--odoo-purple) !important;
+    color: var(--odoo-purple);
 }
 .o_portal_sidebar [name="sale_order_actions"] .btn-danger {
     background: #fff !important;
@@ -699,8 +699,8 @@
     transition: all .15s;
 }
 .opp-stage-button.btn-light:hover {
-    border-color: var(--wt-blue);
-    color: var(--wt-blue);
+    border-color: var(--odoo-purple);
+    color: var(--odoo-purple);
     background: rgba(113, 99, 158, 0.08);
 }
 
@@ -740,12 +740,12 @@
 
 /* Edit buttons — WoowTech blue instead of Odoo purple */
 .o_portal_wrap .container:has(.opp-stage-button) .btn-link {
-    color: var(--wt-blue);
+    color: var(--odoo-purple);
     text-decoration: none;
     font-weight: 600;
 }
 .o_portal_wrap .container:has(.opp-stage-button) .btn-link:hover {
-    color: var(--wt-blue-700);
+    color: var(--odoo-purple-700);
 }
 
 /* Column borders for info blocks */
@@ -856,8 +856,8 @@
 
 /* "I'm interested" — solid blue */
 .o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > .d-flex.justify-content-center [data-bs-target=".modal_partner_assign_interested"] {
-    background-color: var(--wt-blue) !important;
-    border-color: var(--wt-blue) !important;
+    background-color: var(--odoo-purple) !important;
+    border-color: var(--odoo-purple) !important;
     color: #fff !important;
     border-radius: var(--r-md);
     font-weight: 600;
@@ -865,22 +865,22 @@
     padding: 11px 22px;
 }
 .o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > .d-flex.justify-content-center [data-bs-target=".modal_partner_assign_interested"]:hover {
-    background-color: var(--wt-blue-700) !important;
-    border-color: var(--wt-blue-700) !important;
+    background-color: var(--odoo-purple-700) !important;
+    border-color: var(--odoo-purple-700) !important;
 }
 
 /* "I'm not interested" — outline blue */
 .o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > .d-flex.justify-content-center [data-bs-target=".modal_partner_assign_desinterested"] {
     background-color: #fff !important;
-    color: var(--wt-blue) !important;
-    border: 1px solid var(--wt-blue) !important;
+    color: var(--odoo-purple) !important;
+    border: 1px solid var(--odoo-purple) !important;
     border-radius: var(--r-md);
     font-weight: 600;
     font-size: 13.5px;
     padding: 11px 22px;
 }
 .o_portal_wrap .container:has(table.table-borderless):not(:has(.opp-stage-button)):not(.o_portal_sidebar):not(:has(.o_portal_sidebar)) > .d-flex.justify-content-center [data-bs-target=".modal_partner_assign_desinterested"]:hover {
-    background-color: var(--wt-blue-50) !important;
+    background-color: var(--odoo-purple-50) !important;
 }
 
 /* Hide hr separator */
