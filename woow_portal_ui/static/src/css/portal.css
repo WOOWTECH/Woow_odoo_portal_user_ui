@@ -69,6 +69,19 @@
 }
 
 /* ============================================================
+   ②b Language Switcher in User Menu
+   ============================================================ */
+
+.wt-lang-item.active {
+    background-color: var(--odoo-purple, #71639e) !important;
+    color: #fff !important;
+}
+
+.wt-lang-item:hover:not(.active) {
+    background-color: var(--odoo-purple-50, #f4f3f7) !important;
+}
+
+/* ============================================================
    ③ Search Bar
    ============================================================ */
 

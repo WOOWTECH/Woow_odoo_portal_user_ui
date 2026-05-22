@@ -14,6 +14,29 @@
     </template>
 
     <!-- ============================================================ -->
+    <!-- Language Switcher in User Dropdown                           -->
+    <!-- ============================================================ -->
+    <template id="portal_user_lang_menu" name="Woow Language in User Menu"
+              inherit_id="portal.user_dropdown" priority="20">
+        <xpath expr="//div[@id='o_logout_divider']" position="before">
+            <t t-set="installed_langs" t-value="request.env['res.lang'].get_installed()"/>
+            <t t-if="len(installed_langs) > 1">
+                <div class="dropdown-divider"/>
+                <div class="dropdown-header small text-muted px-3 py-1">
+                    <i class="fa fa-globe me-1"/>Language
+                </div>
+                <t t-foreach="installed_langs" t-as="ilang">
+                    <a t-attf-class="dropdown-item ps-3 wt-lang-item #{'active' if ilang[0] == (request.env.user.lang or 'en_US') else ''}"
+                       t-attf-href="/my/set_lang/#{ilang[0]}"
+                       role="menuitem">
+                        <t t-esc="ilang[1]"/>
+                    </a>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- ============================================================ -->
     <!-- Replace "My account" header with greeting card               -->
     <!-- ============================================================ -->
     <template id="portal_greeting_card" name="Woow Portal Greeting Card"

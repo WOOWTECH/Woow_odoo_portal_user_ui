@@ -268,6 +268,25 @@ class WoowPortalUI(CustomerPortal):
         }
 
     # ------------------------------------------------------------------
+    # Language switch
+    # ------------------------------------------------------------------
+
+    @http.route('/my/set_lang/<string:lang_code>', type='http',
+                auth='user', website=True)
+    def set_language(self, lang_code, **kw):
+        available = dict(request.env['res.lang'].get_installed())
+        if lang_code not in available:
+            return request.redirect('/my')
+        request.env.user.sudo().write({'lang': lang_code})
+        ctx = dict(request.session.get('context', {}))
+        ctx['lang'] = lang_code
+        request.session['context'] = ctx
+        redirect_url = request.httprequest.referrer or '/my'
+        response = request.redirect(redirect_url)
+        response.set_cookie('frontend_lang', lang_code)
+        return response
+
+    # ------------------------------------------------------------------
     # Portal home override
     # ------------------------------------------------------------------
 
