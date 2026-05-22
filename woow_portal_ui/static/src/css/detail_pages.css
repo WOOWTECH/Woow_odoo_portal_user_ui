@@ -617,6 +617,7 @@
     .o_portal_sidebar .o_portal_sidebar_content {
         position: static;
         border-radius: var(--r-md);
+        margin-bottom: 16px !important;
     }
 }
 
