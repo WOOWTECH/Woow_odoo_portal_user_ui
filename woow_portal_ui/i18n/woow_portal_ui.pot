@@ -4,74 +4,67 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0-20260504\n"
+"Project-Id-Version: Odoo Server 18.0-20260401\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-25 02:19+0000\n"
-"PO-Revision-Date: 2026-05-25 10:19+0000\n"
-"Last-Translator: WoowTech\n"
-"Language-Team: Chinese (Traditional)\n"
+"POT-Creation-Date: 2026-05-25 04:22+0000\n"
+"PO-Revision-Date: 2026-05-25 04:22+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Language: zh_TW\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
 msgid "%d days ago"
-msgstr "%d 天前"
+msgstr ""
 
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
 msgid "%d hours ago"
-msgstr "%d 小時前"
+msgstr ""
 
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
 msgid "%d mins ago"
-msgstr "%d 分鐘前"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_my_home_enhanced
 msgid ",<br class=\"wt-greet-br\"/>"
-msgstr ",<br class=\"wt-greet-br\"/>"
+msgstr ""
 
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
 msgid "1 day ago"
-msgstr "1 天前"
+msgstr ""
 
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
 msgid "1 hour ago"
-msgstr "1 小時前"
+msgstr ""
 
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
 msgid "1 min ago"
-msgstr "1 分鐘前"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
 msgid "<i class=\"fa fa-check me-1\"/><span>Mark as read</span>"
-msgstr "<i class=\"fa fa-check me-1\"/><span>標記已讀</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
 msgid "<i class=\"fa fa-check me-1\"/>Mark all read"
-msgstr "<i class=\"fa fa-check me-1\"/>全部已讀"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
@@ -79,8 +72,6 @@ msgid ""
 "<i class=\"fa fa-check\"/>\n"
 "                                                    <span>Read</span>"
 msgstr ""
-"<i class=\"fa fa-check\"/>\n"
-"                                                    <span>已讀</span>"
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
@@ -88,13 +79,11 @@ msgid ""
 "<i class=\"fa fa-check\"/>\n"
 "                                                <span>Done</span>"
 msgstr ""
-"<i class=\"fa fa-check\"/>\n"
-"                                                <span>完成</span>"
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
 msgid "<i class=\"fa fa-external-link me-1\"/><span>View Document</span>"
-msgstr "<i class=\"fa fa-external-link me-1\"/><span>查看文件</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
@@ -103,14 +92,11 @@ msgid ""
 "                            <span class=\"nc-ft-label\">Filters</span>\n"
 "                            <i class=\"fa fa-chevron-down nc-ft-chev\"/>"
 msgstr ""
-"<i class=\"fa fa-filter\"/>\n"
-"                            <span class=\"nc-ft-label\">篩選</span>\n"
-"                            <i class=\"fa fa-chevron-down nc-ft-chev\"/>"
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_user_lang_menu
 msgid "<i class=\"fa fa-globe me-1\"/>Language"
-msgstr "<i class=\"fa fa-globe me-1\"/>語言"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
@@ -118,13 +104,11 @@ msgid ""
 "<i class=\"fa fa-long-arrow-right me-1\"/>\n"
 "                                <span>Swipe right to mark as read / done</span>"
 msgstr ""
-"<i class=\"fa fa-long-arrow-right me-1\"/>\n"
-"                                <span>向右滑動可標記為已讀 / 已完成</span>"
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_my_home_enhanced
 msgid "<i class=\"fa fa-pencil\"/> Edit information"
-msgstr "<i class=\"fa fa-pencil\"/> 編輯資料"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
@@ -132,13 +116,11 @@ msgid ""
 "<i class=\"fa fa-times\"/>\n"
 "                                                    <span>Dismiss</span>"
 msgstr ""
-"<i class=\"fa fa-times\"/>\n"
-"                                                    <span>關閉</span>"
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
 msgid "<span class=\"nc-meta-sep\">·</span>"
-msgstr "<span class=\"nc-meta-sep\">·</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
@@ -146,8 +128,6 @@ msgid ""
 "<span class=\"nc-tab-ico\"><i class=\"fa fa-fw fa-asterisk\"/></span>\n"
 "                                <span class=\"nc-tab-l\">All</span>"
 msgstr ""
-"<span class=\"nc-tab-ico\"><i class=\"fa fa-fw fa-asterisk\"/></span>\n"
-"                                <span class=\"nc-tab-l\">全部</span>"
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
@@ -155,8 +135,6 @@ msgid ""
 "<span class=\"nc-tab-ico\"><i class=\"fa fa-fw fa-bell\"/></span>\n"
 "                                <span class=\"nc-tab-l\">Notifications</span>"
 msgstr ""
-"<span class=\"nc-tab-ico\"><i class=\"fa fa-fw fa-bell\"/></span>\n"
-"                                <span class=\"nc-tab-l\">通知</span>"
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
@@ -164,8 +142,6 @@ msgid ""
 "<span class=\"nc-tab-ico\"><i class=\"fa fa-fw fa-check-square-o\"/></span>\n"
 "                                    <span class=\"nc-tab-l\">To-Do</span>"
 msgstr ""
-"<span class=\"nc-tab-ico\"><i class=\"fa fa-fw fa-check-square-o\"/></span>\n"
-"                                    <span class=\"nc-tab-l\">待辦</span>"
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
@@ -173,85 +149,83 @@ msgid ""
 "<span class=\"nc-tab-ico\"><i class=\"fa fa-fw fa-comment\"/></span>\n"
 "                                <span class=\"nc-tab-l\">Messages</span>"
 msgstr ""
-"<span class=\"nc-tab-ico\"><i class=\"fa fa-fw fa-comment\"/></span>\n"
-"                                <span class=\"nc-tab-l\">留言</span>"
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
 msgid "<span class=\"ncf-label\">Filter</span>"
-msgstr "<span class=\"ncf-label\">篩選</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
 msgid "<span class=\"ncf-label\">Group</span>"
-msgstr "<span class=\"ncf-label\">分組</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
 msgid "<span class=\"ncf-label\">Sort</span>"
-msgstr "<span class=\"ncf-label\">排序</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_invoices_cards
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_purchase_cards
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_quotations_cards
 msgid "<span class=\"wt-badge wt-badge-cancelled\">Cancelled</span>"
-msgstr "<span class=\"wt-badge wt-badge-cancelled\">已取消</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_quotations_cards
 msgid "<span class=\"wt-badge wt-badge-cancelled\">Expired</span>"
-msgstr "<span class=\"wt-badge wt-badge-cancelled\">已過期</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_purchase_cards
 msgid "<span class=\"wt-badge wt-badge-paid\">Done</span>"
-msgstr "<span class=\"wt-badge wt-badge-paid\">已完成</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_invoices_cards
 msgid "<span class=\"wt-badge wt-badge-paid\">Paid</span>"
-msgstr "<span class=\"wt-badge wt-badge-paid\">已付款</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_invoices_cards
 msgid "<span class=\"wt-badge wt-badge-processing\">Processing</span>"
-msgstr "<span class=\"wt-badge wt-badge-processing\">處理中</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_invoices_cards
 msgid "<span class=\"wt-badge wt-badge-reversed\">Reversed</span>"
-msgstr "<span class=\"wt-badge wt-badge-reversed\">已沖銷</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_purchase_cards
 msgid "<span class=\"wt-badge wt-badge-waiting\">To Invoice</span>"
-msgstr "<span class=\"wt-badge wt-badge-waiting\">待開發票</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_invoices_cards
 msgid "<span class=\"wt-badge wt-badge-waiting\">Waiting</span>"
-msgstr "<span class=\"wt-badge wt-badge-waiting\">等待中</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_invoices_cards
 msgid "<span class=\"wt-ic-label\">Amount Due</span>"
-msgstr "<span class=\"wt-ic-label\">應付金額</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_invoices_cards
 msgid "<span class=\"wt-ic-label\">Due Date</span>"
-msgstr "<span class=\"wt-ic-label\">到期日</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_invoices_cards
 msgid "<span class=\"wt-ic-label\">Invoice Date</span>"
-msgstr "<span class=\"wt-ic-label\">發票日期</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_invoices_cards
 msgid "<span class=\"wt-inv-due-note\">Overdue</span>"
-msgstr "<span class=\"wt-inv-due-note\">逾期</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_invoices_cards
@@ -260,9 +234,6 @@ msgid ""
 "                                <i class=\"fa fa-credit-card\" style=\"font-size: 10px;\"/> Pay Now\n"
 "                            </span>"
 msgstr ""
-"<span class=\"wt-inv-paynow\">\n"
-"                                <i class=\"fa fa-credit-card\" style=\"font-size: 10px;\"/> 立即付款\n"
-"                            </span>"
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_my_home_enhanced
@@ -270,8 +241,6 @@ msgid ""
 "<span class=\"wt-ng-icon wt-ng-activity\"><i class=\"fa fa-clock-o\" style=\"font-size:11px;\"/></span>\n"
 "                            <span class=\"wt-ng-label\">To-Do</span>"
 msgstr ""
-"<span class=\"wt-ng-icon wt-ng-activity\"><i class=\"fa fa-clock-o\" style=\"font-size:11px;\"/></span>\n"
-"                            <span class=\"wt-ng-label\">待辦</span>"
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_my_home_enhanced
@@ -279,8 +248,6 @@ msgid ""
 "<span class=\"wt-ng-icon wt-ng-bell\"><i class=\"fa fa-bell\" style=\"font-size:11px;\"/></span>\n"
 "                            <span class=\"wt-ng-label\">Notifications</span>"
 msgstr ""
-"<span class=\"wt-ng-icon wt-ng-bell\"><i class=\"fa fa-bell\" style=\"font-size:11px;\"/></span>\n"
-"                            <span class=\"wt-ng-label\">通知</span>"
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_my_home_enhanced
@@ -288,97 +255,128 @@ msgid ""
 "<span class=\"wt-ng-icon wt-ng-msg\"><i class=\"fa fa-comment\" style=\"font-size:11px;\"/></span>\n"
 "                            <span class=\"wt-ng-label\">Messages</span>"
 msgstr ""
-"<span class=\"wt-ng-icon wt-ng-msg\"><i class=\"fa fa-comment\" style=\"font-size:11px;\"/></span>\n"
-"                            <span class=\"wt-ng-label\">留言</span>"
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_orders_cards
 msgid "<span class=\"wt-oc-label\">Order Date</span>"
-msgstr "<span class=\"wt-oc-label\">訂單日期</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_orders_cards
 msgid "<span class=\"wt-oc-label\">Total</span>"
-msgstr "<span class=\"wt-oc-label\">合計</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_purchase_cards
 msgid "<span class=\"wt-pc-label\">Confirmed</span>"
-msgstr "<span class=\"wt-pc-label\">確認日期</span>"
+msgstr ""
 
 #. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_leads_cards
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_opportunities_cards
+msgid "<span class=\"wt-pc-label\">Contact</span>"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_leads_cards
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_quotations_cards
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_timesheets_cards
 msgid "<span class=\"wt-pc-label\">Date</span>"
-msgstr "<span class=\"wt-pc-label\">日期</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_productions_cards
 msgid "<span class=\"wt-pc-label\">Deadline</span>"
-msgstr "<span class=\"wt-pc-label\">截止日期</span>"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_leads_cards
+msgid "<span class=\"wt-pc-label\">Email</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_timesheets_cards
 msgid "<span class=\"wt-pc-label\">Employee</span>"
-msgstr "<span class=\"wt-pc-label\">員工</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_rfq_cards
 msgid "<span class=\"wt-pc-label\">Order Date</span>"
-msgstr "<span class=\"wt-pc-label\">訂單日期</span>"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_leads_cards
+msgid "<span class=\"wt-pc-label\">Phone</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_timesheets_cards
 msgid "<span class=\"wt-pc-label\">Project</span>"
-msgstr "<span class=\"wt-pc-label\">專案</span>"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_opportunities_cards
+msgid "<span class=\"wt-pc-label\">Revenue</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_productions_cards
 msgid "<span class=\"wt-pc-label\">Scheduled</span>"
-msgstr "<span class=\"wt-pc-label\">排定日期</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_productions_cards
 msgid "<span class=\"wt-pc-label\">Source</span>"
-msgstr "<span class=\"wt-pc-label\">來源</span>"
+msgstr ""
 
 #. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_opportunities_cards
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
 msgid "<span class=\"wt-pc-label\">Stage</span>"
-msgstr "<span class=\"wt-pc-label\">階段</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_timesheets_cards
 msgid "<span class=\"wt-pc-label\">Task</span>"
-msgstr "<span class=\"wt-pc-label\">任務</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_projects_cards
 msgid "<span class=\"wt-pc-label\">Tasks</span>"
-msgstr "<span class=\"wt-pc-label\">任務</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_timesheets_cards
 msgid "<span class=\"wt-pc-label\">Time Spent</span>"
-msgstr "<span class=\"wt-pc-label\">花費時間</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_purchase_cards
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_quotations_cards
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_rfq_cards
 msgid "<span class=\"wt-pc-label\">Total</span>"
-msgstr "<span class=\"wt-pc-label\">合計</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_quotations_cards
 msgid "<span class=\"wt-pc-label\">Valid Until</span>"
-msgstr "<span class=\"wt-pc-label\">有效期限</span>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_rfq_cards
 msgid "<span>View RFQ</span><i class=\"fa fa-angle-right\"/>"
-msgstr "<span>查看詢價單</span><i class=\"fa fa-angle-right\"/>"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_leads_cards
+msgid "<span>View lead</span><i class=\"fa fa-angle-right\"/>"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_opportunities_cards
+msgid "<span>View opportunity</span><i class=\"fa fa-angle-right\"/>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_orders_cards
@@ -386,482 +384,414 @@ msgid ""
 "<span>View order</span>\n"
 "                                <i class=\"fa fa-angle-right\"/>"
 msgstr ""
-"<span>查看訂單</span>\n"
-"                                <i class=\"fa fa-angle-right\"/>"
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_productions_cards
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_purchase_cards
 msgid "<span>View order</span><i class=\"fa fa-angle-right\"/>"
-msgstr "<span>查看訂單</span><i class=\"fa fa-angle-right\"/>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_projects_cards
 msgid "<span>View project</span><i class=\"fa fa-angle-right\"/>"
-msgstr "<span>查看專案</span><i class=\"fa fa-angle-right\"/>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_quotations_cards
 msgid "<span>View quotation</span><i class=\"fa fa-angle-right\"/>"
-msgstr "<span>查看報價單</span><i class=\"fa fa-angle-right\"/>"
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
 msgid "<span>View task</span><i class=\"fa fa-angle-right\"/>"
-msgstr "<span>查看任務</span><i class=\"fa fa-angle-right\"/>"
-
-#. module: woow_portal_ui
-#. odoo-python
-#: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
-msgid "Activity"
-msgstr "活動"
-
-#. module: woow_portal_ui
-#. odoo-python
-#: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
-msgid "Activity not found."
-msgstr "找不到活動。"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
-msgid "All"
-msgstr "全部"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-msgid "Approve"
-msgstr "核准"
-
-#. module: woow_portal_ui
-#. odoo-python
-#: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
-msgid "Approved via portal"
-msgstr "透過 Portal 核准"
-
-#. module: woow_portal_ui
-#. odoo-python
-#: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
-msgid "Cannot dismiss unread notification."
-msgstr "無法關閉未讀通知。"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-msgid "Change History"
-msgstr "變更記錄"
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
-msgid "Clear"
-msgstr "清除"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-msgid "Completed"
-msgstr "已完成"
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_breadcrumbs_security
-msgid "Connection &amp; Security"
-msgstr "連線與安全性"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-msgid "Done"
-msgstr "完成"
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_invoices_cards
-msgid "Draft"
-msgstr "草稿"
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_my_home_enhanced
-msgid "Edit profile"
-msgstr "編輯個人檔案"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-msgid "Error"
-msgstr "錯誤"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-msgid "Failed to load"
-msgstr "載入失敗"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-msgid "Field"
-msgstr "欄位"
-
-#. module: woow_portal_ui
-#. odoo-python
-#: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
-msgid "Good Afternoon"
-msgstr "午安"
-
-#. module: woow_portal_ui
-#. odoo-python
-#: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
-msgid "Good Evening"
-msgstr "晚安"
-
-#. module: woow_portal_ui
-#. odoo-python
-#: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
-msgid "Good Morning"
-msgstr "早安"
-
-#. module: woow_portal_ui
-#: model:ir.model,name:woow_portal_ui.model_ir_http
-msgid "HTTP Routing"
-msgstr "HTTP 路由"
-
-#. module: woow_portal_ui
-#. odoo-python
-#: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
-msgid "Invalid action."
-msgstr "無效的操作。"
-
-#. module: woow_portal_ui
-#. odoo-python
-#: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
-msgid "Invalid activity ID."
-msgstr "無效的活動 ID。"
-
-#. module: woow_portal_ui
-#. odoo-python
-#: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
-msgid "Invalid notification ID."
-msgstr "無效的通知 ID。"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-msgid "Loading..."
-msgstr "載入中..."
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-msgid "Mark all read"
-msgstr "全部已讀"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-msgid "Mark as read"
-msgstr "標記已讀"
-
-#. module: woow_portal_ui
-#. odoo-python
-#: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
-msgid "Marked as done via portal"
-msgstr "透過 Portal 標記為完成"
-
-#. module: woow_portal_ui
-#. odoo-python
-#: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
-msgid "Missing ID parameter."
-msgstr "缺少 ID 參數。"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-msgid "New Value"
-msgstr "新值"
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
-msgid "Newest"
-msgstr "最新"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-msgid "No description"
-msgstr "沒有詳細說明"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
-msgid "No notifications"
-msgstr "沒有通知"
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
-msgid "None"
-msgstr "無"
-
-#. module: woow_portal_ui
-#. odoo-python
-#: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
-msgid "Notification"
-msgstr "通知"
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_breadcrumbs_notifications
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
-msgid "Notification Center"
-msgstr "通知中心"
-
-#. module: woow_portal_ui
-#. odoo-python
-#: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
-msgid "Notification not found."
-msgstr "找不到通知。"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-msgid "Notifications"
-msgstr "通知"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-msgid "Old Value"
-msgstr "原值"
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
-msgid "Oldest"
-msgstr "最舊"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-msgid "Other"
-msgstr "其他"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-msgid "Processing..."
-msgstr "處理中..."
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
-msgid "Read"
-msgstr "已讀"
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_my_home_enhanced
-msgid "Recent Notifications"
-msgstr "近期通知"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_my_home_enhanced
-msgid "Search modules or notifications..."
-msgstr "搜尋模組或通知..."
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
-msgid "Search notifications..."
-msgstr "搜尋通知..."
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
-msgid "Source"
-msgstr "來源"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/switch_portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/switch_portal.js:0
-msgid "Switch to Portal"
-msgstr "切換至 Portal"
-
-#. module: woow_portal_ui
-#. odoo-python
-#: code:addons/woow_portal_ui/controllers/portal.py:0
-#: code:addons/woow_portal_ui/woow_portal_ui/controllers/portal.py:0
-msgid "System"
-msgstr "系統"
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_invoices_cards
-msgid "There are currently no invoices and payments for your account."
-msgstr "目前您的帳號沒有任何發票與付款紀錄。"
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_productions_cards
-msgid "There are currently no manufacturing orders."
-msgstr "目前沒有任何製造訂單。"
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_projects_cards
-msgid "There are currently no projects for your account."
-msgstr "目前您的帳號沒有任何專案。"
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_purchase_cards
-msgid "There are currently no purchase orders."
-msgstr "目前沒有任何採購訂單。"
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_quotations_cards
-msgid "There are currently no quotations for your account."
-msgstr "目前您的帳號沒有任何報價單。"
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_rfq_cards
-msgid "There are currently no requests for quotation."
-msgstr "目前沒有任何詢價單。"
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_orders_cards
-msgid "There are currently no sales orders for your account."
-msgstr "目前您的帳號沒有任何銷售訂單。"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-#: code:addons/woow_portal_ui/woow_portal_ui/static/src/js/portal.js:0
-msgid "To-Do"
-msgstr "待辦"
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
-msgid "Unread"
-msgstr "未讀"
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_my_home_enhanced
-msgid "View All <i class=\"fa fa-angle-right ms-1\"/>"
-msgstr "查看全部 <i class=\"fa fa-angle-right ms-1\"/>"
-
-#. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
-msgid "You're all caught up."
-msgstr "所有通知都已讀完。"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-msgid "NEXT STEP"
-msgstr "下一步"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-msgid "Confirm this order to continue"
-msgstr "確認此訂單以繼續"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-msgid "Sign & Pay to confirm. You can leave feedback or reject before signing."
-msgstr "簽署並付款以確認。您可以在簽署前留下意見或拒絕。"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-msgid "Sign to confirm. You can leave feedback or reject before signing."
-msgstr "簽署以確認。您可以在簽署前留下意見或拒絕。"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-msgid "Complete your payment"
-msgstr "完成您的付款"
-
-#. module: woow_portal_ui
-#. odoo-javascript
-#: code:addons/woow_portal_ui/static/src/js/portal.js:0
-msgid "Pay now to finalize your order."
-msgstr "立即付款以完成您的訂單。"
+msgstr ""
 
 #. module: woow_portal_ui
 #. odoo-javascript
 #: code:addons/woow_portal_ui/static/src/js/portal.js:0
 msgid "Actions available"
-msgstr "可用操作"
+msgstr ""
 
 #. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_leads_cards
-msgid "<span class=\"wt-pc-label\">Contact</span>"
-msgstr "<span class=\"wt-pc-label\">聯絡人</span>"
+#. odoo-python
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Activity"
+msgstr ""
 
 #. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_leads_cards
-msgid "<span class=\"wt-pc-label\">Email</span>"
-msgstr "<span class=\"wt-pc-label\">電子郵件</span>"
+#. odoo-python
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Activity not found."
+msgstr ""
 
 #. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_leads_cards
-msgid "<span class=\"wt-pc-label\">Phone</span>"
-msgstr "<span class=\"wt-pc-label\">電話</span>"
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
+msgid "All"
+msgstr ""
 
 #. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_leads_cards
-msgid "<span class=\"wt-pc-label\">Revenue</span>"
-msgstr "<span class=\"wt-pc-label\">營收</span>"
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Approve"
+msgstr ""
 
 #. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_leads_cards
-msgid "<span>View lead</span><i class=\"fa fa-angle-right\"/>"
-msgstr "<span>查看潛在客戶</span><i class=\"fa fa-angle-right\"/>"
+#. odoo-python
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Approved via portal"
+msgstr ""
 
 #. module: woow_portal_ui
-#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_opportunities_cards
-msgid "<span>View opportunity</span><i class=\"fa fa-angle-right\"/>"
-msgstr "<span>查看商機</span><i class=\"fa fa-angle-right\"/>"
+#. odoo-python
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Cannot dismiss unread notification."
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Change History"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
+msgid "Clear"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Complete your payment"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Completed"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Confirm this order to continue"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_breadcrumbs_security
+msgid "Connection &amp; Security"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Done"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_invoices_cards
+msgid "Draft"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_my_home_enhanced
+msgid "Edit profile"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Error"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Failed to load"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Field"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-python
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Good Afternoon"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-python
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Good Evening"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-python
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Good Morning"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model:ir.model,name:woow_portal_ui.model_ir_http
+msgid "HTTP Routing"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-python
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Invalid action."
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-python
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Invalid activity ID."
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-python
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Invalid notification ID."
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Loading..."
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Mark all read"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Mark as read"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-python
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Marked as done via portal"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-python
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Missing ID parameter."
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "NEXT STEP"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "New Value"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
+msgid "Newest"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "No description"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
+msgid "No notifications"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
+msgid "None"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-python
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Notification"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_breadcrumbs_notifications
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
+msgid "Notification Center"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-python
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Notification not found."
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Notifications"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Old Value"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
+msgid "Oldest"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Other"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Pay now to finalize your order."
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Processing..."
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
+msgid "Read"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_my_home_enhanced
+msgid "Recent Notifications"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_my_home_enhanced
+msgid "Search modules or notifications..."
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
+msgid "Search notifications..."
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid ""
+"Sign & Pay to confirm. You can leave feedback or reject before signing."
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Sign to confirm. You can leave feedback or reject before signing."
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
+msgid "Source"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/switch_portal.js:0
+msgid "Switch to Portal"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-python
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "System"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_invoices_cards
+msgid "There are currently no invoices and payments for your account."
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_productions_cards
+msgid "There are currently no manufacturing orders."
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_opportunities_cards
 msgid "There are currently no opportunities."
-msgstr "目前沒有任何商機。"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_projects_cards
+msgid "There are currently no projects for your account."
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_purchase_cards
+msgid "There are currently no purchase orders."
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_quotations_cards
+msgid "There are currently no quotations for your account."
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_rfq_cards
+msgid "There are currently no requests for quotation."
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_orders_cards
+msgid "There are currently no sales orders for your account."
+msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_leads_cards
 msgid "There are no leads."
-msgstr "目前沒有任何潛在客戶。"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "To-Do"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
+msgid "Unread"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_my_home_enhanced
+msgid "View All <i class=\"fa fa-angle-right ms-1\"/>"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
+msgid "You're all caught up."
+msgstr ""

@@ -1152,30 +1152,30 @@ function initQuotationActions() {
     var actions = document.querySelector('[name="sale_order_actions"]');
     if (!actions) return;
 
-    var primaryBtn = actions.querySelector('.btn-primary');
-    var primaryText = primaryBtn ? primaryBtn.textContent.trim() : "";
-    var hasSign = primaryText.includes("Sign");
-    var hasPay = primaryText.includes("Pay");
+    // Detect action type by DOM structure (language-independent)
+    var hasModalAccept = !!actions.querySelector('[data-bs-target="#modalaccept"]');
+    var hasModalDecline = !!actions.querySelector('[data-bs-target="#modaldecline"]');
+    var hasPayNow = !!actions.querySelector('#o_sale_portal_paynow');
+    var hasSign = hasModalAccept && hasModalDecline;
 
     var title, desc;
-    if (hasSign && hasPay) {
-        title = "Confirm this order to continue";
-        desc = "Sign & Pay to confirm. You can leave feedback or reject before signing.";
-    } else if (hasSign) {
-        title = "Confirm this order to continue";
-        desc = "Sign to confirm. You can leave feedback or reject before signing.";
-    } else if (hasPay) {
-        title = "Complete your payment";
-        desc = "Pay now to finalize your order. Click the button below to proceed with payment and confirm your order.";
+    if (hasSign) {
+        title = _t("Confirm this order to continue");
+        desc = hasPayNow || actions.querySelector('[data-bs-target="#modalaccept"].btn-primary')
+            ? _t("Sign & Pay to confirm. You can leave feedback or reject before signing.")
+            : _t("Sign to confirm. You can leave feedback or reject before signing.");
+    } else if (hasPayNow || hasModalAccept) {
+        title = _t("Complete your payment");
+        desc = _t("Pay now to finalize your order.");
     } else {
-        title = "Actions available";
+        title = _t("Actions available");
         desc = "";
     }
 
     var textBlock = document.createElement("div");
     textBlock.className = "wt-cta-text";
     textBlock.innerHTML =
-        '<span class="wt-cta-label">NEXT STEP</span>' +
+        '<span class="wt-cta-label">' + _t("NEXT STEP") + '</span>' +
         '<span class="wt-cta-title">' + title + '</span>' +
         (desc ? '<span class="wt-cta-desc">' + desc + '</span>' : '');
     actions.prepend(textBlock);

@@ -272,7 +272,7 @@ class WoowPortalUI(CustomerPortal):
     # ------------------------------------------------------------------
 
     @http.route('/my/set_lang/<string:lang_code>', type='http',
-                auth='user', website=True)
+                auth='user', website=True, multilang=False)
     def set_language(self, lang_code, **kw):
         available = dict(request.env['res.lang'].get_installed())
         if lang_code not in available:
@@ -281,7 +281,21 @@ class WoowPortalUI(CustomerPortal):
         ctx = dict(request.session.get('context', {}))
         ctx['lang'] = lang_code
         request.session['context'] = ctx
+        # Strip language prefix from referrer so http_routing picks up
+        # the new language from the cookie instead of the old URL prefix.
         redirect_url = request.httprequest.referrer or '/my'
+        try:
+            from urllib.parse import urlparse
+            path = urlparse(redirect_url).path
+            url_codes = {lg['url_code']
+                         for lg in request.env['res.lang'].sudo()
+                         ._get_frontend().values()}
+            parts = path.split('/')
+            if len(parts) > 1 and parts[1] in url_codes:
+                path = '/' + '/'.join(parts[2:]) or '/'
+            redirect_url = path
+        except Exception:
+            redirect_url = '/my'
         response = request.redirect(redirect_url)
         response.set_cookie('frontend_lang', lang_code)
         return response
