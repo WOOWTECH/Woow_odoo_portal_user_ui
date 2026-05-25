@@ -287,9 +287,9 @@ class WoowPortalUI(CustomerPortal):
         try:
             from urllib.parse import urlparse
             path = urlparse(redirect_url).path
-            url_codes = {lg['url_code']
-                         for lg in request.env['res.lang'].sudo()
-                         ._get_frontend().values()}
+            lang_records = request.env['res.lang'].sudo().search(
+                [('active', '=', True)])
+            url_codes = set(lang_records.mapped('url_code'))
             parts = path.split('/')
             if len(parts) > 1 and parts[1] in url_codes:
                 path = '/' + '/'.join(parts[2:]) or '/'
