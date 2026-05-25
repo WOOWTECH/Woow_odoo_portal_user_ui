@@ -93,19 +93,10 @@
 .o_portal_sidebar .o_portal_sidebar_content .o_print_btn:hover {
     background: var(--odoo-purple-100) !important;
 }
-/* "Connect with your software!" — same ghost style as Download/Print */
-.o_portal_sidebar .o_portal_sidebar_content .btn-primary[data-bs-target="#modalconnect"] {
-    background: var(--odoo-purple-50) !important;
-    color: var(--odoo-purple) !important;
-    border: 1px solid var(--odoo-purple-100) !important;
-    border-radius: var(--r-md) !important;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 11px 14px;
-    width: 100%;
-}
-.o_portal_sidebar .o_portal_sidebar_content .btn-primary[data-bs-target="#modalconnect"]:hover {
-    background: var(--odoo-purple-100) !important;
+/* Hide "Connect with your software!" button and modal (purchase_edi_ubl_bis3) */
+#portal_connect_software_modal_btn,
+#portal_connect_software_modal {
+    display: none !important;
 }
 
 /* Hide vertical rule between sidebar and content */
