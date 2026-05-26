@@ -109,6 +109,13 @@
 - **Quick switch** — Backend users can quickly navigate to the portal view via a dedicated button
 - **Seamless transition** — Maintains user session across the switch
 
+### Portal Language Switcher
+- **Globe icon in user dropdown** — When multiple languages are installed, a language section appears in the portal user dropdown menu
+- **One-click switching** — Click any installed language to instantly switch the portal interface
+- **User preference persistence** — Language choice is saved to the user profile and respected on subsequent visits
+- **Smart redirect** — After switching, the user is redirected back to the same page with the new language applied
+- **Website-independent** — Uses `_frontend_pre_dispatch` to enforce user language preference without modifying website settings
+
 ### Portal Page Styling
 - **WoowTech design** — Restyle all portal pages with WoowTech brand identity (#71639e)
 - **RWD** — Responsive Web Design for all portal pages with mobile-optimized layouts
@@ -422,6 +429,13 @@ Real-time search filtering on the portal home page — type to instantly filter 
   <img src="docs/screenshots/13_search_filter.png" alt="Search Filter" width="720"/>
 </p>
 
+### Language Switcher
+Globe icon in the user dropdown menu allows switching between installed languages.
+
+<p align="center">
+  <img src="docs/screenshots/language-switcher.png" alt="Language Switcher" width="720"/>
+</p>
+
 ### Portal Page Styling
 
 #### Sales Orders List
@@ -541,6 +555,7 @@ This module has been comprehensively tested with **87 automated tests** across 1
 | `POST` | `/my/notification/mark_read` | Mark a single notification as read |
 | `POST` | `/my/notification/mark_all_read` | Mark all notifications as read |
 | `POST` | `/my/activity/done` | Complete an activity |
+| `GET` | `/my/set_lang/<lang_code>` | Switch portal language and redirect back |
 
 ### JavaScript Events
 
@@ -566,6 +581,13 @@ This module has been comprehensively tested with **87 automated tests** across 1
 ---
 
 ## Changelog
+
+### v18.0.2.1.0 (2026-05)
+- Portal language switcher in user dropdown menu (globe icon)
+- `/my/set_lang/<lang_code>` route for language switching
+- User language preference respected via `_frontend_pre_dispatch` override
+- Smart redirect strips old language prefix from URL after switch
+- Updated all screenshots with new purple theme
 
 ### v18.0.2.0.0 (2026-05)
 - Restyle all portal pages with WoowTech brand design
