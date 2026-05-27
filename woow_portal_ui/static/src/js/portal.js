@@ -1211,56 +1211,49 @@ function initFieldChooser() {
 // ------------------------------------------------------------------
 
 function initTaskEditor() {
-    var editBtns = document.querySelectorAll(".wt-edit-btn[data-field]");
-    if (!editBtns.length) return;
+    var btnSave = document.getElementById("btnSaveTask");
+    if (!btnSave) return;
 
     var match = window.location.pathname.match(/\/my\/projects\/(\d+)\/task\/(\d+)/);
     if (!match) return;
     var projectId = parseInt(match[1], 10);
     var taskId = parseInt(match[2], 10);
 
-    editBtns.forEach(function (btn) {
-        btn.addEventListener("click", function () {
-            var field = btn.getAttribute("data-field");
-            var controls = document.querySelectorAll('.wt-edit-control[data-field="' + field + '"]');
-            controls.forEach(function (ctrl) { ctrl.classList.remove("d-none"); });
-            btn.classList.add("d-none");
-        });
-    });
+    // Move description edit button next to "Description" heading
+    var descBtn = document.querySelector(".wt-desc-edit-btn");
+    if (descBtn) {
+        var descField = document.querySelector("[data-oe-field='description']");
+        var h5 = descField && descField.parentElement.querySelector("h5");
+        if (h5) {
+            h5.style.display = "flex";
+            h5.style.alignItems = "center";
+            h5.appendChild(descBtn);
+        }
+    }
 
-    // Cancel buttons
-    document.querySelectorAll(".wt-cancel-field").forEach(function (btn) {
-        btn.addEventListener("click", function () {
-            var field = btn.closest(".wt-edit-control").getAttribute("data-field");
-            document.querySelectorAll('.wt-edit-control[data-field="' + field + '"]').forEach(function (ctrl) {
-                ctrl.classList.add("d-none");
-            });
-            document.querySelectorAll('.wt-edit-btn[data-field="' + field + '"]').forEach(function (eb) {
-                eb.classList.remove("d-none");
-            });
-        });
-    });
+    // Save all fields from the Edit Task modal
+    btnSave.addEventListener("click", function () {
+        var params = {};
+        var nameInput = document.getElementById("editTaskName");
+        var stageSelect = document.getElementById("editTaskStage");
+        var deadlineInput = document.getElementById("editTaskDeadline");
+        var descTextarea = document.getElementById("editTaskDescription");
 
-    // Save buttons
-    document.querySelectorAll(".wt-save-field").forEach(function (btn) {
-        btn.addEventListener("click", function () {
-            var field = btn.getAttribute("data-field") || btn.closest(".wt-edit-control").getAttribute("data-field");
-            var control = btn.closest(".wt-edit-control");
-            var input = control.querySelector("input, select, textarea");
-            if (!input) return;
+        if (nameInput) params.name = nameInput.value;
+        if (stageSelect) params.stage_id = parseInt(stageSelect.value, 10);
+        if (deadlineInput) params.date_deadline = deadlineInput.value || false;
+        if (descTextarea) params.description = descTextarea.value;
 
-            var params = {};
-            params[field] = input.value;
-
-            btn.disabled = true;
-            jsonRpc("/my/projects/" + projectId + "/task/" + taskId + "/update", params).then(function (res) {
-                if (res && res.success) {
-                    window.location.reload();
-                } else {
-                    alert(res && res.error ? res.error : _t("Failed to update."));
-                    btn.disabled = false;
-                }
-            });
+        btnSave.disabled = true;
+        btnSave.textContent = _t("Saving...");
+        jsonRpc("/my/projects/" + projectId + "/task/" + taskId + "/update", params).then(function (res) {
+            if (res && res.success) {
+                window.location.reload();
+            } else {
+                alert(res && res.error ? res.error : _t("Failed to update."));
+                btnSave.disabled = false;
+                btnSave.textContent = _t("Save Changes");
+            }
         });
     });
 }
