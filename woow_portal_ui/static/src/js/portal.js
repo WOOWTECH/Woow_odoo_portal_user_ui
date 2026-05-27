@@ -1087,6 +1087,18 @@ function initProjectEditorModals() {
     var btnStage = document.getElementById("btnSubmitStage");
     if (!btnTask && !btnStage) return;
 
+    // Add scoped class for always-collapsed navbar on this page
+    var mainContent = document.querySelector(".o_portal");
+    if (mainContent) mainContent.classList.add("wt-collapsed-nav");
+
+    // Move editor bar into the navbar (same line as toggle button)
+    var editorBar = document.getElementById("wtEditorBar");
+    var nav = document.querySelector(".o_portal_navbar");
+    var toggler = nav && nav.querySelector(".navbar-toggler");
+    if (editorBar && toggler) {
+        toggler.parentNode.insertBefore(editorBar, toggler);
+    }
+
     // Extract project ID from the current URL: /my/projects/<id>
     var match = window.location.pathname.match(/\/my\/projects\/(\d+)/);
     if (!match) return;
@@ -1257,7 +1269,9 @@ function initTaskEditor() {
 // ------------------------------------------------------------------
 
 function initMobileFilterSegments() {
-    if (window.innerWidth > 991) return;
+    // On mobile (<= 991px) or on .wt-collapsed-nav pages, transform dropdowns to segments
+    var isCollapsed = document.querySelector(".wt-collapsed-nav");
+    if (window.innerWidth > 991 && !isCollapsed) return;
 
     var navContent = document.getElementById("o_portal_navbar_content");
     if (!navContent) return;

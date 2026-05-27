@@ -1497,13 +1497,118 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     border-color: var(--odoo-purple-700) !important;
 }
 
-/* Force navbar always expanded on portal — no collapse toggler */
+/* Force navbar always expanded on portal — no collapse toggler (default) */
 .o_portal .o_portal_navbar .navbar-toggler {
     display: none !important;
 }
 .o_portal .o_portal_navbar #o_portal_navbar_content {
     display: flex !important;
     flex-basis: auto;
+}
+
+/* -----------------------------------------------------------
+   Scoped always-collapsed searchbar — only on .wt-collapsed-nav
+   (applied via JS on editable project task list page)
+   ----------------------------------------------------------- */
+.wt-collapsed-nav .o_portal_navbar .navbar-toggler {
+    display: inline-flex !important;
+    background: #fff !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: #dee2e6 !important;
+    border-radius: var(--r-pill, 20px) !important;
+    padding: 6px 14px !important;
+    gap: 6px;
+    align-items: center;
+    font-size: 13px;
+}
+.wt-collapsed-nav .o_portal_navbar .navbar-toggler .fa-bars::before {
+    content: "\f0b0"; /* fa-filter */
+}
+.wt-collapsed-nav .o_portal_navbar .navbar-toggler:hover {
+    border-color: var(--odoo-purple);
+    color: var(--odoo-purple);
+}
+.wt-collapsed-nav .o_portal_navbar #o_portal_navbar_content {
+    display: none !important;
+    width: 100%;
+    flex-basis: 100%;
+}
+.wt-collapsed-nav .o_portal_navbar #o_portal_navbar_content.show,
+.wt-collapsed-nav .o_portal_navbar #o_portal_navbar_content.collapsing {
+    display: flex !important;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--r-lg, 16px);
+    padding: 14px 16px;
+    gap: 14px;
+    margin-top: 10px;
+    box-shadow: var(--sh-1, 0 2px 8px rgba(0,0,0,.06));
+}
+.wt-collapsed-nav .o_portal_navbar #o_portal_navbar_content .nav {
+    flex-direction: column !important;
+    width: 100%;
+    gap: 12px;
+    margin: 0 !important;
+    padding: 0;
+}
+.wt-collapsed-nav .o_portal_navbar #o_portal_navbar_content .nav > div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    margin: 0 !important;
+}
+.wt-collapsed-nav .o_portal_navbar #o_portal_navbar_content .navbar-text {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--wt-ink-3, #888);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+.wt-collapsed-nav .o_portal_navbar #o_portal_navbar_content .btn-group {
+    width: 100%;
+}
+.wt-collapsed-nav .o_portal_navbar #o_portal_navbar_content .btn-light.dropdown-toggle {
+    width: 100%;
+    text-align: left;
+    background: var(--wt-canvas, #f8f9fa) !important;
+    border: 1px solid var(--bs-border-color) !important;
+    border-radius: var(--r-pill, 20px) !important;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 500;
+}
+.wt-collapsed-nav .o_portal_navbar #o_portal_navbar_content .btn-light.dropdown-toggle:hover {
+    border-color: var(--odoo-purple) !important;
+    color: var(--odoo-purple);
+}
+.wt-collapsed-nav .o_portal_navbar .o_portal_search_panel {
+    order: -1;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+/* Constrain search input-group inside collapsed panel */
+.wt-collapsed-nav .o_portal_navbar .o_portal_search_panel .input-group {
+    flex-wrap: nowrap !important;
+}
+.wt-collapsed-nav .o_portal_navbar .o_portal_search_panel .dropdown-toggle {
+    width: auto !important;
+    flex: 0 0 auto !important;
+}
+.wt-collapsed-nav .o_portal_navbar .o_portal_search_panel .form-control {
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+}
+/* Editor bar inside navbar — align with toggler */
+.wt-collapsed-nav .o_portal_navbar .wt-editor-bar {
+    padding: 0;
+    margin-bottom: 0 !important;
+    margin-right: 8px;
 }
 
 /* =========================================================
@@ -1563,32 +1668,29 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
    matching Odoo's navbar-expand-lg breakpoint.
    ========================================================= */
 @media (max-width: 991px) {
-    /* Hide toggler when navbar content has no filter controls */
+    /* Mobile navbar — show toggler and collapse content for ALL pages */
     .o_portal .o_portal_navbar:not(:has(#o_portal_navbar_content .btn-group)):not(:has(.o_portal_search_panel)) .navbar-toggler {
         display: none !important;
     }
-
-    /* Show navbar toggler on mobile, styled as filter button */
     .o_portal .o_portal_navbar .navbar-toggler {
         display: inline-flex !important;
-        background: #fff;
-        border: 1px solid var(--wt-line);
-        border-radius: var(--r-md);
-        padding: 6px 12px;
-        color: var(--wt-ink-2);
+        background: #fff !important;
+        border-width: 1px !important;
+        border-style: solid !important;
+        border-color: #dee2e6 !important;
+        border-radius: var(--r-pill, 20px) !important;
+        padding: 6px 14px !important;
+        gap: 6px;
         align-items: center;
-        gap: 4px;
         font-size: 13px;
     }
     .o_portal .o_portal_navbar .navbar-toggler .fa-bars::before {
-        content: "\f0b0"; /* fa-filter replaces fa-bars */
+        content: "\f0b0";
     }
     .o_portal .o_portal_navbar .navbar-toggler:hover {
         border-color: var(--odoo-purple);
         color: var(--odoo-purple);
     }
-
-    /* Let Bootstrap collapse handle content visibility */
     .o_portal .o_portal_navbar #o_portal_navbar_content {
         display: none !important;
         width: 100%;
@@ -1599,12 +1701,58 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
         display: flex !important;
         flex-direction: column;
         gap: 14px;
-        background: #fff !important;
-        border: 1px solid var(--wt-line) !important;
-        border-radius: var(--r-lg);
-        box-shadow: var(--sh-1) !important;
-        padding: 14px 16px !important;
+        background: #fff;
+        border: 1px solid var(--bs-border-color);
+        border-radius: var(--r-lg, 16px);
+        box-shadow: var(--sh-1, 0 2px 8px rgba(0,0,0,.06));
+        padding: 14px 16px;
         margin-top: 8px;
+    }
+    .o_portal .o_portal_navbar #o_portal_navbar_content .nav {
+        flex-direction: column !important;
+        width: 100%;
+        gap: 12px;
+        margin: 0 !important;
+        padding: 0;
+    }
+    .o_portal .o_portal_navbar #o_portal_navbar_content .nav > div {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        width: 100%;
+        margin: 0 !important;
+    }
+    .o_portal .o_portal_navbar #o_portal_navbar_content .navbar-text {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--wt-ink-3, #888);
+        letter-spacing: .14em;
+        text-transform: uppercase;
+    }
+    .o_portal .o_portal_navbar #o_portal_navbar_content .btn-group {
+        width: 100%;
+    }
+    .o_portal .o_portal_navbar #o_portal_navbar_content .btn-light.dropdown-toggle {
+        width: 100%;
+        text-align: left;
+        background: var(--wt-canvas, #f8f9fa) !important;
+        border: 1px solid var(--bs-border-color) !important;
+        border-radius: var(--r-pill, 20px) !important;
+        padding: 8px 14px;
+        font-size: 13px;
+        font-weight: 500;
+    }
+    .o_portal .o_portal_navbar #o_portal_navbar_content .btn-light.dropdown-toggle:hover {
+        border-color: var(--odoo-purple) !important;
+        color: var(--odoo-purple);
+    }
+    .o_portal .o_portal_navbar .o_portal_search_panel {
+        order: -1;
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100%;
+        margin: 0;
+        padding: 0;
     }
 
     /* Portal navbar — wrap filters to next row */
@@ -1630,63 +1778,6 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
         font-size: 13px;
         padding: 6px 14px;
         margin-top: 6px;
-    }
-
-    /* Nav container — vertical layout like NC filter segments */
-    .o_portal .o_portal_navbar #o_portal_navbar_content .nav {
-        flex-direction: column !important;
-        width: 100%;
-        gap: 12px;
-        margin: 0 !important;
-        padding: 0;
-    }
-
-    /* Each filter group — full width, vertical stack */
-    .o_portal .o_portal_navbar #o_portal_navbar_content .nav > div {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        width: 100%;
-        margin: 0 !important;
-    }
-
-    /* Labels — uppercase, small, like ncf-label */
-    .o_portal .o_portal_navbar #o_portal_navbar_content .navbar-text {
-        font-size: 11px;
-        font-weight: 700;
-        color: var(--wt-ink-3);
-        letter-spacing: .14em;
-        text-transform: uppercase;
-    }
-
-    /* Dropdown buttons — pill style like NC segment buttons */
-    .o_portal .o_portal_navbar #o_portal_navbar_content .btn-group {
-        width: 100%;
-    }
-    .o_portal .o_portal_navbar #o_portal_navbar_content .btn-light.dropdown-toggle {
-        width: 100%;
-        text-align: left;
-        background: var(--wt-canvas) !important;
-        border: 1px solid var(--wt-line-soft) !important;
-        border-radius: var(--r-pill) !important;
-        padding: 8px 14px;
-        font-size: 13px;
-        font-weight: 500;
-        color: var(--wt-ink);
-    }
-    .o_portal .o_portal_navbar #o_portal_navbar_content .btn-light.dropdown-toggle:hover {
-        border-color: var(--odoo-purple) !important;
-        color: var(--odoo-purple);
-    }
-
-    /* Search panel — full width, show first, prevent overflow */
-    .o_portal .o_portal_navbar .o_portal_search_panel {
-        order: -1;
-        width: 100% !important;
-        max-width: 100% !important;
-        flex: 0 0 100%;
-        margin: 0;
-        padding: 0;
     }
     /* Constrain dropdown toggle to content width */
     .o_portal .o_portal_navbar .o_portal_search_panel .dropdown-toggle {

@@ -827,7 +827,7 @@
         <field name="priority">99</field>
         <field name="arch" type="xml">
             <xpath expr="//t[@t-call='portal.portal_searchbar']" position="before">
-                <div t-if="is_editor" class="wt-editor-bar d-flex gap-2 mb-3">
+                <div t-if="is_editor" class="wt-editor-bar d-flex gap-2" id="wtEditorBar">
                     <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addTaskModal">
                         <i class="fa fa-plus me-1"/>Add Task
                     </button>

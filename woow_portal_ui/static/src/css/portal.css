@@ -889,6 +889,28 @@
     font-weight: 500;
 }
 
+/* Gear dropdown — match collapsed button (navbar-toggler) style */
+.wt-editor-bar .btn.btn-outline-secondary {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    background: #fff !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: #dee2e6 !important;
+    border-radius: 999px !important;
+    padding: 6px 14px !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    line-height: 13px !important;
+    color: rgba(0, 0, 0, 0.65) !important;
+}
+.wt-editor-bar .btn.btn-outline-secondary:hover {
+    border-color: var(--odoo-purple, #714B67) !important;
+    color: var(--odoo-purple, #714B67) !important;
+    background: #fff !important;
+}
+
 #addTaskModal .modal-content,
 #addStageModal .modal-content {
     border-radius: var(--r-lg, 16px);
@@ -920,6 +942,28 @@
 #fieldChooser .form-check-label {
     font-size: 13px;
     cursor: pointer;
+}
+
+#fieldChooser .form-check-input {
+    border-color: #dee2e6 !important;
+    border-radius: 4px !important;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+#fieldChooser .form-check-input:checked {
+    background-color: var(--odoo-purple, #71639e) !important;
+    border-color: var(--odoo-purple, #71639e) !important;
+}
+
+#fieldChooser .form-check-input:hover {
+    border-color: var(--odoo-purple, #71639e) !important;
+    box-shadow: 0 0 0 2px rgba(113, 99, 158, 0.15);
+}
+
+#fieldChooser .form-check-input:focus {
+    border-color: var(--odoo-purple, #71639e) !important;
+    box-shadow: 0 0 0 3px rgba(113, 99, 158, 0.25) !important;
 }
 
 /* Task Detail Inline Editor */
