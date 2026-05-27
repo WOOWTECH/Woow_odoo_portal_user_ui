@@ -31,6 +31,7 @@ whenReady(async () => {
     initProjectEditorModals();
     initFieldChooser();
     initTaskEditor();
+    initSubtasks();
     rewriteLogoLink();
 });
 
@@ -1257,6 +1258,88 @@ function initTaskEditor() {
                     window.location.reload();
                 } else {
                     alert(res && res.error ? res.error : _t("Failed to update."));
+                    btn.disabled = false;
+                }
+            });
+        });
+    });
+}
+
+// ------------------------------------------------------------------
+// Sub-tasks — add / delete sub-tasks on task detail page
+// ------------------------------------------------------------------
+
+function initSubtasks() {
+    var btnAdd = document.getElementById("btnAddSubtask");
+    if (!btnAdd) return;
+
+    var match = window.location.pathname.match(/\/my\/projects\/(\d+)\/task\/(\d+)/);
+    if (!match) return;
+    var projectId = parseInt(match[1], 10);
+    var taskId = parseInt(match[2], 10);
+    var baseUrl = "/my/projects/" + projectId + "/task/" + taskId;
+
+    // Focus name input when modal opens
+    var modal = document.getElementById("addSubtaskModal");
+    if (modal) {
+        modal.addEventListener("shown.bs.modal", function () {
+            var nameInput = document.getElementById("subtaskName");
+            if (nameInput) nameInput.focus();
+        });
+    }
+
+    // Submit sub-task
+    btnAdd.addEventListener("click", function () {
+        var nameInput = document.getElementById("subtaskName");
+        var name = nameInput ? nameInput.value.trim() : "";
+        if (!name) {
+            nameInput.focus();
+            return;
+        }
+        var params = { name: name };
+        var stageSelect = document.getElementById("subtaskStage");
+        if (stageSelect && stageSelect.value) {
+            params.stage_id = parseInt(stageSelect.value, 10);
+        }
+        var deadlineInput = document.getElementById("subtaskDeadline");
+        if (deadlineInput && deadlineInput.value) {
+            params.date_deadline = deadlineInput.value;
+        }
+        btnAdd.disabled = true;
+        btnAdd.textContent = _t("Creating...");
+        jsonRpc(baseUrl + "/add_subtask", params).then(function (res) {
+            if (res && res.success) {
+                window.location.reload();
+            } else {
+                alert(res && res.error ? res.error : _t("Failed to add sub-task."));
+                btnAdd.disabled = false;
+                btnAdd.textContent = _t("Create Sub-task");
+            }
+        });
+    });
+
+    // Enter key on name input triggers submit
+    var nameInput = document.getElementById("subtaskName");
+    if (nameInput) {
+        nameInput.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                btnAdd.click();
+            }
+        });
+    }
+
+    // Delete sub-task buttons
+    document.querySelectorAll(".wt-delete-subtask").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            var subtaskId = btn.getAttribute("data-subtask-id");
+            if (!confirm(_t("Delete this sub-task?"))) return;
+            btn.disabled = true;
+            jsonRpc(baseUrl + "/delete_subtask", { subtask_id: parseInt(subtaskId, 10) }).then(function (res) {
+                if (res && res.success) {
+                    window.location.reload();
+                } else {
+                    alert(res && res.error ? res.error : _t("Failed to delete sub-task."));
                     btn.disabled = false;
                 }
             });

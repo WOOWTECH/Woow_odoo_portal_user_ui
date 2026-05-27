@@ -912,24 +912,28 @@
 }
 
 #addTaskModal .modal-content,
-#addStageModal .modal-content {
+#addStageModal .modal-content,
+#addSubtaskModal .modal-content {
     border-radius: var(--r-lg, 16px);
     border: none;
     box-shadow: var(--sh-2, 0 4px 20px rgba(0,0,0,.12));
 }
 
 #addTaskModal .modal-header,
-#addStageModal .modal-header {
+#addStageModal .modal-header,
+#addSubtaskModal .modal-header {
     border-bottom: 1px solid var(--bs-border-color);
 }
 
 #addTaskModal .modal-footer,
-#addStageModal .modal-footer {
+#addStageModal .modal-footer,
+#addSubtaskModal .modal-footer {
     border-top: 1px solid var(--bs-border-color);
 }
 
 #addTaskModal .modal-footer .btn,
-#addStageModal .modal-footer .btn {
+#addStageModal .modal-footer .btn,
+#addSubtaskModal .modal-footer .btn {
     border-radius: var(--r-md, 10px);
 }
 
@@ -993,4 +997,34 @@
 
 .wt-edit-control .btn-sm {
     padding: 2px 8px;
+}
+
+/* Sub-tasks Section */
+.wt-subtasks-section {
+    margin-top: 16px;
+}
+
+.wt-subtask-table {
+    font-size: 13px;
+}
+
+.wt-subtask-table th {
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--wt-ink-3, #888);
+    border-bottom-width: 1px;
+}
+
+.wt-subtask-table td {
+    vertical-align: middle;
+}
+
+.wt-delete-subtask {
+    opacity: 0.4;
+    transition: opacity 0.15s;
+}
+
+.wt-delete-subtask:hover {
+    opacity: 1;
 }

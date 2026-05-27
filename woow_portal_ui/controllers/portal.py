@@ -977,6 +977,55 @@ class WoowPortalUI(_PortalBase):
             })
             return {'success': True, 'stage_id': stage.id}
 
+        @http.route(
+            '/my/projects/<int:project_id>/task/<int:task_id>/add_subtask',
+            type='json', auth='user', methods=['POST'])
+        def project_add_subtask(self, project_id, task_id, name,
+                                stage_id=None, date_deadline=None, **kw):
+            """Create a sub-task linked to the parent task."""
+            project = request.env['project.project'].sudo().browse(project_id)
+            if (not project.exists()
+                    or not project.with_user(
+                        request.env.user)._check_project_sharing_access()):
+                return {'success': False, 'error': _('Access denied.')}
+            parent = request.env['project.task'].sudo().search(
+                [('project_id', '=', project_id), ('id', '=', task_id)],
+                limit=1)
+            if not parent:
+                return {'success': False, 'error': _('Task not found.')}
+            vals = {
+                'name': name,
+                'project_id': project_id,
+                'parent_id': task_id,
+            }
+            if stage_id:
+                vals['stage_id'] = int(stage_id)
+            if date_deadline:
+                vals['date_deadline'] = date_deadline.replace('T', ' ')
+            subtask = request.env['project.task'].sudo().create(vals)
+            return {'success': True, 'subtask_id': subtask.id}
+
+        @http.route(
+            '/my/projects/<int:project_id>/task/<int:task_id>/delete_subtask',
+            type='json', auth='user', methods=['POST'])
+        def project_delete_subtask(self, project_id, task_id,
+                                    subtask_id, **kw):
+            """Delete a sub-task of the given parent task."""
+            project = request.env['project.project'].sudo().browse(project_id)
+            if (not project.exists()
+                    or not project.with_user(
+                        request.env.user)._check_project_sharing_access()):
+                return {'success': False, 'error': _('Access denied.')}
+            subtask = request.env['project.task'].sudo().search([
+                ('id', '=', int(subtask_id)),
+                ('parent_id', '=', task_id),
+                ('project_id', '=', project_id),
+            ], limit=1)
+            if not subtask:
+                return {'success': False, 'error': _('Sub-task not found.')}
+            subtask.unlink()
+            return {'success': True}
+
 
 class WoowHome(Home):
     """Redirect all users to portal home after login."""

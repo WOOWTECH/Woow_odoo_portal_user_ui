@@ -988,6 +988,86 @@
                     </div>
                 </div>
             </xpath>
+
+            <!-- Sub-tasks section (for editors) — inside #card -->
+            <xpath expr="//div[@id='card']" position="inside">
+                <div t-if="is_editor" class="wt-subtasks-section mt-4" id="task_subtasks" data-anchor="true">
+                    <h5 class="mb-1">
+                        Sub-tasks
+                        <span t-if="task.subtask_count" class="badge bg-secondary ms-1"><t t-esc="task.subtask_count"/></span>
+                    </h5>
+                    <hr class="mt-1 mb-2"/>
+                    <table t-if="task.child_ids" class="table table-sm wt-subtask-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Stage</th>
+                                <th>Deadline</th>
+                                <th style="width:40px;"/>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="task.sudo().child_ids" t-as="subtask">
+                                <tr>
+                                    <td>
+                                        <a t-attf-href="/my/projects/#{project.id}/task/#{subtask.id}">
+                                            #<t t-esc="subtask.id"/> <t t-esc="subtask.name"/>
+                                        </a>
+                                    </td>
+                                    <td><span class="badge rounded-pill text-bg-info"><t t-esc="subtask.stage_id.name"/></span></td>
+                                    <td t-if="subtask.date_deadline"><span t-field="subtask.date_deadline" t-options='{"widget": "date"}'/></td>
+                                    <td t-else=""/>
+                                    <td>
+                                        <button class="btn btn-sm btn-link text-danger p-0 wt-delete-subtask"
+                                                t-att-data-subtask-id="subtask.id" title="Delete sub-task">
+                                            <i class="fa fa-trash"/>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <p t-if="not task.child_ids" class="text-muted small">No sub-tasks yet.</p>
+                    <button class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#addSubtaskModal">
+                        <i class="fa fa-plus me-1"/>Add Sub-task
+                    </button>
+                    <!-- Add Sub-task Modal -->
+                    <div class="modal fade" id="addSubtaskModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add Sub-task</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold" for="subtaskName">Name</label>
+                                        <input type="text" class="form-control" id="subtaskName" placeholder="Sub-task name..." required="required"/>
+                                    </div>
+                                    <div class="row g-3">
+                                        <div class="col-12 col-sm-6" t-if="available_stages">
+                                            <label class="form-label fw-bold" for="subtaskStage">Stage</label>
+                                            <select class="form-select" id="subtaskStage">
+                                                <t t-foreach="available_stages" t-as="stage">
+                                                    <option t-att-value="stage.id"><t t-esc="stage.name"/></option>
+                                                </t>
+                                            </select>
+                                        </div>
+                                        <div t-att-class="'col-12 col-sm-6' if available_stages else 'col-12'">
+                                            <label class="form-label fw-bold" for="subtaskDeadline">Deadline</label>
+                                            <input type="datetime-local" class="form-control" id="subtaskDeadline"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-primary" id="btnAddSubtask">Create Sub-task</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
         </field>
     </record>
 
