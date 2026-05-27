@@ -890,6 +890,10 @@ class WoowPortalUI(_PortalBase):
             values['project'] = project_sudo
             values['is_editor'] = is_editor
 
+            # If this task is a sub-task, pass parent for breadcrumb
+            if task_sudo.parent_id:
+                values['parent_task'] = task_sudo.parent_id
+
             if is_editor:
                 values['available_stages'] = (
                     request.env['project.task.type'].sudo().search(

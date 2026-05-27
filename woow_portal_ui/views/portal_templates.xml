@@ -913,6 +913,21 @@
         </field>
     </record>
 
+    <!-- Breadcrumb: inject parent task data for sub-task pages (JS handles DOM) -->
+    <record id="portal_breadcrumb_subtask" model="ir.ui.view" forcecreate="False">
+        <field name="name">Woow Breadcrumb Sub-task Parent</field>
+        <field name="inherit_id" ref="project.portal_my_task"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='card']" position="before">
+                <div t-if="parent_task" class="d-none" id="wtParentTaskData"
+                     t-att-data-parent-name="parent_task.name"
+                     t-att-data-parent-url="'/my/projects/%s/task/%s' % (project.id, parent_task.id)"
+                     t-att-data-task-name="task.name"/>
+            </xpath>
+        </field>
+    </record>
+
     <!-- Task Detail Editor (for full-edit collaborators) -->
     <record id="portal_task_editor" model="ir.ui.view" forcecreate="False">
         <field name="name">Woow Task Editor Controls</field>
@@ -1013,19 +1028,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <t t-foreach="task.sudo().child_ids" t-as="subtask">
+                            <t t-foreach="task.sudo().child_ids" t-as="child_task">
                                 <tr>
                                     <td>
-                                        <a t-attf-href="/my/projects/#{project.id}/task/#{subtask.id}">
-                                            #<t t-esc="subtask.id"/> <t t-esc="subtask.name"/>
+                                        <a t-attf-href="/my/projects/#{project.id}/task/#{child_task.id}">
+                                            #<t t-esc="child_task.id"/> <t t-esc="child_task.name"/>
                                         </a>
                                     </td>
-                                    <td><span class="badge rounded-pill text-bg-info"><t t-esc="subtask.stage_id.name"/></span></td>
-                                    <td t-if="subtask.date_deadline"><span t-field="subtask.date_deadline" t-options='{"widget": "date"}'/></td>
+                                    <td><span class="badge rounded-pill text-bg-info"><t t-esc="child_task.stage_id.name"/></span></td>
+                                    <td t-if="child_task.date_deadline"><span t-field="child_task.date_deadline" t-options='{"widget": "date"}'/></td>
                                     <td t-else=""/>
                                     <td>
                                         <button class="btn btn-sm btn-link text-danger p-0 wt-delete-subtask"
-                                                t-att-data-subtask-id="subtask.id" title="Delete sub-task">
+                                                t-att-data-subtask-id="child_task.id" title="Delete sub-task">
                                             <i class="fa fa-trash"/>
                                         </button>
                                     </td>

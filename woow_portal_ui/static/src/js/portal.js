@@ -1219,6 +1219,30 @@ function initTaskEditor() {
     var projectId = parseInt(match[1], 10);
     var taskId = parseInt(match[2], 10);
 
+    // Fix breadcrumb for sub-task pages
+    var parentData = document.getElementById("wtParentTaskData");
+    if (parentData) {
+        var parentName = parentData.getAttribute("data-parent-name");
+        var parentUrl = parentData.getAttribute("data-parent-url");
+        var taskName = parentData.getAttribute("data-task-name");
+        // Find the task name breadcrumb item (last active breadcrumb-item with task name)
+        var bcItems = document.querySelectorAll(".breadcrumb-item");
+        var lastActive = null;
+        for (var i = bcItems.length - 1; i >= 0; i--) {
+            if (bcItems[i].classList.contains("active")) { lastActive = bcItems[i]; break; }
+        }
+        if (lastActive) {
+            // Replace the active item content with the parent task as a link
+            lastActive.classList.remove("active");
+            lastActive.innerHTML = '<a href="' + parentUrl + '">' + parentName + '</a>';
+            // Add new active item for the sub-task name
+            var newItem = document.createElement("li");
+            newItem.className = "breadcrumb-item active text-break";
+            newItem.textContent = taskName;
+            lastActive.parentNode.insertBefore(newItem, lastActive.nextSibling);
+        }
+    }
+
     // Move description edit button next to "Description" heading
     var descBtn = document.querySelector(".wt-desc-edit-btn");
     if (descBtn) {

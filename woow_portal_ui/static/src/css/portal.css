@@ -984,6 +984,13 @@
     opacity: 1;
 }
 
+/* Timesheet table — prevent mobile overflow */
+#task_content table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 /* Sub-tasks Section */
 .wt-subtasks-section {
     margin-top: 16px;
