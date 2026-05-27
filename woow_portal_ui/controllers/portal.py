@@ -12,11 +12,18 @@ from odoo.tools import html2plaintext
 from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.addons.portal.controllers.web import Home
 
+# If project module is installed, extend its controller instead of base
+try:
+    from odoo.addons.project.controllers.portal import ProjectCustomerPortal
+    _PortalBase = ProjectCustomerPortal
+except ImportError:
+    _PortalBase = CustomerPortal
+
 # Hard cap for pagination to prevent abuse
 _MAX_LIMIT = 100
 
 
-class WoowPortalUI(CustomerPortal):
+class WoowPortalUI(_PortalBase):
 
     # ------------------------------------------------------------------
     # Helpers
@@ -815,6 +822,160 @@ class WoowPortalUI(CustomerPortal):
             }
 
         return {'success': False, 'error': _('Missing ID parameter.')}
+
+    # ------------------------------------------------------------------
+    # Project portal override (only active when project module installed)
+    # ------------------------------------------------------------------
+
+    if _PortalBase is not CustomerPortal:
+        # Override: always render portal-style template (skip iframe)
+        @http.route()
+        def portal_my_project(self, project_id=None, access_token=None,
+                              page=1, date_begin=None, date_end=None,
+                              sortby=None, search=None, search_in='content',
+                              groupby=None, task_id=None, **kw):
+            try:
+                project_sudo = self._document_check_access(
+                    'project.project', project_id, access_token)
+            except Exception:
+                return request.redirect('/my')
+
+            is_editor = bool(
+                project_sudo.collaborator_count
+                and project_sudo.with_user(
+                    request.env.user)._check_project_sharing_access()
+            )
+
+            project_sudo = (project_sudo if access_token
+                            else project_sudo.with_user(request.env.user))
+            if not groupby:
+                groupby = 'stage_id'
+            values = self._project_get_page_view_values(
+                project_sudo, access_token, page, date_begin, date_end,
+                sortby, search, search_in, groupby, **kw)
+            values['is_editor'] = is_editor
+
+            if is_editor:
+                stages = request.env['project.task.type'].sudo().search(
+                    [('project_ids', 'in', [project_id])])
+                values['available_stages'] = stages
+
+            return request.render("project.portal_my_project", values)
+
+        @http.route()
+        def portal_my_project_task(self, project_id=None, task_id=None,
+                                    access_token=None, **kw):
+            """Override to inject is_editor and available_stages."""
+            try:
+                project_sudo = self._document_check_access(
+                    'project.project', project_id, access_token)
+            except Exception:
+                return request.redirect('/my')
+
+            is_editor = bool(
+                project_sudo.collaborator_count
+                and project_sudo.with_user(
+                    request.env.user)._check_project_sharing_access()
+            )
+
+            Task = request.env['project.task']
+            if access_token:
+                Task = Task.sudo()
+            task_sudo = Task.search(
+                [('project_id', '=', project_id), ('id', '=', task_id)],
+                limit=1).sudo()
+            task_sudo.attachment_ids.generate_access_token()
+            values = self._task_get_page_view_values(
+                task_sudo, access_token, project=project_sudo, **kw)
+            values['project'] = project_sudo
+            values['is_editor'] = is_editor
+
+            if is_editor:
+                values['available_stages'] = (
+                    request.env['project.task.type'].sudo().search(
+                        [('project_ids', 'in', [project_id])]))
+                values['available_milestones'] = (
+                    request.env['project.milestone'].sudo().search(
+                        [('project_id', '=', project_id)])
+                    if hasattr(request.env['project.task'], 'milestone_id')
+                    else [])
+
+            return request.render("project.portal_my_task", values)
+
+        @http.route('/my/projects/<int:project_id>/task/<int:task_id>/update',
+                    type='json', auth='user', methods=['POST'])
+        def project_update_task(self, project_id, task_id, **kw):
+            """Update task fields (editor access required)."""
+            project = request.env['project.project'].sudo().browse(project_id)
+            if (not project.exists()
+                    or not project.with_user(
+                        request.env.user)._check_project_sharing_access()):
+                return {'success': False, 'error': _('Access denied.')}
+
+            task = request.env['project.task'].sudo().search(
+                [('project_id', '=', project_id), ('id', '=', task_id)],
+                limit=1)
+            if not task:
+                return {'success': False, 'error': _('Task not found.')}
+
+            allowed = {'name', 'stage_id', 'priority', 'date_deadline',
+                       'milestone_id', 'description'}
+            vals = {}
+            for field in allowed:
+                if field in kw:
+                    val = kw[field]
+                    if field in ('stage_id', 'milestone_id'):
+                        vals[field] = int(val) if val else False
+                    elif field == 'priority':
+                        vals[field] = str(val)
+                    elif field == 'date_deadline':
+                        vals[field] = val.replace('T', ' ') if val else False
+                    else:
+                        vals[field] = val
+
+            if vals:
+                task.write(vals)
+            return {'success': True}
+
+        @http.route('/my/projects/<int:project_id>/add_task',
+                    type='json', auth='user', methods=['POST'])
+        def project_add_task(self, project_id, name, stage_id=None, **kw):
+            """Create a new task in the project (editor access required)."""
+            project = request.env['project.project'].sudo().browse(project_id)
+            if (not project.exists()
+                    or not project.with_user(
+                        request.env.user)._check_project_sharing_access()):
+                return {'success': False, 'error': _('Access denied.')}
+            vals = {
+                'name': name,
+                'project_id': project_id,
+            }
+            if stage_id:
+                vals['stage_id'] = int(stage_id)
+            task = request.env['project.task'].sudo().create(vals)
+            return {'success': True, 'task_id': task.id}
+
+        @http.route('/my/projects/<int:project_id>/add_stage',
+                    type='json', auth='user', methods=['POST'])
+        def project_add_stage(self, project_id, name, **kw):
+            """Create a new stage for the project (editor access required)."""
+            project = request.env['project.project'].sudo().browse(project_id)
+            if (not project.exists()
+                    or not project.with_user(
+                        request.env.user)._check_project_sharing_access()):
+                return {'success': False, 'error': _('Access denied.')}
+            # Set sequence after the last existing stage
+            TaskType = request.env['project.task.type'].sudo()
+            last_stage = TaskType.search(
+                [('project_ids', 'in', [project_id])],
+                order='sequence desc, id desc', limit=1)
+            max_seq = last_stage.sequence if last_stage else 0
+            stage = TaskType.create({
+                'name': name,
+                'sequence': max_seq + 1,
+                'project_ids': [(4, project_id)],
+            })
+            return {'success': True, 'stage_id': stage.id}
 
 
 class WoowHome(Home):

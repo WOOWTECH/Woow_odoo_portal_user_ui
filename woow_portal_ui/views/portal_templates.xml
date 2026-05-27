@@ -747,6 +747,7 @@
         <field name="priority">99</field>
         <field name="arch" type="xml">
             <xpath expr="//t[@t-call='portal.portal_table']" position="replace">
+                <t t-set="task_fields" t-value="request.env['project.task'].fields_get()"/>
                 <div class="wt-card-grid">
                     <t t-foreach="grouped_tasks" t-as="tasks">
                         <t t-foreach="tasks" t-as="task">
@@ -756,13 +757,57 @@
                                     <span class="wt-pc-num">#<t t-esc="task.id"/> <t t-esc="task.name"/></span>
                                 </div>
                                 <div class="wt-pc-meta">
-                                    <div class="wt-pc-row" t-if="task.project_id">
-                                        <span class="wt-pc-label">Project</span>
-                                        <span class="wt-pc-value"><t t-esc="task.project_id.name"/></span>
+                                    <div class="wt-pc-row wt-field-id">
+                                        <span class="wt-pc-label">ID</span>
+                                        <span class="wt-pc-value">#<t t-esc="task.id"/></span>
                                     </div>
-                                    <div class="wt-pc-row">
+                                    <div class="wt-pc-row wt-field-stage_id">
                                         <span class="wt-pc-label">Stage</span>
                                         <span class="wt-pc-value"><t t-esc="task.stage_id.name"/></span>
+                                    </div>
+                                    <div class="wt-pc-row wt-field-date_deadline" t-if="task.date_deadline">
+                                        <span class="wt-pc-label">Deadline</span>
+                                        <span class="wt-pc-value" t-field="task.date_deadline" t-options='{"widget": "date"}'/>
+                                    </div>
+                                    <div class="wt-pc-row wt-field-tag_ids" t-if="task.tag_ids">
+                                        <span class="wt-pc-label">Tags</span>
+                                        <span class="wt-pc-value"><t t-foreach="task.tag_ids" t-as="tag"><span class="badge bg-info me-1"><t t-esc="tag.name"/></span></t></span>
+                                    </div>
+                                    <div class="wt-pc-row wt-field-allocated_hours" t-if="task.allocated_hours">
+                                        <span class="wt-pc-label">Allocated Time</span>
+                                        <span class="wt-pc-value"><t t-esc="'%02d:%02d' % (int(task.allocated_hours), int(task.allocated_hours % 1 * 60))"/></span>
+                                    </div>
+                                    <div class="wt-pc-row wt-field-effective_hours" t-if="'effective_hours' in task_fields">
+                                        <span class="wt-pc-label">Time Spent</span>
+                                        <span class="wt-pc-value"><t t-esc="'%02d:%02d' % (int(task.effective_hours), int(task.effective_hours % 1 * 60))"/></span>
+                                    </div>
+                                    <div class="wt-pc-row wt-field-subtask_effective_hours" t-if="'subtask_effective_hours' in task_fields and task.subtask_effective_hours">
+                                        <span class="wt-pc-label">Sub-task Time</span>
+                                        <span class="wt-pc-value"><t t-esc="'%02d:%02d' % (int(task.subtask_effective_hours), int(task.subtask_effective_hours % 1 * 60))"/></span>
+                                    </div>
+                                    <div class="wt-pc-row wt-field-total_hours_spent" t-if="'total_hours_spent' in task_fields and task.total_hours_spent">
+                                        <span class="wt-pc-label">Total Time Spent</span>
+                                        <span class="wt-pc-value"><t t-esc="'%02d:%02d' % (int(task.total_hours_spent), int(task.total_hours_spent % 1 * 60))"/></span>
+                                    </div>
+                                    <div class="wt-pc-row wt-field-remaining_hours" t-if="'remaining_hours' in task_fields and task.allocated_hours">
+                                        <span class="wt-pc-label">Time Remaining</span>
+                                        <span class="wt-pc-value"><t t-esc="'%02d:%02d' % (int(task.remaining_hours), int(task.remaining_hours % 1 * 60))"/></span>
+                                    </div>
+                                    <div class="wt-pc-row wt-field-remaining_hours_so" t-if="'remaining_hours_so' in task_fields and task.remaining_hours_so">
+                                        <span class="wt-pc-label">Remaining on SO</span>
+                                        <span class="wt-pc-value"><t t-esc="'%02d:%02d' % (int(task.remaining_hours_so), int(task.remaining_hours_so % 1 * 60))"/></span>
+                                    </div>
+                                    <div class="wt-pc-row wt-field-progress" t-if="'progress' in task_fields and task.allocated_hours">
+                                        <span class="wt-pc-label">Progress</span>
+                                        <span class="wt-pc-value"><t t-esc="'%.0f' % (task.progress)"/>%</span>
+                                    </div>
+                                    <div class="wt-pc-row wt-field-date_last_stage_update" t-if="task.date_last_stage_update">
+                                        <span class="wt-pc-label">Last Stage Update</span>
+                                        <span class="wt-pc-value" t-field="task.date_last_stage_update" t-options='{"widget": "date"}'/>
+                                    </div>
+                                    <div class="wt-pc-row wt-field-project_id" t-if="task.project_id">
+                                        <span class="wt-pc-label">Project</span>
+                                        <span class="wt-pc-value"><t t-esc="task.project_id.name"/></span>
                                     </div>
                                 </div>
                                 <div class="wt-pc-foot"><span>View task</span><i class="fa fa-angle-right"/></div>
@@ -771,6 +816,177 @@
                     </t>
                 </div>
                 <div t-if="pager" class="o_portal_pager d-flex justify-content-center my-3"><t t-call="portal.pager"/></div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Project Editor Action Bar + Modals (for full-edit collaborators) -->
+    <record id="portal_project_editor_bar" model="ir.ui.view" forcecreate="False">
+        <field name="name">Woow Project Editor Bar</field>
+        <field name="inherit_id" ref="project.portal_my_project"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-call='portal.portal_searchbar']" position="before">
+                <div t-if="is_editor" class="wt-editor-bar d-flex gap-2 mb-3">
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addTaskModal">
+                        <i class="fa fa-plus me-1"/>Add Task
+                    </button>
+                    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addStageModal">
+                        <i class="fa fa-columns me-1"/>Add Stage
+                    </button>
+                    <div class="dropdown d-inline-block ms-auto">
+                        <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="dropdown" data-bs-auto-close="outside" title="Configure card fields">
+                            <i class="fa fa-cog"/>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end p-3" id="fieldChooser" style="min-width: 220px;">
+                            <div class="fw-bold mb-2 small text-muted">Card Fields</div>
+                            <t t-set="fc_fields" t-value="request.env['project.task'].fields_get()"/>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" data-field="id" checked="checked" id="fc_id"/><label class="form-check-label" for="fc_id">ID</label></div>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" data-field="stage_id" checked="checked" id="fc_stage_id"/><label class="form-check-label" for="fc_stage_id">Stage</label></div>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" data-field="date_deadline" checked="checked" id="fc_date_deadline"/><label class="form-check-label" for="fc_date_deadline">Deadline</label></div>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" data-field="tag_ids" checked="checked" id="fc_tag_ids"/><label class="form-check-label" for="fc_tag_ids">Tags</label></div>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" data-field="allocated_hours" id="fc_allocated_hours"/><label class="form-check-label" for="fc_allocated_hours">Allocated Time</label></div>
+                            <div class="form-check" t-if="'effective_hours' in fc_fields"><input class="form-check-input" type="checkbox" data-field="effective_hours" id="fc_effective_hours"/><label class="form-check-label" for="fc_effective_hours">Time Spent</label></div>
+                            <div class="form-check" t-if="'subtask_effective_hours' in fc_fields"><input class="form-check-input" type="checkbox" data-field="subtask_effective_hours" id="fc_subtask_effective_hours"/><label class="form-check-label" for="fc_subtask_effective_hours">Sub-task Time</label></div>
+                            <div class="form-check" t-if="'total_hours_spent' in fc_fields"><input class="form-check-input" type="checkbox" data-field="total_hours_spent" id="fc_total_hours_spent"/><label class="form-check-label" for="fc_total_hours_spent">Total Time Spent</label></div>
+                            <div class="form-check" t-if="'remaining_hours' in fc_fields"><input class="form-check-input" type="checkbox" data-field="remaining_hours" id="fc_remaining_hours"/><label class="form-check-label" for="fc_remaining_hours">Time Remaining</label></div>
+                            <div class="form-check" t-if="'remaining_hours_so' in fc_fields"><input class="form-check-input" type="checkbox" data-field="remaining_hours_so" id="fc_remaining_hours_so"/><label class="form-check-label" for="fc_remaining_hours_so">Remaining on SO</label></div>
+                            <div class="form-check" t-if="'progress' in fc_fields"><input class="form-check-input" type="checkbox" data-field="progress" id="fc_progress"/><label class="form-check-label" for="fc_progress">Progress</label></div>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" data-field="date_last_stage_update" id="fc_date_last_stage_update"/><label class="form-check-label" for="fc_date_last_stage_update">Last Stage Update</label></div>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" data-field="project_id" id="fc_project_id"/><label class="form-check-label" for="fc_project_id">Project</label></div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+            <xpath expr="//t[@t-call='project.portal_tasks_list']" position="after">
+                <!-- Add Task Modal -->
+                <div t-if="is_editor" class="modal fade" id="addTaskModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Add Task</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="taskName" class="form-label">Task Name</label>
+                                    <input type="text" class="form-control" id="taskName" placeholder="e.g. Send Invitations" required="required"/>
+                                </div>
+                                <div class="mb-3" t-if="available_stages">
+                                    <label for="taskStage" class="form-label">Stage</label>
+                                    <select class="form-select" id="taskStage">
+                                        <t t-foreach="available_stages" t-as="stage">
+                                            <option t-att-value="stage.id"><t t-esc="stage.name"/></option>
+                                        </t>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary" id="btnSubmitTask">Create Task</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add Stage Modal -->
+                <div t-if="is_editor" class="modal fade" id="addStageModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Add Stage</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="stageName" class="form-label">Stage Name</label>
+                                    <input type="text" class="form-control" id="stageName" placeholder="e.g. In Progress" required="required"/>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary" id="btnSubmitStage">Create Stage</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Task Detail Editor (for full-edit collaborators) -->
+    <record id="portal_task_editor" model="ir.ui.view" forcecreate="False">
+        <field name="name">Woow Task Editor Controls</field>
+        <field name="inherit_id" ref="project.portal_my_task"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <!-- Add edit button for task name -->
+            <xpath expr="//span[@t-field='task.name']" position="attributes">
+                <attribute name="t-att-class">'wt-editable-field' if is_editor else ''</attribute>
+            </xpath>
+            <xpath expr="//span[@t-field='task.name']" position="after">
+                <button t-if="is_editor" class="btn btn-sm btn-link wt-edit-btn p-0 ms-2" data-field="name" title="Edit name"><i class="fa fa-pencil"/></button>
+                <div t-if="is_editor" class="wt-edit-control d-none" data-field="name">
+                    <input type="text" class="form-control form-control-sm d-inline-block" style="width:auto;" t-att-value="task.name"/>
+                    <button class="btn btn-sm btn-primary wt-save-field ms-1" data-field="name"><i class="fa fa-check"/></button>
+                    <button class="btn btn-sm btn-link wt-cancel-field" data-field="name"><i class="fa fa-times"/></button>
+                </div>
+            </xpath>
+
+            <!-- Add stage dropdown for editors -->
+            <xpath expr="//span[@t-field='task.stage_id.name']" position="attributes">
+                <attribute name="t-att-class">'badge rounded-pill text-bg-info wt-editable-field' if is_editor else 'badge rounded-pill text-bg-info'</attribute>
+            </xpath>
+            <xpath expr="//span[@t-field='task.stage_id.name']" position="after">
+                <button t-if="is_editor" class="btn btn-sm btn-link wt-edit-btn p-0 ms-1" data-field="stage_id" title="Change stage"><i class="fa fa-pencil"/></button>
+                <div t-if="is_editor" class="wt-edit-control d-none" data-field="stage_id">
+                    <select class="form-select form-select-sm d-inline-block" style="width:auto;" data-field="stage_id">
+                        <t t-foreach="available_stages" t-as="s">
+                            <option t-att-value="s.id" t-att-selected="s.id == task.stage_id.id"><t t-esc="s.name"/></option>
+                        </t>
+                    </select>
+                    <button class="btn btn-sm btn-primary wt-save-field ms-1" data-field="stage_id"><i class="fa fa-check"/></button>
+                    <button class="btn btn-sm btn-link wt-cancel-field" data-field="stage_id"><i class="fa fa-times"/></button>
+                </div>
+            </xpath>
+
+            <!-- Add deadline editor -->
+            <xpath expr="//span[@t-field='task.date_deadline']" position="after">
+                <button t-if="is_editor" class="btn btn-sm btn-link wt-edit-btn p-0 ms-1" data-field="date_deadline" title="Edit deadline"><i class="fa fa-pencil"/></button>
+                <div t-if="is_editor" class="wt-edit-control d-none" data-field="date_deadline">
+                    <input type="datetime-local" class="form-control form-control-sm d-inline-block" style="width:auto;"
+                           t-att-value="task.date_deadline.strftime('%Y-%m-%dT%H:%M') if task.date_deadline else ''"/>
+                    <button class="btn btn-sm btn-primary wt-save-field ms-1" data-field="date_deadline"><i class="fa fa-check"/></button>
+                    <button class="btn btn-sm btn-link wt-cancel-field" data-field="date_deadline"><i class="fa fa-times"/></button>
+                </div>
+            </xpath>
+
+            <!-- Edit description (when description exists) -->
+            <xpath expr="//div[@t-field='task.description']" position="after">
+                <div t-if="is_editor" class="mt-2">
+                    <button class="btn btn-sm btn-outline-primary wt-edit-btn" data-field="description"><i class="fa fa-pencil me-1"/>Edit Description</button>
+                    <div class="wt-edit-control d-none" data-field="description">
+                        <textarea class="form-control" rows="6"><t t-esc="task.description and task.description.striptags() or ''"/></textarea>
+                        <div class="mt-2">
+                            <button class="btn btn-sm btn-primary wt-save-field" data-field="description">Save</button>
+                            <button class="btn btn-sm btn-link wt-cancel-field" data-field="description">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+
+            <!-- Add description (when description is empty) -->
+            <xpath expr="//div[@id='card_body']" position="inside">
+                <div t-if="is_editor and is_html_empty(task.description)" class="mt-3 mb-3">
+                    <button class="btn btn-sm btn-outline-primary wt-edit-btn" data-field="description"><i class="fa fa-plus me-1"/>Add Description</button>
+                    <div class="wt-edit-control d-none" data-field="description">
+                        <h5 class="mb-1">Description</h5>
+                        <textarea class="form-control" rows="6" placeholder="Add details about this task..."></textarea>
+                        <div class="mt-2">
+                            <button class="btn btn-sm btn-primary wt-save-field" data-field="description">Save</button>
+                            <button class="btn btn-sm btn-link wt-cancel-field" data-field="description">Cancel</button>
+                        </div>
+                    </div>
+                </div>
             </xpath>
         </field>
     </record>

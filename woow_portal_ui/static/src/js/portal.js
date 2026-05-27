@@ -28,6 +28,9 @@ whenReady(async () => {
     initNotifSearchbar();
     initMobileFilterSegments();
     initQuotationActions();
+    initProjectEditorModals();
+    initFieldChooser();
+    initTaskEditor();
     rewriteLogoLink();
 });
 
@@ -1073,6 +1076,180 @@ function jsonRpc(url, params) {
             console.error("Fetch error:", err);
             return null;
         });
+}
+
+// ------------------------------------------------------------------
+// Project editor modals (Add Task / Add Stage)
+// ------------------------------------------------------------------
+
+function initProjectEditorModals() {
+    var btnTask = document.getElementById("btnSubmitTask");
+    var btnStage = document.getElementById("btnSubmitStage");
+    if (!btnTask && !btnStage) return;
+
+    // Extract project ID from the current URL: /my/projects/<id>
+    var match = window.location.pathname.match(/\/my\/projects\/(\d+)/);
+    if (!match) return;
+    var projectId = parseInt(match[1], 10);
+
+    if (btnTask) {
+        btnTask.addEventListener("click", function () {
+            var nameInput = document.getElementById("taskName");
+            var stageSelect = document.getElementById("taskStage");
+            var name = nameInput ? nameInput.value.trim() : "";
+            if (!name) {
+                nameInput.focus();
+                return;
+            }
+            var params = { name: name };
+            if (stageSelect && stageSelect.value) {
+                params.stage_id = parseInt(stageSelect.value, 10);
+            }
+            btnTask.disabled = true;
+            btnTask.textContent = _t("Creating...");
+            jsonRpc("/my/projects/" + projectId + "/add_task", params).then(function (res) {
+                if (res && res.success) {
+                    window.location.reload();
+                } else {
+                    alert(res && res.error ? res.error : _t("Failed to create task."));
+                    btnTask.disabled = false;
+                    btnTask.textContent = _t("Create Task");
+                }
+            });
+        });
+    }
+
+    if (btnStage) {
+        btnStage.addEventListener("click", function () {
+            var nameInput = document.getElementById("stageName");
+            var name = nameInput ? nameInput.value.trim() : "";
+            if (!name) {
+                nameInput.focus();
+                return;
+            }
+            btnStage.disabled = true;
+            btnStage.textContent = _t("Creating...");
+            jsonRpc("/my/projects/" + projectId + "/add_stage", { name: name }).then(function (res) {
+                if (res && res.success) {
+                    window.location.reload();
+                } else {
+                    alert(res && res.error ? res.error : _t("Failed to create stage."));
+                    btnStage.disabled = false;
+                    btnStage.textContent = _t("Create Stage");
+                }
+            });
+        });
+    }
+}
+
+// ------------------------------------------------------------------
+// Field chooser — toggle card fields via localStorage
+// ------------------------------------------------------------------
+
+function initFieldChooser() {
+    var chooser = document.getElementById("fieldChooser");
+    if (!chooser) return;
+
+    var match = window.location.pathname.match(/\/my\/projects\/(\d+)/);
+    var storageKey = match ? "woow_project_" + match[1] + "_fields" : "woow_project_fields";
+
+    // Load saved state
+    var saved = null;
+    try { saved = JSON.parse(localStorage.getItem(storageKey)); } catch (e) { /* ignore */ }
+
+    var checkboxes = chooser.querySelectorAll("input[data-field]");
+
+    // Apply saved state to checkboxes
+    if (saved) {
+        checkboxes.forEach(function (cb) {
+            var field = cb.getAttribute("data-field");
+            cb.checked = saved.indexOf(field) !== -1;
+        });
+    }
+
+    function applyVisibility() {
+        var visible = [];
+        checkboxes.forEach(function (cb) {
+            if (cb.checked) visible.push(cb.getAttribute("data-field"));
+        });
+        localStorage.setItem(storageKey, JSON.stringify(visible));
+
+        // Toggle visibility of .wt-field-* rows on cards
+        document.querySelectorAll(".wt-card-grid .wt-pc-meta [class*='wt-field-']").forEach(function (el) {
+            var classes = el.className.split(" ");
+            var fieldClass = classes.find(function (c) { return c.startsWith("wt-field-"); });
+            if (fieldClass) {
+                var field = fieldClass.replace("wt-field-", "");
+                el.style.display = visible.indexOf(field) !== -1 ? "" : "none";
+            }
+        });
+    }
+
+    checkboxes.forEach(function (cb) {
+        cb.addEventListener("change", applyVisibility);
+    });
+
+    // Apply on page load
+    applyVisibility();
+}
+
+// ------------------------------------------------------------------
+// Task detail editor — inline editing for project-addon fields
+// ------------------------------------------------------------------
+
+function initTaskEditor() {
+    var editBtns = document.querySelectorAll(".wt-edit-btn[data-field]");
+    if (!editBtns.length) return;
+
+    var match = window.location.pathname.match(/\/my\/projects\/(\d+)\/task\/(\d+)/);
+    if (!match) return;
+    var projectId = parseInt(match[1], 10);
+    var taskId = parseInt(match[2], 10);
+
+    editBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            var field = btn.getAttribute("data-field");
+            var controls = document.querySelectorAll('.wt-edit-control[data-field="' + field + '"]');
+            controls.forEach(function (ctrl) { ctrl.classList.remove("d-none"); });
+            btn.classList.add("d-none");
+        });
+    });
+
+    // Cancel buttons
+    document.querySelectorAll(".wt-cancel-field").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            var field = btn.closest(".wt-edit-control").getAttribute("data-field");
+            document.querySelectorAll('.wt-edit-control[data-field="' + field + '"]').forEach(function (ctrl) {
+                ctrl.classList.add("d-none");
+            });
+            document.querySelectorAll('.wt-edit-btn[data-field="' + field + '"]').forEach(function (eb) {
+                eb.classList.remove("d-none");
+            });
+        });
+    });
+
+    // Save buttons
+    document.querySelectorAll(".wt-save-field").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            var field = btn.getAttribute("data-field") || btn.closest(".wt-edit-control").getAttribute("data-field");
+            var control = btn.closest(".wt-edit-control");
+            var input = control.querySelector("input, select, textarea");
+            if (!input) return;
+
+            var params = {};
+            params[field] = input.value;
+
+            btn.disabled = true;
+            jsonRpc("/my/projects/" + projectId + "/task/" + taskId + "/update", params).then(function (res) {
+                if (res && res.success) {
+                    window.location.reload();
+                } else {
+                    alert(res && res.error ? res.error : _t("Failed to update."));
+                    btn.disabled = false;
+                }
+            });
+        });
+    });
 }
 
 // ------------------------------------------------------------------
