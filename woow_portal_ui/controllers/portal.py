@@ -985,7 +985,8 @@ class WoowPortalUI(_PortalBase):
             '/my/projects/<int:project_id>/task/<int:task_id>/add_subtask',
             type='json', auth='user', methods=['POST'])
         def project_add_subtask(self, project_id, task_id, name,
-                                stage_id=None, date_deadline=None, **kw):
+                                stage_id=None, date_deadline=None,
+                                description=None, **kw):
             """Create a sub-task linked to the parent task."""
             project = request.env['project.project'].sudo().browse(project_id)
             if (not project.exists()
@@ -1006,6 +1007,8 @@ class WoowPortalUI(_PortalBase):
                 vals['stage_id'] = int(stage_id)
             if date_deadline:
                 vals['date_deadline'] = date_deadline.replace('T', ' ')
+            if description:
+                vals['description'] = description
             subtask = request.env['project.task'].sudo().create(vals)
             return {'success': True, 'subtask_id': subtask.id}
 

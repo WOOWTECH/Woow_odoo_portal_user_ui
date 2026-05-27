@@ -1322,6 +1322,10 @@ function initSubtasks() {
         if (deadlineInput && deadlineInput.value) {
             params.date_deadline = deadlineInput.value;
         }
+        var descInput = document.getElementById("subtaskDescription");
+        if (descInput && descInput.value.trim()) {
+            params.description = descInput.value.trim();
+        }
         btnAdd.disabled = true;
         btnAdd.textContent = _t("Creating...");
         jsonRpc(baseUrl + "/add_subtask", params).then(function (res) {
