@@ -29,6 +29,7 @@
             "woow_portal_ui/static/src/css/woowtech_theme.css",
             "woow_portal_ui/static/src/css/detail_pages.css",
             "woow_portal_ui/static/src/js/portal.js",
+            "woow_portal_ui/static/src/js/portal_counter_fix.js",
         ],
         "web.assets_backend": [
             "woow_portal_ui/static/src/js/switch_portal.js",
