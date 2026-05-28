@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20260401\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-25 04:22+0000\n"
-"PO-Revision-Date: 2026-05-25 04:22+0000\n"
+"POT-Creation-Date: 2026-05-27 10:13+0000\n"
+"PO-Revision-Date: 2026-05-27 10:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,18 +18,21 @@ msgstr ""
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "%d days ago"
 msgstr ""
 
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "%d hours ago"
 msgstr ""
 
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "%d mins ago"
 msgstr ""
 
@@ -41,18 +44,21 @@ msgstr ""
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "1 day ago"
 msgstr ""
 
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "1 hour ago"
 msgstr ""
 
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "1 min ago"
 msgstr ""
 
@@ -78,6 +84,11 @@ msgstr ""
 msgid ""
 "<i class=\"fa fa-check\"/>\n"
 "                                                <span>Done</span>"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "<i class=\"fa fa-columns me-1\"/>Add Stage"
 msgstr ""
 
 #. module: woow_portal_ui
@@ -108,6 +119,21 @@ msgstr ""
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_my_home_enhanced
 msgid "<i class=\"fa fa-pencil\"/> Edit information"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "<i class=\"fa fa-plus me-1\"/>Add Description"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "<i class=\"fa fa-plus me-1\"/>Add Sub-task"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "<i class=\"fa fa-plus me-1\"/>Add Task"
 msgstr ""
 
 #. module: woow_portal_ui
@@ -267,6 +293,11 @@ msgid "<span class=\"wt-oc-label\">Total</span>"
 msgstr ""
 
 #. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
+msgid "<span class=\"wt-pc-label\">Allocated Time</span>"
+msgstr ""
+
+#. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_purchase_cards
 msgid "<span class=\"wt-pc-label\">Confirmed</span>"
 msgstr ""
@@ -286,6 +317,7 @@ msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_productions_cards
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
 msgid "<span class=\"wt-pc-label\">Deadline</span>"
 msgstr ""
 
@@ -300,6 +332,16 @@ msgid "<span class=\"wt-pc-label\">Employee</span>"
 msgstr ""
 
 #. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
+msgid "<span class=\"wt-pc-label\">ID</span>"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
+msgid "<span class=\"wt-pc-label\">Last Stage Update</span>"
+msgstr ""
+
+#. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_rfq_cards
 msgid "<span class=\"wt-pc-label\">Order Date</span>"
 msgstr ""
@@ -311,8 +353,18 @@ msgstr ""
 
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
+msgid "<span class=\"wt-pc-label\">Progress</span>"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_timesheets_cards
 msgid "<span class=\"wt-pc-label\">Project</span>"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
+msgid "<span class=\"wt-pc-label\">Remaining on SO</span>"
 msgstr ""
 
 #. module: woow_portal_ui
@@ -337,6 +389,16 @@ msgid "<span class=\"wt-pc-label\">Stage</span>"
 msgstr ""
 
 #. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
+msgid "<span class=\"wt-pc-label\">Sub-task Time</span>"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
+msgid "<span class=\"wt-pc-label\">Tags</span>"
+msgstr ""
+
+#. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_timesheets_cards
 msgid "<span class=\"wt-pc-label\">Task</span>"
 msgstr ""
@@ -347,8 +409,19 @@ msgid "<span class=\"wt-pc-label\">Tasks</span>"
 msgstr ""
 
 #. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
+msgid "<span class=\"wt-pc-label\">Time Remaining</span>"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_timesheets_cards
 msgid "<span class=\"wt-pc-label\">Time Spent</span>"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
+msgid "<span class=\"wt-pc-label\">Total Time Spent</span>"
 msgstr ""
 
 #. module: woow_portal_ui
@@ -407,6 +480,17 @@ msgid "<span>View task</span><i class=\"fa fa-angle-right\"/>"
 msgstr ""
 
 #. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "<strong>Deadline:</strong>"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-python
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Access denied."
+msgstr ""
+
+#. module: woow_portal_ui
 #. odoo-javascript
 #: code:addons/woow_portal_ui/static/src/js/portal.js:0
 msgid "Actions available"
@@ -415,13 +499,45 @@ msgstr ""
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "Activity"
 msgstr ""
 
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "Activity not found."
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Add Stage"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Add Sub-task"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Add Task"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Add description"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Add details about this sub-task..."
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Add details about this task..."
 msgstr ""
 
 #. module: woow_portal_ui
@@ -429,6 +545,11 @@ msgstr ""
 #: code:addons/woow_portal_ui/static/src/js/portal.js:0
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
 msgid "All"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Allocated Time"
 msgstr ""
 
 #. module: woow_portal_ui
@@ -440,13 +561,26 @@ msgstr ""
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "Approved via portal"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Cancel"
 msgstr ""
 
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "Cannot dismiss unread notification."
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Card Fields"
 msgstr ""
 
 #. module: woow_portal_ui
@@ -461,6 +595,12 @@ msgid "Clear"
 msgstr ""
 
 #. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Close"
+msgstr ""
+
+#. module: woow_portal_ui
 #. odoo-javascript
 #: code:addons/woow_portal_ui/static/src/js/portal.js:0
 msgid "Complete your payment"
@@ -470,6 +610,11 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/woow_portal_ui/static/src/js/portal.js:0
 msgid "Completed"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Configure card fields"
 msgstr ""
 
 #. module: woow_portal_ui
@@ -486,6 +631,55 @@ msgstr ""
 #. module: woow_portal_ui
 #. odoo-javascript
 #: code:addons/woow_portal_ui/static/src/js/portal.js:0
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Create Stage"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Create Sub-task"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Create Task"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Creating..."
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Deadline"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Delete sub-task"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Delete this sub-task?"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Description"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
 msgid "Done"
 msgstr ""
 
@@ -495,8 +689,18 @@ msgid "Draft"
 msgstr ""
 
 #. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Edit Task"
+msgstr ""
+
+#. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_my_home_enhanced
 msgid "Edit profile"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Edit task"
 msgstr ""
 
 #. module: woow_portal_ui
@@ -508,7 +712,37 @@ msgstr ""
 #. module: woow_portal_ui
 #. odoo-javascript
 #: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Failed to add sub-task."
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Failed to create stage."
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Failed to create task."
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Failed to delete sub-task."
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
 msgid "Failed to load"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Failed to update."
 msgstr ""
 
 #. module: woow_portal_ui
@@ -520,18 +754,21 @@ msgstr ""
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "Good Afternoon"
 msgstr ""
 
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "Good Evening"
 msgstr ""
 
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "Good Morning"
 msgstr ""
 
@@ -541,21 +778,34 @@ msgid "HTTP Routing"
 msgstr ""
 
 #. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "ID"
+msgstr ""
+
+#. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "Invalid action."
 msgstr ""
 
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "Invalid activity ID."
 msgstr ""
 
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "Invalid notification ID."
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Last Stage Update"
 msgstr ""
 
 #. module: woow_portal_ui
@@ -579,12 +829,14 @@ msgstr ""
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "Marked as done via portal"
 msgstr ""
 
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "Missing ID parameter."
 msgstr ""
 
@@ -592,6 +844,11 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/woow_portal_ui/static/src/js/portal.js:0
 msgid "NEXT STEP"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Name"
 msgstr ""
 
 #. module: woow_portal_ui
@@ -619,6 +876,11 @@ msgid "No notifications"
 msgstr ""
 
 #. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "No sub-tasks yet."
+msgstr ""
+
+#. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
 msgid "None"
 msgstr ""
@@ -626,6 +888,7 @@ msgstr ""
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "Notification"
 msgstr ""
 
@@ -638,6 +901,7 @@ msgstr ""
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "Notification not found."
 msgstr ""
 
@@ -677,6 +941,16 @@ msgid "Processing..."
 msgstr ""
 
 #. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Progress"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Project"
+msgstr ""
+
+#. module: woow_portal_ui
 #. odoo-javascript
 #: code:addons/woow_portal_ui/static/src/js/portal.js:0
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
@@ -689,6 +963,24 @@ msgid "Recent Notifications"
 msgstr ""
 
 #. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Remaining on SO"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Save Changes"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Saving..."
+msgstr ""
+
+#. module: woow_portal_ui
 #. odoo-javascript
 #: code:addons/woow_portal_ui/static/src/js/portal.js:0
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_my_home_enhanced
@@ -698,6 +990,11 @@ msgstr ""
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
 msgid "Search notifications..."
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Set deadline"
 msgstr ""
 
 #. module: woow_portal_ui
@@ -719,6 +1016,38 @@ msgid "Source"
 msgstr ""
 
 #. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Stage"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Stage Name"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Sub-task Time"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Sub-task name..."
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-python
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Sub-task not found."
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Sub-tasks"
+msgstr ""
+
+#. module: woow_portal_ui
 #. odoo-javascript
 #: code:addons/woow_portal_ui/static/src/js/switch_portal.js:0
 msgid "Switch to Portal"
@@ -727,7 +1056,24 @@ msgstr ""
 #. module: woow_portal_ui
 #. odoo-python
 #: code:addons/woow_portal_ui/controllers/portal.py:0
+#: code:addons/woow_portal_ui/portal.py:0
 msgid "System"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Tags"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Task Name"
+msgstr ""
+
+#. module: woow_portal_ui
+#. odoo-python
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Task not found."
 msgstr ""
 
 #. module: woow_portal_ui
@@ -776,9 +1122,24 @@ msgid "There are no leads."
 msgstr ""
 
 #. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Time Remaining"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Time Spent"
+msgstr ""
+
+#. module: woow_portal_ui
 #. odoo-javascript
 #: code:addons/woow_portal_ui/static/src/js/portal.js:0
 msgid "To-Do"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Total Time Spent"
 msgstr ""
 
 #. module: woow_portal_ui
@@ -794,4 +1155,14 @@ msgstr ""
 #. module: woow_portal_ui
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_notifications_page
 msgid "You're all caught up."
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "e.g. In Progress"
+msgstr ""
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "e.g. Send Invitations"
 msgstr ""

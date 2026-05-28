@@ -865,3 +865,350 @@ msgstr "目前沒有任何商機。"
 #: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_leads_cards
 msgid "There are no leads."
 msgstr "目前沒有任何潛在客戶。"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "<i class=\"fa fa-columns me-1\"/>Add Stage"
+msgstr "<i class=\"fa fa-columns me-1\"/>新增階段"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "<i class=\"fa fa-plus me-1\"/>Add Sub-task"
+msgstr "<i class=\"fa fa-plus me-1\"/>新增子任務"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "<i class=\"fa fa-plus me-1\"/>Add Task"
+msgstr "<i class=\"fa fa-plus me-1\"/>新增任務"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
+msgid "<span class=\"wt-pc-label\">Allocated Time</span>"
+msgstr "<span class=\"wt-pc-label\">分配時間</span>"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
+msgid "<span class=\"wt-pc-label\">ID</span>"
+msgstr "<span class=\"wt-pc-label\">編號</span>"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
+msgid "<span class=\"wt-pc-label\">Last Stage Update</span>"
+msgstr "<span class=\"wt-pc-label\">最後階段更新</span>"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
+msgid "<span class=\"wt-pc-label\">Progress</span>"
+msgstr "<span class=\"wt-pc-label\">進度</span>"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
+msgid "<span class=\"wt-pc-label\">Remaining on SO</span>"
+msgstr "<span class=\"wt-pc-label\">銷售訂單剩餘</span>"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
+msgid "<span class=\"wt-pc-label\">Sub-task Time</span>"
+msgstr "<span class=\"wt-pc-label\">子任務時間</span>"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
+msgid "<span class=\"wt-pc-label\">Tags</span>"
+msgstr "<span class=\"wt-pc-label\">標籤</span>"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
+msgid "<span class=\"wt-pc-label\">Time Remaining</span>"
+msgstr "<span class=\"wt-pc-label\">剩餘時間</span>"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_tasks_cards
+msgid "<span class=\"wt-pc-label\">Total Time Spent</span>"
+msgstr "<span class=\"wt-pc-label\">總花費時間</span>"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "<strong>Deadline:</strong>"
+msgstr "<strong>截止日期：</strong>"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Add description"
+msgstr "新增描述"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Add details about this sub-task..."
+msgstr "新增子任務的詳細說明..."
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Add details about this task..."
+msgstr "新增任務的詳細說明..."
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Close"
+msgstr "關閉"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Configure card fields"
+msgstr "設定卡片欄位"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Delete sub-task"
+msgstr "刪除子任務"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Edit task"
+msgstr "編輯任務"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Set deadline"
+msgstr "設定截止日期"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Stage Name"
+msgstr "階段名稱"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Sub-task name..."
+msgstr "子任務名稱..."
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Tags"
+msgstr "標籤"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Task Name"
+msgstr "任務名稱"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "e.g. In Progress"
+msgstr "例如：進行中"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "e.g. Send Invitations"
+msgstr "例如：寄送邀請函"
+
+
+#. module: woow_portal_ui
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Access denied."
+msgstr "存取被拒絕。"
+
+#. module: woow_portal_ui
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Task not found."
+msgstr "找不到任務。"
+
+#. module: woow_portal_ui
+#: code:addons/woow_portal_ui/controllers/portal.py:0
+msgid "Sub-task not found."
+msgstr "找不到子任務。"
+
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "<i class=\"fa fa-plus me-1\"/>Add Description"
+msgstr "<i class=\"fa fa-plus me-1\"/>新增描述"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Add Stage"
+msgstr "新增階段"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Add Sub-task"
+msgstr "新增子任務"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Add Task"
+msgstr "新增任務"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Allocated Time"
+msgstr "分配時間"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Cancel"
+msgstr "取消"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Card Fields"
+msgstr "卡片欄位"
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Create Stage"
+msgstr "建立階段"
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Create Sub-task"
+msgstr "建立子任務"
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Create Task"
+msgstr "建立任務"
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Creating..."
+msgstr "建立中..."
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Deadline"
+msgstr "截止日期"
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Delete this sub-task?"
+msgstr "確定刪除此子任務？"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Description"
+msgstr "描述"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Edit Task"
+msgstr "編輯任務"
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Failed to add sub-task."
+msgstr "無法新增子任務。"
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Failed to create stage."
+msgstr "無法建立階段。"
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Failed to create task."
+msgstr "無法建立任務。"
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Failed to delete sub-task."
+msgstr "無法刪除子任務。"
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Failed to update."
+msgstr "更新失敗。"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "ID"
+msgstr "編號"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Last Stage Update"
+msgstr "最後階段更新"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Name"
+msgstr "名稱"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "No sub-tasks yet."
+msgstr "尚無子任務。"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Progress"
+msgstr "進度"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Project"
+msgstr "專案"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Remaining on SO"
+msgstr "銷售訂單剩餘"
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Save Changes"
+msgstr "儲存變更"
+
+#. module: woow_portal_ui
+#. odoo-javascript
+#: code:addons/woow_portal_ui/static/src/js/portal.js:0
+msgid "Saving..."
+msgstr "儲存中..."
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Stage"
+msgstr "階段"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Sub-task Time"
+msgstr "子任務時間"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_task_editor
+msgid "Sub-tasks"
+msgstr "子任務"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Time Remaining"
+msgstr "剩餘時間"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Time Spent"
+msgstr "已花時間"
+
+#. module: woow_portal_ui
+#: model_terms:ir.ui.view,arch_db:woow_portal_ui.portal_project_editor_bar
+msgid "Total Time Spent"
+msgstr "總花費時間"
