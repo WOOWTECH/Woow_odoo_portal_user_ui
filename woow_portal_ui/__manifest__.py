@@ -1,6 +1,6 @@
 {
     "name": "Woow Portal UI",
-    "version": "18.0.2.1.0",
+    "version": "18.0.2.2.0",
     "category": "Website",
     "summary": "Clean, minimal Portal UI enhancements",
     "description": """

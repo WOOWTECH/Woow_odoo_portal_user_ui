@@ -116,6 +116,17 @@
 - **Smart redirect** — After switching, the user is redirected back to the same page with the new language applied
 - **Website-independent** — Uses `_frontend_pre_dispatch` to enforce user language preference without modifying website settings
 
+### Editable Project Portal
+- **Unified task list** — Full-edit project collaborators see the same portal-style card layout as read-only users, replacing the iframe-based OWL kanban
+- **Add Task / Add Stage** — Modal forms to create tasks and stages directly from the portal
+- **Field chooser** — Gear icon dropdown to toggle which fields appear on task cards (12 fields, persisted in localStorage)
+- **Conditional fields** — Fields from `hr_timesheet` and `sale_timesheet` auto-hidden if those addons are not installed
+- **Edit Task modal** — Click any pencil icon to open a modal with name, stage, deadline, and description fields
+- **Sub-task management** — View, add (with name, stage, deadline, description), and delete sub-tasks directly on the task detail page
+- **Always-collapsed searchbar** — Sort/Group/Search controls collapsed behind a filter button on edit-project pages
+- **Sub-task breadcrumb** — Proper breadcrumb navigation showing parent task when viewing a sub-task
+- **No extra dependencies** — Uses `try/except` import and `forcecreate=False` pattern for safe cross-module compatibility
+
 ### Portal Page Styling
 - **WoowTech design** — Restyle all portal pages with WoowTech brand identity (#71639e)
 - **RWD** — Responsive Web Design for all portal pages with mobile-optimized layouts
@@ -556,6 +567,11 @@ This module has been comprehensively tested with **87 automated tests** across 1
 | `POST` | `/my/notification/mark_all_read` | Mark all notifications as read |
 | `POST` | `/my/activity/done` | Complete an activity |
 | `GET` | `/my/set_lang/<lang_code>` | Switch portal language and redirect back |
+| `POST` | `/my/projects/<id>/add_task` | Create a task in the project |
+| `POST` | `/my/projects/<id>/add_stage` | Create a stage for the project |
+| `POST` | `/my/projects/<id>/task/<id>/update` | Update task fields (name, stage, deadline, description) |
+| `POST` | `/my/projects/<id>/task/<id>/add_subtask` | Create a sub-task linked to the parent task |
+| `POST` | `/my/projects/<id>/task/<id>/delete_subtask` | Delete a sub-task |
 
 ### JavaScript Events
 
@@ -581,6 +597,18 @@ This module has been comprehensively tested with **87 automated tests** across 1
 ---
 
 ## Changelog
+
+### v18.0.2.2.0 (2026-05)
+- Editable project portal: task list and task detail pages for project collaborators
+- Add Task / Add Stage modal forms on task list page
+- Field chooser (gear icon) to toggle 12 configurable card fields (localStorage-persisted)
+- Edit Task modal for inline editing of name, stage, deadline, description
+- Sub-task management: add (with name, stage, deadline, description), view, and delete
+- Always-collapsed searchbar on edit-project pages
+- Sub-task breadcrumb navigation with parent task link
+- Conditional hr_timesheet/sale_timesheet fields (auto-hidden if not installed)
+- zh_TW translations for all new portal strings
+- Fixed .pot file to include all translatable entries for Odoo 18 translation import
 
 ### v18.0.2.1.0 (2026-05)
 - Portal language switcher in user dropdown menu (globe icon)
