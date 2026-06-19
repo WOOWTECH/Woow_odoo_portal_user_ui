@@ -1314,10 +1314,10 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
    10b. PORTAL NAVBAR — Sort By / Filter By dropdowns
    ========================================================= */
 .o_portal .o_portal_navbar .btn-light.dropdown-toggle {
-    background: var(--bs-body-bg);
-    border: 1px solid var(--bs-border-color);
+    background: #fff;
+    border: 1px solid var(--wt-line);
     border-radius: var(--r-md);
-    color: var(--bs-body-color);
+    color: var(--wt-ink);
     font-size: 13px;
     font-weight: 500;
 }
@@ -1333,7 +1333,7 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     color: #fff;
 }
 .o_portal .o_portal_navbar .dropdown-menu .dropdown-item:hover:not(.active) {
-    background-color: color-mix(in srgb, var(--odoo-purple) 12%, transparent);
+    background-color: var(--odoo-purple-100);
     color: var(--odoo-purple);
 }
 
@@ -1351,10 +1351,10 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
 
 /* Dropdown toggle — standalone button with filter icon */
 .o_portal .o_portal_navbar .o_portal_search_panel .dropdown-toggle {
-    background: var(--bs-body-bg) !important;
-    border: 1px solid var(--bs-border-color) !important;
+    background: #fff !important;
+    border: 1px solid var(--wt-line) !important;
     border-radius: var(--r-md) !important;
-    color: var(--bs-secondary-color);
+    color: var(--wt-ink-2);
     font-size: 13px;
     padding: 6px 10px !important;
     box-shadow: none !important;
@@ -1375,8 +1375,7 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
 /* Dropdown menu — WoowTech styled */
 .o_portal .o_portal_navbar .o_portal_search_panel .dropdown-menu {
     border-radius: var(--r-md);
-    border: 1px solid var(--bs-border-color);
-    background: var(--bs-body-bg);
+    border: 1px solid var(--wt-line);
     box-shadow: var(--sh-1);
     padding: 6px;
     margin-top: 4px !important;
@@ -1392,18 +1391,18 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     color: #fff;
 }
 .o_portal .o_portal_navbar .o_portal_search_panel .dropdown-item:hover:not(.active) {
-    background-color: color-mix(in srgb, var(--odoo-purple) 12%, transparent);
+    background-color: var(--odoo-purple-100);
     color: var(--odoo-purple);
 }
 
 /* Search input — left pill, border shared with submit */
 .o_portal .o_portal_navbar .o_portal_search_panel .form-control {
-    border: 1px solid var(--bs-border-color) !important;
+    border: 1px solid var(--wt-line) !important;
     border-right: none !important;
-    background: var(--bs-body-bg) !important;
+    background: var(--wt-surface) !important;
     border-radius: var(--r-pill) 0 0 var(--r-pill) !important;
     font-size: 13px;
-    color: var(--bs-body-color);
+    color: var(--wt-ink);
     padding: 7px 12px 7px 16px;
     box-shadow: none !important;
 }
@@ -1411,14 +1410,14 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     border-color: var(--odoo-purple) !important;
 }
 .o_portal .o_portal_navbar .o_portal_search_panel .form-control::placeholder {
-    color: var(--bs-secondary-color);
+    color: var(--wt-ink-3);
 }
 
 /* Submit button wrapper — closes the pill border on the right */
 .o_portal .o_portal_navbar .o_portal_search_panel .input-group > button[type="submit"],
 .o_portal .o_portal_navbar .o_portal_search_panel .input-group > .btn:last-child {
-    background: var(--bs-body-bg) !important;
-    border: 1px solid var(--bs-border-color) !important;
+    background: var(--wt-surface) !important;
+    border: 1px solid var(--wt-line) !important;
     border-left: none !important;
     border-radius: 0 var(--r-pill) var(--r-pill) 0 !important;
     color: var(--odoo-purple) !important;
@@ -1513,10 +1512,10 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
    ----------------------------------------------------------- */
 .wt-collapsed-nav .o_portal_navbar .navbar-toggler {
     display: inline-flex !important;
-    background: var(--bs-body-bg) !important;
+    background: #fff !important;
     border-width: 1px !important;
     border-style: solid !important;
-    border-color: var(--bs-border-color) !important;
+    border-color: #dee2e6 !important;
     border-radius: var(--r-pill, 20px) !important;
     padding: 6px 14px !important;
     gap: 6px;
@@ -1539,7 +1538,7 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
 .wt-collapsed-nav .o_portal_navbar #o_portal_navbar_content.collapsing {
     display: flex !important;
     flex-direction: column;
-    background: var(--bs-body-bg);
+    background: #fff;
     border: 1px solid var(--bs-border-color);
     border-radius: var(--r-lg, 16px);
     padding: 14px 16px;
@@ -1564,7 +1563,7 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
 .wt-collapsed-nav .o_portal_navbar #o_portal_navbar_content .navbar-text {
     font-size: 11px;
     font-weight: 700;
-    color: var(--bs-secondary-color);
+    color: var(--wt-ink-3, #888);
     letter-spacing: .14em;
     text-transform: uppercase;
 }
@@ -1574,13 +1573,12 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
 .wt-collapsed-nav .o_portal_navbar #o_portal_navbar_content .btn-light.dropdown-toggle {
     width: 100%;
     text-align: left;
-    background: var(--bs-tertiary-bg, var(--bs-body-bg)) !important;
+    background: var(--wt-canvas, #f8f9fa) !important;
     border: 1px solid var(--bs-border-color) !important;
     border-radius: var(--r-pill, 20px) !important;
     padding: 8px 14px;
     font-size: 13px;
     font-weight: 500;
-    color: var(--bs-body-color);
 }
 .wt-collapsed-nav .o_portal_navbar #o_portal_navbar_content .btn-light.dropdown-toggle:hover {
     border-color: var(--odoo-purple) !important;
@@ -1676,16 +1674,15 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     }
     .o_portal .o_portal_navbar .navbar-toggler {
         display: inline-flex !important;
-        background: var(--bs-body-bg) !important;
+        background: #fff !important;
         border-width: 1px !important;
         border-style: solid !important;
-        border-color: var(--bs-border-color) !important;
+        border-color: #dee2e6 !important;
         border-radius: var(--r-pill, 20px) !important;
         padding: 6px 14px !important;
         gap: 6px;
         align-items: center;
         font-size: 13px;
-        color: var(--bs-body-color);
     }
     .o_portal .o_portal_navbar .navbar-toggler .fa-bars::before {
         content: "\f0b0";
@@ -1704,7 +1701,7 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
         display: flex !important;
         flex-direction: column;
         gap: 14px;
-        background: var(--bs-body-bg);
+        background: #fff;
         border: 1px solid var(--bs-border-color);
         border-radius: var(--r-lg, 16px);
         box-shadow: var(--sh-1, 0 2px 8px rgba(0,0,0,.06));
@@ -1728,7 +1725,7 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     .o_portal .o_portal_navbar #o_portal_navbar_content .navbar-text {
         font-size: 11px;
         font-weight: 700;
-        color: var(--bs-secondary-color);
+        color: var(--wt-ink-3, #888);
         letter-spacing: .14em;
         text-transform: uppercase;
     }
@@ -1738,13 +1735,12 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     .o_portal .o_portal_navbar #o_portal_navbar_content .btn-light.dropdown-toggle {
         width: 100%;
         text-align: left;
-        background: var(--bs-tertiary-bg, var(--bs-body-bg)) !important;
+        background: var(--wt-canvas, #f8f9fa) !important;
         border: 1px solid var(--bs-border-color) !important;
         border-radius: var(--r-pill, 20px) !important;
         padding: 8px 14px;
         font-size: 13px;
         font-weight: 500;
-        color: var(--bs-body-color);
     }
     .o_portal .o_portal_navbar #o_portal_navbar_content .btn-light.dropdown-toggle:hover {
         border-color: var(--odoo-purple) !important;
@@ -1833,10 +1829,10 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
     }
     .o_portal .o_portal_navbar .ncf-scroll-hint-left {
         left: 0;
-        background: linear-gradient(to right, var(--bs-body-bg) 60%, transparent);
+        background: linear-gradient(to right, #fff 60%, transparent);
     }
     .o_portal .o_portal_navbar .ncf-scroll-hint-right {
         right: 0;
-        background: linear-gradient(to left, var(--bs-body-bg) 60%, transparent);
+        background: linear-gradient(to left, #fff 60%, transparent);
     }
 }
