@@ -444,41 +444,11 @@ header:has(+ .wrap .o_payment_form) {
 }
 
 /* Show icon container (Odoo hides it with d-none) */
-.o_portal_my_home .o_portal_index_card .o_portal_icon {
-    display: flex !important;
-    width: 44px; height: 44px; border-radius: 12px;
-    background: var(--tint-purple);
-    align-items: center; justify-content: center;
-    flex-shrink: 0;
-}
-/* Hide default Odoo icon images — replace with FontAwesome */
-.o_portal_my_home .o_portal_index_card .o_portal_icon img {
-    display: none !important;
-}
+/* Portal icon: use native Odoo styling */
 
-/* Base icon pseudo-element styling */
-.o_portal_my_home .o_portal_index_card .o_portal_icon::before {
-    font-family: FontAwesome;
-    font-size: 20px;
-    color: var(--odoo-purple);
-}
+/* (Removed: FA icon overlay) */
 
-/* Per-module icon assignment via card link href */
-.o_portal_my_home .o_portal_index_card:has(a[href*="/my/orders"]) .o_portal_icon::before { content: "\f290"; } /* fa-shopping-bag */
-.o_portal_my_home .o_portal_index_card:has(a[href*="/my/quotes"]) .o_portal_icon::before { content: "\f15c"; } /* fa-file-text */
-.o_portal_my_home .o_portal_index_card:has(a[href*="/my/invoices"]) .o_portal_icon::before { content: "\f15c"; } /* fa-file-text */
-.o_portal_my_home .o_portal_index_card:has(a[href*="/my/projects"]) .o_portal_icon::before { content: "\f07b"; } /* fa-folder */
-.o_portal_my_home .o_portal_index_card:has(a[href*="/my/task"]) .o_portal_icon::before { content: "\f046"; } /* fa-check-square-o */
-.o_portal_my_home .o_portal_index_card:has(a[href*="/my/security"]) .o_portal_icon::before { content: "\f1eb"; } /* fa-wifi */
-.o_portal_my_home .o_portal_index_card:has(a[href*="/my/tools"]) .o_portal_icon::before { content: "\f0ad"; } /* fa-wrench */
-.o_portal_my_home .o_portal_index_card:has(a[href*="/my/loan"]) .o_portal_icon::before { content: "\f155"; } /* fa-dollar */
-.o_portal_my_home .o_portal_index_card:has(a[href*="/my/payment_method"]) .o_portal_icon::before { content: "\f09d"; } /* fa-credit-card */
-.o_portal_my_home .o_portal_index_card:has(a[href*="/my/timesheets"]) .o_portal_icon::before { content: "\f017"; } /* fa-clock-o */
-.o_portal_my_home .o_portal_index_card:has(a[href*="/my/leads"]) .o_portal_icon::before { content: "\f140"; } /* fa-bullseye */
-.o_portal_my_home .o_portal_index_card:has(a[href*="/my/opportunities"]) .o_portal_icon::before { content: "\f201"; } /* fa-line-chart */
-.o_portal_my_home .o_portal_index_card:has(a[href*="/my/productions"]) .o_portal_icon::before { content: "\f275"; } /* fa-industry */
-.o_portal_my_home .o_portal_index_card:has(a[href*="/my/rfq"]) .o_portal_icon::before { content: "\f0ea"; } /* fa-clipboard */
-.o_portal_my_home .o_portal_index_card:has(a[href*="/my/purchase"]) .o_portal_icon::before { content: "\f0d1"; } /* fa-truck */
+/* (Removed: per-module FA icon assignments) */
 
 /* Module card text styling */
 .o_portal_my_home .o_portal_index_card .fs-5 {
@@ -1836,3 +1806,7 @@ div.row.justify-content-center > .col-lg-7:has(.o_payment_form) {
         background: linear-gradient(to left, #fff 60%, transparent);
     }
 }
+
+
+/* === Override: Remove filmstrip category MDI icons, restore Odoo native === */
+.o_wsale_filmstip a::before { content: none !important; display: none !important; }
